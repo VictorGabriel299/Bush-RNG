@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BUSH RNG</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Verdana,sans-serif;background:#7ec850;color:#3b2a14;min-height:100vh;padding-bottom:70px}
+#hud{position:sticky;top:0;z-index:5;background:#8b5a2b;color:#fff;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;padding:8px;border-bottom:4px solid #5a3a1a;font-size:14px}
+#hud b{font-size:16px;color:#ffe066}
+#nav{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(7,1fr);background:#5a3a1a;z-index:6}
+#nav button{background:#8b5a2b;color:#fff;border:0;border-top:3px solid #a57040;padding:12px 0;font-size:11px;font-weight:bold}
+#nav button.on{background:#c98a3e}
+#main{max-width:900px;margin:auto;padding:10px}
+.sky{background:linear-gradient(#8fd3ff,#d6f0ff);border-radius:14px 14px 0 0;height:90px;position:relative;font-size:34px;overflow:hidden}
+.sky span{position:absolute}
+.farm{background:#5fae3a;border:4px solid #5a3a1a;border-radius:14px;overflow:hidden;box-shadow:0 4px 0 #3d2810}
+.land{padding:12px 8px;background:repeating-linear-gradient(#5fae3a 0 30px,#58a335 30px 60px)}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{background:#9b6a35;border:3px dashed #5a3a1a;border-radius:12px;min-height:130px;text-align:center;padding:4px;font-size:11px;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer}
+.slot.f{border-style:solid;background:#7a5226}
+.bush{font-size:44px;line-height:1;transition:.3s}
+.m-Mini .bush{font-size:26px}.m-Bigbig .bush{font-size:64px}
+.m-Radioactive .bush{filter:drop-shadow(0 0 8px #3f3) hue-rotate(40deg)}
+.m-Frozen .bush{filter:hue-rotate(120deg) saturate(.6) brightness(1.4) drop-shadow(0 0 6px #aef)}
+.m-NPC .bush{filter:grayscale(1)}.m-NPC .bush:after{content:"👀";font-size:16px}
+.m-Concentrated .bush{filter:drop-shadow(0 0 10px #ff0) brightness(1.2);animation:pul 1s infinite}
+.m-NICHER .bush{animation:pul .6s infinite,rb 2s linear infinite}
+.m-Dada .bush{filter:sepia(1) hue-rotate(-30deg)}.m-Cagado .bush{filter:sepia(1) brightness(.6)}
+.m-Piece .bush{filter:hue-rotate(60deg)}
+@keyframes pul{50%{transform:scale(1.2)}}@keyframes rb{to{filter:hue-rotate(360deg) drop-shadow(0 0 12px #f0f)}}
+.barn{text-align:center;font-size:50px;margin-top:6px}
+.btn{background:#f2b134;border:0;border-bottom:4px solid #b57a0c;border-radius:10px;padding:8px 14px;font-weight:bold;color:#3b2a14;cursor:pointer;margin:2px}
+.btn:active{transform:translateY(2px)}.btn:disabled{background:#bbb;border-color:#888}
+.btn.r{background:#e8553d;border-color:#9b2a1a;color:#fff}.btn.g{background:#6cc24a;border-color:#3b7d22}
+#roll{display:block;margin:20px auto;font-size:34px;padding:22px 60px;border-radius:20px}
+.card{background:#fff8e1;border:3px solid #8b5a2b;border-radius:12px;padding:8px;font-size:12px;box-shadow:0 3px 0 #5a3a1a}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.panel{background:#fff8e1cc;border:3px solid #8b5a2b;border-radius:12px;padding:10px;margin:8px 0}
+h2,h3{margin:6px 0}
+.Common{--c:#9aa}.Uncommon{--c:#4c4}.Rare{--c:#38f}.Epic{--c:#a4e}.Legendary{--c:#fb0}.Mythic{--c:#f33}.Secret{--c:#111}
+.rc{color:var(--c);font-weight:bold}.rc.s3{text-shadow:0 0 5px var(--c)}.rc.s4{text-shadow:0 0 6px var(--c),0 0 12px var(--c);letter-spacing:1px}.card.rr,.slot.rr{border-color:var(--c)}
+.bar{background:#ccc;border-radius:6px;height:8px;overflow:hidden}.bar i{display:block;height:100%;background:#6cc24a}
+#ov{position:fixed;inset:0;background:#000a;z-index:20;display:none;align-items:center;justify-content:center;padding:14px}
+#ov .box{background:#fff8e1;border:5px solid #8b5a2b;border-radius:16px;padding:16px;max-width:360px;width:100%;text-align:center;animation:pop .4s}
+@keyframes pop{from{transform:scale(.3) rotate(-8deg)}to{transform:none}}
+.fx-Mythic .box{box-shadow:0 0 40px #f33;animation:pop .4s,shk .5s}.fx-Secret .box{box-shadow:0 0 60px #000;animation:pop .6s,shk .8s;background:#222;color:#fff}
+.fx-NICHER .box{animation:pop .6s,shk 1s,bg 1s linear infinite}
+@keyframes shk{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}}
+@keyframes bg{to{filter:hue-rotate(360deg)}}
+.noanim *{animation:none!important;transition:none!important}
+td,th{padding:3px 8px;text-align:left}
+@media(max-width:600px){.slot{min-height:100px;font-size:9px}.bush{font-size:32px}.m-Bigbig .bush{font-size:44px}#hud{font-size:11px}#roll{padding:18px 40px}#nav button{font-size:9px}}
+.farm2{position:relative;height:460px;border:4px solid #5a3a1a;border-radius:14px;overflow:hidden;background:linear-gradient(#8fd3ff 0 18%,#5fae3a 18%);box-shadow:0 4px 0 #3d2810}
+.far{position:absolute;top:1%;left:0;right:0;font-size:60px;opacity:.55;letter-spacing:50px;white-space:nowrap}
+.t{position:absolute;line-height:1;pointer-events:none}
+.sl{position:absolute;width:17%;min-width:60px;transform:translate(-50%,-50%);z-index:3;background:#9b6a35;border:3px dashed #5a3a1a;border-radius:14px;text-align:center;font-size:10px;color:#fff;padding:3px;cursor:pointer;box-shadow:0 0 0 6px #8b5a2b77}
+.sl.f{border-style:solid;background:#7a5226}.sl .bush{font-size:30px}.sl.m-Mini .bush{font-size:18px}.sl.m-Bigbig .bush{font-size:44px}
+.barn2{position:absolute;left:50%;top:80%;width:90px;height:56px;margin:-28px 0 0 -45px;background:#b3261e;border:3px solid #5a1a14;z-index:2;text-align:center}
+.barn2 i{position:absolute;left:-9px;top:-33px;border-left:48px solid transparent;border-right:48px solid transparent;border-bottom:30px solid #6b2a14}
+.barn2 b{display:block;font-size:26px;line-height:50px}
+.fx-multi .box{animation:pop .4s,shk .6s;box-shadow:0 0 40px #f0f}
+.k-gold .box{background:linear-gradient(#fff3b0,#ffd23f);box-shadow:0 0 50px gold}
+.k-dia .box{background:linear-gradient(#e0f7ff,#6cc8ff);box-shadow:0 0 50px #4cf}
+.k-obs .box{background:#1a0f26;color:#d9b3ff;box-shadow:0 0 70px #70f;animation:pop .8s,shk 1s}
+#toast{position:fixed;top:56px;left:50%;transform:translateX(-50%);background:#000c;color:#fff;padding:6px 12px;border-radius:10px;z-index:30;display:none;font-size:12px;text-align:center}
+@media(max-width:600px){.sl{font-size:8px;min-width:52px}.sl .bush{font-size:22px}.farm2{height:420px}}
+.farm2{background:#5fae3a;isolation:isolate}
+#main{position:relative;z-index:1}#hud{z-index:10}#nav{z-index:10}
+svg.sc{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.sl,.sl.f{background:none;border:0;box-shadow:none;padding:0;z-index:3;width:15%;min-width:56px;transform:translate(-50%,-62%)}
+.sl .bush{font-size:38px;filter:drop-shadow(0 2px 1px #0003)}
+.sh{width:56px;height:15px;border-radius:50%;background:radial-gradient(#5e3b1b 35%,#8d6234 70%,#8d623300);margin:-12px auto 2px}
+.lb{display:inline-block;max-width:100%;font-size:10px;line-height:1.2;background:#fff8e1;color:#3b2a14;border:2px solid var(--c,#8b5a2b);border-radius:8px;padding:1px 4px;box-shadow:0 2px 3px #0004}
+.sl:before{content:"🌼";position:absolute;left:0;bottom:30px;font-size:10px}.sl:after{content:"🌱";position:absolute;right:0;bottom:28px;font-size:11px}
+@media(max-width:600px){.sl .bush{font-size:26px}.lb{font-size:8px;padding:0 2px}.sh{width:40px;height:11px}}
+.Eternal{--c:#00e5ff}.Divino{--c:#ff5ec8}
+.chip{display:inline-block;background:#5a3a1a;color:#ffe066;border-radius:6px;padding:0 3px;margin:1px;font-size:10px}
+.m-massapura .bush{filter:contrast(1.4) sepia(.6)}.m-juicy .bush{filter:saturate(2.2) drop-shadow(0 0 6px #f6a)}.m-inverted .bush{filter:invert(1)}.m-HORNY .bush{filter:hue-rotate(300deg) drop-shadow(0 0 6px red)}.m-zaponeje .bush{filter:hue-rotate(200deg) saturate(2)}.m-estevonico .bush{filter:grayscale(1) contrast(1.6)}.m-broxa .bush{filter:grayscale(.7) brightness(.8)}.m-doctor .bush{filter:brightness(1.4) drop-shadow(0 0 6px #fff)}
+.fx-Epic .box{box-shadow:0 0 20px #a4e}.fx-Legendary .box{box-shadow:0 0 35px gold}
+.fx-Eternal .box{box-shadow:0 0 60px #0ef;animation:pop .6s,shk .8s,bg 2s linear infinite}
+.fx-Divino .box{box-shadow:0 0 80px #f9d,0 0 30px #fff;background:linear-gradient(#fff,#ffd6f2);animation:pop .8s,shk 1s,bg 1.5s linear infinite}
+.bi{width:1em;height:1em;object-fit:contain;vertical-align:middle}#nav{grid-template-columns:repeat(10,1fr)}#nav button{font-size:8px!important}input,select{max-width:100%;padding:4px;margin:2px}
+/* ===== UI v2 ===== */
+:root{--bg:#0d1912;--pn:#18291f;--pn2:#203528;--ln:#325a44;--tx:#e9f4ec;--mt:#8db39c;--ac:#f5b942;--ac2:#ffd983;--ok:#4ade80;--r:14px}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:14px;color:var(--tx);background:radial-gradient(900px 500px at 50% -8%,#24573a,transparent 70%),var(--bg);background-attachment:fixed;padding-bottom:76px}
+#hud{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;background:#0d1912ee;backdrop-filter:blur(10px);border:0;border-bottom:1px solid var(--ln);padding:8px 10px;color:var(--tx)}
+.pill{display:flex;flex-direction:column;min-width:86px;line-height:1.2;background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:5px 11px}
+.pill small{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mt)}
+.pill b{font-size:15px;color:var(--ac2)}.pill .sub{font-size:10px;color:var(--ok)}
+.evb{width:100%;text-align:center;font-weight:700;font-size:12px;background:linear-gradient(90deg,#b8321f,#e8553d,#b8321f);border-radius:10px;padding:6px}
+#nav{display:flex;overflow-x:auto;background:#0a140e;border-top:1px solid var(--ln);padding:4px 6px;gap:4px;scrollbar-width:none}
+#nav::-webkit-scrollbar{display:none}
+#nav button{flex:1 0 62px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;border-radius:10px;color:var(--mt);padding:6px 4px;font-size:9.5px!important;font-weight:700;letter-spacing:.04em;cursor:pointer}
+#nav button i{font-style:normal;font-size:19px}
+#nav button:hover{background:var(--pn)}#nav button.on{background:linear-gradient(var(--pn2),var(--pn));color:var(--ac2);box-shadow:inset 0 -3px 0 var(--ac)}
+#main{max-width:980px;padding:12px}
+h2{font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ac2);border-left:4px solid var(--ac);padding-left:10px;margin:14px 0 10px}
+h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mt)}
+.panel,.card{background:linear-gradient(180deg,var(--pn2),var(--pn));border:1px solid var(--ln);border-radius:var(--r);box-shadow:0 6px 18px #0006;color:var(--tx)}
+.panel{padding:16px;margin:14px 0}.panel h2:first-child{margin-top:0}
+.card{padding:12px;font-size:12.5px;box-shadow:0 4px 12px #0006;transition:transform .15s}.card:hover{transform:translateY(-2px)}
+.card.rr{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c),0 6px 16px #0006}
+.grid{grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px}
+.Secret{--c:#9d8cff}
+.btn{background:var(--pn2);color:var(--tx);border:1px solid var(--ln);border-bottom-width:3px;border-radius:10px;padding:8px 14px;font-weight:700;font-size:12.5px;cursor:pointer;margin:3px;transition:filter .15s,transform .1s}
+.btn:hover{filter:brightness(1.18)}.btn:active{transform:translateY(1px)}
+.btn.g{background:linear-gradient(#45d37b,#27a85c);border-color:#1b7a42;color:#052410}
+.btn.r{background:linear-gradient(#f2785f,#d04a36);border-color:#8f2b1d;color:#fff}
+.btn:disabled{background:#223028;border-color:#1a261f;color:#5d7767;cursor:not-allowed;filter:none;transform:none}
+.btn.wide{display:block;width:100%;margin:10px 0 0;padding:13px;font-size:14px}
+#roll{font-size:30px;letter-spacing:.14em;padding:26px 70px;border-radius:22px;border-width:1px 1px 6px;box-shadow:0 0 0 4px #27a85c33,0 14px 34px #27a85c44}
+input,select{background:#0b1510;color:var(--tx);border:1px solid var(--ln);border-radius:9px;padding:8px 10px;font-size:13px;font-family:inherit}
+input:focus,select:focus{outline:2px solid var(--ac);outline-offset:0}
+.bar{background:#0a140e;border-radius:99px;height:8px;margin:4px 0}.bar i{background:linear-gradient(90deg,#3fcf72,#b5f27a);border-radius:99px}
+.chip{background:#0a140e;color:var(--ac2);border:1px solid var(--ln);border-radius:99px;padding:1px 8px;font-size:10px}
+.panel table{width:100%;border-collapse:collapse}.panel tr{border-bottom:1px solid #ffffff12}th{color:var(--mt);font-size:12px;font-weight:600;width:44%}td,th{padding:6px 8px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;background:#0c1711;border:1px solid var(--ln);border-radius:10px;padding:6px 10px;margin:5px 0;font-size:12px;text-align:left}
+.row .bi{width:32px;height:32px}
+.tb{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.tb input{flex:1 1 150px}
+.bi{width:1.2em;height:1.2em;object-fit:contain;filter:drop-shadow(0 3px 3px #0007);-webkit-user-drag:none}
+.art{display:flex;justify-content:center;align-items:center;min-height:84px;margin-bottom:8px;border-radius:12px;background:radial-gradient(circle at 50% 62%,color-mix(in srgb,var(--c,#6a8) 38%,transparent),transparent 72%),#0c1711}
+.card .bush{font-size:58px}.ph-empty{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border:2px dashed #ffffff66;border-radius:50%;font-size:20px!important;color:#ffffff99;margin:auto}
+.farm2{border:1px solid var(--ln);border-radius:20px;box-shadow:0 10px 30px #0008}
+.sl:before,.sl:after{content:none}.sl .bush{font-size:44px}
+.lb{background:#0b1510d9;color:var(--tx);border:1px solid var(--c,var(--ln));border-radius:8px;backdrop-filter:blur(3px)}
+#toast{top:auto;bottom:88px;background:#0b1510f2;border:1px solid var(--ln);border-radius:12px;padding:9px 16px;font-size:12.5px}
+#ov{background:#040a07cc;backdrop-filter:blur(4px)}
+#ov .box{background:linear-gradient(180deg,var(--pn2),var(--pn));color:var(--tx);border:1px solid var(--ln);border-radius:20px;box-shadow:0 20px 60px #000a;max-width:380px;max-height:92vh;overflow:auto}
+#ov .box.wide{max-width:430px}#ov h2,#ov h3{border:0;padding:0;margin:6px 0;text-transform:none;color:inherit}
+#ov.fx-Secret .box{background:#14101f;box-shadow:0 0 60px #8b7bff88}
+#ov.k-gold .box{background:linear-gradient(#fff3b0,#ffd23f);color:#3b2a14;box-shadow:0 0 50px gold}
+#ov.k-dia .box{background:linear-gradient(#e0f7ff,#6cc8ff);color:#0b2a40;box-shadow:0 0 50px #4cf}
+#ov.k-obs .box{background:#1a0f26;color:#d9b3ff;box-shadow:0 0 70px #70f}
+#ov.fx-Divino .box{background:linear-gradient(#fff,#ffd6f2);color:#3b2a14}
+#ov .box .card{box-shadow:none}
+.lab{font-size:11px;color:var(--mt);text-transform:uppercase;letter-spacing:.07em;margin:12px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:8px 0}
+.chipb{display:flex;flex-direction:column;align-items:center;background:#0b1510;color:var(--tx);border:1px solid var(--ln);border-radius:99px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.chipb small{font-size:9.5px;color:var(--mt);font-weight:600}.chipb.on{background:var(--ac);border-color:var(--ac);color:#2b1c05}.chipb.on small{color:#2b1c05aa}.chipb:disabled{opacity:.45;cursor:not-allowed}
+.qty{display:flex;align-items:center;justify-content:center;margin:12px auto;width:fit-content;border:1px solid var(--ln);border-radius:14px;overflow:hidden;background:#0b1510}
+.qty button{width:52px;height:52px;border:0;background:var(--pn2);color:var(--ac2);font-size:26px;font-weight:800;cursor:pointer}.qty button:hover{background:var(--ln)}
+.qty input{width:110px;height:52px;border:0;border-radius:0;background:transparent;text-align:center;font-size:24px;font-weight:800;color:var(--tx);-moz-appearance:textfield}
+.qty input::-webkit-outer-spin-button,.qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.stats4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.stat{background:#0b1510;border:1px solid var(--ln);border-radius:10px;padding:8px 10px;text-align:left}.stat small{display:block;color:var(--mt);font-size:9.5px;text-transform:uppercase;letter-spacing:.06em}.stat b{font-size:16px;color:var(--ac2)}
+.aq-top{display:flex;gap:12px;align-items:center;margin-bottom:10px}.aq-art{width:84px;height:84px;display:flex;align-items:center;justify-content:center;border-radius:14px;font-size:62px;background:radial-gradient(circle at 50% 62%,color-mix(in srgb,var(--c,#6a8) 38%,transparent),transparent 72%),#0c1711;border:1px solid var(--ln)}
+.aq-info{display:flex;flex-direction:column;gap:4px;align-items:flex-start}.qbadge{background:hsl(var(--qh) 65% 32%);border-radius:99px;padding:2px 10px;font-size:11px;font-weight:800}
+.aq-res{margin-top:10px;padding:10px;border-radius:10px;background:#0b1510;border:1px solid var(--ac);color:var(--ac2);text-align:center;font-weight:700}.aq-res.run{border-color:var(--ok);color:var(--ok)}
+@media(min-width:900px){body{padding-bottom:0;padding-left:92px}#nav{top:0;right:auto;width:92px;flex-direction:column;border-top:0;border-right:1px solid var(--ln);padding:10px 6px;overflow-y:auto}#nav button{flex:0 0 auto;padding:10px 4px;font-size:10px!important}#toast{bottom:24px}}
+@media(max-width:600px){#main{padding:8px}.panel{padding:12px}.pill{min-width:72px;padding:4px 8px}.pill b{font-size:13px}#roll{padding:20px 44px;font-size:26px}.grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px}.sl .bush{font-size:30px}.card .bush{font-size:50px}}
+.Celestial{--c:#7fd6ff}
+.chip.evo{background:linear-gradient(90deg,#7a4b00,#f5b942);color:#1d1200;border-color:#ffd983;font-weight:800}
+.qty.sm button{width:38px;height:38px;font-size:20px}.qty.sm input{width:70px;height:38px;font-size:17px}
+.up-card .chips{margin:4px 0}.up-card .chipb{padding:2px 9px}.up3{grid-template-columns:repeat(3,1fr)!important;margin:6px 0!important}.up3 .stat{padding:5px 6px;text-align:center}.upn{display:block;color:var(--mt);font-size:10px;text-align:center}
+.war-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}.war-head h2{margin:0}
+.cs-timer{display:flex;flex-direction:column;align-items:center;background:#0b1510;border:1px solid var(--ac);border-radius:12px;padding:6px 16px}.cs-timer small{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mt)}.cs-timer b{font-size:22px;color:var(--ac2);font-variant-numeric:tabular-nums}
+.boss-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.cs-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.card.cs{position:relative;text-align:center;overflow:hidden;padding-top:26px}.cs-rib{position:absolute;top:0;left:0;right:0;font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:3px;background:var(--c,#6a8);color:#071009}
+.cs .art{min-height:96px}.cs .bush{font-size:64px}.cs-name{display:block;margin:2px 0;font-size:12.5px;min-height:32px}
+.cs .btn.wide{margin-top:8px;padding:9px}
+
+.chip.tier{font-weight:800;color:#0b1510;border-color:transparent}.chip.t0{background:linear-gradient(90deg,#b8c2c8,#eef2f4)}.chip.t1{background:linear-gradient(90deg,#e0a800,#ffe066)}.chip.t2{background:linear-gradient(90deg,#4cc3ff,#c9f0ff)}.chip.t3{background:linear-gradient(90deg,#3a1a6e,#8b5cf6);color:#fff}.chip.t4{background:linear-gradient(90deg,#16a34a,#6ee7a0)}.chip.t5{background:linear-gradient(90deg,#f33,#fb0,#4c4,#38f,#a4e,#f33);background-size:200% 100%;animation:rb2 2s linear infinite}@keyframes rb2{to{background-position:200% 0}}
+</style></head><body>
+<div id="hud"></div><div id="main"></div>
+<div id="nav"></div><div id="ov"></div><div id="toast"></div>
+<script>
+const RAR=["Common","Uncommon","Rare","Epic","Legendary","Mythic","Secret","Eternal","Divino","Celestial"];
+const RCH=[74,19,4.8,1.4,.42,.15,.035,.0035,.0004,0], RBASE=[1,6,30,150,900,6000,60000,1e6,2e7,5e8], RXP=[10,25,60,150,400,1000,3000,10000,30000,100000];
+const NAMES=[["Full bush","4/4","Throw bush","Fire bush","Aura bush","Tom bush"],["Fire bush (Unc)","Eletric bush","Water bush","Terry bush"],["Doc bush","Bush guloso","Deives bush","Job bush"],["3/4","Midlepart","Haircut bush","Trimmed bush","Niche bush","Planalto bush","Cadu bush","Fofis bush"],["Titio bush","Baseball bush","Fyneshi bush","Oclock bush","Monk bush","Chunky bush","Lust bushy","Altinho bush","Julhinho bush"],["Horny bush","Amolar bush","Dickpick bush","Hole bush","Cratere bush","Bush entroja","Tigela bush","Zelo bush","Rosal bush","Ba bush"],["Tifen bush","Cesio bush","BUSH","Bush valley","Siqueira bush","Joao bush","Godo bush","Ball knowledge bush","Sigma bush","Amalgama"]];
+const NEWB=[[0,"Black bush"],[0,"Guilhermino bush"],[0,"Monas bush"],[0,"Bush arrumado"],[0,"Bush aromatico"],[0,"Random bush"],[0,"Bush peça"],[0,"Giga bush"],[0,"Bush aloprado"],[0,"Bush goonadeiro"],[0,"Fap bush"],[0,"Marçal bush"],
+[1,"Jairo bush"],[1,"Aramis bush"],[1,"Goku bush"],[1,"Gojo bush"],[1,"Bush tanzente"],[1,"Ssacara bush"],[1,"Gato bush"],[1,"123 bush"],[1,"GD Bush"],[1,"Chile bush"],
+[2,"Espigao bush"],[2,"Gaybriel bush"],[2,"Joca bush"],[2,"Jairimis bush"],[2,"Threno bush"],[2,"Giga bush peça"],[2,"69 bush"],[2,"Horney bush"],[2,"City bush"],
+[3,"Dieguito bush"],[3,"Spigger bush"],[3,"Jana bush"],[3,"Jiujitzu bush"],[3,"Broder bush"],[3,"Batman bush"],[3,"Bonnie blu bush"],
+[5,"Pinhas bush"],[5,"Luciano bush"],[5,"Veve bush"],[5,"Lula bush"],[5,"Autismo bush"],
+[6,"JPG bush"],[6,"Bush L"],[6,"Kirk bush"],[6,"Yahu bush"],
+[7,"Mito bush"],[7,"3d bush"],[7,"Down bush"],[7,"67 bush"],[7,"Bush delay"],
+[8,"Triade bushica"],[8,"Veloshidade bush"],[8,"Zoao bush"],[0,"chinelo bush"],[0,"marcola bush"],[1,"bush virginia"],[1,"roteador bush"],[1,"tiringa bush"],[1,"bush boludo"],[1,"danielo bush"],[1,"banana bush"],[2,"rizz bush"],[2,"thygas bush"],[2,"chad bush"],[2,"pote bush"],[2,"pkxd bush"],[2,"bushcraft"],[2,"arbusto"],[3,"zezin bush"],[3,"bush rebaixado"],[3,"escada de lã"],[3,"pearl bush"],[3,"helmeted bush"],[4,"peixe bush"],[4,"netherite bush"],[4,"minion bush"],[4,"triple T bush"],[4,"angry bushs"],[4,"frog Bush"],[6,"bush especial"],[7,"guigs bush"],[7,"shimi bush"],[7,"Dada-dede bush"],[7,"Bengala Bush 69"],[7,"Agrestina bush"],[8,"Bush leiteiro"],[8,"bush khalifa"]];
+const B=[];NAMES.forEach((l,r)=>l.forEach(n=>B.push({id:"b"+B.length,name:n,rarity:r})));NEWB.forEach((a,k)=>B.push({id:"n"+k,name:a[1],rarity:a[0]}));
+const SUBN=["I","II","III","IV","V"],SUBM=[1,1.5,2.3,3.4,5],SUBW=[1,.5,.22,.09,.035];
+RAR.forEach((_,r)=>B.filter(b=>b.rarity==r).forEach((b,j)=>{const h=((j*37+r*11)%17)/16;b.sub=(j*3+r)%5;b.weight=(2+(j*7+r)%9)*SUBW[b.sub];b.baseBps=Math.round(RBASE[r]*SUBM[b.sub]*(.85+.3*h))}));
+// ===== CELESTIAL: Big Bush (só nasce da forja com os 5 Divinos originais; weight 0 e RCH=0 => nunca sai em Roll) =====
+const CEL_BPS=5e8,DIV_ORIG=B.filter(b=>b.rarity==8).map(b=>b.id);
+B.push({id:"celBig",name:"Big Bush",rarity:9,sub:2,weight:0,baseBps:CEL_BPS});
+const mc=n=>"m-"+n.replace(/\W/g,"");
+const Q=[["F",.5,20],["E",.75,22],["D",1,20],["C",1.5,16],["B",3,10],["A",5,3],["S",7.5,1],["SS",10,.4],["SR",12.5,.12],["XR",15,.03],["UR",20,.005]].map(a=>({n:a[0],m:a[1],w:a[2]}));
+const M=[["Mini",1.2,.75],["Middle",.8,1],["Piece",.5,1.15],["Bigbig",.3,1.4],["Radioactive",.18,2],["Dada",.1,3],["Cagado",.05,4],["Frozen",.025,6],["NPC",.015,10],["Concentrated",.006,20],["NICHER",.0008,50],["massa pura",.5,1.3],["juicy",.4,1.6],["inverted",.2,2.5],["broxa",.35,.6],["HORNY",.07,5],["zaponeje",.035,8],["estevonico",.02,12],["doctor",.012,18]].map(a=>({n:a[0],c:a[1],m:a[2]}));
+const DICE="Wooden Stone Copper Bronze Lucky Silver Iron Golden Jade Ruby Sapphire Emerald Diamond Platinum Titanium Obsidian Crystal Mythic Cosmic Celestial Void Eternal Divine Secret Omega".split(" ").map((n,k)=>[n+" Dice",Math.round(500*Math.pow(3.1,k)),+(.05*Math.pow(1.34,k)).toFixed(2),RAR[Math.min(8,Math.floor(k/3))]]);
+const UP={luck:["Luck Upgrade","+0.1x Luck",2500,2,.1],money:["Money Upgrade","+15% Busheiros",2000,1.9,.15],xp:["XP Upgrade","+20% XP duplicatas",4000,2,.2],mut:["Mutation Upgrade","+5% chance mutações",5000,2.2,.05],qual:["Quality Upgrade","+8% chance Good+",4000,2.1,.08],speed:["Roll Speed","-6% cooldown",3500,1.8,0],bps:["BPS Upgrade","+12% BPS",3000,1.95,.12],off:["Offline Upgrade","+25% ganho offline",4500,2,.25],evc:["Event Chance","+8% chance de evento",6000,2.1,.08]};
+const CARD={luck:["Lucky Card","+10% Luck"],money:["Money Card","+15% Money"],xp:["XP Card","+25% Bush XP"],mut:["Mutation Card","+4% mutação"],qual:["Quality Card","+6% qualidade"],reb:["Rebirth Card","+10% Rebirth mult"]};
+const CBASE=25000;
+const SUF=["","K","M","B","T","Qa","Qi","Sx","Sp","Oc","No","Dc"];
+function f(n){if(!isFinite(n))return"∞";if(n<1000)return(Math.floor(n*100)/100).toLocaleString("en");let i=0;while(n>=1000&&i<SUF.length-1){n/=1000;i++}return(Math.floor(n*100)/100)+SUF[i]}
+const def=()=>({money:0,inv:{},eq:Array(8).fill(null),up:{},cards:{},dice:[],dEq:-1,reb:0,pity:0,rolls:0,earned:0,sold:0,bestBps:0,maxLv:0,maxLuck:1,maxMult:1,since:[0,0,0],maxSince:[0,0,0],muts:{},offer:[],offerT:0,ts:Date.now(),played:0,snd:true,anim:true,bestName:"-",online:0,ev:null,gold:0,dia:0,obs:0,auto:{on:false,eq:false,leg:false,myth:false,sec:false,et:false,dv:false,mut:false,sp:true},bq:{},bm:{},rc:Array(10).fill(0),bb:{},shop:[],shopT:0,lock:{},hist:[],ach:{},maxMuts:0,xt:0,name:"",pid:"",mb:0,v:0,cust:{},mSh:[],mT:0,me:Array(19).fill(0),ess:Array(10).fill(0),gems:0,chests:Array(9).fill(0),emut:0,emStock:0,emT:0,tf:1,hiF:0,team:[],pieces:{},bevo:{},war:null,wteam:[],wwins:0,wcd:0,cs:null,csSlot:0,cone:0,pinv:{money:0,luck:0,xp:0,qual:0},pot:{}});
+let S;try{S=Object.assign(def(),JSON.parse(localStorage.getItem("bushrng")||"{}"))}catch(e){S=def()}
+let invF=-1,tab="farm",cd=0,last=null,wipe=false;Object.values(S.inv).forEach(i=>{if(i.ms===undefined){i.ms=[i.m];delete i.m}});S.auto=Object.assign(def().auto,S.auto);S.since=S.since.concat([0,0]).slice(0,5);if(S.ev&&!S.ev.end)S.ev.end=Date.now()+(S.ev.left||0)*1000;S.dice=S.dice.filter(k=>k<DICE.length);if(S.v<2){const mq=q=>[0,3,5,7,9][q]??3;Object.values(S.inv).forEach(i=>i.q=mq(i.q));Object.keys(S.bq).forEach(k=>S.bq[k]=mq(S.bq[k]));S.hist.forEach(h=>h[1]=mq(h[1]));S.v=2}if(S.v<3){Object.entries(S.inv).forEach(([k,i])=>{i.k=k;i.gem=0;S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);for(let n=1;n<Math.min(i.qty||1,30);n++){const nk="u"+n+Math.random().toString(36).slice(2,8)+k;S.inv[nk]={...i,k:nk,lv:1,xp:0,qty:1}}i.qty=1});S.v=3}if(S.v<4){const sw=q=>q==1?2:q==2?1:q;Object.values(S.inv).forEach(i=>i.q=sw(i.q));Object.keys(S.bq).forEach(k=>S.bq[k]=sw(S.bq[k]));S.hist.forEach(h=>h[1]=sw(h[1]));S.v=4}S.pinv=Object.assign({money:0,luck:0,xp:0,qual:0},S.pinv);if(S.dEq>=DICE.length)S.dEq=-1;S.maxSince=S.maxSince.concat([0,0]).slice(0,5);while(S.ess.length<RAR.length)S.ess.push(0);while(S.rc.length<RAR.length)S.rc.push(0);
+const $=s=>document.querySelector(s),lvc=(k)=>S.up[k]||0,cc=k=>0;
+// audio
+let AC;function beep(seq,type){if(!S.snd)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();let t=AC.currentTime;seq.forEach(([fr,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type=type||"square";o.frequency.value=fr;g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d);t+=d*.9})}catch(e){}}
+const SND={roll:[[300,.06],[400,.06],[500,.06]],get:[[500,.1],[700,.15]],buy:[[600,.07],[900,.1]],xp:[[800,.05]],lvl:[[500,.1],[700,.1],[1000,.2]],reb:[[300,.15],[450,.15],[600,.15],[900,.3]],leg:[[600,.1],[800,.1],[1000,.1],[1300,.3]],myth:[[400,.1],[600,.1],[800,.1],[1200,.1],[1600,.4]],sec:[[200,.2],[400,.2],[800,.2],[1600,.5]],mut:[[900,.08],[1200,.08],[1500,.12]]};
+// formulas
+const lvMult=l=>1+(l-1)*.06*(1+l/40);
+const xpNeed=l=>Math.floor(40*Math.pow(l,1.6));
+const rebMult=n=>1+.25*n+.02*n*n;
+const rebLuck=n=>.2*n+.03*n*n;const luck=()=>(1+rebLuck(S.reb)+(S.dEq>=0?DICE[S.dEq][2]:0)+lvc("luck")*UP.luck[4])*(potA("luck")?2:1);
+const moneyMult=()=>(1+lvc("money")*UP.money[4])*(1+lvc("bps")*UP.bps[4])*rebMult(S.reb)*(potA("money")?2:1);
+// ===== MULTIPLICADORES ESPECIAIS (tiers) — c = chance % por roll normal, mutuamente exclusivos, fixos (não afetados por Luck) =====
+const TIERS=[{n:"Silver",m:2,c:5},{n:"Gold",m:3,c:2},{n:"Diamond",m:5,c:.6},{n:"Void",m:10,c:.1},{n:"Emerald",m:25,c:.02},{n:"Rainbow",m:75,c:.002}];
+const tmul=i=>i.t>=0?TIERS[i.t].m:1;
+function rollTier(){const x=Math.random()*100;let c=0;for(let k=TIERS.length-1;k>=0;k--){c+=TIERS[k].c;if(x<c)return k}return -1}
+const bushBps=i=>{const b=bush(i.id);return b.baseBps*Q[i.q].m*mm(i)*tmul(i)*lvMult(i.lv)*(i.evo?3:1)};const mm=i=>i.ms.reduce((a,k)=>a*M[k].m,1);
+const bush=id=>B.find(x=>x.id===id)||S.cust[id];
+const bps=()=>S.eq.reduce((s,id)=>s+(id&&S.inv[id]?bushBps(S.inv[id]):0),0)*moneyMult();
+const sellVal=i=>Math.floor(bushBps(i)*25+bush(i.id).baseBps*2);
+function pick(ws){let t=ws.reduce((a,b)=>a+b,0),r=Math.random()*t;for(let i=0;i<ws.length;i++){if((r-=ws[i])<0)return i}let l=ws.length-1;while(l>0&&!(ws[l]>0))l--;return l}
+// roll
+function cdTime(){return Math.max(.2,1.5*Math.pow(.94,lvc("speed")))*1000}
+function toast(t,ms){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(window._t);window._t=setTimeout(()=>e.style.display="none",ms||1500)}
+function doRoll(mult,kind,auto){mult=mult||1;if(invFull()){S.auto.on=false;invMsg();return false}if(Date.now()<cd)return false;if(kind&&S[kind]<1)return false;if(kind)S[kind]--;cd=Date.now()+cdTime();
+ const L=luck()*mult;S.maxLuck=Math.max(S.maxLuck,L);
+ const pp=Math.min(S.pity,300),r=pick(RCH.map((c,i)=>i==0?c:c*Math.pow(L,i*.07)*(i<4?1:i==4?1+pp*.01:i==5?1+pp*.005:1+pp*.001)));
+ const pool=B.filter(b=>b.rarity==r),b=pool[pick(pool.map(x=>x.weight))];
+ const q=pick(Q.map((x,i)=>x.w*(i>=5?(1+lvc("qual")*UP.qual[4])*(potA("qual")?2:1):1)));
+ const ms=[];M.forEach((x,k)=>{let c=x.c*(k>=3?1+lvc("mut")*UP.mut[4]*5+cc("mut")*.04*5:1);if(S.ev&&S.ev.m==k)c*=10;if(Math.random()*100<c)ms.push(k)});
+ const mv=ms.reduce((a,k)=>a*M[k].m,1),tr=rollTier();
+ S.rolls++;S.rc[r]=(S.rc[r]||0)+1;if(Math.random()<.006){S.cone=(S.cone||0)+1;toast("🔺 +1 Cone!",2500)}if(S.rolls%10==0)S.gold++;if(S.rolls%100==0)S.dia++;if(S.rolls%1000==0)S.obs++;
+ S.pity=r>=4?0:S.pity+1;[4,5,6,7,8].forEach((t,k)=>{if(r>=t)S.since[k]=0;else{S.since[k]++;S.maxSince[k]=Math.max(S.maxSince[k],S.since[k])}});
+ const had=S.bq[b.id]!==undefined,xp=0,lv=false,note=had?"Duplicata — novo Bush!":"NOVO!";giveInst(b.id,q,ms,tr);
+ S.bq[b.id]=Math.max(S.bq[b.id]??-1,q);S.bm[b.id]=[...new Set([...(S.bm[b.id]||[]),...ms.map(k=>M[k].n)])];let ml=false;ms.forEach(k=>{if(!S.muts[M[k].n])ml=true;S.muts[M[k].n]=1});
+ const bp=b.baseBps*Q[q].m*mv*(tr>=0?TIERS[tr].m:1);if(bp>S.bestBps){S.bestBps=bp;S.bestName=((tr>=0?TIERS[tr].n+" ":"")+ms.map(k=>M[k].n).join(" ")+" "+b.name).trim()}
+ S.bb[b.id]=Math.max(S.bb[b.id]||0,bp);last={b,q,ms,xp,lv,note,ml,bp,kind,tr};S.hist.unshift([b.id,q,ms,kind||0,bp]);if(S.hist.length>50)S.hist.length=50;S.maxMuts=Math.max(S.maxMuts,ms.length);if(r>=6&&q==10&&ms.length>1)S.xt=1;chk();
+ const stop=auto&&((S.auto.leg&&r>=4)||(S.auto.myth&&r>=5)||(S.auto.sec&&r>=6)||(S.auto.et&&r>=7)||(S.auto.dv&&r>=8)||(S.auto.mut&&ms.length));
+ if(auto&&S.auto.eq)equipBest(true,true);
+ beep(SND.roll);setTimeout(()=>{beep(r>=7?SND.reb:r==6?SND.sec:r==5?SND.myth:r==4?SND.leg:SND.get);if(ms.length)beep(SND.mut);if(lv)beep(SND.lvl)},250);
+ if(!auto||stop){if(stop)S.auto.on=false;showRes()}else toast((kind?KL[kind]+" ":"")+(tr>=0?"["+TIERS[tr].n+" ×"+TIERS[tr].m+"] ":"")+b.name+(ms.length?" ✨"+ms.map(k=>M[k].n).join("+"):""));
+ save();if(!auto||stop||tab=="roll"||tab=="farm")render();else hud();return true}
+function equipBest(quiet,nr){const a=Object.values(S.inv).filter(i=>invF<0||bush(i.id).rarity==invF).sort((x,y)=>bushBps(y)-bushBps(x)).slice(0,8).map(i=>i.k);S.eq=Array.from({length:8},(_,k)=>a[k]||null);if(nr)return;if(quiet)render();else modal("EQUIP BEST<br>"+a.length+" best Bushes equipped!",[["OK","g",()=>render()]])}
+function addXp(i,x){if(i.lv>=69)return false;i.xp+=x;let up=false;while(i.lv<69&&i.xp>=xpNeed(i.lv)){i.xp-=xpNeed(i.lv);i.lv++;up=true}if(i.lv>=69)i.xp=0;S.maxLv=Math.max(S.maxLv,i.lv);return up}
+function bcard(i){const b=bush(i.id),mn=i.ms.map(k=>M[k].n);return`<div class="art ${mn.map(mc).join(" ")}"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div></div><div class="rc s${b.sub||0} ${RAR[b.rarity]}">${RAR[b.rarity]} ${SUBN[b.sub||0]}${(b.sub||0)>=3?" "+"★".repeat(b.sub-2):""}${b.fused?" · Fundido":""}</div><b>${b.name}</b>${S.lock[i.k]?" 🔒":""}${i.t>=0?`<br><span class="chip tier t${i.t}">${TIERS[i.t].n} ×${TIERS[i.t].m}</span>`:""}${i.evo?`<br><span class="chip evo">✦ EVOLUÍDO ×3 BPS</span>`:""}<br>${mn.map(n=>"<span class=chip>["+n+"]</span>").join(" ")||"No mutation"}<br>${Q[i.q].n} · Mutation Multiplier x${+mm(i).toFixed(2)}<br>${f(bushBps(i))} BPS`}
+function showRes(){const o=$("#ov"),r=last;const i={id:r.b.id,q:r.q,ms:r.ms,lv:1,t:r.tr};const rr=RAR[r.b.rarity],n=r.ms.includes(10);
+ o.className="fx-"+(n?"NICHER":r.ms.length>1?"multi":rr)+" k-"+(r.kind||"n");o.style.display="flex";
+ o.innerHTML=`<div class="box ${rr}"><h2>${r.note}</h2><div class="card rr" style="background:inherit;color:inherit">${bcard(i)}</div>${r.xp?`<p>+${f(r.xp)} XP${r.lv?" · LEVEL UP!":""}</p>`:""}${r.ml?"<p>🧬 Nova mutação!</p>":""}${r.ms.length>1?"<h3>⚡ MULTI MUTATION ×"+r.ms.length+"</h3>":""}${n?"<h2>✨ NICHER ✨</h2>":""}<button class="btn" onclick="closeOv()">OK</button></div>`}
+function closeOv(){$("#ov").style.display="none"}
+function modal(html,btns){const o=$("#ov");o.className="";o.style.display="flex";window._b=btns;o.innerHTML=`<div class="box">${html}<p>${btns.map((b,k)=>`<button class="btn ${b[1]||""}" onclick="closeOv();_b[${k}][2]()">${b[0]}</button>`).join("")}</p></div>`}
+// actions
+function equip(id){const k=S.eq.indexOf(null);if(S.eq.includes(id))return;if(k<0)return modal("A fazenda está cheia (8/8)!",[["OK","",()=>{}]]);S.eq[k]=id;render()}
+function unequip(id){const k=S.eq.indexOf(id);if(k>=0)S.eq[k]=null;render()}
+function sell(id){if(S.lock[id])return modal("🔒 Bush bloqueado. Desbloqueie para vender.",[["OK","",()=>{}]]);const i=S.inv[id],b=bush(i.id),v=sellVal(i),ea=ESSG[b.rarity];
+ modal(`<h3>SELL BUSH?</h3><b>${b.name}</b><br><span class="rc ${RAR[b.rarity]}">${RAR[b.rarity]}</span><br>${i.ms.map(k=>M[k].n).join(" + ")||"No mutation"} · ${Q[i.q].n} · Lv ${i.lv}<br>${S.eq.includes(id)?"<b>⚠ Equipado!</b><br>":""}${i.evo?"<b>✦ Bush Evoluída!</b><br>":""}Venda: <b>+${f(v)} Busheiros</b><br>Essência: <b>+${ea} ${RAR[b.rarity]}</b>`,[["CANCEL","",()=>{}],["SELL","r",()=>{S.money+=v;S.sold+=v;S.ess[b.rarity]+=ea;unequip(id);delete S.inv[id];beep(SND.buy);render()}]])}
+function buyDice(k){const d=DICE[k];if(S.dice.includes(k)){S.dEq=k}else if(S.money>=d[1]){S.money-=d[1];S.dice.push(k);S.dEq=k;beep(SND.buy)}render()}
+const upCost=k=>Math.floor(UP[k][2]*Math.pow(UP[k][3],lvc(k)));
+function buyUp(k){const p=upPlan(k,UQ[k]||1);if(p.n<1)return render();S.money-=p.tot;S.up[k]=p.end;beep(SND.buy);render()}
+const cardCost=k=>Math.floor(CBASE*Math.pow(2.2,cc(k)));
+function buyCard(k){const c=cardCost(k);if(S.money>=c){S.money-=c;S.cards[k]=cc(k)+1;S.offer=S.offer.filter(x=>x!=k);beep(SND.buy)}render()}
+function newOffer(){const ks=Object.keys(CARD).sort(()=>Math.random()-.5).slice(0,3);S.offer=ks;S.offerT=Date.now()}
+const rebReq=()=>1e6*Math.pow(10,S.reb);
+function rebirth(){if(S.money<rebReq())return;modal("<h3>REBIRTH?</h3>Perde Busheiros, upgrades e dados.<br><b>Bushes, níveis e XP ficam!</b>",[["CANCEL","",()=>{}],["REBIRTH","r",()=>{S.reb++;S.money=0;S.up={};S.cards={};S.dice=[];S.dEq=-1;S.pity=0;S.maxMult=Math.max(S.maxMult,rebMult(S.reb));newOffer();beep(SND.reb);tab="farm";render()}]])}
+// render
+const tm=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
+function hud(){const e=S.ev,P=(l,v,x)=>`<div class="pill"><small>${l}</small><b>${v}</b>${x?`<span class="sub">${x}</span>`:""}</div>`;
+ $("#hud").innerHTML=P("Busheiros",f(S.money),"+"+f(bps())+"/s")+P("Rebirth","x"+rebMult(S.reb).toFixed(2))+P("Luck",luck().toFixed(2)+"x")+P("Equipados",S.eq.filter(x=>x).length+"/8")+P("🔺 Cones",S.cone||0)+P("💠 Gemas",f(S.gems))+(S.auto.on?P("Auto Roll","● ON"):"")+(AQ.on?P("Qualidade","● AUTO "+AQ.n):"")+(e?`<div class="evb">⚡ ${M[e.m].n.toUpperCase()} EVENT · mutações 10x mais comuns · ⏱ ${tm((e.end-Date.now())/1000)}</div>`:"")}
+const TABS=[["farm","🏡 FARM"],["roll","🎲 ROLL"],["inv","🎒 INV"],["shop","🛒 SHOP"],["reb","♻ REBIRTH"],["stats","📊 STATS"],["top","🏆 TOP"],["items","🧪 ITENS"],["tower","🗼 TORRE"],["war","⚔ GUERRA"],["cards","🃏 CARTAS"],["set","⚙ SET"]];
+function nav(){$("#nav").innerHTML=TABS.map(t=>{const p=t[1].indexOf(" ");return`<button class="${tab==t[0]?"on":""}" onclick="tab='${t[0]}';render()"><i>${t[1].slice(0,p)}</i><span>${t[1].slice(p+1)}</span></button>`}).join("")}
+let SCENE="";(function(){let s=11;const r=()=>(s=s*16807%2147483647)/2147483647,it=[];
+const P=(sym,x,off,y,w,h,o)=>it.push([y,`<svg x="${x}%" y="${y.toFixed(1)}%" width="${w}" height="${h}" overflow="visible" opacity="${o||1}"><use href="#${sym}" x="${off}" width="${w}" height="${h}"/></svg>`]);
+const T=["ta","tb","tp"];
+for(let k=0;k<18;k++)P(T[k%3],(r()*100).toFixed(1),0,12+r()*6,26,35,.5);
+for(let k=0;k<15;k++){const w=44+r()*14;P(T[(k+1)%3],(r()*96).toFixed(1),0,16+r()*8,w,w*1.33,.8)}
+for(let k=0;k<10;k++){const y=24+k*5+r()*3,w=Math.round(66+y*.7+r()*18),L=k%2==0;P(T[(k>>1)%3],L?0:100,L?-Math.round(w*(.35+r()*.15)):-Math.round(w*(.5+r()*.15)),y,w,Math.round(w*1.33))}
+for(let k=0;k<6;k++){const x=r()*100;if(x>20&&x<80)continue;P("sb",x.toFixed(1),0,30+r()*55,34,20)}
+for(let k=0;k<26;k++)P("gt",(8+r()*84).toFixed(1),0,32+r()*58,14,10);
+for(let k=0;k<14;k++)P(k%2?"f1":"f2",(8+r()*84).toFixed(1),0,34+r()*56,9,9);
+for(let k=0;k<10;k++)P("sb",(r()*100).toFixed(1),0,91+r()*5,40+r()*14,28);
+it.sort((a,b)=>a[0]-b[0]);
+SCENE=`<svg class="sc" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc8f5"/><stop offset=".22" stop-color="#d9f1ff"/><stop offset=".221" stop-color="#6fbf48"/><stop offset="1" stop-color="#4c9a34"/></linearGradient>
+<symbol id="ta" viewBox="0 0 60 80"><ellipse cx="30" cy="77" rx="16" ry="3" fill="#0003"/><rect x="26" y="46" width="8" height="30" rx="3" fill="#7a4e24"/><circle cx="18" cy="40" r="15" fill="#2a8034"/><circle cx="42" cy="40" r="15" fill="#2a8034"/><circle cx="30" cy="28" r="22" fill="#2f8f3a"/><circle cx="24" cy="22" r="10" fill="#4cb552" opacity=".7"/></symbol>
+<symbol id="tb" viewBox="0 0 60 80"><ellipse cx="30" cy="77" rx="15" ry="3" fill="#0003"/><rect x="27" y="50" width="6" height="26" rx="2" fill="#8a5a2b"/><ellipse cx="30" cy="34" rx="25" ry="30" fill="#4fa83f"/><ellipse cx="22" cy="26" rx="10" ry="14" fill="#7bcf5a" opacity=".6"/><circle cx="40" cy="44" r="4" fill="#d9503f"/><circle cx="20" cy="48" r="4" fill="#d9503f"/></symbol>
+<symbol id="tp" viewBox="0 0 60 80"><ellipse cx="30" cy="77" rx="15" ry="3" fill="#0003"/><rect x="26" y="62" width="8" height="14" fill="#6b4423"/><polygon points="30,36 58,70 2,70" fill="#1f6b3a"/><polygon points="30,20 54,52 6,52" fill="#25784080" stroke="none"/><polygon points="30,20 54,52 6,52" fill="#2a7d44"/><polygon points="30,4 48,32 12,32" fill="#349150"/></symbol>
+<symbol id="sb" viewBox="0 0 40 24"><ellipse cx="20" cy="22" rx="18" ry="2.5" fill="#0003"/><ellipse cx="11" cy="15" rx="10" ry="8" fill="#2f8f3a"/><ellipse cx="29" cy="15" rx="10" ry="8" fill="#2a8034"/><ellipse cx="20" cy="10" rx="11" ry="9" fill="#46ab4c"/><circle cx="16" cy="9" r="1.6" fill="#ffd23f"/><circle cx="25" cy="12" r="1.6" fill="#ffd23f"/></symbol>
+<symbol id="gt" viewBox="0 0 20 14"><path d="M3 14 L5 3 L7 14 M8 14 L10 0 L12 14 M13 14 L16 4 L17 14" fill="#3f8f2f"/></symbol>
+<symbol id="f1" viewBox="0 0 12 12"><rect x="5.5" y="6" width="1" height="6" fill="#2f7a2a"/><circle cx="6" cy="5" r="3" fill="#ff8fb8"/><circle cx="6" cy="5" r="1.2" fill="#ffe066"/></symbol>
+<symbol id="f2" viewBox="0 0 12 12"><rect x="5.5" y="6" width="1" height="6" fill="#2f7a2a"/><circle cx="6" cy="5" r="3" fill="#ffe066"/><circle cx="6" cy="5" r="1.2" fill="#e8883d"/></symbol></defs>
+<rect width="100%" height="100%" fill="url(#sk)"/><ellipse cx="18%" cy="6%" rx="34" ry="9" fill="#fff" opacity=".85"/><ellipse cx="72%" cy="9%" rx="42" ry="10" fill="#fff" opacity=".8"/>
+<svg x="0" y="6%" width="100%" height="16%" viewBox="0 0 100 30" preserveAspectRatio="none"><polygon fill="#8db89a" points="0,30 10,10 22,22 35,6 50,24 65,8 80,22 92,12 100,24 100,30"/><polygon fill="#a9cfae" opacity=".8" points="0,30 18,18 30,26 55,14 75,26 90,18 100,26 100,30"/></svg>
+<ellipse cx="25%" cy="24%" rx="45%" ry="6%" fill="#63b341"/><ellipse cx="82%" cy="25%" rx="40%" ry="5%" fill="#58a83a"/>
+<ellipse cx="50%" cy="62%" rx="42%" ry="34%" fill="#7ccf55" opacity=".5"/><ellipse cx="50%" cy="64%" rx="33%" ry="27%" fill="#8bd860" opacity=".4"/>${it.map(a=>a[1]).join("")}</svg>`})();
+const POS=[0,1,2,3,4,5,6,7].map(k=>{const a=Math.PI*(1-k/7);return[50+33*Math.cos(a),74-48*Math.sin(a)]});
+function farmHtml(){return`<div class="farm2">${SCENE}${S.eq.map((id,k)=>{const p=POS[k],st=`left:${p[0]}%;top:${p[1]}%`;if(!id||!S.inv[id])return`<div class="sl" style="${st}"><div class="bush ph-empty">+</div><div class="sh"></div><div class="lb">EMPTY SLOT</div></div>`;const i=S.inv[id],b=bush(i.id);return`<div class="sl f ${RAR[b.rarity]} ${i.ms.map(x=>mc(M[x].n)).join(" ")}" style="${st}" onclick="unequip('${id}')"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div><div class="sh"></div><div class="lb">${b.name}<br>${i.ms.map(k=>"["+M[k].n+"]").join("")}<br>Lv${i.lv} · ${f(bushBps(i))}</div></div>`}).join("")}</div><p style="text-align:center"><button class="btn g" onclick="equipBest()">EQUIP BEST</button><br>Toque num Bush para remover.</p>`}
+function render(){chk();save();hud();nav();document.body.className=S.anim?"":"noanim";const m=$("#main");
+ if(tab=="farm")m.innerHTML=farmHtml();
+ else if(tab=="roll")m.innerHTML=`<div class="panel" style="text-align:center"><h2>ROLL</h2><button id="roll" class="btn g" onclick="doRoll()">ROLL</button><button class="btn" style="background:gold" ${S.gold?"":"disabled"} onclick="doRoll(2,'gold')">GOLDEN ROLL ×${S.gold}</button><button class="btn" style="background:#6cc8ff" ${S.dia?"":"disabled"} onclick="doRoll(3,'dia')">DIAMOND ROLL ×${S.dia}</button><button class="btn" style="background:#6a2fa0;color:#fff" ${S.obs?"":"disabled"} onclick="doRoll(10,'obs')">OBSIDIAN ROLL ×${S.obs}</button><p>ROLLS <b>${S.rolls.toLocaleString("en")}</b><br>NEXT GOLDEN ${10-S.rolls%10} rolls · NEXT DIAMOND ${100-S.rolls%100} rolls · NEXT OBSIDIAN ${1000-S.rolls%1000} rolls</p><button class="btn ${S.auto.on?"r":""}" onclick="S.auto.on=!S.auto.on;render()">AUTO ROLL: ${S.auto.on?"ON":"OFF"}</button> <small>${S.auto.on?"● ON · ROLLS: "+S.rolls:""}</small><br>Pity: ${S.pity}${HIST()}${last?`<div class="card" style="max-width:240px;margin:10px auto">Último:<br>${bcard({id:last.b.id,q:last.q,ms:last.ms,lv:1,t:last.tr})}</div>`:""}</div>`;
+ else if(tab=="inv"){const q=invQ.toLowerCase(),a=Object.values(S.inv).filter(i=>(invF<0||bush(i.id).rarity==invF)&&(!q||bush(i.id).name.toLowerCase().includes(q))&&(invM<0||i.ms.includes(invM))).sort(SORT[invS]);m.innerHTML=`<h2>INVENTORY (${invN()}/${INVMAX} Bushes)</h2><small>Capacidade máxima ${INVMAX}. Ao lotar, Roll e Auto Roll param. Nada é vendido nem apagado automaticamente.</small><br><button class="btn g" onclick="equipBest()">EQUIP BEST</button><button class="btn r" onclick="sellAll()">Sell All Unequipped</button><div class="panel tb"><input placeholder="Buscar nome" value="${invQ}" onchange="invQ=this.value.split(String.fromCharCode(34)).join('');render()"> <select onchange="invF=+this.value;render()"><option value="-1">Raridade: todas</option>${RAR.map((r,k)=>`<option value="${k}" ${invF==k?"selected":""}>${r}</option>`).join("")}</select> <select onchange="invM=+this.value;render()"><option value="-1">Mutação: todas</option>${M.map((x,k)=>`<option value="${k}" ${invM==k?"selected":""}>${x.n}</option>`).join("")}</select> <select onchange="invS=+this.value;render()">${["BPS","Raridade","Nível","Qualidade","Nº mutações"].map((x,k)=>`<option value="${k}" ${invS==k?"selected":""}>Ordenar: ${x}</option>`).join("")}</select></div><div class="grid">${a.map(i=>{const b=bush(i.id),e=S.eq.includes(i.k);return`<div class="card rr ${RAR[b.rarity]}" style="text-align:center">${bcard(i)}<br>Lv ${i.lv}${i.lv>=69?" MAX LEVEL":""} · 💠${i.gem||0}/100<div class="bar"><i style="width:${i.lv>=69?100:i.xp/xpNeed(i.lv)*100}%"></i></div>${i.lv>=69?"":f(i.xp)+" / "+f(xpNeed(i.lv))+" XP"}<br>${e?`<button class="btn" onclick="unequip('${i.k}')">UNEQUIP</button>`:`<button class="btn g" onclick="equip('${i.k}')">EQUIP</button>`}<button class="btn" onclick="lockB('${i.k}')">${S.lock[i.k]?"🔒":"🔓"}</button><button class="btn r" onclick="sell('${i.k}')">SELL</button></div>`}).join("")||"Nada encontrado."}</div>`}
+ else if(tab=="shop"){chkShop();chkMs();m.innerHTML=`<h2>DADOS</h2><div class="grid">${DICE.map((d,k)=>`<div class="card"><b>${d[0]}</b><br>${d[3]}<br>Luck +${d[2]}x<br>${S.dice.includes(k)?`<button class="btn" ${S.dEq==k?"disabled":""} onclick="buyDice(${k})">${S.dEq==k?"EQUIPADO":"EQUIPAR"}</button>`:`<button class="btn g" ${S.money<d[1]?"disabled":""} onclick="buyDice(${k})">${f(d[1])}</button>`}</div>`).join("")}</div>
+<h2>UPGRADES</h2><div class="grid">${Object.keys(UP).map(upCard).join("")}</div>
+<h2>🧬 ESSÊNCIAS DE MUTAÇÃO</h2>Refresh em ${tm(Math.max(0,(S.mT+1.2e6-Date.now())/1000))}<div class="grid">${S.mSh.slice().sort((a,b)=>M[b].m-M[a].m).map(k=>{const x=M[k];return`<div class="card"><b>${x.n} Essence</b><br>Aplica <b>${x.n}</b>: BPS ×${x.m} · chance base ${x.c}%<br>Você tem: ${S.me[k]}<br><button class="btn g" ${S.money<mePrice(k)?"disabled":""} onclick="buyME(${k})">${f(mePrice(k))}</button></div>`}).join("")||"Esgotado até o refresh"}</div><h2>POÇÕES (1 min cada, acumulam duração)</h2><div class="grid">${Object.keys(POT).map(k=>potCard(k,"b")).join("")}</div><h2>CARTAS</h2>Refresh em <b id="shopT">${tm(Math.max(0,(S.shopT+1.2e6-Date.now())/1000))}</b><div class="grid">${S.shop.map(id=>{const b=bush(id);return`<div class="card rr ${RAR[b.rarity]}" style="text-align:center"><div class="bush">${bi(b)}</div><span class="rc ${RAR[b.rarity]}">${RAR[b.rarity]}</span><br><b>${b.name}</b><br>BPS ${f(b.baseBps)}<br><button class="btn g" ${S.money<shopPrice(b)?"disabled":""} onclick="buyBushCard('${id}')">${f(shopPrice(b))}</button></div>`}).join("")||"Esgotado até o refresh"}</div><p>`}
+ else if(tab=="top"){if(LB.url&&!lbData)lbLoad();m.innerHTML=LBHTML()}
+ else if(tab=="items")m.innerHTML=ITEMS();
+ else if(tab=="tower")m.innerHTML=TOWER();
+ else if(tab=="war")m.innerHTML=WAR();
+ else if(tab=="cards")m.innerHTML=CARDSHOP();
+ else if(tab=="reb")m.innerHTML=`<div class="panel" style="text-align:center"><h2>REBIRTH</h2>Rebirths: ${S.reb}<br>Current: ${rebMult(S.reb).toFixed(2)}x<br>Next: ${rebMult(S.reb+1).toFixed(2)}x<br>Luck bônus: +${rebLuck(S.reb).toFixed(2)} → +${rebLuck(S.reb+1).toFixed(2)}<br>Requirement: ${f(rebReq())} Busheiros<br><button class="btn r" ${S.money<rebReq()?"disabled":""} onclick="rebirth()">REBIRTH</button><p>Mantém Bushes com nível e XP. Reseta Busheiros, upgrades e dados.</p></div>`;
+ else if(tab=="stats"){const ds=Object.keys(S.bq).length,mu=Object.keys(S.muts).length;const rows=[["Total Rolls",S.rolls],["Busheiros ganhos",f(S.earned)],["Busheiros vendidos",f(S.sold)],["Bushes descobertos",ds+"/"+B.length],["Mutações descobertas",mu+"/"+M.length],["Melhor Bush",S.bestName],["Maior BPS (bush)",f(S.bestBps)],["Maior nível",S.maxLv],["Rebirths",S.reb],["Luck máxima",S.maxLuck.toFixed(2)+"x"],["Maior multiplicador",f(Math.max(S.maxMult,rebMult(S.reb)))+"x"],["Maior seq. sem Legendary",S.maxSince[0]],["Maior seq. sem Mythic",S.maxSince[1]],["Maior seq. sem Secret",S.maxSince[2]],["Maior seq. sem Eternal",S.maxSince[3]],["Maior seq. sem Divino",S.maxSince[4]],["Pulls por raridade",RAR.map((n,k)=>n+": "+(S.rc[k]||0)).join(" · ")],["Tempo online",Math.floor(S.online/60)+" min"],["Golden/Diamond/Obsidian",S.gold+"/"+S.dia+"/"+S.obs]];
+  m.innerHTML=`<div class="panel"><h2>STATS</h2><table>${rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join("")}</table></div><div class="panel"><h2>BUSH COLLECTION</h2>${RAR.map((r,k)=>{const l=B.filter(b=>b.rarity==k).sort((a,b)=>a.sub-b.sub||b.baseBps-a.baseBps);return`<h3 class="rc ${r}">${r} ${l.filter(b=>S.bq[b.id]!==undefined).length} / ${l.length} discovered</h3>${l.map(b=>S.bq[b.id]!==undefined?`<div class="row">${bi(b)} ${b.name} (${SUBN[b.sub]}) · base ${f(b.baseBps)} · max BPS ${f(S.bb[b.id]||0)} · best ${Q[S.bq[b.id]??3].n}${(S.bm[b.id]||[]).length?" · "+S.bm[b.id].join(", "):""}${S.bevo[b.id]?" · ✦ Evoluído ×3":""}${S.pieces[b.id]?" · 🧩 "+S.pieces[b.id]+"/3":""}</div>`:"<div>???</div>").join("")}`}).join("")}<h3>Bushes Fundidos</h3>${Object.values(S.cust).sort((a,b)=>b.baseBps-a.baseBps).map(b=>`<div class="row">${bi(b)} ${b.name} · ${RAR[b.rarity]} · Fundido · base ${f(b.baseBps)}</div>`).join("")||"Nenhum"}</div>${TOPB()}${ACHH()}<div class="panel"><h2>MUTATION COLLECTION</h2>${mu} / ${M.length} discovered<br>${M.map(x=>S.muts[x.n]?x.n+" ×"+x.m+" ("+x.c+"%)":"???").join(" · ")}</div>`}
+ else m.innerHTML=`<div class="panel"><h2>SETTINGS</h2><button class="btn" onclick="S.snd=!S.snd;render()">Sound: ${S.snd?"ON":"OFF"}</button><button class="btn" onclick="S.anim=!S.anim;render()">Animations: ${S.anim?"ON":"OFF"}</button><br>${AUTO()}<br><button class="btn r" onclick="resetSave()">Reset Save</button></div>`}
+const AUTO=()=>[["on","Auto Roll"],["sp","Use Special Rolls"],["eq","Auto Equip Better Bush"],["leg","Stop on Legendary"],["myth","Stop on Mythic"],["sec","Stop on Secret"],["et","Stop on Eternal"],["dv","Stop on Divino"],["mut","Stop on Mutation"]].map(a=>`<button class="btn" onclick="S.auto['${a[0]}']=!S.auto['${a[0]}'];render()">${a[1]}: ${S.auto[a[0]]?"ON":"OFF"}</button>`).join("");
+const KL={gold:"🟡 GOLDEN",dia:"💎 DIAMOND",obs:"⚫ OBSIDIAN"};
+const LB={url:"https://mwijagskvrtatvvynvrg.supabase.co",key:"sb_publishable_Z1NiIKUcxq9TWXAAiNjfMw_wKiQ9sDE"}; // Supabase: preencha com a URL do projeto e a chave ANON (pública). Nunca use service_role.
+// ===== IMAGENS DAS BUSHES =====
+// Cada Bush tem a propriedade `imageSrc`. Para trocar o placeholder pela imagem real, preencha IMG por id ("b3") ou por nome ("Fire bush"):
+//   IMG["Fire bush"]="images/bushes/fire-bush.png";
+const PH_SRC="images/bushes/placeholder.png",IMG={};
+B.forEach(b=>{b.imageSrc=IMG[b.id]||IMG[b.name]||PH_SRC});
+const RCOL=["#9aa8a8","#4cc84c","#3a8cff","#b05cf0","#ffb800","#ff4040","#8b7bff","#00e5ff","#ff5ec8","#7fd6ff"];
+const phSvg=r=>{const c=RCOL[r]||RCOL[0];return"data:image/svg+xml,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><ellipse cx="32" cy="58" rx="22" ry="4" fill="#0006"/><rect x="29" y="42" width="6" height="15" rx="2" fill="#6b4423"/><circle cx="18" cy="38" r="14" fill="${c}" opacity=".85"/><circle cx="46" cy="38" r="14" fill="${c}" opacity=".85"/><circle cx="32" cy="26" r="18" fill="${c}"/><circle cx="26" cy="20" r="7" fill="#fff" opacity=".28"/></svg>`)};
+const bi=b=>`<img class="bi" src="${b.imageSrc||PH_SRC}" alt="" draggable="false" onerror="this.onerror=null;this.src=phSvg(${b.rarity})">`;
+const MF={Piece:"hue-rotate(60deg)",Radioactive:"drop-shadow(0 0 8px #3f3) hue-rotate(40deg)",Dada:"sepia(1) hue-rotate(-30deg)",Cagado:"sepia(1) brightness(.6)",Frozen:"hue-rotate(120deg) saturate(.6) brightness(1.4) drop-shadow(0 0 6px #aef)",NPC:"grayscale(1)",Concentrated:"drop-shadow(0 0 10px #ff0) brightness(1.2)",NICHER:"drop-shadow(0 0 12px #f0f) saturate(2)","massa pura":"contrast(1.4) sepia(.6)",juicy:"saturate(2.2) drop-shadow(0 0 6px #f6a)",inverted:"invert(1)",broxa:"grayscale(.7) brightness(.8)",HORNY:"hue-rotate(300deg) drop-shadow(0 0 6px red)",zaponeje:"hue-rotate(200deg) saturate(2)",estevonico:"grayscale(1) contrast(1.6)",doctor:"brightness(1.4) drop-shadow(0 0 6px #fff)"};
+const mf=ms=>ms.map(k=>MF[M[k].n]||"").join(" ")||"none";
+let invQ="",invM=-1,invS=0,lbData=null,lbCat="bps",lbMsg="";
+const SORT=[(x,y)=>bushBps(y)-bushBps(x),(x,y)=>bush(y.id).rarity-bush(x.id).rarity||bushBps(y)-bushBps(x),(x,y)=>y.lv-x.lv,(x,y)=>y.q-x.q,(x,y)=>y.ms.length-x.ms.length];
+function lockB(id){S.lock[id]=!S.lock[id];render()}
+const INVMAX=999,invN=()=>Object.keys(S.inv).length,invFull=()=>invN()>=INVMAX;
+function invMsg(){if($("#ov").style.display!="flex")modal("<h3>📦 Inventário cheio</h3>"+INVMAX+"/"+INVMAX+" Bushes.<br>Venda, funda ou libere espaço para continuar. Nada é vendido automaticamente.",[["OK","g",()=>render()]])}
+function sellAll(){const l=Object.values(S.inv).filter(i=>!S.eq.includes(i.k)&&!S.lock[i.k]&&!i.evo);const n=l.reduce((a,i)=>a+i.qty,0),v=l.reduce((a,i)=>a+sellVal(i)*i.qty,0);if(!n)return modal("Nada para vender (equipados e 🔒 são protegidos).",[["OK","",()=>{}]]);
+ modal(`<h3>SELL ALL UNEQUIPPED?</h3>${n} Bushes (${l.length} tipos)<br>Receba ≈ <b>${f(v)}</b><br><small>Equipados e 🔒 não serão vendidos.</small>`,[["CANCEL","",()=>{}],["SELL ALL","r",()=>{l.forEach(i=>{S.ess[bush(i.id).rarity]+=ESSG[bush(i.id).rarity];delete S.inv[i.k]});S.money+=v;S.sold+=v;beep(SND.buy);render()}]])}
+const shopPrice=b=>Math.floor(b.baseBps*8000);
+function newShop(){const w=[60,25,10,4,1],ids=[];for(let n=0;n<4;n++){const r=2+pick(w),p=B.filter(b=>b.rarity==r&&!ids.includes(b.id));ids.push(p[Math.floor(Math.random()*p.length)].id)}ids.sort((a,b)=>bush(b).baseBps-bush(a).baseBps);S.shop=ids;S.shopT=Date.now();save()}
+function chkShop(){const now=Date.now();if(!(S.shopT>0)||S.shopT>now+6e4||now-S.shopT>=1.2e6||S.shop.some(id=>bush(id).rarity<2))newShop()}
+function buyBushCard(id){const b=bush(id),p=shopPrice(b);if(S.money<p)return;if(invFull())return invMsg();S.money-=p;giveInst(id,pickQ());S.shop=S.shop.filter(x=>x!=id);beep(SND.get);toast("Comprou "+b.name,2500);render()}
+const ACH=[["100 Rolls",()=>S.rolls>=100],["500 Rolls",()=>S.rolls>=500],["1.000 Rolls",()=>S.rolls>=1e3],["10.000 Rolls",()=>S.rolls>=1e4],["Primeiro Legendary",()=>S.rc[4]>0],["Primeiro Mythic",()=>S.rc[5]>0],["Primeiro Secret",()=>S.rc[6]>0],["Primeiro Eternal",()=>S.rc[7]>0],["Primeiro Divino",()=>S.rc[8]>0],["Primeiro Rebirth",()=>S.reb>=1],["2+ mutações num Bush",()=>S.maxMuts>=2],["3+ mutações num Bush",()=>S.maxMuts>=3],["Secret+ Perfect com 2+ mutações",()=>S.xt>0]];
+function chk(){ACH.forEach((a,k)=>{if(!S.ach[k]&&a[1]()){S.ach[k]=1;S.money+=500+bps()*30*(1+k*.2);toast("🏆 "+a[0],3000)}})}
+const ACHH=()=>`<div class="panel"><h2>CONQUISTAS ${Object.keys(S.ach).length}/${ACH.length}</h2>${ACH.map((a,k)=>`<div>${S.ach[k]?"🏆":"🔒"} ${a[0]}</div>`).join("")}</div>`;
+const HIST=()=>`<h3>Últimos rolls</h3><div style="max-height:220px;overflow:auto;text-align:left;font-size:11px">${S.hist.map(h=>{const b=bush(h[0]);return`<div class="row">${bi(b)} ${b.name} · <span class="rc ${RAR[b.rarity]}">${RAR[b.rarity]}</span> · ${Q[h[1]].n} · ${h[2].map(k=>"["+M[k].n+"]").join("")||"-"} · ${f(h[4])}${h[3]?" · "+KL[h[3]]:""}</div>`}).join("")}</div>`;
+const LBC={bps:"Maior BPS",luck:"Maior Luck",rolls:"Rolls",rebirths:"Rebirths",best_bush:"Bush mais valioso",max_level:"Maior nível",dmg:"Maior Dano",hp:"Maior Vida",floor:"Maior andar da Torre"};
+const LBSQL=`create table leaderboard(pid text primary key check(length(pid)<=64),name text not null check(length(name) between 1 and 16),bps float8 check(bps between 0 and 1e30),luck float8 check(luck between 0 and 1e6),rolls bigint check(rolls between 0 and 1e9),rebirths int check(rebirths between 0 and 10000),best_bush float8 check(best_bush between 0 and 1e30),max_level int check(max_level between 0 and 69),updated timestamptz default now());
+alter table leaderboard enable row level security;
+create policy "read" on leaderboard for select using(true);
+create policy "ins" on leaderboard for insert with check(true);
+create policy "upd" on leaderboard for update using(true) with check(true);
+alter table leaderboard add column if not exists best_name text, add column if not exists dmg float8 default 0, add column if not exists hp float8 default 0, add column if not exists floor int default 0;
+notify pgrst, 'reload schema';`;
+const LBHTML=()=>`<div class="panel"><h2>🏆 LEADERBOARD</h2>${LB.url?`Nome: <input id="nm" maxlength="16" value="${(S.name||"").replace(/"/g,"")}"> <button class="btn g" onclick="lbSend()">Enviar</button><br><select onchange="lbCat=this.value;lbLoad()">${Object.keys(LBC).map(k=>`<option value="${k}" ${k==lbCat?"selected":""}>${LBC[k]}</option>`).join("")}</select> <button class="btn" onclick="lbLoad()">Atualizar</button><p>${lbMsg}</p><table>${(lbData||[]).map((r,k)=>`<tr><td>${k+1}</td><td>${String(r.name).replace(/[<>&]/g,"")}</td><td>${String(r.best_name||"-").replace(/[<>&]/g,"")}</td><td>${f(r[lbCat])}</td></tr>`).join("")}</table>`:`Configure o Supabase: crie um projeto gratuito, rode o SQL abaixo e preencha <code>LB.url</code> e <code>LB.key</code> (só a chave <b>anon</b>) no script.<pre style="white-space:pre-wrap;font-size:10px">${LBSQL}</pre>`}</div>`;
+async function lbSend(){const n=($("#nm")||{}).value;S.name=(n||S.name||"Anon").trim().slice(0,16)||"Anon";S.pid=S.pid||(Date.now().toString(36)+Math.random().toString(36).slice(2,12));const c=v=>Math.min(Math.max(+v||0,0),1e29);const body=JSON.stringify({pid:S.pid,name:S.name,bps:c(S.mb),luck:Math.min(c(S.maxLuck),9e5),rolls:Math.min(S.rolls,9e8),rebirths:Math.min(S.reb,9999),best_bush:c(S.bestBps),max_level:Math.min(S.maxLv,69),best_name:String(S.bestName||"-").slice(0,40),dmg:c(Object.values(S.inv).reduce((a,i)=>Math.max(a,cs(i).dm),0)),hp:c(Object.values(S.inv).reduce((a,i)=>Math.max(a,cs(i).hp),0)),floor:Math.min(S.hiF,99999)});
+ const H={apikey:LB.key,Authorization:"Bearer "+LB.key,"Content-Type":"application/json"},U=LB.url+"/rest/v1/leaderboard";lbMsg="Enviando...";
+ try{let ok=false,err="";for(const q of["pid=eq."+encodeURIComponent(S.pid),"name=eq."+encodeURIComponent(S.name)]){const r=await fetch(U+"?"+q,{method:"PATCH",headers:{...H,Prefer:"return=representation"},body,cache:"no-store"});let rows=[];if(r.ok)rows=await r.json();else err=(await r.text()).slice(0,160);if(rows.length){ok=true;break}}
+  if(ok)lbMsg="Atualizado!";else{const r=await fetch(U,{method:"POST",headers:{...H,Prefer:"return=minimal"},body,cache:"no-store"});lbMsg=r.ok?"Criado!":"Erro "+r.status+": "+((await r.text()).slice(0,160)||err)}}catch(e){lbMsg="Falha de rede"}
+ save();lbLoad()}
+async function lbLoad(){try{const r=await fetch(`${LB.url}/rest/v1/leaderboard?select=name,best_name,${lbCat}&order=${lbCat}.desc&limit=100`,{headers:{apikey:LB.key,Authorization:"Bearer "+LB.key},cache:"no-store"});lbData=r.ok?await r.json():[];{const m={};lbData.forEach(x=>{const k=String(x.name).trim().toLowerCase();if(!m[k]||x[lbCat]>m[k][lbCat])m[k]=x});lbData=Object.values(m).sort((x,y)=>y[lbCat]-x[lbCat]).slice(0,20)}if(!r.ok)lbMsg="Erro "+r.status}catch(e){lbMsg="Falha de rede";lbData=[]}if(tab=="top")render()}
+const POT={money:["Poção 2x Dinheiro",2.5e6],luck:["Poção 2x Sorte",5e6],xp:["Poção 2x XP",1.5e6],qual:["Poção 2x Qualidade",8e6]};
+const potA=k=>(S.pot[k]||0)>Date.now();
+function buyPot(k){const p=potPlan(k,'b',PQS.b[k]||1);if(p.n<1)return render();S.money-=p.tot;S.pinv[k]+=p.n;beep(SND.buy);render()}
+function usePot(k){const p=potPlan(k,'u',PQS.u[k]||1);if(p.n<1)return render();S.pinv[k]-=p.n;S.pot[k]=Math.max(Date.now(),S.pot[k]||0)+POTMIN*p.n;beep(SND.buy);render()}
+const qW=()=>Q.map((x,i)=>x.w*(i>=5?(1+lvc("qual")*UP.qual[4])*(potA("qual")?2:1):1));
+function pickQ(){return pick(qW())}
+function qRoll(i){S.cone--;i.q=pickQ();S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);return i.q}
+function rerollQ(id){const i=S.inv[id],b=bush(i.id);if(!(S.cone>0))return modal("Você precisa de 1 🔺 Cone.",[["OK","",()=>{}]]);
+ modal(`<h3>Reroll de qualidade</h3>${b.name}<br>Atual: <b>${Q[i.q].n}</b><br>Custo: 1 🔺 Cone<br>O resultado é aleatório (pode piorar).`,[["CANCEL","",()=>{}],["REROLL","r",()=>{qRoll(i);toast("Nova qualidade: "+Q[i.q].n,3000);render()}]])}
+const ESSG=[1,2,4,8,16,40,100,300,1000,3000],QT=[.5,.6,.8,1,1.5,2.5,4,6,10,15,20],CB=[60,25,9,4,1.2,.5,.1,.02,.005],CHF=[1,5,12,25,40,60,85,115,150];
+function chestW(fl){let hi=0;CHF.forEach((x,t)=>{if(fl>=x)hi=t});return CB.map((c,t)=>fl<CHF[t]?0:c*Math.pow(1+(fl-CHF[t])/8,1.2+t*.5)*Math.pow(.8,Math.max(0,hi-t-1)))}
+const newKey=()=>"u"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const gb=i=>(i.gem||0)*.01*(1+(Q[i.q].m-1)*.25),cs=i=>{const bp=bushBps(i),g=1+gb(i);return{hp:bp*g,dm:bp/8*g}};
+function giveInst(id,q,ms,t){const k=newKey();S.inv[k]={k,id,q,ms:ms||[],lv:1,xp:0,qty:1,gem:0};if(t>=0)S.inv[k].t=t;S.bq[id]=Math.max(S.bq[id]??-1,q);return k}
+function givePool(r){const p=B.filter(b=>b.rarity==r),b=p[pick(p.map(x=>x.weight))];giveInst(b.id,pickQ());return b}
+const EN=[["Slime","🟢"],["Goblin","👺"],["Lobo","🐺"],["Ogro","👹"],["Golem","🗿"],["Dragão","🐲"],["Fantasma","👻"]];
+const enemies=fl=>[0,1,2].map(n=>{const h=.4*Math.pow(1.2,fl-1)*(1+n*.1),e=EN[(fl+n)%EN.length];return{n:e[0]+" "+fl+"-"+(n+1),em:e[1],hp:h,dm:h/12}});
+function fight(fl,EL,TK){const T=(TK||S.team).map(k=>S.inv[k]).filter(Boolean).map(i=>{const c=cs(i);return{i,hp:c.hp,mx:c.hp,dm:c.dm}}),E=(EL||enemies(fl)).map(e=>({...e,mx:e.hp}));let t=0;
+ while(t<300&&T.some(x=>x.hp>0)&&E.some(x=>x.hp>0)){t++;let d=T.reduce((a,x)=>a+(x.hp>0?x.dm:0),0);for(const e of E){if(d<=0)break;const h=Math.min(e.hp,d);e.hp-=h;d-=h}for(const e of E){if(e.hp<=0)continue;const x=T.find(y=>y.hp>0);if(!x)break;x.hp-=e.dm}}
+ return{T,E,t,win:E.every(x=>x.hp<=0)&&T.some(x=>x.hp>0)}}
+let tlog="",fr=0,fsel=[];
+const TCD=2000;
+function tfight(auto){const fl=S.tf;S.team=S.team.filter(k=>S.inv[k]);if(S.team.length<3)return;if(Date.now()<Math.min(S.tcd||0,Date.now()+TCD))return;S.tcd=Date.now()+TCD;const r=fight(fl);
+ let h=`<h3>${r.win?"✅ VITÓRIA":"❌ DERROTA"} (${r.t} turnos)</h3>`+r.T.map(x=>`${bush(x.i.id).name}: ❤ ${f(Math.max(0,x.hp))}/${f(x.mx)}`).join("<br>")+"<br>"+r.E.map(e=>`${e.em} ${e.n}: ❤ ${f(Math.max(0,e.hp))}/${f(e.mx)}`).join("<br>");
+ if(r.win){const tq=r.T.reduce((a,x)=>a+QT[x.i.q],0)/3,rw=[],m=Math.floor((80*Math.pow(1.13,fl)+bps()*30*(1+fl/25))*tq);S.money+=m;S.earned+=m;rw.push("+"+f(m)+" Busheiros");
+  
+  {const n=1+Math.floor(fl/50);if(Math.random()<Math.min(.7,(.15+fl*.006)*Math.min(2,Math.sqrt(tq)))){S.cone+=n;rw.push("+"+n+" 🔺 Cone")}}{const e=pick(CB.map((c,t)=>c*Math.pow(1+fl/50,t*.3))),n=1+Math.floor(fl/10);S.ess[e]+=n;rw.push("+"+n+" Essência "+RAR[e])}
+  if(Math.random()<Math.min(.7,(.08+fl*.004)*Math.sqrt(tq))){const n=1+Math.floor(fl/40);S.gems+=n;rw.push("+"+n+" 💠 Gema Bushiana")}
+  if(Math.random()<.1){const k=Object.keys(POT)[Math.floor(Math.random()*4)];S.pinv[k]++;rw.push("+1 "+POT[k][0])}
+  if(Math.random()<Math.min(.9,.3+fl*.003)){const t=pick(chestW(fl));S.chests[t]++;rw.push("+1 📦 Baú "+RAR[t])}
+  S.hiF=Math.max(S.hiF,fl);S.tf=fl+1;h+="<br><b>Recompensas:</b><br>"+rw.join("<br>");beep(SND.lvl)}else{S.tf=1;h+=`<br><b>Derrota no andar ${fl}!</b> A Torre foi reiniciada: você voltou ao <b>andar 1</b>. Recorde: ${S.hiF}`}
+ tlog=`<div class="card" style="margin-top:8px;text-align:left">${h}</div>`;if(!auto||tab=="tower")render();else{save();hud()}}
+function tAuto(){S.tauto=!S.tauto;render()}
+function tadd(k){if(S.team.length<3&&!S.team.includes(k))S.team.push(k);render()}
+function trem(k){S.team=S.team.filter(x=>x!=k);render()}
+const TOWER=()=>{const fl=S.tf,E=enemies(fl),T=S.team.map(k=>S.inv[k]).filter(Boolean);return`<div class="panel"><h2>🗼 TORRE</h2>Tower Floor: <b>${fl}</b> · Highest Floor: <b>${S.hiF}</b><h3>Seu time (${T.length}/3)</h3><div class="grid">${T.map(i=>{const b=bush(i.id),c=cs(i);return`<div class="card rr ${RAR[b.rarity]}" style="text-align:center">${bcard(i)}<br>❤ ${f(c.hp)} · ⚔ ${f(c.dm)}<br>Lv ${i.lv} · 💠${i.gem||0}/100<br><button class="btn" onclick="trem('${i.k}')">Remover</button></div>`}).join("")}</div><h3>Inimigos</h3><div class="grid">${E.map(e=>`<div class="card" style="text-align:center"><div class="bush">${e.em}</div><b>${e.n}</b><br>❤ ${f(e.hp)} · ⚔ ${f(e.dm)}</div>`).join("")}</div><button id="tbtn" class="btn g" ${T.length==3&&Date.now()>=(S.tcd||0)?"":"disabled"} onclick="tfight()">${Date.now()<(S.tcd||0)?"AGUARDE "+Math.ceil(((S.tcd||0)-Date.now())/1000)+"s":"ENTRAR NO ANDAR "+fl}</button> <button class="btn ${S.tauto?"g":""}" onclick="tAuto()">AUTO TORRE: ${S.tauto?"ON ●":"OFF"}</button> <button class="btn r" onclick="tReset()">Reiniciar Torre (andar 1)</button>${tlog}</div><div class="panel"><h3>Escolher time</h3>${Object.values(S.inv).sort(SORT[0]).map(i=>{const b=bush(i.id),c=cs(i);return`<div class="row">${bi(b)} ${b.name} · ${Q[i.q].n} · Lv${i.lv} · ❤${f(c.hp)} ⚔${f(c.dm)} <button class="btn" ${S.team.includes(i.k)||S.team.length>=3?"disabled":""} onclick="tadd('${i.k}')">+ Time</button></div>`}).join("")}</div>`};
+const chestAcc=()=>({m:0,cone:0,gems:0,pot:{},ess:{},b:{}});
+function chestCore(t,a){const m=Math.floor((100+bps()*1.5)*(t+1));S.money+=m;a.m+=m;
+ if(Math.random()<.12+.04*t){const n=1+(t>>1);S.cone+=n;a.cone+=n}
+ if(Math.random()<.2+.03*t){const k=Object.keys(POT)[Math.floor(Math.random()*4)];S.pinv[k]++;a.pot[k]=(a.pot[k]||0)+1}
+ {const e=Math.max(0,t-1),n=2+t*3;S.ess[e]+=n;a.ess[e]=(a.ess[e]||0)+n}
+ if(Math.random()<.1+.04*t){const n=1+(t>>1);S.gems+=n;a.gems+=n}
+ if(Math.random()<.4){const rr=Math.random()<.01?t:Math.max(0,t-1-Math.floor(Math.random()*3)),b=givePool(rr),k=b.name+" ("+RAR[rr]+")";a.b[k]=(a.b[k]||0)+1}}
+function chestLines(a){const r=["+"+f(a.m)+" Busheiros"];if(a.cone)r.push("+"+a.cone+" 🔺 Cone");
+ Object.keys(a.pot).forEach(k=>r.push("+"+a.pot[k]+" "+POT[k][0]));
+ Object.keys(a.ess).forEach(e=>r.push("+"+a.ess[e]+" Essência "+RAR[e]));
+ if(a.gems)r.push("+"+a.gems+" 💠 Gema Bushiana");
+ const bs=Object.keys(a.b);bs.slice(0,15).forEach(k=>r.push("🎁 Bush: "+k+(a.b[k]>1?" x"+a.b[k]:"")));
+ if(bs.length>15)r.push("🎁 +"+(bs.length-15)+" outros tipos de Bush");return r}
+function openChest(t){if(!S.chests[t])return;if(invFull())return invMsg();S.chests[t]--;const a=chestAcc();chestCore(t,a);
+ modal("<h3>Baú "+RAR[t]+"</h3>"+chestLines(a).join("<br>"),[["OK","g",()=>render()]])}
+function openAllChests(){let n=0;const a=chestAcc();for(let t=0;t<S.chests.length;t++){while(S.chests[t]>0&&!invFull()){S.chests[t]--;chestCore(t,a);n++}}
+ if(!n)return invMsg();beep(SND.lvl);modal("<h3>"+n+" Baús abertos</h3>"+chestLines(a).join("<br>")+(invFull()&&S.chests.some(x=>x>0)?"<br><b>⚠ Inventário cheio: abertura interrompida.</b>":""),[["OK","g",()=>render()]])}
+// Gemas Bushianas: cada Bush tem o próprio nível (0..100). Custo do nível n = 1+floor(.0481*n^1.5); total 1→100 = 2002 gemas.
+const GEM_MAX=100,gemCost=n=>1+Math.floor(.0481*Math.pow(n,1.5)),gemOk=i=>(i.gem||0)<GEM_MAX&&S.gems>=gemCost((i.gem||0)+1);
+function gemPlan(i,want){let n=0,tot=0;const L=i.gem||0;while(n<want&&L+n<GEM_MAX){const c=gemCost(L+n+1);if(tot+c>S.gems)break;tot+=c;n++}return{n,tot,end:L+n}}
+function useGem(k,mx){const i=S.inv[k];if(!i)return;const p=gemPlan(i,mx?GEM_MAX:1);if(p.n<1)return;S.gems-=p.tot;i.gem=p.end;beep(SND.buy);render()}
+let mSel=0;
+const mePrice=k=>Math.floor(5e7*Math.pow(M[k].m,1.3)*Math.pow(1/(M[k].c+.005),.5));
+function newMs(){const ids=[];while(ids.length<4){ids.push(pick(M.map((x,j)=>ids.includes(j)?0:x.c)))}S.mSh=ids;S.mT=Date.now();save()}
+function chkMs(){const n=Date.now();if(!(S.mT>0)||S.mT>n+6e4||n-S.mT>=1.2e6)newMs()}
+function tReset(){modal("<h3>Reiniciar a Torre?</h3>Você volta ao <b>andar 1</b>.<br>Recorde ("+S.hiF+"), Bushes, itens e recursos são mantidos.",[["CANCEL","",()=>{}],["REINICIAR","r",()=>{S.tf=1;tlog="";toast("Torre reiniciada: andar 1",2500);render()}]])}
+const TOPB=()=>`<div class="panel"><h2>MEUS BUSHES POR BPS</h2>${Object.values(S.inv).sort(SORT[0]).slice(0,15).map(i=>`<div class="row">${bi(bush(i.id))} ${bush(i.id).name} · ${Q[i.q].n} · ${f(bushBps(i))} BPS</div>`).join("")||"-"}</div>`;
+// ===== AUTO ROLL DE QUALIDADE (usa pickQ + Cones) =====
+const AQ={k:null,min:6,on:false,n:0,res:"",last:-1};
+const aqChance=()=>{const w=qW(),t=w.reduce((a,b)=>a+b,0);return w.slice(AQ.min).reduce((a,b)=>a+b,0)/t};
+function aqStop(m){if(AQ.on){AQ.on=false;save()}AQ.res=m;if(tab=="items")render();else hud()}
+function aqToggle(){if(AQ.on)return aqStop("Parado manualmente.");const i=S.inv[AQ.k];
+ if(!i){AQ.res="Selecione um Bush primeiro.";return render()}
+ if(S.cone<1){AQ.res="Você não tem Cones.";return render()}
+ if(i.q>=AQ.min){AQ.res="Este Bush já está em "+Q[i.q].n+" ou melhor. Escolha uma qualidade mínima maior.";return render()}
+ AQ.on=true;AQ.n=0;AQ.res="";AQ.last=i.q;render()}
+function aqTick(){if(!AQ.on)return;const i=S.inv[AQ.k];if(!i)return aqStop("O Bush selecionado não existe mais.");if(S.cone<1)return aqStop("Os Cones acabaram.");
+ AQ.last=qRoll(i);AQ.n++;if(i.q>=AQ.min){beep(SND.leg);return aqStop("🎯 Alvo atingido: "+Q[i.q].n+" após "+AQ.n+" Roll(s).")}
+ const e=$("#aqb");if(e)e.innerHTML=aqHtml();if(AQ.n%10==0)save()}
+setInterval(aqTick,120);
+function aqSel(k){AQ.k=k||null;AQ.res="";render()}
+function aqMin(n){if(AQ.on)return;AQ.min=n;AQ.res="";render()}
+function aqHtml(){const i=S.inv[AQ.k],b=i&&bush(i.id),ch=aqChance(),run=AQ.on;
+ return`<div class="aq-top"><div class="aq-art ${i?RAR[b.rarity]:""}">${i?bi(b):""}</div><div class="aq-info">${i?`<b>${b.name}</b><span class="rc ${RAR[b.rarity]}">${RAR[b.rarity]}</span><span class="qbadge" style="--qh:${i.q*28}">Qualidade ${Q[i.q].n}</span>`:"<b>Nenhum Bush selecionado</b>"}</div></div>
+<select ${run?"disabled":""} onchange="aqSel(this.value)" style="width:100%"><option value="">Selecionar Bush ou equipamento…</option>${Object.values(S.inv).sort(SORT[0]).map(x=>`<option value="${x.k}" ${x.k==AQ.k?"selected":""}>${S.eq.includes(x.k)?"⭐ ":""}${bush(x.id).name} · ${Q[x.q].n} · Lv${x.lv}</option>`).join("")}</select>
+<div class="lab">Qualidade mínima — para ao atingir ou superar</div><div class="chips">${Q.map((x,k)=>`<button class="chipb ${AQ.min==k?"on":""}" ${run?"disabled":""} onclick="aqMin(${k})">${x.n}</button>`).join("")}</div>
+<div class="stats4"><div class="stat"><small>Cones</small><b>${S.cone||0}</b></div><div class="stat"><small>Chance por Roll</small><b>${(ch*100).toFixed(ch<.01?3:1)}%</b></div><div class="stat"><small>Rolls / Cones usados</small><b>${AQ.n}</b></div><div class="stat"><small>Último resultado</small><b>${AQ.last>=0?Q[AQ.last].n:"-"}</b></div></div>
+<button class="btn ${run?"r":"g"} wide" onclick="aqToggle()">${run?"■ PARAR AUTO ROLL":"▶ INICIAR AUTO ROLL"}</button>${AQ.res?`<div class="aq-res">${AQ.res}</div>`:run?`<div class="aq-res run">Rolando… sem confirmações.</div>`:""}`}
+let iR=0;
+function buyME(k){const p=mePrice(k);if(S.money<p||!S.mSh.includes(k))return;S.money-=p;S.me[k]++;S.mSh=S.mSh.filter(x=>x!=k);beep(SND.buy);render()}
+function applyME(k){const i=S.inv[k];if(!(S.me[mSel]>0))return toast("Sem essência dessa mutação",2000);if(i.ms.includes(mSel))return toast("O Bush já tem essa mutação",2000);S.me[mSel]--;i.ms.push(mSel);S.muts[M[mSel].n]=1;S.bm[i.id]=[...new Set([...(S.bm[i.id]||[]),M[mSel].n])];S.maxMuts=Math.max(S.maxMuts,i.ms.length);beep(SND.mut);modal(`🧬 ${M[mSel].n} Essence usada<br>${bush(i.id).name}<br>Mutações: ${i.ms.map(j=>"["+M[j].n+"]").join("")}<br>Multiplicador total: x${+mm(i).toFixed(2)}`,[["OK","g",()=>render()]])}
+const ESSXP=[20,50,120,300,800,2000,6000,20000,70000,250000];let eSel=0,fx={};
+let eQ=1,eK=null;
+function essCalc(){const i=S.inv[eK];if(!i)return null;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)),have=S.ess[eSel];eQ=Math.max(0,Math.min(have,Math.floor(+eQ)||0));const g=per*eQ;let lv=i.lv,xp=i.xp+g;while(lv<69&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}return{i,per,have,g,lv}}
+function essMax(){const i=S.inv[eK];if(!i||i.lv>=69)return 0;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1));let lv=i.lv,xp=i.xp,n=0;while(lv<69&&n<S.ess[eSel]){xp+=per;n++;while(lv<69&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}}return n}
+function essStats(){const c=essCalc(),e=$("#esst");if(!c||!e)return;const mx=c.i.lv>=69;
+ e.innerHTML=`<div class="stat"><small>Essências disponíveis</small><b>${c.have}</b></div><div class="stat"><small>Selecionadas</small><b>${eQ}</b></div><div class="stat"><small>XP a receber</small><b>+${f(c.g)}</b></div><div class="stat"><small>Nível atual → previsto</small><b>${c.i.lv} → ${c.lv}${c.lv>c.i.lv?" ▲":""}</b></div>${mx?'<div class="aq-res" style="grid-column:1/-1">Este Bush já está no nível máximo.</div>':""}`;
+ const ok=$("#esok");if(ok)ok.disabled=mx||eQ<1}
+function essSet(v,t){eQ=v;const c=essCalc();if(!c)return;const e=$("#eqin");if(e&&(!t||(e.value!==""&&+e.value!==eQ)))e.value=eQ;essStats()}
+function essUI(){const c=essCalc();if(!c)return closeOv();const o=$("#ov"),b=bush(c.i.id);o.className="";o.style.display="flex";
+ o.innerHTML=`<div class="box wide"><h3>Essências de XP</h3><div class="row" style="justify-content:center">${bi(b)}<b>${b.name}</b><span class="rc ${RAR[b.rarity]}">${RAR[b.rarity]}</span></div>
+<div class="chips">${RAR.map((r,t)=>`<button class="chipb ${r} ${eSel==t?"on":""}" onclick="eSel=${t};essUI()">${r}<small>x${S.ess[t]}</small></button>`).join("")}</div>
+<div class="qty"><button onclick="essSet(eQ-1)" aria-label="Diminuir">−</button><input id="eqin" type="number" min="0" inputmode="numeric" value="${eQ}" oninput="essSet(this.value,1)"><button onclick="essSet(eQ+1)" aria-label="Aumentar">+</button></div>
+<div class="chips"><button class="chipb" onclick="essSet(1)">1</button><button class="chipb" onclick="essSet(10)">10</button><button class="chipb" onclick="essSet(100)">100</button><button class="chipb" onclick="essSet(essMax())">MÁX</button></div>
+<div class="stats4" id="esst"></div><p><button class="btn" onclick="closeOv();render()">CANCELAR</button><button class="btn g" id="esok" onclick="essGo()">USAR ESSÊNCIAS</button></p></div>`;essStats()}
+function essOpen(k){eK=k;const i=S.inv[k];if(!S.ess[eSel]){const t=S.ess.findIndex(x=>x>0);if(t>=0)eSel=t}eQ=S.ess[eSel]>0?1:0;essUI()}
+function essGo(){const c=essCalc();if(!c||eQ<1||c.i.lv>=69)return;S.ess[eSel]-=eQ;const l0=c.i.lv;addXp(c.i,c.g);fx={k:eK,t:"+"+f(c.g)+" XP"+(c.i.lv>l0?" · Lv "+c.i.lv+"!":"")};beep(SND.xp);closeOv();render()}
+const emPrice=()=>Math.floor(5e7+bps()*2e4);
+function chkEm(){const n=Date.now();if(!(S.emT>0)||S.emT>n+6e4||n-S.emT>=2.16e7){S.emT=n;S.emStock=1}}
+function buyEM(){if(!S.emStock||S.money<emPrice())return;S.money-=emPrice();S.emStock=0;S.emut++;render()}
+function applyEM(k){const i=S.inv[k];if(S.emut<1)return;const av=M.map((x,j)=>i.ms.includes(j)?0:x.c);if(!av.some(x=>x>0))return;S.emut--;const j=pick(av);i.ms.push(j);S.muts[M[j].n]=1;S.bm[i.id]=[...new Set([...(S.bm[i.id]||[]),M[j].n])];S.maxMuts=Math.max(S.maxMuts,i.ms.length);toast("🧬 "+M[j].n+" aplicada!",3000);render()}
+const fusCost=r=>({m:Math.floor(RBASE[r+1]*3000),e:10+8*r});
+function togF(k){fsel=fsel.includes(k)?fsel.filter(x=>x!=k):fsel.length<3?[...fsel,k]:fsel;render()}
+function fuse(){const c=fusCost(fr);if(fsel.length!=3||S.money<c.m||S.ess[fr]<c.e)return;const sel=fsel.map(k=>S.inv[k]);if(sel.some(i=>!i)||sel.some(i=>bush(i.id).rarity!=fr))return;
+ const bs=sel.map(i=>bush(i.id)),id="f"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),w=bs.map(b=>b.name.replace(/ bush$/i,"").split(" ")[0]);
+ const nb={id,name:w[0].slice(0,Math.ceil(w[0].length/2))+w[1].slice(Math.floor(w[1].length/2))+"-"+w[2].slice(0,3)+" bush",rarity:fr+1,sub:2,baseBps:0,weight:0,imageSrc:PH_SRC,fused:true},q=Math.round(sel.reduce((a,i)=>a+i.q,0)/3),avg=sel.reduce((a,i)=>a+bushBps(i),0)/3;nb.baseBps=Math.max(1,Math.round(2.5*avg/Q[q].m));
+ S.cust[id]=nb;fsel.forEach(k=>delete S.inv[k]);S.eq=S.eq.map(k=>S.inv[k]?k:null);S.team=S.team.filter(k=>S.inv[k]);S.money-=c.m;S.ess[fr]-=c.e;fsel=[];giveInst(id,q);beep(SND.reb);
+ modal("<h3>🔀 Fusão!</h3><b>"+nb.name+"</b><br>"+RAR[nb.rarity]+" · Fundido<br>BPS: "+f(2.5*avg)+" (2,5× a média dos 3: "+f(avg)+")<br>Qualidade: "+Q[q].n+" (média)",[["OK","g",()=>render()]])}
+const ITEMS=()=>{const c=fusCost(fr),all=Object.values(S.inv),cand=all.filter(i=>bush(i.id).rarity==fr).sort(SORT[0]),mis=Math.max(0,c.e-S.ess[fr]);
+return`<div class="panel"><h2>🔺 ${S.cone||0} Cone · 💠 ${S.gems} Gemas Bushianas</h2><small>Cada Bush tem seu próprio nível de Gema (máx. ${GEM_MAX}). Custo cresce por nível; 1→${GEM_MAX} = ${GEMTOT} gemas.</small></div>
+<div class="panel"><h2>🎯 Auto Roll de Qualidade</h2><div id="aqb">${aqHtml()}</div></div>
+<div class="panel"><h2>🧪 POÇÕES</h2><div class="grid">${Object.keys(POT).map(k=>potCard(k,"u")).join("")}</div></div>
+<div class="panel"><h2>📦 BAÚS</h2><button class="btn g" ${S.chests.some(x=>x>0)?"":"disabled"} onclick="openAllChests()">ABRIR TODOS</button>${RAR.slice(0,9).map((r,t)=>`<div class="rc ${r}">${r}: x${S.chests[t]} <button class="btn" ${S.chests[t]?"":"disabled"} onclick="openChest(${t})">ABRIR</button></div>`).join("")}</div>
+<div class="panel"><h2>✨ ESSÊNCIAS</h2>${RAR.map((r,t)=>`<span class="rc ${r}">${r} Essence: ${S.ess[t]}</span>`).join("<br>")}<h3>🧬 Essências de Mutação</h3>${M.map((x,k)=>S.me[k]?`<div>${x.n} Essence: ${S.me[k]}</div>`:"").join("")||"Nenhuma (compre na loja)"}</div>
+<div class="panel"><h2>🔀 FUSÃO (3 Bushes da mesma raridade)</h2><select onchange="fr=+this.value;fsel=[];render()">${RAR.slice(0,8).map((r,k)=>`<option value="${k}" ${fr==k?"selected":""}>${r} → ${RAR[k+1]}</option>`).join("")}</select><br>Custo: ${f(c.m)} Busheiros + ${c.e} ${RAR[fr]} Essence<br>Você possui: ${S.ess[fr]} · ${mis?"Faltam: "+mis:"OK"}<br>Selecionados: ${fsel.length}/3<br>${(()=>{const sl=fsel.map(k=>S.inv[k]).filter(Boolean);return sl.length==3?`Resultado previsto: BPS ${f(2.5*sl.reduce((a,i)=>a+bushBps(i),0)/3)} (2,5× a média ${f(sl.reduce((a,i)=>a+bushBps(i),0)/3)}) · Qualidade ${Q[Math.round(sl.reduce((a,i)=>a+i.q,0)/3)].n}<br>`:""})()}<button class="btn g" ${fsel.length==3&&S.money>=c.m&&!mis?"":"disabled"} onclick="fuse()">FUNDIR</button>${cand.map(i=>{const b=bush(i.id);return`<div class="row">${bi(b)} ${b.name} (${SUBN[b.sub||0]})${S.lock[i.k]?" 🔒":""}${S.eq.includes(i.k)?" ⭐":""} · <b>${Q[i.q].n}</b> · ${f(bushBps(i))} BPS · Lv${i.lv} <button class="btn ${fsel.includes(i.k)?"g":""}" onclick="togF('${i.k}')">${fsel.includes(i.k)?"✔":"Escolher"}</button></div>`}).join("")}</div>
+${CELPANEL()}<div class="panel"><h2>🎚 BUSHES (Qualidade · Gema · Mutação · Essência)</h2><b>Mutação a aplicar:</b> <select onchange="mSel=+this.value;render()">${M.map((x,k)=>`<option value="${k}" ${mSel==k?"selected":""}>${x.n} Essence (x${S.me[k]})</option>`).join("")}</select><br><b>Raridade dos Bushes:</b><br>${RAR.map((r,t)=>`<button class="btn ${iR==t?"g":""}" onclick="iR=${t};render()">${r}</button>`).join("")}<br>${all.filter(i=>bush(i.id).rarity==iR).sort(SORT[0]).map(i=>{const b=bush(i.id);return`<div class="row">${bi(b)} <b>${b.name}</b> ${i.ms.map(k=>"["+M[k].n+"]").join("")} · <b>${Q[i.q].n}</b> · Lv${i.lv} XP ${i.lv>=69?"MAX":f(i.xp)+"/"+f(xpNeed(i.lv))} · 💠${i.gem||0}/100 (+${(gb(i)*100).toFixed(0)}% Vida/Dano/XP)<div class="bar"><i style="width:${i.lv>=69?100:i.xp/xpNeed(i.lv)*100}%"></i></div>${fx.k==i.k?`<b style="color:#2a8a2a">${fx.t}</b> `:""}<button class="btn" onclick="rerollQ('${i.k}')">Reroll 🔺1</button><button class="btn" ${gemOk(i)?"":"disabled"} onclick="useGem('${i.k}')">${(i.gem||0)>=GEM_MAX?"💠 NÍVEL MÁX":"+ Gema · 💠"+gemCost((i.gem||0)+1)}</button><button class="btn" ${gemOk(i)?"":"disabled"} onclick="useGem('${i.k}',1)">Subir máx.</button><button class="btn" ${S.ess.some(x=>x>0)&&i.lv<69?"":"disabled"} onclick="essOpen('${i.k}')">✨ Essências de XP</button><button class="btn" ${S.me[mSel]?"":"disabled"} onclick="applyME('${i.k}')">🧬 ${M[mSel].n} (x${S.me[mSel]})</button></div>`}).join("")||"Sem Bushes."}</div>`};
+function resetSave(){modal("Apagar TODO o progresso?",[["CANCEL","",()=>{}],["SIM","r",()=>modal("Tem certeza ABSOLUTA? Não dá para desfazer.",[["CANCEL","",()=>{}],["APAGAR","r",()=>{wipe=true;localStorage.removeItem("bushrng");location.reload()}]])]])}
+function save(){if(wipe)return;S.ts=Date.now();try{localStorage.setItem("bushrng",JSON.stringify(S))}catch(e){}}
+// ===== UPGRADES EM LOTE =====
+// Custo = soma do preço individual de cada próximo nível (nunca preço atual × qtd).
+const UQ={};
+const upMax=k=>k=="speed"?30:Infinity;
+const upCostAt=(k,L)=>Math.floor(UP[k][2]*Math.pow(UP[k][3],L));
+function upPlan(k,want){const L=lvc(k),cap=upMax(k);want=Math.max(1,Math.floor(want)||1);let n=0,tot=0;
+ while(n<want&&L+n<cap&&n<1e5){const c=upCostAt(k,L+n);if(!isFinite(c)||tot+c>S.money)break;tot+=c;n++}
+ return{L,n,tot,end:L+n,cap,next:L+n<cap?upCostAt(k,L+n):null,want}}
+function upBox(k){const w=UQ[k]||1,p=upPlan(k,w);
+ if(p.L>=p.cap)return`<div class="stats4"><div class="stat"><small>Nível</small><b>${p.L} (MAX)</b></div></div><button class="btn wide" disabled>NÍVEL MÁXIMO</button>`;
+ const cost=p.n>0?p.tot:p.next;
+ return`<div class="stats4 up3"><div class="stat"><small>Atual</small><b>${p.L}</b></div><div class="stat"><small>Qtd</small><b>${p.n>0?p.n:0}</b></div><div class="stat"><small>Final</small><b>${p.end}</b></div></div>`
+ +(p.n>0&&p.n<w?`<small class="upn">Máximo que você consegue pagar agora</small>`:"")
+ +`<button class="btn g wide" ${p.n<1?"disabled":""} onclick="buyUp('${k}')">${p.n>0?"COMPRAR "+p.n+" · ":"Próx. nível · "}🪙 ${f(cost)}</button>`}
+function upCard(k){return`<div class="card up-card"><b>${UP[k][0]}</b> <span class="chip">Lv ${lvc(k)}</span><br><small>${UP[k][1]}</small>
+<div class="qty sm"><button onclick="upStep('${k}',-1)" aria-label="Diminuir">−</button><input id="upq_${k}" type="number" min="1" inputmode="numeric" value="${UQ[k]||1}" oninput="upSet('${k}',this.value)"><button onclick="upStep('${k}',1)" aria-label="Aumentar">+</button></div>
+<div class="chips"><button class="chipb" onclick="upSet('${k}',1,1)">1</button><button class="chipb" onclick="upSet('${k}',10,1)">10</button><button class="chipb" onclick="upSet('${k}',100,1)">100</button><button class="chipb" onclick="upSet('${k}',1e5,1)">MAX</button></div>
+<div id="upb_${k}">${upBox(k)}</div></div>`}
+function upRefresh(k){const e=$("#upb_"+k);if(e)e.innerHTML=upBox(k)}
+function upSet(k,v,sync){v=Math.floor(+v);if(!(v>=1)){if(sync)v=1;else return}
+ if(v>=1e5&&sync){const p=upPlan(k,1e5);v=Math.max(1,p.n)}
+ UQ[k]=v;if(sync){const i=$("#upq_"+k);if(i)i.value=v}upRefresh(k)}
+function upStep(k,d){const p=upPlan(k,UQ[k]||1),base=Math.max(1,p.n||1);upSet(k,Math.max(1,base+d),1)}
+
+// ===== GUERRA DE BUSHES =====
+const WRAR=RAR,WSLOT=6e5,WRAR_COUNT=r=>B.filter(b=>b.rarity==r).length;
+const BOSSK=4; // HP do boss = baseBps × BOSSK ; dano = HP/12 (mesma proporção dos inimigos da Torre)
+const pieceName=b=>{const n=b.name.replace(/\s*bush\s*$/i,"").trim()||b.name;return n.charAt(0).toUpperCase()+n.slice(1)+" Piece"};
+const evoName=b=>(b.name.charAt(0).toUpperCase()+b.name.slice(1)).replace(/bush/ig,"Bush")+" Evoluído";
+const bossStats=b=>{const hp=Math.max(1,b.baseBps*BOSSK);return{n:b.name,em:"👑",hp,dm:hp/12}};
+function chkWar(){const id=Math.floor(Date.now()/WSLOT);if(!S.war||S.war.id<id)S.war={id,rar:-1,boss:null,won:false,tries:0,log:""}}
+function warVote(r){chkWar();if(S.war.rar>=0)return toast("Você já votou nesta Guerra",2000);
+ const p=B.filter(b=>b.rarity==r);if(!p.length)return toast("Ainda não existem Bushes "+WRAR[r],2500);
+ const b=p[Math.floor(Math.random()*p.length)];S.war.rar=r;S.war.boss=b.id;S.war.log="";beep(SND.get);toast("⚔ Boss: "+b.name,2500);render()}
+function wadd(k){if(S.wteam.length<3&&!S.wteam.includes(k)&&S.inv[k])S.wteam.push(k);render()}
+function wrem(k){S.wteam=S.wteam.filter(x=>x!=k);render()}
+function wfight(){chkWar();const w=S.war;if(w.rar<0||w.won)return;S.wteam=S.wteam.filter(k=>S.inv[k]);if(S.wteam.length<3)return;
+ if(Date.now()<Math.min(S.wcd||0,Date.now()+TCD))return;S.wcd=Date.now()+TCD;
+ const bs=bush(w.boss),r=fight(0,[bossStats(bs)],S.wteam);w.tries++;
+ let h=`<h3>${r.win?"✅ VITÓRIA":"❌ DERROTA"} (${r.t} turnos)</h3>`+r.T.map(x=>`${bush(x.i.id).name}: ❤ ${f(Math.max(0,x.hp))}/${f(x.mx)}`).join("<br>")+"<br>"+r.E.map(e=>`${e.em} ${e.n}: ❤ ${f(Math.max(0,e.hp))}/${f(e.mx)}`).join("<br>");
+ if(r.win){w.won=true;S.pieces[bs.id]=(S.pieces[bs.id]||0)+1;S.wwins++;h+=`<br><b>Recompensa:</b><br>+1 🧩 ${pieceName(bs)}<br><small>Suas Bushes não foram perdidas.</small>`;beep(SND.lvl)}
+ else h+=`<br><b>Derrota!</b> Suas Bushes não foram perdidas — tente outro time.`;
+ w.log=h;save();render()}
+function evoOpen(id){const b=bush(id);if(!b||(S.pieces[id]||0)<3)return;const c=Object.values(S.inv).filter(i=>i.id==id&&!i.evo).sort(SORT[0]);
+ modal(`<h3>✦ Evoluir ${b.name}</h3>3× ${pieceName(b)} → <b>${evoName(b)}</b><br><small>BPS ×3 · mantém XP, mutações, Gema e equipamento</small><p><select id="evsel" style="width:100%">${c.map(i=>`<option value="${i.k}">${Q[i.q].n} · Lv ${i.lv} · ${i.ms.map(k=>M[k].n).join("+")||"sem mutação"} · ${f(bushBps(i))} → ${f(bushBps(i)*3)} BPS${S.eq.includes(i.k)?" (equipada)":""}</option>`).join("")}<option value="new">➕ Nova cópia já evoluída</option></select></p>`,
+ [["CANCEL","",()=>{}],["EVOLUIR","g",()=>evoGo(id,document.getElementById("evsel").value)]])}
+function evoGo(id,key){if((S.pieces[id]||0)<3)return;if(key=="new"&&invFull())return invMsg();let i;
+ if(key=="new"){i=null}else{i=S.inv[key];if(!i||i.id!=id||i.evo)return}
+ S.pieces[id]-=3;if(!i)i=S.inv[giveInst(id,pickQ())];
+ i.evo=1;S.bevo[id]=1;S.bb[id]=Math.max(S.bb[id]||0,bushBps(i));beep(SND.reb);
+ const b=bush(id);toast("✦ "+evoName(b)+"!",3000);modal(`<h2>✦ EVOLUÍDA!</h2><div class="card rr ${RAR[b.rarity]}">${bcard(i)}</div>`,[["OK","g",()=>render()]])}
+const WAR=()=>{chkWar();const w=S.war;S.wteam=S.wteam.filter(k=>S.inv[k]);const T=S.wteam.map(k=>S.inv[k]),boss=w.boss?bush(w.boss):null,bs=boss?bossStats(boss):null,cdl=Math.max(0,(S.wcd||0)-Date.now());
+ const pcs=Object.keys(S.pieces).filter(id=>S.pieces[id]>0&&bush(id));
+ return`<div class="panel war-head"><div><h2>⚔ GUERRA DE BUSHES</h2><small>Uma nova Guerra a cada 10 minutos · vença o Boss e ganhe a Piece dele</small></div><div class="cs-timer"><small>Nova Guerra em</small><b id="wT">${tm(((w.id+1)*WSLOT-Date.now())/1000)}</b></div></div>
+<div class="panel"><h2>🗳 Votar raridade do Boss</h2><div class="chips">${WRAR.map((r,k)=>{const n=WRAR_COUNT(k);return`<button class="chipb ${r} ${w.rar==k?"on":""}" ${w.rar>=0||!n?"disabled":""} onclick="warVote(${k})">${r}<small>${n?n+" Bushes":"sem Bushes"}</small></button>`}).join("")}</div>${w.rar<0?"<small>O voto vale para esta Guerra e sorteia um Boss da raridade escolhida.</small>":""}</div>
+${boss?`<div class="panel"><h2>👑 Boss</h2><div class="boss-row"><div class="art ${RAR[boss.rarity]}" style="width:120px"><div class="bush">${bi(boss)}</div></div><div><b style="font-size:16px">${boss.name}</b><br><span class="rc s${boss.sub||0} ${RAR[boss.rarity]}">${RAR[boss.rarity]} ${SUBN[boss.sub||0]}</span><br>❤ ${f(bs.hp)} · ⚔ ${f(bs.dm)}<br>Recompensa: <b>🧩 ${pieceName(boss)}</b> <small>(${S.pieces[boss.id]||0}/3)</small><br>${w.won?"<b style='color:var(--ok)'>✅ Guerra vencida!</b>":"Tentativas: "+w.tries}</div></div></div>`:""}
+<div class="panel"><h2>Seu time (${T.length}/3)</h2><div class="grid">${T.map(i=>{const b=bush(i.id),c=cs(i);return`<div class="card rr ${RAR[b.rarity]}" style="text-align:center">${bcard(i)}<br>❤ ${f(c.hp)} · ⚔ ${f(c.dm)}<br>Lv ${i.lv}<br><button class="btn" onclick="wrem('${i.k}')">Remover</button></div>`}).join("")}</div>
+<button id="wbtn" class="btn g wide" ${w.rar<0||w.won||T.length<3||cdl>0?"disabled":""} onclick="wfight()">${w.rar<0?"VOTE UMA RARIDADE":w.won?"GUERRA CONCLUÍDA":T.length<3?"ESCOLHA 3 BUSHES":cdl>0?"AGUARDE "+Math.ceil(cdl/1000)+"s":"⚔ LUTAR CONTRA O BOSS"}</button>
+${w.log?`<div class="card" style="margin-top:8px;text-align:left">${w.log}</div>`:""}</div>
+<div class="panel"><h2>🧩 Suas Pieces</h2><small>3 Pieces iguais evoluem a Bush: BPS ×3.</small>${pcs.map(id=>{const b=bush(id),n=S.pieces[id];return`<div class="row">${bi(b)} <b>${pieceName(b)}</b> <span class="chip">${n}/3</span><div class="bar" style="flex:1 1 80px"><i style="width:${Math.min(100,n/3*100)}%"></i></div><button class="btn g" ${n<3?"disabled":""} onclick="evoOpen('${id}')">✦ EVOLUIR → ${evoName(b)}</button></div>`}).join("")||"<div>Nenhuma Piece ainda. Vença uma Guerra!</div>"}</div>
+<div class="panel"><h2>Escolher time</h2>${Object.values(S.inv).sort(SORT[0]).map(i=>{const b=bush(i.id),c=cs(i);return`<div class="row">${bi(b)} ${b.name}${i.evo?" ✦":""} · ${Q[i.q].n} · Lv${i.lv} · ❤${f(c.hp)} ⚔${f(c.dm)} <button class="btn" ${S.wteam.includes(i.k)||S.wteam.length>=3?"disabled":""} onclick="wadd('${i.k}')">+ Time</button></div>`}).join("")||"Sem Bushes."}</div>`};
+
+// ===== LOJA DE CARTAS (refresh exato a cada 1h, alinhado ao relógio) =====
+const CSLOT=36e5,CS_N=25,csPrice=b=>Math.max(500,shopPrice(b));
+function csGen(slot){const W=[30,26,20,12,7,3,1.2,.4,.12],ids=[];let g=0;
+ while(ids.length<CS_N&&g++<5000){const r=pick(W),p=B.filter(b=>b.rarity==r&&!ids.includes(b.id));if(!p.length)continue;ids.push(p[Math.floor(Math.random()*p.length)].id)}
+ ids.sort((a,b)=>bush(a).rarity-bush(b).rarity||bush(a).baseBps-bush(b).baseBps);S.cs=ids;S.csSlot=slot;save()}
+function chkCS(){const slot=Math.floor(Date.now()/CSLOT);if(!Array.isArray(S.cs)||S.csSlot<slot)csGen(slot)}
+function buyCS(id){chkCS();if(!S.cs.includes(id))return;const b=bush(id),p=csPrice(b);if(S.money<p)return;if(invFull())return invMsg();
+ S.money-=p;giveInst(id,pickQ());S.cs=S.cs.filter(x=>x!=id);beep(SND.get);toast("Comprou "+b.name,2500);render()}
+const CARDSHOP=()=>{chkCS();const n=Date.now(),left=((S.csSlot+1)*CSLOT-n)/1000;
+ return`<div class="panel war-head"><div><h2>🃏 LOJA DE CARTAS</h2><small>Estoque renova a cada 1 hora · ${S.cs.length}/${CS_N} cartas disponíveis</small></div><div class="cs-timer"><small>Próximo refresh</small><b id="csT">${tm(left)}</b></div></div>
+<div class="bar"><i id="csB" style="width:${Math.max(0,Math.min(100,100-left/3600*100))}%"></i></div>
+${S.cs.length?`<div class="grid cs-grid">${S.cs.map(id=>{const b=bush(id),p=csPrice(b);return`<div class="card rr cs ${RAR[b.rarity]}"><div class="cs-rib">${RAR[b.rarity]}</div><div class="art"><div class="bush">${bi(b)}</div></div><b class="cs-name">${b.name}</b><div class="rc s${b.sub||0} ${RAR[b.rarity]}">${RAR[b.rarity]} ${SUBN[b.sub||0]}</div><small>BPS base ${f(b.baseBps)}</small><button class="btn g wide" ${S.money<p?"disabled":""} onclick="buyCS('${id}')">🪙 ${f(p)}</button></div>`}).join("")}</div>`
+ :`<div class="panel" style="text-align:center"><div style="font-size:42px">🛒</div><h2 style="border:0;padding:0">Loja vazia</h2>Você comprou todas as cartas! Novo estoque no próximo refresh.</div>`}`};
+setInterval(()=>{const n=Date.now();
+ if(tab=="war"&&S.war){if(Math.floor(n/WSLOT)>S.war.id)return render();const e=$("#wT");if(e)e.textContent=tm(((S.war.id+1)*WSLOT-n)/1000);
+  const b=$("#wbtn");if(b&&b.textContent.startsWith("AGUARDE")&&n>=(S.wcd||0))render()}
+ if(tab=="cards"&&Array.isArray(S.cs)){if(Math.floor(n/CSLOT)>S.csSlot)return render();const l=((S.csSlot+1)*CSLOT-n)/1000,e=$("#csT");if(e)e.textContent=tm(l);const b=$("#csB");if(b)b.style.width=Math.max(0,Math.min(100,100-l/3600*100))+"%"}
+},500);
+
+// ===== POÇÕES EM LOTE (mesmo seletor dos upgrades) =====
+const PQS={b:{},u:{}},POTMIN=6e4;
+function potPlan(k,m,want){want=Math.max(1,Math.floor(want)||1);const pr=POT[k][1];let mx=m=="b"?Math.floor(S.money/pr):S.pinv[k];mx=Math.max(0,isFinite(mx)?mx:1e9);let n=Math.min(want,mx,1e9);if(m=="b")while(n>0&&n*pr>S.money)n--;return{n,mx,want,pr,tot:n*pr,stock:S.pinv[k],end:m=="b"?S.pinv[k]+n:S.pinv[k]-n}}
+function potBox(k,m){const w=PQS[m][k]||1,p=potPlan(k,m,w),L=m=="b"?["Estoque","Comprar","Final"]:["Estoque","Usar","Final"];
+ return`<div class="stats4 up3"><div class="stat"><small>${L[0]}</small><b>${f(p.stock)}</b></div><div class="stat"><small>${L[1]}</small><b>${f(p.n)}</b></div><div class="stat"><small>${L[2]}</small><b>${f(p.end)}</b></div></div>`
+ +(p.n>0&&p.n<w?`<small class="upn">${m=="b"?"Máximo que você consegue pagar agora":"Máximo em estoque"}</small>`:"")
+ +`<small class="upn">${p.n>0?"Duração: +"+tm(p.n*POTMIN/1000):"Duração: +1:00 por poção"}</small>`
+ +`<button class="btn g wide" ${p.n<1?"disabled":""} onclick="${m=="b"?"buyPot":"usePot"}('${k}')">${m=="b"?(p.n>0?"COMPRAR "+f(p.n)+" · 🪙 "+f(p.tot):"Sem saldo · 🪙 "+f(p.pr)):(p.n>0?"ATIVAR "+f(p.n):"SEM ESTOQUE")}</button>`}
+function potCard(k,m){const P=POT[k],id=m+"_"+k,sub=m=="b"?`🪙 ${f(P[1])} cada · +1:00 por poção`:`Ativa: <span id="pt_${k}">${potA(k)?tm((S.pot[k]-Date.now())/1000):"inativa"}</span> · +1:00 por poção usada`;
+ return`<div class="card up-card"><b>${P[0]}</b> <span class="chip">x${f(S.pinv[k])}</span><br><small>${sub}</small>
+<div class="qty sm"><button onclick="potStep('${k}','${m}',-1)" aria-label="Diminuir">−</button><input id="pq_${id}" type="number" min="1" inputmode="numeric" value="${PQS[m][k]||1}" oninput="potSet('${k}','${m}',this.value)"><button onclick="potStep('${k}','${m}',1)" aria-label="Aumentar">+</button></div>
+<div class="chips"><button class="chipb" onclick="potSet('${k}','${m}',1,1)">1</button><button class="chipb" onclick="potSet('${k}','${m}',10,1)">10</button><button class="chipb" onclick="potSet('${k}','${m}',100,1)">100</button><button class="chipb" onclick="potSet('${k}','${m}',1e9,1)">MAX</button></div>
+<div id="pb_${id}">${potBox(k,m)}</div></div>`}
+function potRefresh(k,m){const e=$("#pb_"+m+"_"+k);if(e)e.innerHTML=potBox(k,m)}
+function potSet(k,m,v,sync){v=Math.floor(+v);if(!(v>=1)){if(sync)v=1;else return}
+ if(v>=1e9&&sync){v=Math.max(1,potPlan(k,m,1e9).n)}
+ PQS[m][k]=v;if(sync){const i=$("#pq_"+m+"_"+k);if(i)i.value=v}potRefresh(k,m)}
+function potStep(k,m,d){const p=potPlan(k,m,PQS[m][k]||1),base=Math.max(1,p.n||1);potSet(k,m,Math.max(1,Math.min(base+d,Math.max(1,p.mx))),1)}
+
+// ===== GEMAS: total 1→100 =====
+const GEMTOT=(()=>{let t=0;for(let n=1;n<=GEM_MAX;n++)t+=gemCost(n);return t})();
+
+// ===== CELESTIAL: forja do Big Bush =====
+const celCand=id=>Object.values(S.inv).filter(i=>i.id==id&&!S.lock[i.k]).sort((a,b)=>bushBps(a)-bushBps(b));
+let celSel={};
+function celFix(){DIV_ORIG.forEach(id=>{const c=celCand(id);if(!c.some(i=>i.k==celSel[id]))celSel[id]=(c.find(i=>!S.eq.includes(i.k))||c[0]||{}).k||null})}
+function celPick(id,k){celSel[id]=k;render()}
+// só aceita os 5 Divinos originais (ids em DIV_ORIG); Divinos fundidos têm id "f..." e são rejeitados
+function celSet(){return DIV_ORIG.map(id=>{const i=S.inv[celSel[id]],b=bush(id);return i&&i.id==id&&!b.fused&&!S.lock[i.k]?i:null})}
+const celQ=sel=>Math.round(sel.reduce((a,i)=>a+i.q,0)/sel.length);
+function CELPANEL(){celFix();const sel=celSet(),ok=sel.every(x=>x),q=ok?celQ(sel):0,big=bush("celBig");
+ return`<div class="panel"><h2>🌌 CELESTIAL — FORJAR BIG BUSH</h2><small>Consome 1 de cada um dos 5 Divinos originais e cria o <b>Big Bush</b> (Celestial). Divinos fundidos não são aceitos. Bushes 🔒 não aparecem na lista.</small>
+${DIV_ORIG.map(id=>{const b=bush(id),c=celCand(id),tot=Object.values(S.inv).filter(i=>i.id==id).length;return`<div class="row">${bi(b)} <b>${b.name}</b> <span class="chip">tem ${tot}</span>${c.length?`<select onchange="celPick('${id}',this.value)">${c.map(i=>`<option value="${i.k}" ${celSel[id]==i.k?"selected":""}>${S.eq.includes(i.k)?"⭐ ":""}${Q[i.q].n} · Lv${i.lv} · ${i.ms.map(j=>M[j].n).join("+")||"sem mutação"}${i.evo?" ✦":""} · ${f(bushBps(i))} BPS</option>`).join("")}</select>`:`<span style="color:#f2785f">❌ ${tot?"todos bloqueados 🔒":"você não tem"}</span>`}</div>`}).join("")}
+<div class="row">${bi(big)} <b>${big.name}</b> <span class="rc ${RAR[big.rarity]}">${RAR[big.rarity]}</span>${ok?` · Qualidade ${Q[q].n} (média) · ${f(big.baseBps*Q[q].m)} BPS`:" · escolha os 5 Divinos"}</div>
+<button class="btn g wide" ${ok?"":"disabled"} onclick="celForge()">🌌 FORJAR BIG BUSH</button></div>`}
+function celForge(){const sel=celSet();if(!sel.every(x=>x))return;const warn=sel.some(i=>i.evo||i.gem>0||i.lv>1||S.eq.includes(i.k));
+ modal(`<h3>🌌 Forjar Big Bush?</h3>Serão consumidos:<br>${sel.map(i=>`${bush(i.id).name} (${Q[i.q].n}, Lv${i.lv}${i.evo?", ✦ evoluído":""}${i.gem?", 💠"+i.gem:""}${S.eq.includes(i.k)?", equipado":""})`).join("<br>")}${warn?"<br><b>⚠ Nível, Gemas, evolução e equipamento desses Bushes serão perdidos.</b>":""}`,[["CANCEL","",()=>{}],["FORJAR","g",celGo]])}
+function celGo(){const sel=celSet();if(!sel.every(x=>x))return;const q=celQ(sel);sel.forEach(i=>delete S.inv[i.k]);S.eq=S.eq.map(k=>S.inv[k]?k:null);S.team=S.team.filter(k=>S.inv[k]);S.wteam=S.wteam.filter(k=>S.inv[k]);celSel={};
+ const k=giveInst("celBig",q,[]);beep(SND.reb);modal(`<h2>🌌 CELESTIAL!</h2><div class="card rr ${RAR[9]}" style="background:inherit;color:inherit">${bcard(S.inv[k])}</div>`,[["OK","g",()=>render()]])}
+
+// loop
+let lt=Date.now();setInterval(()=>{const n=Date.now(),dt=(n-lt)/1000;lt=n;const cb=bps(),g=cb*dt;S.mb=Math.max(S.mb||0,cb);S.money+=g;S.earned+=g;const od=Math.min(dt,2);S.played+=od;S.online+=od;if(S.ev&&Date.now()>=S.ev.end){S.ev=null;toast("Evento terminou",3000)}const se=$("#shopT");if(se){se.textContent=tm(Math.max(0,(S.shopT+1.2e6-n)/1000));if(n-S.shopT>=1.2e6){chkShop();render()}}Object.keys(POT).forEach(k=>{const e=$("#pt_"+k);if(e)e.textContent=potA(k)?tm((S.pot[k]-n)/1000):"inativa"});const tb=$("#tbtn");if(tb){const lf=(S.tcd||0)-n;if(lf>0){tb.disabled=true;tb.textContent="AGUARDE "+Math.ceil(lf/1000)+"s"}else if(tb.textContent.startsWith("AGUARDE")){tb.textContent="ENTRAR NO ANDAR "+S.tf;tb.disabled=S.team.length<3}}if(S.tauto&&n>=(S.tcd||0)&&$("#ov").style.display!="flex"){S.team=S.team.filter(k=>S.inv[k]);if(S.team.length<3){S.tauto=false;toast("Auto Torre desligado: time incompleto",3000);if(tab=="tower")render()}else tfight(true)}hud();if(S.auto.on&&n>=cd&&$("#ov").style.display!="flex"){if(S.auto.sp&&S.obs>0)doRoll(10,"obs",true);else if(S.auto.sp&&S.dia>0)doRoll(3,"dia",true);else if(S.auto.sp&&S.gold>0)doRoll(2,"gold",true);else doRoll(1,0,true)}},100);
+setInterval(()=>{if(S.ev)return;const bl=Math.floor(S.online/1800);if(Math.random()<.004*(1+bl*.75)*(1+lvc("evc")*UP.evc[4])){const m=Math.floor(Math.random()*M.length);S.ev={m,end:Date.now()+(300+Math.floor(Math.random()*300))*1000};toast("🔥 EVENT STARTED! "+M[m].n.toUpperCase()+" EVENT — "+M[m].n+" mutation chance 10x",6000);save()}},10000);
+setInterval(()=>{save();if(tab=="shop"&&!(document.activeElement&&document.activeElement.tagName=="INPUT"))render()},5000);
+addEventListener("beforeunload",save);document.addEventListener("visibilitychange",()=>{if(document.hidden)save()});
+// offline
+(function(){const s=Math.min(Math.max((Date.now()-S.ts)/1000,0),86400),g=s*bps()*(1+lvc("off")*UP.off[4]);if(s>60&&g>0){const h=Math.floor(s/3600),mi=Math.floor(s%3600/60);modal(`<h2>WELCOME BACK!</h2>Você ficou fora por:<br><b>${h}h ${mi}m</b><br>Busheiros ganhos:<br><b>${f(g)}</b>`,[["COLLECT","g",()=>{S.money+=g;S.earned+=g;render()}]])}})();
+render();
+</script></body></html>
