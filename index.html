@@ -464,6 +464,71 @@ details.panel .chips{justify-content:flex-start}
 .th{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.th b{font-size:14px;color:var(--ac2)}.req{color:var(--mt);font-size:11.5px;line-height:1.35}.bns{display:flex;flex-wrap:wrap;gap:4px}.chip.bnf{background:linear-gradient(90deg,#1d4f7a,#5ab0ff);color:#fff;border-color:transparent;font-weight:700;font-size:11px;padding:2px 9px}
 .tcard .btn.wide{margin-top:8px}
 @media(max-width:600px){.sc{padding:12px}.slots3{gap:6px}.sl3{min-height:138px}.sl3 .bush{font-size:34px}.pk{grid-template-columns:1fr;max-height:340px}.rw{grid-template-columns:minmax(0,1.5fr) minmax(0,.8fr) minmax(0,.9fr);padding:6px 8px;font-size:11.5px}.foe .bush{font-size:30px}.tg{grid-template-columns:1fr}.kp b{font-size:14px}}
+
+/* ===== INDEX: coleção de Bushes e Mutações (navegação por raridade + detalhes ao tocar) ===== */
+.dx{padding:12px}
+.dx-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 2px 10px}
+.dx-h h2{margin:0;font-size:16px}.dx-h small{color:var(--mt);font-size:11px}
+.dx-main{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 0 12px}
+.dx-main .stb{min-height:54px}
+.dx-rar{position:relative;display:flex;gap:6px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px 6px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.dx-rc{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:72px;min-height:48px;padding:6px 12px;background:var(--pn);border:1px solid var(--ln);border-bottom:3px solid var(--c,var(--ln));border-radius:12px;color:var(--tx);font-family:inherit;cursor:pointer}
+.dx-rc b{font-size:11.5px;color:var(--c,var(--tx));white-space:nowrap}
+.dx-rc small{font-size:9.5px;color:var(--mt)}
+.dx-rc.done small{color:var(--ok)}
+.dx-rc.on{background:linear-gradient(var(--pn2),var(--pn));border-color:var(--c,var(--ac));box-shadow:inset 0 0 0 1px var(--c,var(--ac))}
+.dx-rc.on:not(.Common):not(.Uncommon):not(.Rare):not(.Epic):not(.Legendary):not(.Mythic):not(.Secret):not(.Eternal):not(.Divino):not(.Celestial){border-color:var(--ac);box-shadow:inset 0 0 0 1px var(--ac)}
+.dx-tot{margin:0 2px 12px}.dx-tot .row2{display:flex;justify-content:space-between;font-size:12px;color:var(--mt);margin-bottom:2px}.dx-tot .row2 b{color:var(--ac2)}
+.dx .bar i{background:var(--c,linear-gradient(90deg,#3fcf72,#b5f27a))}
+.dx-tot .bar i{background:linear-gradient(90deg,#3fcf72,#b5f27a)}
+.dx-ov{display:grid;gap:8px}
+.dx-or{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#0c1711;border:1px solid var(--ln);border-left:4px solid var(--c,var(--ac));border-radius:12px;padding:10px 12px;min-height:var(--tap);color:var(--tx);font-family:inherit;cursor:pointer}
+.dx-or:active{transform:translateY(1px)}
+.dx-or .dx-on{flex:1;min-width:0}.dx-or .dx-on b{font-size:13.5px}
+.dx-or .bar{margin:5px 0 0}
+.dx-or .dx-n{font-size:12.5px;font-weight:800;color:var(--ac2);font-variant-numeric:tabular-nums}
+.dx-or .dx-go{color:var(--mt);font-size:18px}
+.dx-sh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:2px 2px 4px}
+.dx-sh h3{margin:0;font-size:15px}.dx-sh small{color:var(--mt);font-size:11px}
+.dx-sec{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--mt);margin:14px 2px 8px}
+.dx .seg2{margin:8px 0 4px}.dx .seg2 .stb{min-height:46px;padding:6px 2px}.dx .seg2 .stb b{font-size:11px;letter-spacing:0}
+.dx .bc .bc-bps{font-size:15px}
+.dx-bd{position:absolute;top:6px;right:8px;font-size:13px;color:var(--ac2)}
+.dx-lg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media(min-width:700px){.dx-lg{grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}}
+.dx-lk{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:72px;border:1px dashed var(--ln);border-radius:12px;background:#0a120d;color:var(--mt);opacity:.85}
+.dx-lk i{font-style:normal;font-size:17px}.dx-lk b{font-size:12px;letter-spacing:.12em}
+.dx-mg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media(min-width:700px){.dx-mg{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
+.dx-mg .dx-lk{min-height:72px}
+.dx-mt{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;min-height:104px;padding:8px 4px 9px;background:linear-gradient(180deg,var(--pn2),var(--pn));border:1px solid var(--ln);border-bottom:3px solid var(--mc,var(--ln));border-radius:12px;color:var(--tx);font-family:inherit;cursor:pointer}
+.dx-mt:active{transform:translateY(1px)}
+.up{--mc:var(--ok)}.dn{--mc:#f2785f}.eq{--mc:var(--mt)}
+.dx-mp{height:44px;display:flex;align-items:center;justify-content:center}.dx-mp .bi{width:40px;height:40px}
+.dx-mt b{font-size:11.5px;line-height:1.2;text-align:center;overflow-wrap:anywhere}
+.dx-mm{font-size:15px;font-weight:800;color:var(--mc);font-variant-numeric:tabular-nums}
+/* detalhes (overlay) */
+.dxo .dx-big{font-size:34px;font-weight:900;line-height:1.1;color:var(--mc,var(--ac2));font-variant-numeric:tabular-nums}
+.dxo .dx-bigs{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.dxo .dx-bigs small{color:var(--mt);font-size:12px}
+.dxo .dx-ds{background:#0b1510;border:1px solid var(--ln);border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.45}
+.dxo .dx-ds span{display:block}.dxo .dx-ds span+span{margin-top:6px;color:var(--mt)}
+.dxo .chip{margin:1px}
+/* ===== TRADE ===== */
+#trf{position:fixed;right:12px;bottom:92px;z-index:19;width:48px;height:48px;border-radius:50%;border:2px solid var(--ac);background:var(--pn2);font-size:22px;display:none;align-items:center;justify-content:center;box-shadow:0 6px 18px #000a;cursor:pointer;color:var(--tx)}
+#trf b{position:absolute;top:-4px;right:-4px;background:#e0503a;color:#fff;border-radius:99px;font-size:11px;min-width:18px;height:18px;line-height:18px;text-align:center}
+#trw{position:fixed;inset:0;z-index:30;background:#040a07e6;backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;padding:10px;overflow:auto}
+.trbox{position:relative;width:100%;max-width:880px;background:linear-gradient(180deg,var(--pn2),var(--pn));border:1px solid var(--ln);border-radius:18px;padding:14px;color:var(--tx);text-align:left}
+.trbox h2{margin:0 0 8px;text-align:center}.trbox .bd-x{position:absolute;top:8px;right:10px}
+.trcd{text-align:center;padding:8px;border-radius:10px;background:#0c1711;margin-bottom:10px;font-size:13px}.trcd.on{background:#3a2a0a;color:#ffd23f;font-size:18px}.trcd.on b{font-size:26px}
+.trcols{display:grid;grid-template-columns:1fr;gap:10px}@media(min-width:760px){.trcols{grid-template-columns:1fr 1fr}}
+.trs{background:#0c1711;border:1px solid var(--ln);border-radius:14px;padding:8px}.trs.me{border-color:var(--ac)}
+.trs header{display:flex;align-items:center;gap:8px;margin-bottom:6px}.trs header div{flex:1;display:flex;flex-direction:column}.trs header small{color:var(--mt);font-size:10px;letter-spacing:.06em}.trs .ok{color:#6cf08e;font-style:normal;font-size:11px;font-weight:700}
+.trl{display:flex;flex-direction:column;gap:5px;max-height:300px;overflow:auto}.trem{color:var(--mt);text-align:center;padding:14px;font-size:12px}
+.tri{display:flex;align-items:center;gap:8px;background:#0a140e;border:1px solid var(--c,var(--ln));border-radius:10px;padding:5px 8px}.tri .trb{font-size:26px;width:36px;text-align:center;flex:0 0 36px}.tri .trb .bi{width:34px;height:34px}
+.tri .trn{flex:1;min-width:0;display:flex;flex-direction:column}.tri .trn b{font-size:12.5px}.tri .trn small{color:var(--mt);font-size:10.5px}.tri .trx{font-weight:800;color:var(--ac2)}.tri .btn{margin:0;padding:5px 10px}.tri input{width:56px;padding:5px}
+.trpk{margin-top:10px;background:#0c1711;border:1px solid var(--ln);border-radius:14px;padding:8px}.trpk .trl{max-height:260px;margin-top:6px}
+.trbt{display:flex;gap:8px;margin-top:10px}.trbt .btn{flex:1;margin:0;padding:12px}.trq{justify-content:space-between}.trqb{display:flex;gap:6px}
+.lb-r{flex-wrap:wrap;cursor:pointer}.lb-tr{flex-basis:100%;display:flex;justify-content:flex-end;padding-top:4px}.lb-tr .btn{margin:0}
 </style></head><body>
 <div id="hud"></div><div id="main"></div>
 <div id="nav"></div><div id="more" onclick="if(event.target===this)closeMore()"></div><div id="ov"></div><div id="toast"></div>
@@ -616,7 +681,7 @@ function render(){chk();save();hud();nav();document.body.className=S.anim?"":"no
  else if(tab=="prof")m.innerHTML=PROF();
  else if(tab=="reb"){const rq=rebReq(),pc=Math.max(0,Math.min(100,rq>0?S.money/rq*100:100));m.innerHTML=`<div class="panel"><h2>♻ REBIRTH</h2><div class="stats4"><div class="stat"><small>Rebirths</small><b>${S.reb}</b></div><div class="stat"><small>Requisito</small><b>🪙 ${f(rq)}</b></div></div><div class="cmp"><div class="stat"><small>Atual</small><b>${rebMult(S.reb).toFixed(2)}x</b><span class="upn">Luck +${rebLuck(S.reb).toFixed(2)}</span></div><div class="arrow">➜</div><div class="stat nx"><small>Próximo</small><b>${rebMult(S.reb+1).toFixed(2)}x</b><span class="upn">Luck +${rebLuck(S.reb+1).toFixed(2)}</span></div></div><div class="bar"><i style="width:${pc}%"></i></div><small style="color:var(--mt)">🪙 ${f(S.money)} / ${f(rq)} Busheiros</small><button class="btn r wide" ${S.money<rq?"disabled":""} onclick="rebirth()">♻ REBIRTH</button><p class="note">Mantém Bushes com nível e XP. Reseta Busheiros, upgrades e dados.</p></div>`}
  else if(tab=="stats"){const ds=Object.keys(S.bq).length,mu=Object.keys(S.muts).length;const rows=[["Total Rolls",S.rolls],["Busheiros ganhos",f(S.earned)],["Busheiros vendidos",f(S.sold)],["Bushes descobertos",ds+"/"+B.length],["Mutações descobertas",mu+"/"+M.length],["Melhor Bush",S.bestName],["Maior BPS (bush)",f(S.bestBps)],["Maior nível",S.maxLv],["Rebirths",S.reb],["Luck máxima",S.maxLuck.toFixed(2)+"x"],["Maior multiplicador",f(Math.max(S.maxMult,rebMult(S.reb)))+"x"],["Maior seq. sem Legendary",S.maxSince[0]],["Maior seq. sem Mythic",S.maxSince[1]],["Maior seq. sem Secret",S.maxSince[2]],["Maior seq. sem Eternal",S.maxSince[3]],["Maior seq. sem Divino",S.maxSince[4]],["Pulls por raridade",RAR.map((n,k)=>n+": "+(S.rc[k]||0)).join(" · ")],["Tempo online",Math.floor(S.online/60)+" min"],["Golden/Diamond/Obsidian",S.gold+"/"+S.dia+"/"+S.obs]];
-  m.innerHTML=`${STATUS(rows)}<div class="secd">📚 Coleção e histórico</div><div class="panel"><h2>BUSH COLLECTION</h2>${RAR.map((r,k)=>{const l=B.filter(b=>b.rarity==k).sort((a,b)=>a.sub-b.sub||b.baseBps-a.baseBps);return`<h3 class="rc ${r}">${r} ${l.filter(b=>S.bq[b.id]!==undefined).length} / ${l.length} discovered</h3>${l.map(b=>S.bq[b.id]!==undefined?`<div class="row">${bi(b)} ${b.name} (${SUBN[b.sub]}) · base ${f(b.baseBps)} · max BPS ${f(S.bb[b.id]||0)} · best ${Q[S.bq[b.id]??3].n}${(S.bm[b.id]||[]).length?" · "+S.bm[b.id].join(", "):""}${S.bevo[b.id]?" · ✦ Evoluído ×3":""}${S.pieces[b.id]?" · 🧩 "+S.pieces[b.id]+"/3":""}</div>`:"<div>???</div>").join("")}`}).join("")}<h3>Bushes Fundidos</h3>${Object.values(S.cust).sort((a,b)=>b.baseBps-a.baseBps).map(b=>`<div class="row">${bi(b)} ${b.name} · ${RAR[b.rarity]} · Fundido · base ${f(b.baseBps)}</div>`).join("")||"Nenhum"}</div>${TOPB()}${ACHH()}<div class="panel"><h2>MUTATION COLLECTION</h2>${mu} / ${M.length} discovered<br>${M.map(x=>S.muts[x.n]?x.n+" ×"+x.m+" ("+x.c+"%)":"???").join(" · ")}</div>`}
+  m.innerHTML=`${STATUS(rows)}<div class="secd">📚 Coleção e histórico</div><div class="panel dx" id="dx">${DXH()}</div>${TOPB()}${ACHH()}`}
  else m.innerHTML=`<div class="panel"><h2>⚙ Configurações</h2><div class="tgrid"><button class="btn tg ${S.snd?"on":""}" onclick="S.snd=!S.snd;render()">Sound: ${S.snd?"ON":"OFF"}</button><button class="btn tg ${S.anim?"on":""}" onclick="S.anim=!S.anim;render()">Animations: ${S.anim?"ON":"OFF"}</button></div></div><div class="panel"><h2>Auto Roll</h2><div class="tgrid">${AUTO()}</div></div><div class="panel"><h2>Dados</h2><button class="btn r wide" onclick="resetSave()">Reset Save</button></div>`}
 const AUTO=()=>[["on","Auto Roll"],["sp","Use Special Rolls"],["eq","Auto Equip Better Bush"],["leg","Stop on Legendary"],["myth","Stop on Mythic"],["sec","Stop on Secret"],["et","Stop on Eternal"],["dv","Stop on Divino"],["mut","Stop on Mutation"]].map(a=>`<button class="btn tg ${S.auto[a[0]]?"on":""}" onclick="S.auto['${a[0]}']=!S.auto['${a[0]}'];render()">${a[1]}: ${S.auto[a[0]]?"ON":"OFF"}</button>`).join("");
 const KL={gold:"🟡 GOLDEN",dia:"💎 DIAMOND",obs:"⚫ OBSIDIAN"};
@@ -641,7 +706,7 @@ let invSt=0;
 const INVST=["Todas","⭐ Equipadas","🔒 Bloqueadas","🎟 Com habilidade","✦ Evoluídas"];
 function invReset(){invQ="";invF=-1;invM=-1;invS=0;invSt=0;render()}
 function invGo(t){invT=t;render();window.scrollTo(0,0)}
-const INVHDR=()=>`<div class="subtabs">${[["bush","🌿","Bushes",invN()+"/"+INVMAX],["items","🧪","Itens","recursos e poções"],["pets","🐾","Pets",petOwned()+"/"+PET.length]].map(t=>`<button class="stb ${invT==t[0]?"on":""}" onclick="invGo('${t[0]}')"><i>${t[1]}</i><b>${t[2]}</b><small>${t[3]}</small></button>`).join("")}</div>`;
+const INVHDR0=()=>`<div class="subtabs">${[["bush","🌿","Bushes",invN()+"/"+INVMAX],["items","🧪","Itens","recursos e poções"],["pets","🐾","Pets",petOwned()+"/"+PET.length]].map(t=>`<button class="stb ${invT==t[0]?"on":""}" onclick="invGo('${t[0]}')"><i>${t[1]}</i><b>${t[2]}</b><small>${t[3]}</small></button>`).join("")}</div>`;
 const eqBadges=i=>[S.eq.includes(i.k)?"⭐ Fazenda":"",S.team.includes(i.k)?"🗼 Torre":"",S.wteam.includes(i.k)?"⚔ Guerra":""].filter(Boolean);
 // Card compacto: imagem, nome, raridade, BPS, nível, qualidade, mutações, habilidade, onde está equipada
 function icard(i){const b=bush(i.id),sub=b.sub||0,mn=i.ms.map(k=>M[k].n),e=S.eq.includes(i.k),bd=eqBadges(i),
@@ -688,7 +753,13 @@ ${a.length?`<div class="grid bgrid">${a.map(icard).join("")}</div>`:`<div class=
 function invMsg(){if($("#ov").style.display!="flex")modal("<h3>📦 Inventário cheio</h3>"+INVMAX+"/"+INVMAX+" Bushes.<br>Venda, funda ou libere espaço para continuar. Raridades sem Auto Sell não são vendidas automaticamente.",[["OK","g",()=>render()]])}
 function sellAll(){const l=Object.values(S.inv).filter(i=>!S.eq.includes(i.k)&&!S.lock[i.k]&&!i.evo);const n=l.reduce((a,i)=>a+i.qty,0),v=l.reduce((a,i)=>a+sellVal(i)*i.qty,0);if(!n)return modal("Nada para vender (equipados e 🔒 são protegidos).",[["OK","",()=>{}]]);
  modal(`<h3>SELL ALL UNEQUIPPED?</h3>${n} Bushes (${l.length} tipos)<br>Receba ≈ <b>${f(v)}</b><br><small>Equipados e 🔒 não serão vendidos.</small>`,[["CANCEL","",()=>{}],["SELL ALL","r",()=>{l.forEach(i=>{S.ess[bush(i.id).rarity]+=ESSG[bush(i.id).rarity];delete S.inv[i.k]});S.money+=v;S.sold+=v;S.nsell+=n;beep(SND.buy);render()}]])}
-const shopPrice=b=>Math.floor(b.baseBps*8000);
+/* Preço das Bushes nas lojas (Loja > CARTAS e Loja de Cartas):
+   baseBps (força) × 8000 × multiplicador de raridade × prêmio de subtipo.
+   SHP_R cresce de forma acelerada (razão entre raridades: 1.25, 1.6, 1.75, 2, 2.1, 2.7, 3, 3.3, 3.75),
+   refletindo a dificuldade de obtenção (RCH) e mantendo o valor das Bushes altas.
+   Common continua ~8000×BPS. SHP_S: subtipos III–V são bem mais raros de sair (SUBW). */
+const SHP_R=[1,1.25,2,3.5,7,15,40,120,400,1500],SHP_S=[1,1.05,1.15,1.3,1.5];
+const shopPrice=b=>Math.floor(b.baseBps*8000*(SHP_R[b.rarity]??SHP_R[SHP_R.length-1])*(SHP_S[b.sub||0]??1));
 function newShop(){const w=[60,25,10,4,1],ids=[];for(let n=0;n<4;n++){const r=2+pick(w),p=B.filter(b=>b.rarity==r&&!ids.includes(b.id));ids.push(p[Math.floor(Math.random()*p.length)].id)}ids.sort((a,b)=>bush(b).baseBps-bush(a).baseBps);S.shop=ids;S.shopT=Date.now();save()}
 function chkShop(){const now=Date.now();if(!(S.shopT>0)||S.shopT>now+6e4||now-S.shopT>=1.2e6||S.shop.some(id=>bush(id).rarity<2))newShop()}
 function buyBushCard(id){const b=bush(id),p=shopPrice(b);if(S.money<p)return;if(invFull())return invMsg();S.money-=p;giveInst(id,pickQ());S.shop=S.shop.filter(x=>x!=id);beep(SND.get);toast("Comprou "+b.name,2500);render()}
@@ -709,8 +780,8 @@ let pfEd=false;
 const lbAv=(v,own)=>{if(own)return avHtml();v=String(v==null?"":v);if(/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]{20,16000}$/.test(v))return'<img alt="" loading="lazy" src="'+v+'">';return(v&&v.length<=8&&!/[<>&"'`\\]/.test(v))?v:"🌿"};
 const lbName=x=>String(x==null?"":x).replace(/[<>&"']/g,"");
 function lbRows(){if(!lbData)return'<li class="lb-empty">Carregando…</li>';if(!lbData.length)return'<li class="lb-empty">Nenhum jogador no ranking ainda.</li>';const me=String(S.name||"").trim().toLowerCase();
- return lbData.map((r,k)=>{const nm=lbName(r.name),own=me&&nm.trim().toLowerCase()==me,bn=lbName(r.best_name||"-");return`<li class="lb-r${k<3?" r"+(k+1):""}${own?" own":""}"><span class="lb-k">${k<3?["🥇","🥈","🥉"][k]:k+1}</span><span class="avatar sm">${lbAv(r.avatar,own)}</span><div class="lb-n"><b>${nm}${own?' <em>você</em>':""}</b><small>${bn!="-"?"🌿 "+bn:"—"}</small></div><div class="lb-s">${f(r[lbCat])}</div></li>`}).join("")}
-const LBHTML=()=>`<div class="panel lbp"><h2>🏆 LEADERBOARD</h2>${LB.url?`<div class="lb-ctl"><div class="lb-f"><small>Seu nome</small><div class="lb-send"><input id="nm" maxlength="16" value="${(S.name||"").replace(/"/g,"")}"><button class="btn g" onclick="lbSend()">Enviar</button></div></div><div class="lb-f"><small>Categoria</small><div class="lb-send"><select onchange="lbCat=this.value;lbLoad()">${Object.keys(LBC).map(k=>`<option value="${k}" ${k==lbCat?"selected":""}>${LBC[k]}</option>`).join("")}</select><button class="btn" onclick="lbLoad()">Atualizar</button></div></div></div>${lbMsg?`<p class="lb-msg">${lbMsg}</p>`:""}<ol class="lb-list">${lbRows()}</ol>`:`Configure o Supabase: crie um projeto gratuito, rode o SQL abaixo e preencha <code>LB.url</code> e <code>LB.key</code> (só a chave <b>anon</b>) no script.<pre style="white-space:pre-wrap;font-size:10px">${LBSQL}</pre>`}</div>`;
+ return lbData.map((r,k)=>{const nm=lbName(r.name),own=me&&nm.trim().toLowerCase()==me,bn=lbName(r.best_name||"-");const mine=own||(r.pid&&r.pid==S.pid);return`<li class="lb-r${k<3?" r"+(k+1):""}${mine?" own":""}" onclick="lbSel=lbSel=='${r.pid||""}'?null:'${r.pid||""}';render()"><span class="lb-k">${k<3?["🥇","🥈","🥉"][k]:k+1}</span><span class="avatar sm">${lbAv(r.avatar,own)}</span><div class="lb-n"><b>${nm}${own?' <em>você</em>':""}</b><small>${bn!="-"?"🌿 "+bn:"—"}</small></div><div class="lb-s">${f(r[lbCat])}</div>${r.pid&&lbSel==r.pid?`<div class="lb-tr">${mine?"<small>Você não pode negociar consigo mesmo</small>":`<button class="btn g" onclick="event.stopPropagation();trSend('${r.pid}')">🤝 Enviar Trade</button>`}</div>`:""}</li>`}).join("")}
+const LBHTML=()=>`<div class="panel lbp"><h2>🏆 LEADERBOARD</h2>${LB.url?`<div class="lb-ctl"><div class="lb-f"><small>Seu nome</small><div class="lb-send"><input id="nm" maxlength="16" value="${(S.name||"").replace(/"/g,"")}"><button class="btn g" onclick="lbSend()">Enviar</button></div></div><div class="lb-f"><small>Categoria</small><div class="lb-send"><select onchange="lbCat=this.value;lbLoad()">${Object.keys(LBC).map(k=>`<option value="${k}" ${k==lbCat?"selected":""}>${LBC[k]}</option>`).join("")}</select><button class="btn" onclick="lbLoad()">Atualizar</button></div></div></div>${lbMsg?`<p class="lb-msg">${lbMsg}</p>`:""}${trInline()}<ol class="lb-list">${lbRows()}</ol>`:`Configure o Supabase: crie um projeto gratuito, rode o SQL abaixo e preencha <code>LB.url</code> e <code>LB.key</code> (só a chave <b>anon</b>) no script.<pre style="white-space:pre-wrap;font-size:10px">${LBSQL}</pre>`}</div>`;
 // miniatura 64px da foto (ou emoji do avatar padrão) para compartilhar no ranking
 function avThumb(){const d=S.av||"🌿";return new Promise(res=>{if(!(S.avPh&&S.avImg))return res(d);const im=new Image();im.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=64;c.getContext("2d").drawImage(im,0,0,64,64);res(c.toDataURL("image/jpeg",.72))}catch(e){res(d)}};im.onerror=()=>res(d);im.src=S.avImg})}
 async function lbSend(){const n=($("#nm")||{}).value;S.name=(n||S.name||"Anon").trim().slice(0,16)||"Anon";S.pid=S.pid||(Date.now().toString(36)+Math.random().toString(36).slice(2,12));const c=v=>Math.min(Math.max(+v||0,0),1e29);
@@ -719,8 +790,8 @@ async function lbSend(){const n=($("#nm")||{}).value;S.name=(n||S.name||"Anon").
  async function push(body){let ok=false,err="";for(const q of["pid=eq."+encodeURIComponent(S.pid),"name=eq."+encodeURIComponent(S.name)]){const r=await fetch(U+"?"+q,{method:"PATCH",headers:{...H,Prefer:"return=representation"},body,cache:"no-store"});let rows=[];if(r.ok)rows=await r.json();else err=(await r.text()).slice(0,160);if(rows.length){ok=true;break}if(/avatar/i.test(err))return{noav:1}}
   if(ok)return{m:"Atualizado!"};const r=await fetch(U,{method:"POST",headers:{...H,Prefer:"return=minimal"},body,cache:"no-store"});if(r.ok)return{m:"Criado!"};const t=(await r.text()).slice(0,160);if(/avatar/i.test(t))return{noav:1};return{m:"Erro "+r.status+": "+(t||err)}}
  try{let o=await push(JSON.stringify({...base,avatar:av}));if(o.noav){o=await push(JSON.stringify(base));lbMsg=o.m+" · foto não enviada: rode o SQL atualizado no Supabase"}else lbMsg=o.m}catch(e){lbMsg="Falha de rede"}
- save();lbLoad()}
-async function lbLoad(){const hd={apikey:LB.key,Authorization:"Bearer "+LB.key},q=a=>`${LB.url}/rest/v1/leaderboard?select=name,best_name,${a}${lbCat}&order=${lbCat}.desc&limit=100`;try{let r=await fetch(q("avatar,"),{headers:hd,cache:"no-store"});if(r.status==400)r=await fetch(q(""),{headers:hd,cache:"no-store"});lbData=r.ok?await r.json():[];{const m={};lbData.forEach(x=>{const k=String(x.name).trim().toLowerCase();if(!m[k]||x[lbCat]>m[k][lbCat])m[k]=x});lbData=Object.values(m).sort((x,y)=>y[lbCat]-x[lbCat]).slice(0,20)}if(!r.ok)lbMsg="Erro "+r.status}catch(e){lbMsg="Falha de rede";lbData=[]}if(tab=="top")render()}
+ save();lbLoad();trReg().then(()=>trPoll()).catch(()=>{})}
+async function lbLoad(){const hd={apikey:LB.key,Authorization:"Bearer "+LB.key},q=a=>`${LB.url}/rest/v1/leaderboard?select=pid,name,best_name,${a}${lbCat}&order=${lbCat}.desc&limit=100`;try{let r=await fetch(q("avatar,"),{headers:hd,cache:"no-store"});if(r.status==400)r=await fetch(q(""),{headers:hd,cache:"no-store"});lbData=r.ok?await r.json():[];{const m={};lbData.forEach(x=>{const k=String(x.name).trim().toLowerCase();if(!m[k]||x[lbCat]>m[k][lbCat])m[k]=x});lbData=Object.values(m).sort((x,y)=>y[lbCat]-x[lbCat]).slice(0,20)}if(!r.ok)lbMsg="Erro "+r.status}catch(e){lbMsg="Falha de rede";lbData=[]}if(tab=="top")render()}
 const POT={money:["Poção 2x Dinheiro",2.5e6],luck:["Poção 2x Sorte",5e6],xp:["Poção 2x XP",1.5e6],qual:["Poção 2x Qualidade",8e6]};
 const potA=k=>(S.pot[k]||0)>Date.now();
 function buyPot(k){const p=potPlan(k,'b',PQS.b[k]||1);if(p.n<1)return render();S.money-=p.tot;S.pinv[k]+=p.n;beep(SND.buy);render()}
@@ -1313,5 +1384,159 @@ return`<div class="panel sc">${stp7("📊","STATUS DO JOGADOR",esc(S.name)+" · 
 +sec7(6,"Bush selecionada","Escolha qualquer Bush do inventário.",l.length?`<select style="width:100%;margin:0 0 10px" onchange="stSel=this.value;render()">${l.map(x=>`<option value="${x.k}" ${x.k==stSel?"selected":""}>${S.eq.includes(x.k)?"⭐ ":""}${bush(x.id).name} · ${Q[x.q].n} · Lv${x.lv} · ${f(bushBps(x))} BPS</option>`).join("")}</select><div class="bsel rr ${RAR[b.rarity]}">${art7(i)}<div><b style="font-size:16px">${b.name}${i.evo?" ✦":""}</b><br><span class="rc s${b.sub||0} ${RAR[b.rarity]}">${RAR[b.rarity]} ${SUBN[b.sub||0]}</span> <span class="chip">${S.eq.includes(i.k)?"na Fazenda":"no inventário"}</span></div></div>${bar7(i.lv>=69?100:i.xp/xpNeed(i.lv)*100,i.lv>=69?"Lv 69 · MAX":"Lv "+i.lv+" · XP "+f(i.xp)+" / "+f(xpNeed(i.lv)))}<div class="kg">${kp7("⚡ BPS",f(bushBps(i)))}${kp7("❤ Vida",f(ci.hp))}${kp7("⚔ Dano",f(ci.dm))}${kp7("Qualidade",Q[i.q].n)}${kp7("💠 Gemas",(i.gem||0)+"/100")}${kp7("Tier",i.t>=0?TIERS[i.t].n+" ×"+TIERS[i.t].m:"—")}</div><div class="kv"><span>Mutações</span><b>${i.ms.map(k=>M[k].n).join(", ")||"nenhuma"}</b></div><div class="kv"><span>Habilidade</span><b>${i.ab&&AB[i.ab]?AB[i.ab].n+" · "+abTxt(i.ab):"nenhuma"}</b></div>`:'<div class="panel empty">Você ainda não tem Bushes.</div>')
 +`<div class="secd">📈 Progresso e recordes</div><div class="g2">`+grp("💰 Economia",["Busheiros ganhos","Busheiros vendidos","Maior BPS (bush)","Maior multiplicador","Luck máxima"])+grp("🎮 Progresso",["Total Rolls","Rebirths","Maior nível","Tempo online","Golden/Diamond/Obsidian"])+grp("🌿 Coleção",["Bushes descobertos","Mutações descobertas","Melhor Bush"])+grp("🎯 Maiores sequências sem...",["Maior seq. sem Legendary","Maior seq. sem Mythic","Maior seq. sem Secret","Maior seq. sem Eternal","Maior seq. sem Divino"])+`</div><div class="panel sc"><div class="gh">🎲 Pulls por raridade</div><div class="chips" style="justify-content:flex-start">${RAR.map((n,k)=>`<span class="chip rc ${n}">${n}: ${S.rc[k]||0}</span>`).join("")}</div></div>`};
 
+/* ===== INDEX: interface de coleção (somente apresentação; não altera lógica de Bushes/mutações) ===== */
+let dxT="b",dxR=-1,dxF=0;
+const dxHave=b=>S.bq[b.id]!==undefined,
+ dxQi=id=>Math.max(0,Math.min(Q.length-1,S.bq[id]??3)),
+ dxSub=b=>{const u=b.sub||0;return`${RAR[b.rarity]} ${SUBN[u]}${u>=3?" "+"★".repeat(u-2):""}${b.fused?" · Fundido":""}`},
+ dxCls=x=>x.m>1?"up":x.m<1?"dn":"eq",
+ dxPc=m=>+Math.abs((m-1)*100).toFixed(1),
+ dxSample=()=>B.filter(dxHave).sort((a,b)=>b.rarity-a.rarity||b.baseBps-a.baseBps)[0]||B[0],
+ dxSeg=(a,k,fn)=>`<div class="seg2 s3">${a.map((x,j)=>`<button class="stb ${k==j?"on":""}" onclick="${fn}(${j})"><b>${x[0]}</b><small>${x[1]}</small></button>`).join("")}</div>`;
+function dxUp(){const e=$("#dx");if(!e)return;const r=e.querySelector(".dx-rar"),sl=r?r.scrollLeft:0;e.innerHTML=DXH();const n=e.querySelector(".dx-rar");if(n){n.scrollLeft=sl;const a=n.querySelector(".on");if(a)n.scrollLeft=Math.max(0,a.offsetLeft-(n.clientWidth-a.offsetWidth)/2)}}
+function dxGo(t){dxT=t;dxF=0;dxUp()}
+function dxRar(r){dxR=r;dxUp()}
+function dxFil(f){dxF=f;dxUp()}
+function DXH(){const nb=B.filter(dxHave).length,nm=M.filter(x=>S.muts[x.n]).length;
+ return`<div class="dx-h"><h2>📚 INDEX</h2><small>Toque para ver detalhes</small></div>
+<div class="dx-main">${[["b","🌿","Bushes",nb+"/"+B.length],["m","🧬","Mutações",nm+"/"+M.length]].map(t=>`<button class="stb ${dxT==t[0]?"on":""}" onclick="dxGo('${t[0]}')"><i>${t[1]}</i><b>${t[2]}</b><small>${t[3]} descobertas</small></button>`).join("")}</div>${dxT=="b"?DXB(nb):DXM(nm)}`}
+function dxCard(b,fused){const q=dxQi(b.id),u=b.sub||0;
+ return`<div class="card bc rr ${RAR[b.rarity]}" role="button" tabindex="0" onclick="dxBush('${b.id}')" onkeydown="if(event.key=='Enter')dxBush('${b.id}')">${S.bevo[b.id]?'<span class="dx-bd" title="Evoluído">✦</span>':""}
+<div class="art"><div class="bush">${bi(b)}</div></div><b class="bc-n">${b.name}</b>
+<div class="rc s${u} ${RAR[b.rarity]} bc-r">${dxSub(b)}</div>
+<div class="bc-bps">${f(fused?b.baseBps:(S.bb[b.id]||0))} <small>${fused?"BPS BASE":"BPS MÁX"}</small></div>
+${!fused&&S.bq[b.id]!==undefined?`<div class="bc-chips"><span class="chip ql" style="--qh:${q*28}" title="Melhor qualidade">${Q[q].n}</span></div>`:""}</div>`}
+function DXB(nb){const fl=Object.values(S.cust).sort((a,b)=>b.baseBps-a.baseBps),
+ rl=RAR.map((n,r)=>{const l=B.filter(b=>b.rarity==r);return{n,r,t:l.length,d:l.filter(dxHave).length}}),
+ chips=`<div class="dx-rar">`+[`<button class="dx-rc ${dxR==-1?"on":""}" onclick="dxRar(-1)"><b>📋 Resumo</b><small>${nb}/${B.length}</small></button>`].concat(rl.map(x=>`<button class="dx-rc ${x.n} ${dxR==x.r?"on":""}${x.t&&x.d==x.t?" done":""}" onclick="dxRar(${x.r})"><b>${x.n}</b><small>${x.d}/${x.t}</small></button>`),[`<button class="dx-rc ${dxR==99?"on":""}" onclick="dxRar(99)"><b>🧬 Fundidos</b><small>${fl.length}</small></button>`]).join("")+`</div>`;
+ let body;
+ if(dxR==-1){body=`<div class="dx-tot"><div class="row2"><span>Progresso total</span><b>${nb} / ${B.length}</b></div><div class="bar"><i style="width:${B.length?nb/B.length*100:0}%"></i></div></div>
+<div class="dx-ov">${rl.map(x=>`<button class="dx-or ${x.n}" onclick="dxRar(${x.r})"><div class="dx-on"><b class="rc">${x.n}</b><div class="bar"><i style="width:${x.t?x.d/x.t*100:0}%"></i></div></div><span class="dx-n">${x.d}/${x.t}</span><span class="dx-go">›</span></button>`).join("")}<button class="dx-or" onclick="dxRar(99)"><div class="dx-on"><b>🧬 Bushes Fundidos</b></div><span class="dx-n">${fl.length}</span><span class="dx-go">›</span></button></div>`}
+ else if(dxR==99){body=`<div class="dx-sh"><h3>🧬 Bushes Fundidos</h3><small>${fl.length} criados</small></div>${fl.length?`<div class="grid bgrid">${fl.map(b=>dxCard(b,1)).join("")}</div>`:'<div class="panel empty">Nenhum Bush fundido ainda.</div>'}`}
+ else{const r=dxR,l=B.filter(b=>b.rarity==r).sort((a,b)=>a.sub-b.sub||b.baseBps-a.baseBps),un=l.filter(dxHave),lk=l.filter(b=>!dxHave(b));
+  body=`<div class="dx-sh ${RAR[r]}"><h3 class="rc">${RAR[r]}</h3><small>${un.length} / ${l.length} descobertas</small></div><div class="bar ${RAR[r]}"><i style="width:${l.length?un.length/l.length*100:0}%"></i></div>
+${dxSeg([["Todas",l.length],["✅ Descobertas",un.length],["🔒 Bloqueadas",lk.length]],dxF,"dxFil")}
+${dxF!=2?`<div class="dx-sec">✅ Descobertas (${un.length})</div>${un.length?`<div class="grid bgrid">${un.map(b=>dxCard(b)).join("")}</div>`:'<div class="panel empty">Nenhuma descoberta ainda.</div>'}`:""}
+${dxF!=1?`<div class="dx-sec">🔒 Bloqueadas (${lk.length})</div>${lk.length?`<div class="dx-lg">${lk.map(()=>'<div class="dx-lk" title="Ainda não descoberta"><i>🔒</i><b>???</b></div>').join("")}</div>`:'<div class="panel empty">Tudo descoberto! 🎉</div>'}`:""}`}
+ return chips+body}
+function DXM(nm){const smp=dxSample(),l=M.map((x,k)=>({x,k})).sort((a,b)=>b.x.c-a.x.c),un=l.filter(o=>S.muts[o.x.n]),lk=l.filter(o=>!S.muts[o.x.n]);
+ return`<div class="dx-tot"><div class="row2"><span>Progresso total</span><b>${nm} / ${M.length}</b></div><div class="bar"><i style="width:${M.length?nm/M.length*100:0}%"></i></div></div>
+${dxSeg([["Todas",M.length],["✅ Descobertas",un.length],["🔒 Bloqueadas",lk.length]],dxF,"dxFil")}
+${dxF!=2?`<div class="dx-sec">✅ Descobertas (${un.length})</div>${un.length?`<div class="dx-mg">${un.map(o=>`<button class="dx-mt ${dxCls(o.x)}" onclick="dxMut(${o.k})"><div class="dx-mp" style="filter:${MF[o.x.n]||"none"}">${bi(smp)}</div><b>${o.x.n}</b><span class="dx-mm">×${o.x.m}</span></button>`).join("")}</div>`:'<div class="panel empty">Nenhuma mutação descoberta ainda.</div>'}`:""}
+${dxF!=1?`<div class="dx-sec">🔒 Bloqueadas (${lk.length})</div>${lk.length?`<div class="dx-mg">${lk.map(()=>'<div class="dx-lk" title="Ainda não descoberta"><i>🔒</i><b>???</b></div>').join("")}</div>`:'<div class="panel empty">Todas descobertas! 🎉</div>'}`:""}`}
+const dxKv=(a,v)=>`<div class="kv"><span>${a}</span><b>${v}</b></div>`;
+function dxOv(h){const o=$("#ov");o.className="";o.style.display="flex";o.innerHTML=h}
+function dxBush(id){const b=bush(id);if(!b)return;const u=b.sub||0,has=S.bq[id]!==undefined,q=dxQi(id),mus=S.bm[id]||[],own=Object.values(S.inv).filter(i=>i.id==id).length,pc=S.pieces[id]||0;
+ dxOv(`<div class="box wide bd dxo ${RAR[b.rarity]}" style="text-align:left"><button class="bd-x" onclick="closeOv()" aria-label="Fechar">✕</button>
+<div class="bd-head"><div class="art"><div class="bush">${bi(b)}</div></div><div><h2 class="bd-n">${b.name}</h2><div class="rc s${u} ${RAR[b.rarity]}">${dxSub(b)}</div>${S.bevo[id]?'<span class="chip evo">✦ Evoluído ×3</span>':""}</div></div>
+<div class="stats4"><div class="stat"><small>BPS base</small><b>${f(b.baseBps)}</b></div><div class="stat"><small>BPS máximo</small><b>${f(S.bb[id]||0)}</b></div><div class="stat"><small>Melhor qualidade</small><b>${has?Q[q].n+" ×"+Q[q].m:"—"}</b></div><div class="stat"><small>Em posse</small><b>${own}</b></div></div>
+<div class="lab">Detalhes</div>
+${dxKv("Mutações obtidas",mus.length?mus.map(n=>`<span class="chip">${n}</span>`).join(" "):"Nenhuma")}
+${dxKv("Evolução",S.bevo[id]?"✦ Evoluído · BPS ×3":"Não evoluído")}
+${dxKv("Pieces",`🧩 ${pc}/${PCN}`)}
+${b.fused?dxKv("Origem","Fundido"):""}</div>`)}
+function dxMD(x){const p=dxPc(x.m);let t=x.m>1?`Aumenta o BPS da Bush em ${p}%.`:x.m<1?`Reduz o BPS da Bush em ${p}%.`:"Não altera o BPS da Bush.";
+ const v=x.n=="Mini"?"A Bush fica menor.":x.n=="Bigbig"?"A Bush fica maior.":MF[x.n]?"Aplica um efeito visual exclusivo à Bush.":"";return[t,v].filter(Boolean)}
+function dxMut(k){const x=M[k];if(!x||!S.muts[x.n])return;const smp=dxSample(),ids=Object.keys(S.bm).filter(id=>(S.bm[id]||[]).includes(x.n)&&bush(id)),own=Object.values(S.inv).filter(i=>i.ms.includes(k)).length,ev=S.ev&&S.ev.m==k,d=dxMD(x);
+ dxOv(`<div class="box wide bd dxo ${dxCls(x)}" style="text-align:left"><button class="bd-x" onclick="closeOv()" aria-label="Fechar">✕</button>
+<div class="bd-head"><div class="art ${mc(x.n)}"><div class="bush" style="filter:${MF[x.n]||"none"}">${bi(smp)}</div></div><div><h2 class="bd-n">${x.n}</h2><span class="chip">🧬 Mutação</span></div></div>
+<div class="lab">Multiplicador</div><div class="dx-bigs"><span class="dx-big">×${x.m}</span><small>${x.m>1?"+":x.m<1?"−":"±"}${dxPc(x.m)}% de BPS</small></div>
+<div class="lab">Descrição</div><div class="dx-ds">${d.map(t=>`<span>${t}</span>`).join("")}<span>Os multiplicadores de várias mutações no mesmo Bush se multiplicam entre si.</span></div>
+<div class="lab">Informações adicionais</div>
+${dxKv("Chance base",x.c+"% por roll")}
+${dxKv("Bônus de chance",k>=3?"Mutation Upgrade e Mutation Card":"Não afetada por upgrades")}
+${dxKv("Evento",ev?"🔥 Ativo agora · chance ×10":"Chance ×10 durante o evento")}
+${dxKv("No inventário",own+(own==1?" Bush":" Bushes"))}
+${dxKv("Já obtida em",ids.length?ids.slice(0,5).map(id=>`<span class="chip">${bush(id).name}</span>`).join(" ")+(ids.length>5?` <span class="chip">+${ids.length-5}</span>`:""):"—")}</div>`)}
+
+/* ===== TRADE entre jogadores (servidor valida; ver bush-rng-trade.sql) ===== */
+const TR={in:[],tr:null,skew:0,seen:{},busy:0,push:0,com:0,pick:"b",q:"",ui:false,sg:"",sh:0,lp:0};let lbSel=null;
+S.trDone=S.trDone||{};S.trE=S.trE||null;
+const TRERR={self:"Você não pode enviar Trade para si mesmo",nouser:"Esse jogador ainda não ativou o Trade (ele precisa enviar o Leaderboard)",busy:"Um dos jogadores já está em um Trade",dup:"Solicitação já enviada (limite: 5 pendentes)",auth:"Falha de autenticação do Trade",gone:"Solicitação expirada",stale:"A oferta mudou, confira e aceite de novo",empty:"Ofereça pelo menos 1 item",closed:"Trade já encerrado"};
+const trErr=e=>TRERR[String(e.message||e).split(/\W/)[0]]||"Erro: "+String(e.message||e).slice(0,80);
+async function trRpc(fn,a){const r=await fetch(LB.url+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:LB.key,Authorization:"Bearer "+LB.key,"Content-Type":"application/json"},body:JSON.stringify(a||{}),cache:"no-store"}),t=await r.text();if(!r.ok){let m=t;try{m=JSON.parse(t).message}catch(e){}throw new Error(m||r.status)}try{return JSON.parse(t)}catch(e){return null}}
+const trA=a=>({p:S.pid,s:S.trk,...a});
+async function trReg(){if(!LB.url)throw new Error("sem servidor");if(!S.pid)S.pid=Date.now().toString(36)+Math.random().toString(36).slice(2,12);if(!S.trk){const a=new Uint8Array(24);crypto.getRandomValues(a);S.trk=[...a].map(x=>x.toString(16).padStart(2,"0")).join("")}await trRpc("tr_reg",{p:S.pid,s:S.trk});S.trR=1;save()}
+// ---- itens negociáveis ----
+const TRK=id=>{const[t,k]=id.split(":");return t=="ess"?[S.ess,+k]:t=="me"?[S.me,+k]:t=="ch"?[S.chests,+k]:t=="pot"?[S.pinv,k]:t=="ing"?[S.ing,+k]:t=="pi"?[S.pieces,k]:t=="pet"?[S.pets,k]:[S,{gems:"gems",cone:"cone",emut:"emut",pcoin:"pc",wt:"wt"}[t]]};
+const trGet=id=>{const[o,k]=TRK(id);return Math.max(0,Math.floor(+o[k]||0))},trSet=(id,v)=>{const[o,k]=TRK(id);o[k]=v;if(id.startsWith("pet:")&&S.pet==id.slice(4)&&v<=0)S.pet=null};
+function trOk(id){const[t,k]=String(id).split(":"),i=Number.isInteger(+k)&&k!=="";return t=="ess"?i&&+k>=0&&+k<RAR.length:t=="me"?i&&+k>=0&&+k<M.length:t=="ch"?i&&+k>=0&&+k<9:t=="ing"?i&&+k>=0&&+k<7:t=="pot"?!!POT[k]:t=="pi"?B.some(b=>b.id==k):t=="pet"?!!PETM[k]:["gems","cone","emut","pcoin","wt"].includes(t)&&k===undefined}
+const trStacks=()=>{const l=[];RAR.forEach((_,t)=>l.push("ess:"+t));M.forEach((_,k)=>l.push("me:"+k));for(let t=0;t<9;t++)l.push("ch:"+t);Object.keys(POT).forEach(k=>l.push("pot:"+k));for(let k=0;k<7;k++)l.push("ing:"+k);Object.keys(S.pieces).filter(id=>B.some(b=>b.id==id)).forEach(id=>l.push("pi:"+id));["gems","cone","emut","pcoin","wt"].forEach(x=>l.push(x));PET.forEach(p=>l.push("pet:"+p.id));return l};
+function trMeta(id){const[t,k]=id.split(":");if(t=="ess")return{n:"Essência "+RAR[k],e:"✨",r:RAR[k],x:"XP para Bushes"};if(t=="me")return{n:"Essência "+M[k].n,e:"🧬",x:"Mutação ×"+M[k].m};if(t=="ch")return{n:"Baú "+RAR[k],e:"📦",r:RAR[k]};if(t=="pot")return{n:POT[k][0],e:"🧪",x:"1 min"};if(t=="ing")return{n:"Ingot "+ING[k][0],e:"🔩"};
+ if(t=="pi"){const b=bush(k);return{n:pieceName(b),e:bi(b),r:RAR[b.rarity],x:"Piece de evolução"}}if(t=="pet"){const p=PETM[k];return{n:p.n,e:p.e,r:PR[p.r],x:"BPS ×"+p.m,pet:1}}
+ return{n:{gems:"Gemas Bushianas",cone:"Cone",emut:"Essência de Mutação (aleatória)",pcoin:"Pet Coin",wt:"War Token"}[t],e:{gems:"💠",cone:"🔺",emut:"🎲",pcoin:"🐾",wt:"🎟"}[t]}}
+// sanitiza itens recebidos (nunca confia no que veio do outro navegador)
+function trIn(o){const R={b:[],a:[],r:{},c:{}};if(!o||typeof o!="object")return R;const n=(v,lo,hi)=>Math.min(hi,Math.max(lo,Math.floor(+v)||lo)),K=/^[\w-]{1,40}$/;
+ for(const id in(o.c||{})){if(!/^f\w{1,30}$/.test(id))return null;const d=o.c[id]||{};R.c[id]={name:String(d.name||"?").replace(/[<>&"']/g,"").slice(0,40),rarity:n(d.rarity,0,9),sub:n(d.sub,0,4),baseBps:Math.min(1e30,Math.max(1,+d.baseBps||1)),weight:0,imageSrc:PH_SRC,fused:true}}
+ for(const x of(o.b||[])){const id=String(x.id);if(!K.test(String(x.k))||!(B.some(b=>b.id==id)||R.c[id]||S.cust[id]))return null;const i={k:String(x.k),id,q:n(x.q,0,10),ms:(Array.isArray(x.ms)?x.ms:[]).map(m=>Math.floor(+m)).filter(m=>m>=0&&m<M.length).slice(0,20),lv:n(x.lv,1,69),xp:Math.max(0,+x.xp||0),qty:1,gem:n(x.gem,0,GEM_MAX)};if(x.t>=0&&x.t<TIERS.length)i.t=Math.floor(x.t);if(x.evo)i.evo=1;if(x.ab&&AB[x.ab])i.ab=x.ab;R.b.push(i)}
+ for(const x of(o.a||[])){if(!K.test(String(x.k)))return null;R.a.push({k:String(x.k),p:n(x.p,0,50),t:n(x.t,0,50),l:n(x.l,0,9999)})}
+ for(const id in(o.r||{})){const q=+o.r[id];if(!trOk(id)||!Number.isInteger(q)||q<1||q>1e9)return null;R.r[id]=q}return R}
+const trOff=()=>{const E=S.trE||{b:{},a:{},r:{}},c={};Object.values(E.b).forEach(i=>{if(S.cust[i.id])c[i.id]=S.cust[i.id]});return{b:Object.values(E.b),a:Object.values(E.a),r:E.r,c}};
+const trSig=o=>JSON.stringify([(o.b||[]).map(x=>x.k).sort(),(o.a||[]).map(x=>x.k).sort(),Object.keys(o.r||{}).sort().map(k=>k+"="+o.r[k])]);
+function trWith(c,fn){const add=[];for(const id in c)if(!S.cust[id]){S.cust[id]=c[id];add.push(id)}try{return fn()}finally{add.forEach(id=>delete S.cust[id])}}
+// ---- escrow: o item sai do inventário ao entrar na oferta (não dá para vender/fundir/oferecer 2x) ----
+function trPut(kind,key,n){const E=S.trE,t=TR.tr;if(!E||!t||t.st!="open")return;
+ if(kind=="b"){const i=S.inv[key];if(!i)return;if(S.lock[key])return toast("🔒 Bush bloqueado não pode ser negociado",2500);unequip0(key);S.wteam=S.wteam.filter(x=>x!=key);delete S.inv[key];E.b[key]=i}
+ else if(kind=="a"){const a=S.ar[key];if(!a)return;S.arEq=S.arEq.map(x=>x==key?null:x);delete S.ar[key];E.a[key]=a}
+ else{const cur=E.r[key]||0,have=trGet(key)+cur;n=Math.max(0,Math.min(have,Math.floor(+n)||0));trSet(key,have-n);if(n)E.r[key]=n;else delete E.r[key]}
+ save();trUi(1);trPush()}
+function trTake(kind,key){const E=S.trE,t=TR.tr;if(!E||!t||t.st!="open")return;if(kind=="b"&&E.b[key]){S.inv[key]=E.b[key];delete E.b[key]}else if(kind=="a"&&E.a[key]){S.ar[key]=E.a[key];delete E.a[key]}else if(kind=="r")return trPut("r",key,0);save();trUi(1);trPush()}
+function trReturn(){const E=S.trE;if(!E)return;Object.values(E.b).forEach(i=>{if(!S.inv[i.k])S.inv[i.k]=i});Object.values(E.a).forEach(a=>{if(!S.ar[a.k])S.ar[a.k]=a});Object.keys(E.r).forEach(id=>trSet(id,trGet(id)+E.r[id]));S.trE=null;save()}
+function trGive(c){for(const id in c.c)if(!S.cust[id])S.cust[id]=c.c[id];c.b.forEach(i=>{const k=S.inv[i.k]?newKey():i.k;S.inv[k]={...i,k};S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);S.bm[i.id]=[...new Set([...(S.bm[i.id]||[]),...i.ms.map(x=>M[x].n)])];i.ms.forEach(x=>S.muts[M[x].n]=1);if(i.evo)S.bevo[i.id]=1});c.a.forEach(a=>{const k=S.ar[a.k]?newKey():a.k;S.ar[k]={...a,k}});Object.keys(c.r).forEach(id=>trSet(id,trGet(id)+c.r[id]))}
+// ---- sincronização ----
+async function trPoll(){if(!LB.url||!S.trR||TR.busy)return;TR.busy=1;try{const t0=Date.now(),d=await trRpc("tr_poll",{p:S.pid,s:S.trk});TR.skew=d.now-(t0+Date.now())/2;TR.in=d.in||[];
+ TR.in.forEach(q=>{if(!TR.seen["i"+q.id]){TR.seen["i"+q.id]=1;toast("🤝 "+lbName(q.name)+" enviou uma solicitação de Trade",4500);beep(SND.get)}});
+ (d.out||[]).forEach(q=>{if(!TR.seen["o"+q.id]){TR.seen["o"+q.id]=1;toast(lbName(q.name)+(q.st=="denied"?" negou":" não respondeu a")+" sua solicitação de Trade",3500)}});
+ TR.tr=d.tr;await trStep()}catch(e){if(/auth/.test(e.message)){S.trR=0}}TR.busy=0;trUi()}
+async function trStep(){const t=TR.tr;if(!t){if(S.trE&&Date.now()-S.trE.ts>12e4)trReturn();return}
+ if(S.trDone[t.id]){TR.tr=null;trRpc("tr_ack",trA({tid:t.id})).catch(()=>{});return}
+ if(t.st=="completed"||t.st=="cancelled")return trSettle(t);
+ if(!S.trE||S.trE.tid!=t.id){if(S.trE)trReturn();S.trE={tid:t.id,b:{},a:{},r:{},ts:Date.now()};save()}
+ if(t.id!=TR.sh){TR.sh=t.id;TR.ui=true;TR.pick="b";beep(SND.get)}
+ if(t.st=="open"&&trSig(trOff())!=trSig(t.mine))trPush();if(t.st=="counting")trTick()}
+async function trPush(){const t=TR.tr;if(!t||!S.trE||TR.push)return;TR.push=1;try{await trRpc("tr_offer",trA({tid:t.id,o:trOff()}))}catch(e){if(/dup_item|invalid/.test(e.message)){toast("⚠ Item recusado pelo servidor — Trade cancelado",4000);trRpc("tr_cancel",trA({tid:t.id,why:"item_dup"})).catch(()=>{})}else if(!/closed/.test(e.message))toast(trErr(e),2500)}TR.push=0;TR.lp=0}
+async function trAcc(){const t=TR.tr;if(!t||t.st!="open"||trSig(trOff())!=trSig(t.mine))return;try{await trRpc("tr_acc",trA({tid:t.id,v:t.ver}))}catch(e){toast(trErr(e),3000)}trPoll()}
+async function trCancel(){const t=TR.tr;if(!t)return;try{await trRpc("tr_cancel",trA({tid:t.id,why:"cancelado"}))}catch(e){toast(trErr(e),3000)}trPoll()}
+// revalidação local antes do commit: escrow = oferta do servidor, sem item duplicado, itens recebidos válidos e com espaço
+function trVerify(t){const E=S.trE;if(!E||E.tid!=t.id)return"Escrow ausente";if(trSig(trOff())!=trSig(t.mine))return"Itens divergentes";
+ if(Object.keys(E.b).some(k=>S.inv[k]||!bush(E.b[k].id))||Object.keys(E.a).some(k=>S.ar[k]))return"Item duplicado/inválido";if(Object.values(E.r).some(q=>!(q>=1)))return"Quantidade inválida";
+ const c=trIn(t.th);if(!c)return"Itens recebidos inválidos";if(invN()+c.b.length>INVMAX)return"Inventário cheio";if(c.b.some(i=>S.inv[i.k]))return"Item recebido já existe";return""}
+async function trCommit(){const t=TR.tr;if(!t||TR.com==t.id)return;TR.com=t.id;const bad=trVerify(t);try{if(bad)await trRpc("tr_cancel",trA({tid:t.id,why:bad}));else await trRpc("tr_commit",trA({tid:t.id}))}catch(e){TR.com=0}TR.lp=0}
+function trSum(c){const l=[];c.b.forEach(i=>l.push(trWith(c.c,()=>bush(i.id).name)));c.a.forEach(()=>l.push("🛡 Armadura"));Object.keys(c.r).forEach(id=>l.push(trMeta(id).n+" ×"+c.r[id]));return l.length?l.join("<br>"):"nada"}
+function trSettle(t){const ok=t.st=="completed",E=S.trE;let msg;
+ if(ok){const c=trIn(t.th)||{b:[],a:[],r:{},c:{}};if(E&&E.tid==t.id)S.trE=null;trGive(c);msg="<h3>✅ Trade concluída!</h3>Você recebeu:<br><b>"+trSum(c)+"</b>";beep(SND.reb)}
+ else{trReturn();const w={item_dup:"Item duplicado/indisponível",timeout:"Tempo esgotado"}[t.why]||t.why||"";msg="<h3>❌ Trade cancelada</h3>"+(t.by==S.pid?"Você cancelou.":"O outro jogador cancelou, ou a troca foi recusada na validação.")+(w?"<br><small>"+esc(w)+"</small>":"")+"<br>Seus itens foram devolvidos."}
+ S.trDone[t.id]=1;const ks=Object.keys(S.trDone);if(ks.length>40)delete S.trDone[ks[0]];save();TR.tr=null;TR.com=0;TR.ui=false;TR.sg="";
+ trRpc("tr_ack",trA({tid:t.id})).catch(()=>{});modal(msg,[["OK","g",()=>render()]]);render();trUi(1)}
+function trTick(){const t=TR.tr;if(!t||t.st!="counting")return;const s=Math.ceil((t.cnt-(Date.now()+TR.skew))/1000),e=$("#trcd");if(e)e.innerHTML=s>0?"⏳ Trade será confirmada em <b>"+s+"</b>…":"Confirmando…";if(s<=0&&TR.com!=t.id)trCommit()}
+// ---- solicitações / leaderboard ----
+async function trSend(pid){if(!S.name)return toast("Defina seu nome e toque Enviar no Ranking",3000);if(pid==S.pid)return toast(TRERR.self,2500);try{await trReg();await trRpc("tr_send",trA({t:pid}));toast("🤝 Solicitação enviada",2500)}catch(e){toast(trErr(e),3500)}}
+async function trAnswer(id,ok){try{await trRpc("tr_resp",trA({rid:id,ok}))}catch(e){toast(trErr(e),3000)}TR.in=TR.in.filter(q=>q.id!=id);TR.lp=0;trPoll()}
+const trInline=()=>S.trR?`<button class="btn" onclick="TR.ui=true;trUi(1)">📨 Solicitações de Trade${TR.in.length?" ("+TR.in.length+")":""}</button>`:`<small>🤝 Envie seu nome ao Leaderboard para ativar o Trade.</small>`;
+const trInvNote=()=>{const E=S.trE;if(!E)return"";const n=Object.keys(E.b).length+Object.keys(E.a).length+Object.keys(E.r).length;return n?`<div class="panel"><b>🤝 ${n} item(ns) reservado(s) em Trade</b> <button class="btn" onclick="TR.ui=true;trUi(1)">Abrir</button></div>`:""};
+function trClose(){TR.ui=false;trUi(1)}
+// ---- interface ----
+const trIt=(m,n,x,ex)=>`<div class="tri ${m.r&&!m.pet?m.r:""} rr"><span class="trb">${m.e}</span><span class="trn"><b>${m.n}</b><small>${x||[m.r,m.x].filter(Boolean).join(" · ")}</small></span>${n?`<span class="trx">×${n}</span>`:""}${ex||""}</div>`;
+const trBi=(i,c,ex)=>trWith(c||{},()=>{const b=bush(i.id);return trIt({n:b.name+(i.evo?" ✦":""),e:bi(b),r:RAR[b.rarity]},0,RAR[b.rarity]+" · "+Q[i.q].n+" · Lv"+i.lv+" · "+f(bushBps(i))+" BPS"+(i.t>=0?" · "+TIERS[i.t].n:"")+(i.ms.length?" · "+i.ms.map(k=>M[k].n).join("+"):""),ex)});
+const trAr=(a,ex)=>trIt({n:"Armadura",e:"🛡"},0,"Peça "+(a.p+1)+" · "+(ING[a.t]?ING[a.t][0]:"T"+a.t)+" · Nv "+a.l,ex);
+function trSide(t,mine){const E=S.trE||{b:{},a:{},r:{}},open=t.st=="open",c=mine?{b:Object.values(E.b),a:Object.values(E.a),r:E.r,c:{}}:trIn(t.th)||{b:[],a:[],r:{},c:{}},x=(k,i)=>mine&&open?`<button class="btn r" onclick="trTake('${k}','${i}')">✕</button>`:"";
+ const h=c.b.map(i=>trBi(i,c.c,x("b",i.k))).concat(c.a.map(a=>trAr(a,x("a",a.k))),Object.keys(c.r).map(id=>trIt(trMeta(id),c.r[id],"",x("r",id))));return h.join("")||'<div class="trem">Nada oferecido</div>'}
+function trPick(){const q=TR.q.toLowerCase(),tab=(k,l)=>`<button class="chipb ${TR.pick==k?"on":""}" onclick="TR.pick='${k}';trUi(1)">${l}</button>`;let h="";
+ if(TR.pick=="b")h=Object.values(S.inv).filter(i=>!S.lock[i.k]&&(!q||bush(i.id).name.toLowerCase().includes(q))).sort(SORT[0]).slice(0,60).map(i=>trBi(i,{},`<button class="btn g" onclick="trPut('b','${i.k}')">+</button>`)).join("")||'<div class="trem">Nenhuma Bush disponível (🔒 bloqueadas não aparecem)</div>';
+ else if(TR.pick=="a")h=Object.values(S.ar).map(a=>trAr(a,`<button class="btn g" onclick="trPut('a','${a.k}')">+</button>`)).join("")||'<div class="trem">Sem armaduras</div>';
+ else h=trStacks().filter(id=>(TR.pick=="p")==id.startsWith("pet:")).map(id=>({id,have:trGet(id)+((S.trE&&S.trE.r[id])||0)})).filter(x=>x.have>0).map(x=>{const cur=(S.trE&&S.trE.r[x.id])||0;return trIt(trMeta(x.id),0,"Você tem "+x.have,`<input id="tq_${x.id.replace(":","_")}" type="number" min="0" max="${x.have}" value="${cur||1}" inputmode="numeric"><button class="btn g" onclick="trPut('r','${x.id}',document.getElementById('tq_${x.id.replace(":","_")}').value)">Oferecer</button>`)}).join("")||'<div class="trem">Nada disponível</div>';
+ return`<div class="trpk"><div class="chips">${tab("b","🌿 Bushes")}${tab("a","🛡 Armaduras")}${tab("i","🧪 Itens")}${tab("p","🐾 Pets")}</div>${TR.pick=="b"?`<input class="fs" placeholder="🔍 Buscar nome" value="${TR.q.replace(/"/g,"")}" onchange="TR.q=this.value;trUi(1)">`:""}<div class="trl">${h}</div></div>`}
+function trWin(t){const open=t.st=="open",cnt=t.st=="counting",sync=trSig(trOff())==trSig(t.mine),both=trSig(trOff())!=trSig({}),can=open&&sync&&!t.mok&&(both||trSig(trIn(t.th)||{})!=trSig({}));
+ const st=cnt?`<div id="trcd" class="trcd on"></div>`:`<div class="trcd">${t.mok&&t.tok?"":t.mok?"✔ Você aceitou · aguardando o outro jogador":t.tok?"✔ O outro jogador aceitou · confira e aceite":!sync?"Sincronizando oferta…":"Monte a troca e toque em Aceitar"}</div>`,
+ hd=(av,n,l,ok)=>`<header><span class="avatar sm">${av}</span><div><b>${n}</b><small>${l}</small></div>${ok?'<i class="ok">✔ Aceitou</i>':""}</header>`;
+ return`<div class="trbox"><button class="bd-x" onclick="trClose()" aria-label="Minimizar">▾</button><h2>🤝 TRADE</h2>${st}<div class="trcols"><section class="trs me">${hd(avHtml(),esc(S.name)||"Você","VOCÊ → oferece",t.mok)}<div class="trl">${trSide(t,1)}</div></section><section class="trs th">${hd(lbAv(t.oa),lbName(t.on),"OUTRO JOGADOR → oferece",t.tok)}<div class="trl">${trSide(t,0)}</div></section></div>${open?trPick():""}<div class="trbt"><button class="btn g" ${can?"":"disabled"} onclick="trAcc()">✅ Aceitar</button><button class="btn r" onclick="trCancel()">❌ ${cnt?"Cancelar Trade":"Negar / Cancelar"}</button></div><small>Mudar a oferta cancela os aceites. A troca é validada pelo servidor.</small></div>`}
+const trInbox=()=>`<div class="trbox"><button class="bd-x" onclick="trClose()" aria-label="Fechar">✕</button><h2>📨 Solicitações de Trade</h2>${TR.in.map(q=>`<div class="row trq"><span class="avatar sm">${lbAv(q.av)}</span><b>${lbName(q.name)}</b><span class="trqb"><button class="btn g" onclick="trAnswer(${q.id},true)">Aceitar</button><button class="btn r" onclick="trAnswer(${q.id},false)">Negar</button></span></div>`).join("")||'<div class="trem">Nenhuma solicitação no momento.</div>'}<small>Para enviar: Ranking → toque em um jogador → 🤝 Enviar Trade.</small></div>`;
+function trUi(force){const w=$("#trw"),fb=$("#trf");if(!w)return;const t=TR.tr,n=TR.in.length;fb.style.display=S.trR?"flex":"none";fb.innerHTML="🤝"+(t?"<b>●</b>":n?"<b>"+n+"</b>":"");
+ if(!TR.ui){w.style.display="none";return}w.style.display="flex";const sg=JSON.stringify([t&&[t.id,t.st,t.ver,t.mok,t.tok,trSig(t.mine),trSig(t.th||{})],S.trE&&trSig(trOff()),TR.in.map(q=>q.id),TR.pick]);if(!force&&sg==TR.sg)return;TR.sg=sg;w.innerHTML=t?trWin(t):trInbox();if(t&&t.st=="counting")trTick()}
+document.body.insertAdjacentHTML("beforeend",'<button id="trf" onclick="TR.ui=true;trUi(1)" aria-label="Trade"></button><div id="trw" onclick="if(event.target===this)trClose()"></div>');
+setInterval(()=>{if(!LB.url||!S.trR)return;const a=TR.tr||TR.ui;if(document.hidden&&!TR.tr)return;if(Date.now()-TR.lp>=(a?1500:6000)){TR.lp=Date.now();trPoll()}},500);setInterval(trTick,250);
+if(LB.url&&S.pid&&S.name)trReg().then(()=>trPoll()).catch(()=>{});else trUi();
+
+const INVHDR=()=>INVHDR0()+trInvNote();
 render();
 </script></body></html>
