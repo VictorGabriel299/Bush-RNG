@@ -529,6 +529,59 @@ details.panel .chips{justify-content:flex-start}
 .trpk{margin-top:10px;background:#0c1711;border:1px solid var(--ln);border-radius:14px;padding:8px}.trpk .trl{max-height:260px;margin-top:6px}
 .trbt{display:flex;gap:8px;margin-top:10px}.trbt .btn{flex:1;margin:0;padding:12px}.trq{justify-content:space-between}.trqb{display:flex;gap:6px}
 .lb-r{flex-wrap:wrap;cursor:pointer}.lb-tr{flex-basis:100%;display:flex;justify-content:flex-end;padding-top:4px}.lb-tr .btn{margin:0}
+/* ---- Torre: Boss ---- */
+.bossban{display:flex;flex-direction:column;align-items:center;gap:2px;margin:10px 0 8px;padding:12px 10px;border-radius:14px;text-align:center;background:linear-gradient(135deg,#3a0d0d,#7a1414 50%,#3a0d0d);border:2px solid #ff4d3d;box-shadow:0 0 0 3px #ff4d3d33,0 0 24px #ff4d3d66;animation:bossGlow 1.6s ease-in-out infinite}
+.bossban span{font-size:30px;line-height:1}.bossban b{font-size:17px;letter-spacing:.18em;color:#ffd9a0;text-shadow:0 0 8px #ff4d3d}.bossban small{color:#ffc9c0;font-size:11.5px}
+.bossban.sup{background:linear-gradient(135deg,#2a0a3a,#6a1a9a 50%,#2a0a3a);border-color:#ffd23f;box-shadow:0 0 0 3px #ffd23f33,0 0 28px #b86bff88}.bossban.sup b{color:#fff2a8}
+@keyframes bossGlow{50%{box-shadow:0 0 0 5px #ff4d3d22,0 0 38px #ff4d3daa}}
+.foe.boss{grid-column:1/-1;order:-1;border:2px solid #ff4d3d;background:linear-gradient(#2a0f0f,#0c1711);box-shadow:0 0 18px #ff4d3d55;padding:12px 6px}.foe.boss .bush{font-size:64px;filter:drop-shadow(0 0 8px #ff4d3d)}.foe.boss b{font-size:14px;color:#ffd9a0}.foe.boss .bt{font-weight:800;letter-spacing:.16em;color:#ff7b6b}
+.foe.boss.sup{border-color:#ffd23f;background:linear-gradient(#2a0a3a,#0c1711);box-shadow:0 0 20px #b86bff88}.foe.boss.sup .bt{color:#ffd23f}
+.kp.bad b{color:#ff7b6b}
+@media(max-width:600px){.foe.boss .bush{font-size:48px}}
+.dband{margin:14px 0 6px;padding:6px 10px;border-left:4px solid var(--ac);background:#0003;border-radius:8px;font-size:13px}
+.dband.b1{border-color:#c98a4b}.dband.b2{border-color:#6fb4e8}.dband.b3{border-color:#b07be8}.dband.b4{border-color:#ff9a3d}.dband.b5{border-color:#ff5fd2}.dband.b6{border-color:#ffd23f}
+.dgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.dcard{text-align:center}.dcard .dimg{width:54px;height:54px;display:block;margin:2px auto 4px}
+.dcard .btn.wide{width:100%;margin:4px 0 0}.dluck{color:var(--ok);font-weight:700;margin-top:4px}.dprice{color:var(--ac2);font-weight:700;margin:2px 0}
+.dcard.down .dprice{color:var(--mt)}.dcard.deq{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok),0 6px 16px #0006}
+/* ===== Fusão de materiais (Ingots / Essências) ===== */
+.subtabs.s5{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media(max-width:600px){.subtabs.s5{gap:3px}.subtabs.s5 .stb{padding:6px 1px}.subtabs.s5 .stb b{font-size:9.5px}.subtabs.s5 .stb small{font-size:8px}.subtabs.s5 .stb i{font-size:16px}}
+.fm-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:stretch;margin:10px 0}
+.fm-flow>i{align-self:center;font-style:normal;font-size:22px;color:var(--ac2)}
+.fm-flow .kp{text-align:center}
+.fm-flow .kp b{font-size:14px}.fm-flow .kp em{display:block;font-style:normal;font-size:11px;color:var(--mt)}
+.fm-sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0}
+.fm-max{margin:0 0 0 8px;min-height:38px}
+.fm-q{display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+@media(max-width:420px){.fm-flow{grid-template-columns:1fr}.fm-flow>i{transform:rotate(90deg);text-align:center}}
+
+/* ===== Fazenda: roda de Bushes equipadas ===== */
+.farm2{height:500px;touch-action:none;-webkit-user-select:none;user-select:none;cursor:grab}
+.farm2:active{cursor:grabbing}
+.farm2 .wh{position:absolute;left:50%;top:50%;width:0;height:0;z-index:2;--R:0px;--s:1;--rot:0deg}
+.farm2 .wh .sl,.farm2 .wh .sl.f{left:0;top:0;width:88px;min-width:0;transform-origin:50% 62%;z-index:3;
+ transform:rotate(calc(var(--a) + var(--rot))) translateX(var(--R)) rotate(calc(-1 * (var(--a) + var(--rot)))) translate(-50%,-62%) scale(var(--s))}
+.fw-empty{position:absolute;left:50%;top:70%;transform:translateX(-50%);z-index:3;background:#0b1510d9;color:#fff;border-radius:8px;padding:4px 10px;font-size:12px;pointer-events:none}
+.fw-ctl{display:flex;gap:8px;width:100%;max-width:340px}.fw-ctl .btn{flex:1;justify-content:center;text-align:center;margin:0;min-height:var(--tap);font-size:20px;padding:0}
+
+.fw-disc{position:absolute;width:calc(var(--R)*2 + 76px);height:calc(var(--R)*2 + 76px);left:calc(var(--R)*-1 - 38px);top:calc(var(--R)*-1 - 38px);border-radius:50%;overflow:hidden;pointer-events:none;z-index:0;
+ background:radial-gradient(circle,#e9cf9a55 0,#b98a4e40 38%,#8d623350 72%,#5a3a1a66 100%);border:3px solid #5a3a1aaa;box-shadow:inset 0 0 28px #3d281088,0 8px 18px #0005,0 0 0 4px #ffffff14}
+.fw-sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(#fff6d055 0deg,#fff0 70deg,#0000 180deg,#fff0 250deg,#fff6d040 360deg);transform:rotate(var(--rot))}
+.fw-tick{position:absolute;width:calc(var(--R)*2 + 56px);height:calc(var(--R)*2 + 56px);left:calc(var(--R)*-1 - 28px);top:calc(var(--R)*-1 - 28px);border-radius:50%;pointer-events:none;z-index:0;
+ background:repeating-conic-gradient(#f6e2b4c0 0 .9deg,#0000 .9deg 7.5deg);-webkit-mask:radial-gradient(closest-side,#0000 calc(100% - 8px),#000 calc(100% - 7px));mask:radial-gradient(closest-side,#0000 calc(100% - 8px),#000 calc(100% - 7px));transform:rotate(calc(var(--rot)*-.5))}
+.fw-rail{position:absolute;box-sizing:border-box;width:calc(var(--R)*2);height:calc(var(--R)*2);left:calc(var(--R)*-1);top:calc(var(--R)*-1);border-radius:50%;border:7px solid #9a6b36;pointer-events:none;z-index:1;
+ box-shadow:0 0 0 2px #4a2f14,inset 0 0 0 2px #4a2f14,inset 0 3px 5px #0006,0 5px 0 #3d281099,0 8px 10px #0004;transform:rotate(var(--rot))}
+.fw-rail:after{content:"";position:absolute;inset:-7px;border-radius:50%;border-top:3px solid #e2b87455;border-left:3px solid #e2b87433;border-right:3px solid #0000;border-bottom:3px solid #0000;transform:rotate(calc(var(--rot)*-1))}
+.fw-inner{position:absolute;box-sizing:border-box;width:calc(var(--R)*.85);height:calc(var(--R)*.85);left:calc(var(--R)*-.425);top:calc(var(--R)*-.425);border-radius:50%;border:2px dashed #f6e2b4aa;pointer-events:none;z-index:1;transform:rotate(calc(var(--rot)*-1.4))}
+.fw-sp{position:absolute;left:0;top:-5px;height:10px;width:var(--R);transform-origin:0 50%;transform:rotate(calc(var(--a) + var(--rot)));clip-path:polygon(0 8%,100% 32%,100% 68%,0 92%);background:linear-gradient(180deg,#c99a5a,#8d6234 55%,#5a3a1a);opacity:.9;pointer-events:none;z-index:1;filter:drop-shadow(0 2px 1px #0006)}
+.fw-hub{position:absolute;left:-23px;top:-23px;width:46px;height:46px;box-sizing:border-box;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e2b874,#9a6b36 55%,#5a3a1a);border:3px solid #4a2f14;box-shadow:0 0 0 4px #8d6234,0 0 0 6px #4a2f14,0 6px 10px #0007,inset 0 2px 3px #fff5;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none}
+.fw-hub:before{content:"";position:absolute;inset:-9px;border-radius:50%;background:repeating-conic-gradient(#4a2f14 0 12deg,#0000 12deg 30deg);-webkit-mask:radial-gradient(closest-side,#0000 calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(closest-side,#0000 calc(100% - 5px),#000 calc(100% - 4px));transform:rotate(var(--rot));z-index:-1}
+.fw-hub b{display:block;font-size:20px;line-height:1;color:#fbe7b8;text-shadow:0 1px 2px #3d2810;transform:rotate(var(--rot))}
+.farm2 .wh .sl .bush{position:relative;z-index:1}
+.farm2 .wh .sh{width:62px;height:22px;margin:-15px auto 3px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#b98a4e 0,#7a5226 55%,#4a2f14 100%);border:2px solid var(--c,#4a2f14);box-shadow:0 3px 0 #2f1d0a,0 0 9px var(--c,#0000),inset 0 2px 3px #fff4}
+@media(max-width:600px){.farm2 .wh .sh{width:50px;height:18px}}
+@media(max-width:600px){.farm2{height:470px}.farm2 .wh .sl,.farm2 .wh .sl.f{width:66px}}
 </style></head><body>
 <div id="hud"></div><div id="main"></div>
 <div id="nav"></div><div id="more" onclick="if(event.target===this)closeMore()"></div><div id="ov"></div><div id="toast"></div>
@@ -553,15 +606,27 @@ B.push({id:"celBig",name:"Big Bush",rarity:9,sub:2,weight:0,baseBps:CEL_BPS});
 const mc=n=>"m-"+n.replace(/\W/g,"");
 const Q=[["F",.5,20],["E",.75,22],["D",1,20],["C",1.5,16],["B",3,10],["A",5,3],["S",7.5,1],["SS",10,.4],["SR",12.5,.12],["XR",15,.03],["UR",20,.005]].map(a=>({n:a[0],m:a[1],w:a[2]}));
 const M=[["Mini",1.2,.75],["Middle",.8,1],["Piece",.5,1.15],["Bigbig",.3,1.4],["Radioactive",.18,2],["Dada",.1,3],["Cagado",.05,4],["Frozen",.025,6],["NPC",.015,10],["Concentrated",.006,20],["NICHER",.0008,50],["massa pura",.5,1.3],["juicy",.4,1.6],["inverted",.2,2.5],["broxa",.35,.6],["HORNY",.07,5],["zaponeje",.035,8],["estevonico",.02,12],["doctor",.012,18]].map(a=>({n:a[0],c:a[1],m:a[2]}));
-const DICE="Wooden Stone Copper Bronze Lucky Silver Iron Golden Jade Ruby Sapphire Emerald Diamond Platinum Titanium Obsidian Crystal Mythic Cosmic Celestial Void Eternal Divine Secret Omega".split(" ").map((n,k)=>[n+" Dice",Math.round(500*Math.pow(3.1,k)),+(.05*Math.pow(1.34,k)).toFixed(2),RAR[Math.min(8,Math.floor(k/3))]]);
+/* ===== DADOS: 28, em 6 faixas (5 de 5 + 3 lendários) =====
+   [nome, preço, Luck (+x aditivo), faixa-label, nº da faixa]
+   Faixa 1 (1–5) inicial · 2 (6–10) investimento · 3 (11–15) caro · 4 (16–20) muito caro · 5 (21–25) endgame.
+   Âncora: o dado de +55x de Luck (#15) custa 3,2e14 (320T), como no jogo original; todos os mais fortes custam bem mais. Topo: +5000x (máximo) por 5e28 (50Oc).
+   Dados são perdidos no Rebirth, então precisam ser recomprados a cada ciclo. */
+const DICE_NAMES="Wooden Stone Copper Bronze Lucky Silver Iron Golden Jade Ruby Sapphire Emerald Diamond Platinum Titanium Obsidian Crystal Mythic Cosmic Celestial Void Eternal Divine Secret Omega Infinity Ascended Genesis".split(" ");
+const DICE_BANDS=["Iniciante","Intermediária","Avançada","Elite","Endgame","Lendária"];
+const DICE_PRICE=[2e4,1e5,5e5,2.5e6,1.2e7, 5e7,2.5e8,1.2e9,6e9,3e10, 3e11,2e12,1.5e13,8e13,3.2e14, 5e15,4e16,3e17,2.5e18,2e19, 5e20,5e21,6e22,8e23,1e25, 3e26,4e27,5e28];
+const DICE_LUCK=[.4,.7,1,1.5,2.2, 3.5,5,7,9.5,13, 18,25,34,43,55, 100,140,195,270,370, 700,950,1300,1800,2500, 3200,4000,5000];
+const DICE_PRICE_V7=[1e4,4e4,1.5e5,6e5,2.5e6, 5e7,3e8,2e9,1.2e10,8e10, 1e12,6e12,4e13,2.5e14,1.5e15, 1e16,6e16,4e17,2.5e18,1.5e19, 1e20,8e20,6e21,4e22,3e23];
+const DICE_PRICE_V5=[2e3,8e3,3e4,1e5,3.5e5, 2e6,8e6,3e7,1.2e8,5e8, 5e9,2.5e10,1.2e11,6e11,3e12, 5e13,3e14,2e15,1.5e16,1e17, 2.5e18,4e19,6e20,1e22,2e23];
+const DICE_PRICE_V6=[1e4,5e4,2.5e5,1e6,5e6, 5e7,2.5e8,1.2e9,6e9,3e10, 5e12,3e13,2e14,1.2e15,8e15, 5e18,5e19,5e20,6e21,8e22, 1e25,2e26,5e27,2e29,1e31];
+const DICE=DICE_NAMES.map((n,k)=>[n+" Dice",DICE_PRICE[k],DICE_LUCK[k],"Faixa "+(Math.floor(k/5)+1)+" · "+DICE_BANDS[Math.floor(k/5)],Math.floor(k/5)+1]);
 const UP={luck:["Luck Upgrade","+0.1x Luck",2500,2,.1],money:["Money Upgrade","+15% Busheiros",2000,1.9,.15],xp:["XP Upgrade","+20% XP duplicatas",4000,2,.2],mut:["Mutation Upgrade","+5% chance mutações",5000,2.2,.05],qual:["Quality Upgrade","+8% chance Good+",4000,2.1,.08],speed:["Roll Speed","-6% cooldown",3500,1.8,0],bps:["BPS Upgrade","+12% BPS",3000,1.95,.12],off:["Offline Upgrade","+25% ganho offline",4500,2,.25],evc:["Event Chance","+8% chance de evento",6000,2.1,.08]};
 const CARD={luck:["Lucky Card","+10% Luck"],money:["Money Card","+15% Money"],xp:["XP Card","+25% Bush XP"],mut:["Mutation Card","+4% mutação"],qual:["Quality Card","+6% qualidade"],reb:["Rebirth Card","+10% Rebirth mult"]};
 const CBASE=25000;
 const SUF=["","K","M","B","T","Qa","Qi","Sx","Sp","Oc","No","Dc"];
 function f(n){if(!isFinite(n))return"∞";if(n<1000)return(Math.floor(n*100)/100).toLocaleString("en");let i=0;while(n>=1000&&i<SUF.length-1){n/=1000;i++}return(Math.floor(n*100)/100)+SUF[i]}
-const def=()=>({money:0,inv:{},eq:Array(8).fill(null),up:{},cards:{},dice:[],dEq:-1,reb:0,pity:0,rolls:0,earned:0,sold:0,bestBps:0,maxLv:0,maxLuck:1,maxMult:1,since:[0,0,0],maxSince:[0,0,0],muts:{},offer:[],offerT:0,ts:Date.now(),played:0,snd:true,anim:true,bestName:"-",online:0,ev:null,gold:0,dia:0,obs:0,auto:{on:false,eq:false,leg:false,myth:false,sec:false,et:false,dv:false,mut:false,sp:true},bq:{},bm:{},rc:Array(10).fill(0),bb:{},shop:[],shopT:0,lock:{},hist:[],ach:{},maxMuts:0,xt:0,name:"",pid:"",mb:0,v:0,cust:{},mSh:[],mT:0,me:Array(19).fill(0),ess:Array(10).fill(0),gems:0,chests:Array(9).fill(0),emut:0,emStock:0,emT:0,tf:1,hiF:0,team:[],pieces:{},bevo:{},war:null,wteam:[],wwins:0,wcd:0,cs:null,csSlot:0,cone:0,asell:Array(10).fill(false),pinv:{money:0,luck:0,xp:0,qual:0},pot:{},ing:Array(7).fill(0),ar:{},arEq:[null,null,null,null,null]});
+const def=()=>({money:0,inv:{},eq:Array(8).fill(null),up:{},cards:{},dice:[],dEq:-1,reb:0,pity:0,rolls:0,earned:0,sold:0,bestBps:0,maxLv:0,maxLuck:1,maxMult:1,since:[0,0,0],maxSince:[0,0,0],muts:{},offer:[],offerT:0,ts:Date.now(),played:0,snd:true,anim:true,bestName:"-",online:0,ev:null,gold:0,dia:0,obs:0,auto:{on:false,eq:false,leg:false,myth:false,sec:false,et:false,dv:false,mut:false,sp:true},bq:{},bm:{},rc:Array(10).fill(0),bb:{},shop:[],shopT:0,lock:{},hist:[],ach:{},maxMuts:0,xt:0,name:"",pid:"",mb:0,v:0,cust:{},mSh:[],mT:0,me:Array(19).fill(0),ess:Array(10).fill(0),gems:0,chests:Array(10).fill(0),emut:0,emStock:0,emT:0,tf:1,hiF:0,team:[],pieces:{},bevo:{},war:null,wteam:[],wwins:0,wcd:0,cs:null,csSlot:0,cone:0,asell:Array(10).fill(false),pinv:{money:0,luck:0,xp:0,qual:0},pot:{},ing:Array(7).fill(0),ar:{},arEq:[null,null,null,null,null]});
 let S;try{S=Object.assign(def(),JSON.parse(localStorage.getItem("bushrng")||"{}"))}catch(e){S=def()}
-let invF=-1,tab="farm",cd=0,last=null,wipe=false;Object.values(S.inv).forEach(i=>{if(i.ms===undefined){i.ms=[i.m];delete i.m}});S.auto=Object.assign(def().auto,S.auto);S.since=S.since.concat([0,0]).slice(0,5);if(S.ev&&!S.ev.end)S.ev.end=Date.now()+(S.ev.left||0)*1000;S.dice=S.dice.filter(k=>k<DICE.length);if(S.v<2){const mq=q=>[0,3,5,7,9][q]??3;Object.values(S.inv).forEach(i=>i.q=mq(i.q));Object.keys(S.bq).forEach(k=>S.bq[k]=mq(S.bq[k]));S.hist.forEach(h=>h[1]=mq(h[1]));S.v=2}if(S.v<3){Object.entries(S.inv).forEach(([k,i])=>{i.k=k;i.gem=0;S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);for(let n=1;n<Math.min(i.qty||1,30);n++){const nk="u"+n+Math.random().toString(36).slice(2,8)+k;S.inv[nk]={...i,k:nk,lv:1,xp:0,qty:1}}i.qty=1});S.v=3}if(S.v<4){const sw=q=>q==1?2:q==2?1:q;Object.values(S.inv).forEach(i=>i.q=sw(i.q));Object.keys(S.bq).forEach(k=>S.bq[k]=sw(S.bq[k]));S.hist.forEach(h=>h[1]=sw(h[1]));S.v=4}S.pinv=Object.assign({money:0,luck:0,xp:0,qual:0},S.pinv);S.ing=Array.from({length:7},(_,k)=>+(S.ing&&S.ing[k])||0);if(!S.ar||Array.isArray(S.ar))S.ar={};S.arEq=Array.from({length:5},(_,k)=>S.arEq&&S.ar[S.arEq[k]]?S.arEq[k]:null);if(S.dEq>=DICE.length)S.dEq=-1;S.maxSince=S.maxSince.concat([0,0]).slice(0,5);while(S.ess.length<RAR.length)S.ess.push(0);while(S.rc.length<RAR.length)S.rc.push(0);S.asell=Array.isArray(S.asell)?Array.from({length:RAR.length},(_,k)=>!!S.asell[k]):Array(RAR.length).fill(false);
+let invF=-1,tab="farm",cd=0,last=null,wipe=false;Object.values(S.inv).forEach(i=>{if(i.ms===undefined){i.ms=[i.m];delete i.m}});S.auto=Object.assign(def().auto,S.auto);S.since=S.since.concat([0,0]).slice(0,5);if(S.ev&&!S.ev.end)S.ev.end=Date.now()+(S.ev.left||0)*1000;S.dice=S.dice.filter(k=>k<DICE.length);if(S.v<2){const mq=q=>[0,3,5,7,9][q]??3;Object.values(S.inv).forEach(i=>i.q=mq(i.q));Object.keys(S.bq).forEach(k=>S.bq[k]=mq(S.bq[k]));S.hist.forEach(h=>h[1]=mq(h[1]));S.v=2}if(S.v<3){Object.entries(S.inv).forEach(([k,i])=>{i.k=k;i.gem=0;S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);for(let n=1;n<Math.min(i.qty||1,30);n++){const nk="u"+n+Math.random().toString(36).slice(2,8)+k;S.inv[nk]={...i,k:nk,lv:1,xp:0,qty:1}}i.qty=1});S.v=3}if(S.v<4){const sw=q=>q==1?2:q==2?1:q;Object.values(S.inv).forEach(i=>i.q=sw(i.q));Object.keys(S.bq).forEach(k=>S.bq[k]=sw(S.bq[k]));S.hist.forEach(h=>h[1]=sw(h[1]));S.v=4}if(S.v<5){let rf=0;(S.dice||[]).forEach(k=>{if(k>=0&&k<25)rf+=Math.round(500*Math.pow(3.1,k))});if(rf>0){S.money=(+S.money||0)+rf;S.dice=[];S.dEq=-1;S.diceRefund=rf;setTimeout(()=>{try{toast("🎲 Dados rebalanceados: reembolso de "+f(rf)+" Busheiros",5000)}catch(e){}},1500)}S.v=5}if(S.v<6){let rf=0;(S.dice||[]).forEach(k=>{if(k>=0&&k<25)rf+=DICE_PRICE_V5[k]});if(rf>0){S.money=(+S.money||0)+rf;S.dice=[];S.dEq=-1;setTimeout(()=>{try{toast("🎲 Preços dos dados aumentados: reembolso de "+f(rf)+" Busheiros",5000)}catch(e){}},1500)}S.v=6}if(S.v<7){let rf=0;(S.dice||[]).forEach(k=>{if(k>=0&&k<25)rf+=DICE_PRICE_V6[k]});if(rf>0){S.money=(+S.money||0)+rf;S.dice=[];S.dEq=-1;setTimeout(()=>{try{toast("🎲 Dados recalibrados: reembolso de "+f(rf)+" Busheiros",5000)}catch(e){}},1500)}S.v=7}if(S.v<8){let rf=0;(S.dice||[]).forEach(k=>{if(k>=0&&k<25)rf+=DICE_PRICE_V7[k]});if(rf>0){S.money=(+S.money||0)+rf;S.dice=[];S.dEq=-1;setTimeout(()=>{try{toast("🎲 Dados recalibrados: reembolso de "+f(rf)+" Busheiros",5000)}catch(e){}},1500)}S.v=8}S.pinv=Object.assign({money:0,luck:0,xp:0,qual:0},S.pinv);S.ing=Array.from({length:7},(_,k)=>+(S.ing&&S.ing[k])||0);if(!S.ar||Array.isArray(S.ar))S.ar={};S.arEq=Array.from({length:5},(_,k)=>S.arEq&&S.ar[S.arEq[k]]?S.arEq[k]:null);if(S.dEq>=DICE.length)S.dEq=-1;S.maxSince=S.maxSince.concat([0,0]).slice(0,5);while(S.ess.length<RAR.length)S.ess.push(0);while(S.rc.length<RAR.length)S.rc.push(0);S.chests=Array.from({length:RAR.length},(_,k)=>+(S.chests&&S.chests[k])||0);S.asell=Array.isArray(S.asell)?Array.from({length:RAR.length},(_,k)=>!!S.asell[k]):Array(RAR.length).fill(false);
 const $=s=>document.querySelector(s),lvc=(k)=>S.up[k]||0,cc=k=>0;
 // audio
 let AC;function beep(seq,type){if(!S.snd)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();let t=AC.currentTime;seq.forEach(([fr,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type=type||"square";o.frequency.value=fr;g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d);t+=d*.9})}catch(e){}}
@@ -573,7 +638,7 @@ const rebMult=n=>1+.25*n+.02*n*n;
 const rebLuck=n=>.2*n+.03*n*n;const luck=()=>(1+rebLuck(S.reb)+(S.dEq>=0?DICE[S.dEq][2]:0)+lvc("luck")*UP.luck[4])*(potA("luck")?2:1)*bn("luck")*abLuck();
 const moneyMult=()=>(1+lvc("money")*UP.money[4])*(1+lvc("bps")*UP.bps[4])*rebMult(S.reb)*(potA("money")?2:1);
 // ===== MULTIPLICADORES ESPECIAIS (tiers) — c = chance % por roll normal, mutuamente exclusivos, fixos (não afetados por Luck) =====
-const TIERS=[{n:"Silver",m:2,c:5},{n:"Gold",m:3,c:2},{n:"Diamond",m:5,c:.6},{n:"Void",m:10,c:.1},{n:"Emerald",m:25,c:.02},{n:"Rainbow",m:75,c:.002},{n:"Pastel",m:125,c:.0004}];
+const TIERS=[{n:"Silver",m:2,c:5},{n:"Gold",m:3,c:2},{n:"Diamond",m:5,c:.6},{n:"Void",m:10,c:.1},{n:"Emerald",m:25,c:.02},{n:"Rainbow",m:75,c:.0025},{n:"Pastel",m:125,c:.0001}];
 const tmul=i=>i.t>=0?TIERS[i.t].m:1;
 function rollTier(){const x=Math.random()*100;let c=0;for(let k=TIERS.length-1;k>=0;k--){c+=TIERS[k].c;if(x<c)return k}return -1}
 const bushRaw=i=>{const b=bush(i.id);return b.baseBps*Q[i.q].m*mm(i)*tmul(i)*lvMult(i.lv)*(i.evo?3:1)};const bushBps=i=>bushRaw(i)*ABM(i,"bps");const mm=i=>i.ms.reduce((a,k)=>a*M[k].m,1);
@@ -606,7 +671,7 @@ function autoSellInst(k){const i=S.inv[k];if(!i)return 0;const b=bush(i.id),v=se
 function unequip0(k){const x=S.eq.indexOf(k);if(x>=0)S.eq[x]=null;S.team=S.team.filter(t=>t!=k)}
 function togAS(k,v){S.asell[k]=!!v;save();render()}
 function equipBest(quiet,nr){const a=Object.values(S.inv).filter(i=>invF<0||bush(i.id).rarity==invF).sort((x,y)=>bushBps(y)-bushBps(x)).slice(0,8).map(i=>i.k);S.eq=Array.from({length:8},(_,k)=>a[k]||null);if(nr)return;if(quiet)render();else modal("EQUIP BEST<br>"+a.length+" best Bushes equipped!",[["OK","g",()=>render()]])}
-function addXp(i,x){if(i.lv>=69)return false;i.xp+=x;let up=false;while(i.lv<69&&i.xp>=xpNeed(i.lv)){i.xp-=xpNeed(i.lv);i.lv++;up=true}if(i.lv>=69)i.xp=0;S.maxLv=Math.max(S.maxLv,i.lv);return up}
+function addXp(i,x){if(i.lv>=200)return false;i.xp+=x;let up=false;while(i.lv<200&&i.xp>=xpNeed(i.lv)){i.xp-=xpNeed(i.lv);i.lv++;up=true}if(i.lv>=200)i.xp=0;S.maxLv=Math.max(S.maxLv,i.lv);return up}
 function bcard(i){const b=bush(i.id),mn=i.ms.map(k=>M[k].n);return`<div class="art ${mn.map(mc).join(" ")}"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div></div><div class="rc s${b.sub||0} ${RAR[b.rarity]}">${RAR[b.rarity]} ${SUBN[b.sub||0]}${(b.sub||0)>=3?" "+"★".repeat(b.sub-2):""}${b.fused?" · Fundido":""}</div><b>${b.name}</b>${S.lock[i.k]?" 🔒":""}${i.t>=0?`<br><span class="chip tier t${i.t}">${TIERS[i.t].n} ×${TIERS[i.t].m}</span>`:""}${i.evo?`<br><span class="chip evo">✦ EVOLUÍDO ×3 BPS</span>`:""}${abChip(i)}<br>${mn.map(n=>"<span class=chip>["+n+"]</span>").join(" ")||"No mutation"}<br>${Q[i.q].n} · Mutation Multiplier x${+mm(i).toFixed(2)}<br>${f(bushBps(i))} BPS`}
 function showRes(){const o=$("#ov"),r=last;const i={id:r.b.id,q:r.q,ms:r.ms,lv:1,t:r.tr};const rr=RAR[r.b.rarity],n=r.ms.includes(10);
  o.className="fx-"+(n?"NICHER":r.ms.length>1?"multi":rr)+" k-"+(r.kind||"n");o.style.display="flex";
@@ -618,7 +683,17 @@ function equip(id){const k=S.eq.indexOf(null);if(S.eq.includes(id))return;if(k<0
 function unequip(id){const k=S.eq.indexOf(id);if(k>=0)S.eq[k]=null;render()}
 function sell(id){if(S.lock[id])return modal("🔒 Bush bloqueado. Desbloqueie para vender.",[["OK","",()=>{}]]);const i=S.inv[id],b=bush(i.id),v=sellVal(i),ea=ESSG[b.rarity];
  modal(`<h3>SELL BUSH?</h3><b>${b.name}</b><br><span class="rc ${RAR[b.rarity]}">${RAR[b.rarity]}</span><br>${i.ms.map(k=>M[k].n).join(" + ")||"No mutation"} · ${Q[i.q].n} · Lv ${i.lv}<br>${S.eq.includes(id)?"<b>⚠ Equipado!</b><br>":""}${i.evo?"<b>✦ Bush Evoluída!</b><br>":""}Venda: <b>+${f(v)} Busheiros</b><br>Essência: <b>+${ea} ${RAR[b.rarity]}</b>`,[["CANCEL","",()=>{}],["SELL","r",()=>{S.money+=v;S.sold+=v;S.nsell++;S.ess[b.rarity]+=ea;unequip(id);delete S.inv[id];beep(SND.buy);render()}]])}
-function buyDice(k){const d=DICE[k];if(S.dice.includes(k)){S.dEq=k}else if(S.money>=d[1]){S.money-=d[1];S.dice.push(k);S.dEq=k;beep(SND.buy)}render()}
+function buyDice(k){const d=DICE[k];if(!d)return;if(S.dice.includes(k)){S.dEq=k;beep(SND.buy)}else if(S.money>=d[1]){S.money-=d[1];S.dice.push(k);S.dEq=k;beep(SND.buy);toast("Comprou "+d[0],2000)}render()}
+const DBAND=[[28,60],[205,55],[275,60],[22,85],[320,90],[48,95]];
+function diceImg(k){const bd=Math.floor(k/5),p=k%5+1,[h,sa]=DBAND[bd],L=44+p*3,c1=`hsl(${h+p*6},${sa}%,${L+10}%)`,c2=`hsl(${h+p*6},${sa}%,${L-12}%)`,id="dg"+k;
+ const P={1:[[30,30]],2:[[16,16],[44,44]],3:[[14,14],[30,30],[46,46]],4:[[16,16],[44,16],[16,44],[44,44]],5:[[15,15],[45,15],[30,30],[15,45],[45,45]]}[p];
+ return`<svg class="dimg" viewBox="0 0 60 60" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect x="3" y="3" width="54" height="54" rx="11" fill="url(#${id})" stroke="#0007" stroke-width="2"/>${bd==4?`<rect x="3" y="3" width="54" height="54" rx="11" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/>`:""}${P.map(q=>`<circle cx="${q[0]}" cy="${q[1]}" r="4.6" fill="#fff" fill-opacity=".92"/>`).join("")}</svg>`}
+const DICESHOP=()=>{let o=`<h2>🎲 DADOS</h2><small style="color:var(--mt)">28 dados em 6 faixas · do mais fraco ao mais forte · perdidos no Rebirth</small>`;
+ for(let bd=0;bd<6;bd++){o+=`<div class="dband b${bd+1}"><b>Faixa ${bd+1}</b> · ${DICE_BANDS[bd]} <span class="chip">Dados ${bd*5+1}–${Math.min(bd*5+5,DICE.length)}</span></div><div class="grid dgrid">`;
+  for(let k=bd*5;k<Math.min(bd*5+5,DICE.length);k++){const d=DICE[k],own=S.dice.includes(k),eq=S.dEq==k;
+   o+=`<div class="card dcard${eq?" deq":""}${own?" down":""}">${diceImg(k)}<b>${d[0]}</b><span class="chip">#${k+1} · ${d[3]}</span><div class="dluck">Luck +${f(d[2])}x</div><div class="dprice">${own?"✔ Comprado":"🪙 "+f(d[1])}</div>${own?`<button class="btn${eq?"":" g"} wide" ${eq?"disabled":""} onclick="buyDice(${k})">${eq?"✔ EQUIPADO":"EQUIPAR"}</button>`:`<button class="btn g wide" ${S.money<d[1]?"disabled":""} onclick="buyDice(${k})">COMPRAR</button>`}</div>`}
+  o+=`</div>`}
+ return o};
 const upCost=k=>Math.floor(UP[k][2]*Math.pow(UP[k][3],lvc(k)));
 function buyUp(k){const p=upPlan(k,UQ[k]||1);if(p.n<1)return render();S.money-=p.tot;S.up[k]=p.end;beep(SND.buy);render()}
 const cardCost=k=>Math.floor(CBASE*Math.pow(2.2,cc(k)));
@@ -663,13 +738,50 @@ SCENE=`<svg class="sc" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient 
 <svg x="0" y="6%" width="100%" height="16%" viewBox="0 0 100 30" preserveAspectRatio="none"><polygon fill="#8db89a" points="0,30 10,10 22,22 35,6 50,24 65,8 80,22 92,12 100,24 100,30"/><polygon fill="#a9cfae" opacity=".8" points="0,30 18,18 30,26 55,14 75,26 90,18 100,26 100,30"/></svg>
 <ellipse cx="25%" cy="24%" rx="45%" ry="6%" fill="#63b341"/><ellipse cx="82%" cy="25%" rx="40%" ry="5%" fill="#58a83a"/>
 <ellipse cx="50%" cy="62%" rx="42%" ry="34%" fill="#7ccf55" opacity=".5"/><ellipse cx="50%" cy="64%" rx="33%" ry="27%" fill="#8bd860" opacity=".4"/>${it.map(a=>a[1]).join("")}</svg>`})();
-const POS=[0,1,2,3,4,5,6,7].map(k=>{const a=Math.PI*(1-k/7);return[50+33*Math.cos(a),74-48*Math.sin(a)]});
-function farmHtml(){return`<div class="farm2">${SCENE}${S.eq.map((id,k)=>{const p=POS[k],st=`left:${p[0]}%;top:${p[1]}%`;if(!id||!S.inv[id])return`<div class="sl" style="${st}"><div class="bush ph-empty">+</div><div class="sh"></div><div class="lb">EMPTY SLOT</div></div>`;const i=S.inv[id],b=bush(i.id);return`<div class="sl f ${RAR[b.rarity]} ${i.ms.map(x=>mc(M[x].n)).join(" ")}" style="${st}" onclick="unequip('${id}')"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div><div class="sh"></div><div class="lb">${b.name}<br>${i.ms.map(k=>"["+M[k].n+"]").join("")}<br>Lv${i.lv} · ${f(bushBps(i))}</div></div>`}).join("")}</div><div class="farmbar"><button class="btn g" onclick="equipBest()">⭐ EQUIP BEST</button><small>Toque num Bush para removê-lo.</small></div>`}
+/* ===== FARM: formação circular (roda) das Bushes equipadas ===== */
+const FW={rot:0,vel:0,auto:0,drag:null,raf:0,last:0,upT:0};
+const fwEq=()=>S.eq.filter(id=>id&&S.inv[id]);
+function farmHtml(){const L=fwEq(),n=L.length,ang=k=>(-90+360*k/n).toFixed(3)+"deg";
+const items=L.map((id,k)=>{const i=S.inv[id],b=bush(i.id);return`<div class="sl f ${RAR[b.rarity]} ${i.ms.map(x=>mc(M[x].n)).join(" ")}" style="--a:${ang(k)}" onclick="unequip('${id}')"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div><div class="sh"></div><div class="lb">${b.name}<br>${i.ms.map(k=>"["+M[k].n+"]").join("")}<br>Lv${i.lv} · ${f(bushBps(i))}</div></div>`}).join("");
+const spokes=n>1?L.map((_,k)=>`<i class="fw-sp" style="--a:${ang(k)}"></i>`).join(""):"";
+const dir=FW.auto;
+return`<div class="farm2">${SCENE}<div class="wh" style="--rot:${FW.rot}deg">${n?'<div class="fw-disc"><i class="fw-sweep"></i></div>':""}${n>1?'<div class="fw-tick"></div><div class="fw-rail"></div><div class="fw-inner"></div>':""}${spokes}<div class="fw-hub"><b>✥</b></div>${items}</div>${n?"":'<div class="fw-empty">Nenhuma Bush equipada</div>'}</div><div class="farmbar"><div class="fw-ctl"><button class="btn tg ${dir<0?"on":""}" onclick="fwSpin(-1)" aria-label="Girar anti-horário">⟲</button><button class="btn tg" onclick="fwSpin(0)" aria-label="Parar rotação">⏹</button><button class="btn tg ${dir>0?"on":""}" onclick="fwSpin(1)" aria-label="Girar horário">⟳</button></div><button class="btn g" onclick="equipBest()">⭐ EQUIP BEST</button><small>Toque num Bush para removê-lo · arraste a fazenda para girar a roda.</small></div>`}
+/* dimensiona o raio conforme a quantidade de Bushes e o tamanho da tela */
+function fwFit(){const w=document.querySelector(".farm2 .wh");if(!w)return;const fm=w.parentNode,W=fm.clientWidth,H=fm.clientHeight,its=[...w.querySelectorAll(".sl")],n=its.length;if(!W||!H)return;
+let iw=0,ih=0;its.forEach(e=>{iw=Math.max(iw,e.offsetWidth);ih=Math.max(ih,e.offsetHeight)});
+/* menor raio (escala 1) sem sobreposição entre cards vizinhos em qualquer rotação */
+const cw=iw*.92,ch=ih*.94,hit=(R,off)=>{for(let k=0;k<n;k++)for(let j=1;j<=Math.min(2,n-1);j++){const a=(off+360*k/n)*Math.PI/180,c=(off+360*(k+j)/n)*Math.PI/180;if(Math.abs(R*(Math.cos(a)-Math.cos(c)))<cw&&Math.abs(R*(Math.sin(a)-Math.sin(c)))<ch)return true}return false};
+let need=0;if(n>1){need=Math.min(60,cw*.7);const st=360/n/16;for(;need<900;need+=3){let bad=false;for(let q=0;q<16&&!bad;q++)bad=hit(need,q*st);if(!bad)break}}
+let s=1,R=need;
+if(n>1)for(let t=0;t<6;t++){const Rm=Math.min((W-iw*s)/2,(H-ih*s)/2)-4;s=Math.max(.5,Math.min(1,Rm/need));R=need*s}
+else if(n==1)s=Math.min(1,(H-ih)/ih);
+const hh=ih*s,top=(H-(2*R+hh))*.6,cy=Math.max(top,0)+R+.62*hh;
+w.style.left=W/2+"px";w.style.top=cy+"px";w.style.setProperty("--R",R.toFixed(1)+"px");w.style.setProperty("--s",s.toFixed(3));
+if(fm.querySelector(".fw-empty"))w.style.top=H*.55+"px"}
+function fwApply(){const w=document.querySelector(".farm2 .wh");if(!w)return;FW.rot=((FW.rot%360)+360)%360;w.style.setProperty("--rot",FW.rot.toFixed(2)+"deg")}
+function fwLoop(t){FW.raf=0;if(!document.querySelector(".farm2 .wh")){FW.last=0;return}
+const dt=Math.min(.05,(t-(FW.last||t))/1000);FW.last=t;
+if(!FW.drag){if(FW.auto)FW.vel+=(FW.auto-FW.vel)*Math.min(1,dt*3);else{FW.vel*=Math.exp(-dt*2.2);if(Math.abs(FW.vel)<.5)FW.vel=0}FW.rot+=FW.vel*dt;fwApply()}
+if(FW.drag||FW.vel||FW.auto)FW.raf=requestAnimationFrame(fwLoop);else FW.last=0}
+function fwKick(){if(!FW.raf){FW.last=0;FW.raf=requestAnimationFrame(fwLoop)}}
+function fwSpin(d){const sp=18;FW.auto=FW.auto==d*sp?0:d*sp;if(!FW.auto)FW.vel=0;if(tab=="farm")render();fwKick()}
+document.addEventListener("pointerdown",e=>{const fm=e.target.closest&&e.target.closest(".farm2");if(!fm||(e.pointerType=="mouse"&&e.button))return;const w=fm.querySelector(".wh");if(!w)return;const r=w.getBoundingClientRect();
+FW.drag={id:e.pointerId,x:e.clientX,y:e.clientY,a:Math.atan2(e.clientY-r.top,e.clientX-r.left),t:performance.now(),moved:false};FW.vel=0});
+document.addEventListener("pointermove",e=>{const d=FW.drag;if(!d||e.pointerId!=d.id)return;const w=document.querySelector(".farm2 .wh");if(!w)return;const r=w.getBoundingClientRect(),dx=e.clientX-r.left,dy=e.clientY-r.top,a=Math.atan2(dy,dx),now=performance.now();
+if(!d.moved){if(Math.hypot(e.clientX-d.x,e.clientY-d.y)<6)return;d.moved=true;d.a=a;d.t=now;return}
+if(Math.hypot(dx,dy)<14){d.a=a;return}
+let da=a-d.a;if(da>Math.PI)da-=2*Math.PI;if(da<-Math.PI)da+=2*Math.PI;da*=180/Math.PI;const dt=Math.max(.008,(now-d.t)/1000);
+FW.rot+=da;FW.vel=Math.max(-720,Math.min(720,FW.vel*.6+(da/dt)*.4));d.a=a;d.t=now;fwApply()});
+const fwUp=e=>{const d=FW.drag;if(!d||(e.pointerId!=d.id))return;FW.drag=null;if(d.moved){FW.upT=Date.now();if(performance.now()-d.t>90)FW.vel=0;fwKick()}};
+document.addEventListener("pointerup",fwUp);document.addEventListener("pointercancel",fwUp);
+document.addEventListener("click",e=>{if(FW.upT&&Date.now()-FW.upT<300){e.stopPropagation();e.preventDefault()}FW.upT=0},true);
+window.addEventListener("resize",fwFit);
+(function(){const r0=render;render=function(){const x=r0.apply(this,arguments);if(tab=="farm"){fwFit();if(FW.auto||FW.vel)fwKick()}return x}})();
 function render(){chk();save();hud();nav();document.body.className=S.anim?"":"noanim";const m=$("#main");
  if(tab=="farm")m.innerHTML=farmHtml();
  else if(tab=="roll")m.innerHTML=`<div class="panel rollhero"><h2>ROLL</h2><div class="rollstats"><div class="stat"><small>Total de rolls</small><b>${S.rolls.toLocaleString("en")}</b></div><div class="stat"><small>Pity</small><b>${S.pity}</b></div></div><button id="roll" class="btn g" onclick="doRoll()">ROLL</button><button class="btn tg ${S.auto.on?"on":""}" style="width:100%;margin:0" onclick="S.auto.on=!S.auto.on;render()">AUTO ROLL: ${S.auto.on?"ON":"OFF"}</button></div><div class="panel"><h2>Rolls especiais</h2><div class="spgrid"><button class="spb gold" ${S.gold?"":"disabled"} onclick="doRoll(2,'gold')"><span class="e">🟡</span><b>GOLDEN</b><em>×${S.gold}</em><div class="bar"><i style="width:${S.rolls%10*10}%"></i></div><small>próximo em ${10-S.rolls%10}</small></button><button class="spb dia" ${S.dia?"":"disabled"} onclick="doRoll(3,'dia')"><span class="e">💎</span><b>DIAMOND</b><em>×${S.dia}</em><div class="bar"><i style="width:${S.rolls%100}%"></i></div><small>próximo em ${100-S.rolls%100}</small></button><button class="spb obs" ${S.obs?"":"disabled"} onclick="doRoll(10,'obs')"><span class="e">⚫</span><b>OBSIDIAN</b><em>×${S.obs}</em><div class="bar"><i style="width:${S.rolls%1000/10}%"></i></div><small>próximo em ${1000-S.rolls%1000}</small></button></div></div>${last?`<div class="panel"><h2>Último roll</h2><div class="card" style="max-width:260px;margin:0 auto">${bcard({id:last.b.id,q:last.q,ms:last.ms,lv:1,t:last.tr})}</div></div>`:""}<details class="panel"><summary>Últimos rolls</summary>${HIST()}</details>`;
  else if(tab=="inv")m.innerHTML=INVHDR()+(invT=="items"?ITEMS():invT=="pets"?PETSTAB():INVB());
- else if(tab=="shop"){chkShop();chkMs();m.innerHTML=`<h2>DADOS</h2><div class="grid">${DICE.map((d,k)=>`<div class="card"><b>${d[0]}</b><br>${d[3]}<br>Luck +${d[2]}x<br>${S.dice.includes(k)?`<button class="btn" ${S.dEq==k?"disabled":""} onclick="buyDice(${k})">${S.dEq==k?"EQUIPADO":"EQUIPAR"}</button>`:`<button class="btn g" ${S.money<d[1]?"disabled":""} onclick="buyDice(${k})">${f(d[1])}</button>`}</div>`).join("")}</div>
+ else if(tab=="shop"){chkShop();chkMs();m.innerHTML=`${DICESHOP()}
 <h2>UPGRADES</h2><div class="grid">${Object.keys(UP).map(upCard).join("")}</div>
 <h2>🧬 ESSÊNCIAS DE MUTAÇÃO</h2>Refresh em ${tm(Math.max(0,(S.mT+1.2e6-Date.now())/1000))}<div class="grid">${S.mSh.slice().sort((a,b)=>M[b].m-M[a].m).map(k=>{const x=M[k];return`<div class="card"><b>${x.n} Essence</b><br>Aplica <b>${x.n}</b>: BPS ×${x.m} · chance base ${x.c}%<br>Você tem: ${S.me[k]}<br><button class="btn g" ${S.money<mePrice(k)?"disabled":""} onclick="buyME(${k})">${f(mePrice(k))}</button></div>`}).join("")||"Esgotado até o refresh"}</div><h2>POÇÕES (1 min cada, acumulam duração)</h2><div class="grid">${Object.keys(POT).map(k=>potCard(k,"b")).join("")}</div><h2>CARTAS</h2>Refresh em <b id="shopT">${tm(Math.max(0,(S.shopT+1.2e6-Date.now())/1000))}</b><div class="grid">${S.shop.map(id=>{const b=bush(id);return`<div class="card rr ${RAR[b.rarity]}" style="text-align:center"><div class="bush">${bi(b)}</div><span class="rc ${RAR[b.rarity]}">${RAR[b.rarity]}</span><br><b>${b.name}</b><br>BPS ${f(b.baseBps)}<br><button class="btn g" ${S.money<shopPrice(b)?"disabled":""} onclick="buyBushCard('${id}')">${f(shopPrice(b))}</button></div>`}).join("")||"Esgotado até o refresh"}</div><p>`}
  else if(tab=="top"){if(LB.url&&!lbData)lbLoad();m.innerHTML=LBHTML()}
@@ -713,7 +825,7 @@ function icard(i){const b=bush(i.id),sub=b.sub||0,mn=i.ms.map(k=>M[k].n),e=S.eq.
  mu=mn.slice(0,2).map(n=>`<span class="chip">${n}</span>`).join("")+(mn.length>2?`<span class="chip">+${mn.length-2}</span>`:""),
  ab=i.ab&&AB[i.ab]?`<span class="chip ab ${AB[i.ab].sp?"sp":""}">🎟 ${AB[i.ab].n}</span>`:"";
  return`<div class="card bc rr ${RAR[b.rarity]}${e?" eqd":""}" role="button" tabindex="0" onclick="bdet('${i.k}')" onkeydown="if(event.key=='Enter')bdet('${i.k}')">
-<div class="bc-top"><span class="bc-lv">Lv ${i.lv}${i.lv>=69?" MAX":""}</span><span class="bc-ic">${i.evo?"✦":""}${S.lock[i.k]?"🔒":""}</span></div>
+<div class="bc-top"><span class="bc-lv">Lv ${i.lv}${i.lv>=200?" MAX":""}</span><span class="bc-ic">${i.evo?"✦":""}${S.lock[i.k]?"🔒":""}</span></div>
 <div class="art ${mn.map(mc).join(" ")}"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div></div>
 <b class="bc-n">${b.name}</b>
 <div class="rc s${sub} ${RAR[b.rarity]} bc-r">${RAR[b.rarity]} ${SUBN[sub]}${sub>=3?" "+"★".repeat(sub-2):""}${b.fused?" · Fundido":""}</div>
@@ -722,13 +834,13 @@ function icard(i){const b=bush(i.id),sub=b.sub||0,mn=i.ms.map(k=>M[k].n),e=S.eq.
 ${bd.length?`<div class="bc-eq">${bd.join(" · ")}</div>`:""}
 <button class="btn ${e?"":"g"}" onclick="event.stopPropagation();${e?"unequip":"equip"}('${i.k}')">${e?"Remover":"Equipar"}</button></div>`}
 // Detalhes (informações secundárias) ao selecionar a Bush
-function bdet(k){const i=S.inv[k];if(!i)return;const b=bush(i.id),sub=b.sub||0,mn=i.ms.map(x=>M[x].n),e=S.eq.includes(k),bd=eqBadges(i),c=cs(i),o=$("#ov"),ab=i.ab&&AB[i.ab]?AB[i.ab]:null,pc=i.lv>=69?100:i.xp/xpNeed(i.lv)*100,
+function bdet(k){const i=S.inv[k];if(!i)return;const b=bush(i.id),sub=b.sub||0,mn=i.ms.map(x=>M[x].n),e=S.eq.includes(k),bd=eqBadges(i),c=cs(i),o=$("#ov"),ab=i.ab&&AB[i.ab]?AB[i.ab]:null,pc=i.lv>=200?100:i.xp/xpNeed(i.lv)*100,
  kv=(a,v)=>`<div class="kv"><span>${a}</span><b>${v}</b></div>`;
  o.className="";o.style.display="flex";
  o.innerHTML=`<div class="box wide bd ${RAR[b.rarity]}" style="text-align:left"><button class="bd-x" onclick="closeOv()" aria-label="Fechar">✕</button>
 <div class="bd-head"><div class="art ${mn.map(mc).join(" ")}"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div></div><div><h2 class="bd-n">${b.name}${S.lock[k]?" 🔒":""}</h2><div class="rc s${sub} ${RAR[b.rarity]}">${RAR[b.rarity]} ${SUBN[sub]}${sub>=3?" "+"★".repeat(sub-2):""}${b.fused?" · Fundido":""}</div><div class="bc-eq" style="text-align:left">${bd.join(" · ")||"Não equipada"}</div></div></div>
-<div class="stats4"><div class="stat"><small>BPS</small><b>${f(bushBps(i))}</b></div><div class="stat"><small>Nível</small><b>${i.lv}${i.lv>=69?" MAX":""}</b></div><div class="stat"><small>Qualidade</small><b>${Q[i.q].n} ×${Q[i.q].m}</b></div><div class="stat"><small>Mutações</small><b>×${+mm(i).toFixed(2)}</b></div></div>
-<div class="bar"><i style="width:${pc}%"></i></div><small>${i.lv>=69?"Nível máximo":f(i.xp)+" / "+f(xpNeed(i.lv))+" XP"}</small>
+<div class="stats4"><div class="stat"><small>BPS</small><b>${f(bushBps(i))}</b></div><div class="stat"><small>Nível</small><b>${i.lv}${i.lv>=200?" MAX":""}</b></div><div class="stat"><small>Qualidade</small><b>${Q[i.q].n} ×${Q[i.q].m}</b></div><div class="stat"><small>Mutações</small><b>×${+mm(i).toFixed(2)}</b></div></div>
+<div class="bar"><i style="width:${pc}%"></i></div><small>${i.lv>=200?"Nível máximo":f(i.xp)+" / "+f(xpNeed(i.lv))+" XP"}</small>
 <div class="lab">Detalhes</div>
 ${kv("Mutações",mn.length?i.ms.map(x=>`<span class="chip">${M[x].n} ×${M[x].m}</span>`).join(" "):"Nenhuma")}
 ${kv("Multiplicador especial",i.t>=0?`<span class="chip tier t${i.t}">${TIERS[i.t].n} ×${TIERS[i.t].m}</span>`:"Nenhum")}
@@ -753,13 +865,17 @@ ${a.length?`<div class="grid bgrid">${a.map(icard).join("")}</div>`:`<div class=
 function invMsg(){if($("#ov").style.display!="flex")modal("<h3>📦 Inventário cheio</h3>"+INVMAX+"/"+INVMAX+" Bushes.<br>Venda, funda ou libere espaço para continuar. Raridades sem Auto Sell não são vendidas automaticamente.",[["OK","g",()=>render()]])}
 function sellAll(){const l=Object.values(S.inv).filter(i=>!S.eq.includes(i.k)&&!S.lock[i.k]&&!i.evo);const n=l.reduce((a,i)=>a+i.qty,0),v=l.reduce((a,i)=>a+sellVal(i)*i.qty,0);if(!n)return modal("Nada para vender (equipados e 🔒 são protegidos).",[["OK","",()=>{}]]);
  modal(`<h3>SELL ALL UNEQUIPPED?</h3>${n} Bushes (${l.length} tipos)<br>Receba ≈ <b>${f(v)}</b><br><small>Equipados e 🔒 não serão vendidos.</small>`,[["CANCEL","",()=>{}],["SELL ALL","r",()=>{l.forEach(i=>{S.ess[bush(i.id).rarity]+=ESSG[bush(i.id).rarity];delete S.inv[i.k]});S.money+=v;S.sold+=v;S.nsell+=n;beep(SND.buy);render()}]])}
-/* Preço das Bushes nas lojas (Loja > CARTAS e Loja de Cartas):
-   baseBps (força) × 8000 × multiplicador de raridade × prêmio de subtipo.
-   SHP_R cresce de forma acelerada (razão entre raridades: 1.25, 1.6, 1.75, 2, 2.1, 2.7, 3, 3.3, 3.75),
-   refletindo a dificuldade de obtenção (RCH) e mantendo o valor das Bushes altas.
-   Common continua ~8000×BPS. SHP_S: subtipos III–V são bem mais raros de sair (SUBW). */
-const SHP_R=[1,1.25,2,3.5,7,15,40,120,400,1500],SHP_S=[1,1.05,1.15,1.3,1.5];
-const shopPrice=b=>Math.floor(b.baseBps*8000*(SHP_R[b.rarity]??SHP_R[SHP_R.length-1])*(SHP_S[b.sub||0]??1));
+/* Preço das Bushes nas lojas (Loja > CARTAS e Loja de Cartas) — REBALANCEADO v2.
+   preço = SHP_P[raridade] × (baseBps ÷ (RBASE[raridade] × SUBM[subtipo])) × SUBP[subtipo]
+   · SHP_P  = preço de referência de uma carta subtipo I (raridade). Ancorado no requisito de Rebirth (1e6×10^reb) do estágio em que a raridade
+              começa a aparecer: Common/Uncommon = trocados; Rare ≈ 5% do 1º Rebirth; Epic ≈ 20% do Rebirth 2; Legendary ≈ 40% do Rebirth ~3–4;
+              Mythic ≈ 55% do Rebirth ~5–6; Secret ≈ 1× o Rebirth ~8; Eternal ≈ 3× o ~11; Divino ≈ 8× o ~15. A fração cresce com a raridade,
+              então o salto entre raridades é cada vez maior (×15, ×20, ×33, ×60, ×167, ×750, ×2.000, ×25.000...).
+   · A razão baseBps ÷ (RBASE × SUBM) mantém só a variação individual de força da Bush (±15%).
+   · SUBP = prêmio de subtipo (força + dificuldade de sair, SUBW): I 1× · II 1,6× · III 2,8× · IV 5× · V 9×.
+   Com esses valores a Bush mais cara de uma raridade ainda custa menos que a mais barata da raridade seguinte (sem sobreposição). */
+const SHP_P=[2e3,3e4,6e5,2e7,1.2e9,2e11,1.5e14,3e17,7.5e21,2e28],SUBP=[1,1.6,2.8,5,9];
+const shopPrice=b=>{const r=Math.min(b.rarity,SHP_P.length-1),s=b.sub||0,v=SHP_P[r]*(b.baseBps/(RBASE[r]*(SUBM[s]||1)))*(SUBP[s]??1);if(!isFinite(v)||v<1)return 1;const e=Math.pow(10,Math.max(0,Math.floor(Math.log10(v))-2));return Math.round(v/e)*e};
 function newShop(){const w=[60,25,10,4,1],ids=[];for(let n=0;n<4;n++){const r=2+pick(w),p=B.filter(b=>b.rarity==r&&!ids.includes(b.id));ids.push(p[Math.floor(Math.random()*p.length)].id)}ids.sort((a,b)=>bush(b).baseBps-bush(a).baseBps);S.shop=ids;S.shopT=Date.now();save()}
 function chkShop(){const now=Date.now();if(!(S.shopT>0)||S.shopT>now+6e4||now-S.shopT>=1.2e6||S.shop.some(id=>bush(id).rarity<2))newShop()}
 function buyBushCard(id){const b=bush(id),p=shopPrice(b);if(S.money<p)return;if(invFull())return invMsg();S.money-=p;giveInst(id,pickQ());S.shop=S.shop.filter(x=>x!=id);beep(SND.get);toast("Comprou "+b.name,2500);render()}
@@ -768,7 +884,7 @@ function chk(){chkAll()}
 const ACHH=()=>`<div class="panel"><h2>CONQUISTAS ${Object.keys(S.ach).length}/${ACH.length}</h2>${ACH.map((a,k)=>`<div>${S.ach[k]?"🏆":"🔒"} ${a[0]}</div>`).join("")}</div>`;
 const HIST=()=>`<div style="max-height:220px;overflow:auto;text-align:left;font-size:11px">${S.hist.map(h=>{const b=bush(h[0]);return`<div class="row">${bi(b)} ${b.name} · <span class="rc ${RAR[b.rarity]}">${RAR[b.rarity]}</span> · ${Q[h[1]].n} · ${h[2].map(k=>"["+M[k].n+"]").join("")||"-"} · ${f(h[4])}${h[3]?" · "+KL[h[3]]:""}</div>`}).join("")}</div>`;
 const LBC={bps:"Maior BPS",luck:"Maior Luck",rolls:"Rolls",rebirths:"Rebirths",best_bush:"Bush mais valioso",max_level:"Maior nível",dmg:"Maior Dano",hp:"Maior Vida",floor:"Maior andar da Torre"};
-const LBSQL=`create table leaderboard(pid text primary key check(length(pid)<=64),name text not null check(length(name) between 1 and 16),bps float8 check(bps between 0 and 1e30),luck float8 check(luck between 0 and 1e6),rolls bigint check(rolls between 0 and 1e9),rebirths int check(rebirths between 0 and 10000),best_bush float8 check(best_bush between 0 and 1e30),max_level int check(max_level between 0 and 69),updated timestamptz default now());
+const LBSQL=`create table leaderboard(pid text primary key check(length(pid)<=64),name text not null check(length(name) between 1 and 16),bps float8 check(bps between 0 and 1e30),luck float8 check(luck between 0 and 1e6),rolls bigint check(rolls between 0 and 1e9),rebirths int check(rebirths between 0 and 10000),best_bush float8 check(best_bush between 0 and 1e30),max_level int check(max_level between 0 and 200),updated timestamptz default now());
 alter table leaderboard enable row level security;
 create policy "read" on leaderboard for select using(true);
 create policy "ins" on leaderboard for insert with check(true);
@@ -785,7 +901,7 @@ const LBHTML=()=>`<div class="panel lbp"><h2>🏆 LEADERBOARD</h2>${LB.url?`<div
 // miniatura 64px da foto (ou emoji do avatar padrão) para compartilhar no ranking
 function avThumb(){const d=S.av||"🌿";return new Promise(res=>{if(!(S.avPh&&S.avImg))return res(d);const im=new Image();im.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=64;c.getContext("2d").drawImage(im,0,0,64,64);res(c.toDataURL("image/jpeg",.72))}catch(e){res(d)}};im.onerror=()=>res(d);im.src=S.avImg})}
 async function lbSend(){const n=($("#nm")||{}).value;S.name=(n||S.name||"Anon").trim().slice(0,16)||"Anon";S.pid=S.pid||(Date.now().toString(36)+Math.random().toString(36).slice(2,12));const c=v=>Math.min(Math.max(+v||0,0),1e29);
- const av=await avThumb(),base={pid:S.pid,name:S.name,bps:c(S.mb),luck:Math.min(c(S.maxLuck),9e5),rolls:Math.min(S.rolls,9e8),rebirths:Math.min(S.reb,9999),best_bush:c(S.bestBps),max_level:Math.min(S.maxLv,69),best_name:String(S.bestName||"-").slice(0,40),dmg:c(Object.values(S.inv).reduce((a,i)=>Math.max(a,cs(i).dm),0)),hp:c(Object.values(S.inv).reduce((a,i)=>Math.max(a,cs(i).hp),0)),floor:Math.min(S.hiF,99999)};
+ const av=await avThumb(),base={pid:S.pid,name:S.name,bps:c(S.mb),luck:Math.min(c(S.maxLuck),9e5),rolls:Math.min(S.rolls,9e8),rebirths:Math.min(S.reb,9999),best_bush:c(S.bestBps),max_level:Math.min(S.maxLv,200),best_name:String(S.bestName||"-").slice(0,40),dmg:c(Object.values(S.inv).reduce((a,i)=>Math.max(a,cs(i).dm),0)),hp:c(Object.values(S.inv).reduce((a,i)=>Math.max(a,cs(i).hp),0)),floor:Math.min(S.hiF,99999)};
  const H={apikey:LB.key,Authorization:"Bearer "+LB.key,"Content-Type":"application/json"},U=LB.url+"/rest/v1/leaderboard";lbMsg="Enviando...";
  async function push(body){let ok=false,err="";for(const q of["pid=eq."+encodeURIComponent(S.pid),"name=eq."+encodeURIComponent(S.name)]){const r=await fetch(U+"?"+q,{method:"PATCH",headers:{...H,Prefer:"return=representation"},body,cache:"no-store"});let rows=[];if(r.ok)rows=await r.json();else err=(await r.text()).slice(0,160);if(rows.length){ok=true;break}if(/avatar/i.test(err))return{noav:1}}
   if(ok)return{m:"Atualizado!"};const r=await fetch(U,{method:"POST",headers:{...H,Prefer:"return=minimal"},body,cache:"no-store"});if(r.ok)return{m:"Criado!"};const t=(await r.text()).slice(0,160);if(/avatar/i.test(t))return{noav:1};return{m:"Erro "+r.status+": "+(t||err)}}
@@ -802,45 +918,100 @@ function qRoll(i){S.cone--;i.q=pickQ();S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);r
 function rerollQ(id){const i=S.inv[id],b=bush(i.id);if(!(S.cone>0))return modal("Você precisa de 1 🔺 Cone.",[["OK","",()=>{}]]);
  modal(`<h3>Reroll de qualidade</h3>${b.name}<br>Atual: <b>${Q[i.q].n}</b><br>Custo: 1 🔺 Cone<br>O resultado é aleatório (pode piorar).`,[["CANCEL","",()=>{}],["REROLL","r",()=>{qRoll(i);toast("Nova qualidade: "+Q[i.q].n,3000);render()}]])}
 const ESSG=[1,2,4,8,16,40,100,300,1000,3000],QT=[.5,.6,.8,1,1.5,2.5,4,6,10,15,20],CB=[60,25,9,4,1.2,.5,.1,.02,.005],CHF=[1,5,12,25,40,60,85,115,150];
-function chestW(fl){let hi=0;CHF.forEach((x,t)=>{if(fl>=x)hi=t});return CB.map((c,t)=>fl<CHF[t]?0:c*Math.pow(1+(fl-CHF[t])/8,1.2+t*.5)*Math.pow(.8,Math.max(0,hi-t-1)))}
+/* =====================================================================
+   TORRE v7.4 — balanceamento, Bosses e Baús (Guerra de Bushes NÃO usa nada daqui)
+   Tudo que dá pra ajustar fica em TW / TCH / CHING.
+   ===================================================================== */
+const TW={
+ Z:[1,5,12,25,40,60,85,115,150,200], // 1º andar de cada "zona de raridade" (Common..Celestial). Também libera os Baús.
+ K:[.4,.8,1.6,3.2,7,15,35,80,180,400], // Vida do inimigo da frente no 1º andar da zona = RBASE[raridade] × K (K = investimento esperado: Qualidade, Nível, Gemas, Evolução, Armaduras...)
+ POST:1.08,   // crescimento por andar depois do último andar de zona (andar 200+)
+ DR:8,        // Dano do inimigo = Vida / DR (mesma proporção Vida:Dano de uma Bush)
+ BOSS_EVERY:10, SUP_EVERY:50 // Boss a cada 10 andares; "Boss Supremo" a cada 50
+};
+const TZ_A=TW.Z.map((f,r)=>RBASE[r]*TW.K[r]);
+// Vida base de um inimigo no andar fl: interpolação geométrica entre as zonas (suave dentro de cada zona)
+function towerHp(fl){fl=Math.max(1,fl|0);const Z=TW.Z,n=Z.length;if(fl>=Z[n-1])return TZ_A[n-1]*Math.pow(TW.POST,fl-Z[n-1]);let r=0;while(fl>=Z[r+1])r++;return TZ_A[r]*Math.pow(TZ_A[r+1]/TZ_A[r],(fl-Z[r])/(Z[r+1]-Z[r]))}
+const towerZone=fl=>{let z=0;TW.Z.forEach((x,t)=>{if(fl>=x)z=t});return z};
+const isTBoss=fl=>fl>0&&fl%TW.BOSS_EVERY==0,isTSup=fl=>isTBoss(fl)&&fl%TW.SUP_EVERY==0,tBossN=fl=>Math.floor(fl/TW.BOSS_EVERY);
+// Força do Boss: cresce a cada Boss (até um teto), sobre a base do andar (que continua crescendo)
+const tbHp=fl=>Math.min(16,6+.3*tBossN(fl))*(isTSup(fl)?1.25:1),tbDm=fl=>Math.min(5,2.4+.1*tBossN(fl))*(isTSup(fl)?1.15:1);
+// multiplicador de recompensa em Busheiros do Boss
+const tbRew=fl=>(4+.2*tBossN(fl))*(isTSup(fl)?2:1);
+const tbLabel=fl=>isTBoss(fl)?"👑 ENFRENTAR BOSS · ANDAR "+fl:"ENTRAR NO ANDAR "+fl;
+// Chance dos baús por andar: só saem raridades já liberadas na zona (t<=zona). Quanto mais fundo na zona, mais perto do topo.
+const TCH={W:[1,1.6,1,.5,.22,.09,.035,.014,.006,.002],F:[1,1,1,.9,.8,.7,.55,.45,.35,.25]};
+function chestW(fl,boss){const Z=TW.Z,n=Z.length,z=towerZone(fl),p=z>=n-1?Math.min(1,(fl-Z[n-1])/100):(fl-Z[z])/(Z[z+1]-Z[z]);
+ return Z.map((_,t)=>{if(t>z)return 0;const d=z-t;let w=d==0?(.06+.44*p)*TCH.F[t]:TCH.W[d]*TCH.F[t];if(boss)w*=d==0?3:d==1?2:d==2?1:.3;return w})}
+// Ingots por raridade do Baú: [tier do Ingot, mín, máx, chance %]  (0 Bronze,1 Silver,2 Gold,3 Diamond,4 Emerald,5 Void,6 Rainbow)
+const CHING=[
+ [[0,1,2,50]],
+ [[0,1,3,70],[1,1,1,12]],
+ [[0,2,4,100],[1,1,2,45],[2,1,1,8]],
+ [[1,2,4,100],[2,1,2,40],[3,1,1,6]],
+ [[2,2,4,100],[3,1,2,38],[4,1,1,5]],
+ [[3,2,5,100],[4,1,3,36],[5,1,1,5]],
+ [[4,3,6,100],[5,1,3,34],[6,1,1,3]],
+ [[5,3,6,100],[6,1,2,28]],
+ [[5,4,8,100],[6,2,4,45]],
+ [[5,5,10,100],[6,3,6,100],[6,5,12,30]]];
+function ingRoll(t,mul,cm){const o={};CHING[t].forEach(e=>{if(Math.random()*100<Math.min(100,e[3]*(cm||1))){const q=(e[1]+Math.floor(Math.random()*(e[2]-e[1]+1)))*(mul||1);o[e[0]]=(o[e[0]]||0)+q}});return o}
 const newKey=()=>"u"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const gb=i=>(i.gem||0)*.01*(1+(Q[i.q].m-1)*.25),cs=i=>{const bp=bushRaw(i),g=1+gb(i);return{hp:bp*g*ABM(i,"hp")*bn("hp"),dm:bp/8*g*ABM(i,"dmg")*bn("dmg")}};
 function giveInst(id,q,ms,t){const k=newKey();S.inv[k]={k,id,q,ms:ms||[],lv:1,xp:0,qty:1,gem:0};if(t>=0)S.inv[k].t=t;S.bq[id]=Math.max(S.bq[id]??-1,q);return k}
 function givePool(r){const p=B.filter(b=>b.rarity==r),b=p[pick(p.map(x=>x.weight))];giveInst(b.id,pickQ());return b}
 const EN=[["Slime","🟢"],["Goblin","👺"],["Lobo","🐺"],["Ogro","👹"],["Golem","🗿"],["Dragão","🐲"],["Fantasma","👻"]];
-const enemies=fl=>[0,1,2].map(n=>{const h=.4*Math.pow(1.2,fl-1)*(1+n*.1),e=EN[(fl+n)%EN.length];return{n:e[0]+" "+fl+"-"+(n+1),em:e[1],hp:h,dm:h/12}});
-function fight(fl,EL,TK){const T=(TK||S.team).map(k=>S.inv[k]).filter(Boolean).map(i=>{const c=cs(i);return{i,hp:c.hp,mx:c.hp,dm:c.dm}}),E=(EL||enemies(fl)).map(e=>({...e,mx:e.hp}));let t=0;
+const TBN=[["Rei Slime","🟢"],["Chefe Goblin","👺"],["Lobo Alfa","🐺"],["Ogro Ancestral","👹"],["Golem Titã","🗿"],["Dragão Ancião","🐲"],["Espectro Rei","👻"],["Kraken Abissal","🦑"],["Fênix Sombria","🔥"],["Lorde Demônio","😈"]];
+const enemies=fl=>{const h=towerHp(fl),DR=TW.DR;
+ if(isTBoss(fl)){const b=TBN[(tBossN(fl)-1)%TBN.length],sup=isTSup(fl);
+  const g=[0,1].map(k=>{const e=EN[(fl+k)%EN.length];return{n:"Guarda "+e[0]+" "+fl+"-"+(k+1),em:e[1],hp:h*.4,dm:h*.4/DR}});
+  return g.concat([{n:(sup?"★ ":"")+b[0],em:b[1],hp:h*tbHp(fl),dm:h*tbDm(fl)/DR,boss:true,sup}])}
+ return [0,1,2].map(n=>{const hh=h*(1+n*.1),e=EN[(fl+n)%EN.length];return{n:e[0]+" "+fl+"-"+(n+1),em:e[1],hp:hh,dm:hh/DR}})};
+function fcore(T,E){let t=0;
  while(t<300&&T.some(x=>x.hp>0)&&E.some(x=>x.hp>0)){t++;let d=T.reduce((a,x)=>a+(x.hp>0?x.dm:0),0);for(const e of E){if(d<=0)break;const h=Math.min(e.hp,d);e.hp-=h;d-=h}for(const e of E){if(e.hp<=0)continue;const x=T.find(y=>y.hp>0);if(!x)break;x.hp-=e.dm}}
+ return t}
+function fight(fl,EL,TK){const T=(TK||S.team).map(k=>S.inv[k]).filter(Boolean).map(i=>{const c=cs(i);return{i,hp:c.hp,mx:c.hp,dm:c.dm}}),E=(EL||enemies(fl)).map(e=>({...e,mx:e.hp}));const t=fcore(T,E);
  return{T,E,t,win:E.every(x=>x.hp<=0)&&T.some(x=>x.hp>0)}}
+// Vida média por Bush recomendada: time de 3 com Vida H e Dano H/8 que vence terminando com >=40% da vida
+function towerRec(fl){const E0=enemies(fl),h=towerHp(fl),ok=H=>{const T=[0,1,2].map(()=>({hp:H,mx:H,dm:H/8})),E=E0.map(e=>({...e}));fcore(T,E);return E.every(x=>x.hp<=0)&&T.reduce((a,x)=>a+Math.max(0,x.hp),0)>=H*3*.4};let lo=h*.01,hi=h*80;for(let k=0;k<60;k++){const m=Math.sqrt(lo*hi);ok(m)?hi=m:lo=m}return hi}
 let tlog="",fr=0,fsel=[];
 const TCD=2000;
-function tfight(auto){const fl=S.tf;S.team=S.team.filter(k=>S.inv[k]);if(S.team.length<3)return;if(Date.now()<Math.min(S.tcd||0,Date.now()+TCD))return;S.tcd=Date.now()+TCD;const r=fight(fl);
- let h=`<h3>${r.win?"✅ VITÓRIA":"❌ DERROTA"} (${r.t} turnos)</h3>`+r.T.map(x=>`${bush(x.i.id).name}: ❤ ${f(Math.max(0,x.hp))}/${f(x.mx)}`).join("<br>")+"<br>"+r.E.map(e=>`${e.em} ${e.n}: ❤ ${f(Math.max(0,e.hp))}/${f(e.mx)}`).join("<br>");
- if(r.win){const tq=r.T.reduce((a,x)=>a+QT[x.i.q],0)/3,rw=[],m=Math.floor((80*Math.pow(1.13,fl)+bps()*30*(1+fl/25))*tq);S.money+=m;S.earned+=m;rw.push("+"+f(m)+" Busheiros");S.twins++;if(Math.random()<.2){const pc=1+Math.floor(fl/20);S.pc+=pc;rw.push("+"+pc+" 🐾 Pet Coin")}
-  
-  {const n=1+Math.floor(fl/50);if(Math.random()<Math.min(.7,(.15+fl*.006)*Math.min(2,Math.sqrt(tq)))){S.cone+=n;rw.push("+"+n+" 🔺 Cone")}}{const e=pick(CB.map((c,t)=>c*Math.pow(1+fl/50,t*.3))),n=1+Math.floor(fl/10);S.ess[e]+=n;rw.push("+"+n+" Essência "+RAR[e])}
-  if(Math.random()<Math.min(.7,(.08+fl*.004)*Math.sqrt(tq))){const n=1+Math.floor(fl/40);S.gems+=n;rw.push("+"+n+" 💠 Gema Bushiana")}
-  if(Math.random()<.1){const k=Object.keys(POT)[Math.floor(Math.random()*4)];S.pinv[k]++;rw.push("+1 "+POT[k][0])}
-  if(Math.random()<Math.min(.9,.3+fl*.003)){const t=pick(chestW(fl));S.chests[t]++;rw.push("+1 📦 Baú "+RAR[t])}
-  S.hiF=Math.max(S.hiF,fl);S.tf=fl+1;h+="<br><b>Recompensas:</b><br>"+rw.join("<br>");beep(SND.lvl)}else{S.tf=1;h+=`<br><b>Derrota no andar ${fl}!</b> A Torre foi reiniciada: você voltou ao <b>andar 1</b>. Recorde: ${S.hiF}`}
+function tfight(auto){const fl=S.tf;S.team=S.team.filter(k=>S.inv[k]);if(S.team.length<3)return;if(Date.now()<Math.min(S.tcd||0,Date.now()+TCD))return;S.tcd=Date.now()+TCD;const r=fight(fl),bs=isTBoss(fl);
+ let h=`<h3>${bs?(isTSup(fl)?"★ BOSS SUPREMO · ":"👑 BOSS · "):""}${r.win?"✅ VITÓRIA":"❌ DERROTA"} (${r.t} turnos)</h3>`+r.T.map(x=>`${bush(x.i.id).name}: ❤ ${f(Math.max(0,x.hp))}/${f(x.mx)}`).join("<br>")+"<br>"+r.E.map(e=>`${e.em} ${e.boss?"<b>"+e.n+"</b>":e.n}: ❤ ${f(Math.max(0,e.hp))}/${f(e.mx)}`).join("<br>");
+ if(r.win){const tq=r.T.reduce((a,x)=>a+QT[x.i.q],0)/3,rw=[],n10=tBossN(fl),bm=bs?tbRew(fl):1,m=Math.floor((80*Math.pow(1.13,fl)+bps()*30*(1+fl/25))*tq*bm);S.money+=m;S.earned+=m;rw.push("+"+f(m)+" Busheiros");S.twins++;
+  if(bs){S.tbk=(S.tbk||0)+1;h=`<div class="bossban${isTSup(fl)?" sup":""}"><span>💀</span><b>BOSS DERROTADO!</b></div>`+h}
+  {const pc=(1+Math.floor(fl/20))*(bs?3:1);if(bs||Math.random()<.2){S.pc+=pc;rw.push("+"+pc+" 🐾 Pet Coin")}}
+  {const n=(1+Math.floor(fl/50))*(bs?2:1);if(bs||Math.random()<Math.min(.7,(.15+fl*.006)*Math.min(2,Math.sqrt(tq)))){S.cone+=n;rw.push("+"+n+" 🔺 Cone")}}
+  {const e=pick(CB.map((c,t)=>c*Math.pow(1+fl/50,t*.3))),n=(1+Math.floor(fl/10))*(bs?3:1);S.ess[e]+=n;rw.push("+"+n+" Essência "+RAR[e])}
+  {const n=(1+Math.floor(fl/40))*(bs?2:1)+(bs?1:0);if(bs||Math.random()<Math.min(.7,(.08+fl*.004)*Math.sqrt(tq))){S.gems+=n;rw.push("+"+n+" 💠 Gema Bushiana")}}
+  {const np=bs?2:(Math.random()<.1?1:0);for(let q=0;q<np;q++){const k=Object.keys(POT)[Math.floor(Math.random()*4)];S.pinv[k]++;rw.push("+1 "+POT[k][0])}}
+  {const nc=bs?1+(isTSup(fl)?1:0)+(Math.random()<.5?1:0):(Math.random()<Math.min(.9,.3+fl*.003)?1:0);for(let q=0;q<nc;q++){const t=pick(chestW(fl,bs));S.chests[t]++;rw.push("+1 📦 Baú "+RAR[t]+(bs?" (Boss)":""))}}
+  if(bs){const o=ingRoll(towerZone(fl),2+Math.floor(n10/10),2.5);Object.keys(o).sort((x,y)=>y-x).forEach(k=>{S.ing[k]+=o[k];rw.push("+"+o[k]+" 🧱 Ingot "+ING[k][0])})}
+  S.hiF=Math.max(S.hiF,fl);S.tf=fl+1;h+="<br><b>Recompensas:</b><br>"+rw.join("<br>");beep(bs?SND.sec:SND.lvl);if(isTBoss(S.tf))toast("👑 O próximo andar é de BOSS!",3000)}else{S.tf=1;h+=`<br><b>Derrota no andar ${fl}!</b>${bs?" O Boss foi forte demais.":""} A Torre foi reiniciada: você voltou ao <b>andar 1</b>. Recorde: ${S.hiF}`}
  tlog=`<div class="card" style="margin-top:8px;text-align:left">${h}</div>`;if(!auto||tab=="tower")render();else{save();hud()}}
 function tAuto(){S.tauto=!S.tauto;render()}
 function tadd(k){if(S.team.length<3&&!S.team.includes(k))S.team.push(k);render()}
 function trem(k){S.team=S.team.filter(x=>x!=k);render()}
 const TOWER_OLD=()=>{const fl=S.tf,E=enemies(fl),T=S.team.map(k=>S.inv[k]).filter(Boolean);return`<div class="panel"><h2>🗼 TORRE</h2>Tower Floor: <b>${fl}</b> · Highest Floor: <b>${S.hiF}</b><h3>Seu time (${T.length}/3)</h3><div class="grid">${T.map(i=>{const b=bush(i.id),c=cs(i);return`<div class="card rr ${RAR[b.rarity]}" style="text-align:center">${bcard(i)}<br>❤ ${f(c.hp)} · ⚔ ${f(c.dm)}<br>Lv ${i.lv} · 💠${i.gem||0}/100<br><button class="btn" onclick="trem('${i.k}')">Remover</button></div>`}).join("")}</div><h3>Inimigos</h3><div class="grid">${E.map(e=>`<div class="card" style="text-align:center"><div class="bush">${e.em}</div><b>${e.n}</b><br>❤ ${f(e.hp)} · ⚔ ${f(e.dm)}</div>`).join("")}</div><button id="tbtn" class="btn g" ${T.length==3&&Date.now()>=(S.tcd||0)?"":"disabled"} onclick="tfight()">${Date.now()<(S.tcd||0)?"AGUARDE "+Math.ceil(((S.tcd||0)-Date.now())/1000)+"s":"ENTRAR NO ANDAR "+fl}</button> <button class="btn ${S.tauto?"g":""}" onclick="tAuto()">AUTO TORRE: ${S.tauto?"ON ●":"OFF"}</button> <button class="btn r" onclick="tReset()">Reiniciar Torre (andar 1)</button>${tlog}</div><div class="panel"><h3>Escolher time</h3>${Object.values(S.inv).sort(SORT[0]).map(i=>{const b=bush(i.id),c=cs(i);return`<div class="row">${bi(b)} ${b.name} · ${Q[i.q].n} · Lv${i.lv} · ❤${f(c.hp)} ⚔${f(c.dm)} <button class="btn" ${S.team.includes(i.k)||S.team.length>=3?"disabled":""} onclick="tadd('${i.k}')">+ Time</button></div>`}).join("")}</div>`};
-const chestAcc=()=>({m:0,cone:0,gems:0,pot:{},ess:{},b:{}});
-function chestCore(t,a){const m=Math.floor((100+bps()*1.5)*(t+1));S.money+=m;a.m+=m;
- if(Math.random()<.12+.04*t){const n=1+(t>>1);S.cone+=n;a.cone+=n}
- if(Math.random()<.2+.03*t){const k=Object.keys(POT)[Math.floor(Math.random()*4)];S.pinv[k]++;a.pot[k]=(a.pot[k]||0)+1}
- {const e=Math.max(0,t-1),n=2+t*3;S.ess[e]+=n;a.ess[e]=(a.ess[e]||0)+n}
- if(Math.random()<.1+.04*t){const n=1+(t>>1);S.gems+=n;a.gems+=n}
- if(Math.random()<.4){const rr=Math.random()<.01?t:Math.max(0,t-1-Math.floor(Math.random()*3)),b=givePool(rr),k=b.name+" ("+RAR[rr]+")";a.b[k]=(a.b[k]||0)+1}}
-function chestLines(a){const r=["+"+f(a.m)+" Busheiros"];if(a.cone)r.push("+"+a.cone+" 🔺 Cone");
+const chestAcc=()=>({m:0,cone:0,gems:0,pot:{},ess:{},b:{},ing:{}});
+// Baús melhores recompensam MUITO mais (dinheiro cresce ×2,1 por raridade) e dão Ingots conforme CHING.
+function chestCore(t,a){const m=Math.floor((100+bps()*1.5)*Math.pow(2.1,t));S.money+=m;a.m+=m;
+ if(Math.random()<Math.min(.9,.12+.04*t)){const n=1+Math.floor(t*1.2);S.cone+=n;a.cone+=n}
+ if(Math.random()<Math.min(.9,.2+.03*t)){const k=Object.keys(POT)[Math.floor(Math.random()*4)],q=1+(t>>2);S.pinv[k]+=q;a.pot[k]=(a.pot[k]||0)+q}
+ {const e=Math.max(0,t-1),n=2+Math.round(t*t*.5+t*2.5);S.ess[e]+=n;a.ess[e]=(a.ess[e]||0)+n}
+ if(Math.random()<Math.min(.95,.1+.04*t)){const n=1+Math.floor(t*t/3);S.gems+=n;a.gems+=n}
+ {const o=ingRoll(t);for(const k in o){S.ing[k]+=o[k];a.ing[k]=(a.ing[k]||0)+o[k]}}
+ // Bush de bônus: nunca Celestial (o Big Bush só nasce da forja)
+ if(Math.random()<Math.min(.95,.35+.05*t)){const rr=Math.min(8,Math.random()<.01+.015*t?t:Math.max(0,t-1-Math.floor(Math.random()*3))),b=givePool(rr),k=b.name+" ("+RAR[rr]+")";a.b[k]=(a.b[k]||0)+1}}
+function chestLines(a){const r=["+"+f(a.m)+" Busheiros"];
+ Object.keys(a.ing).sort((x,y)=>y-x).forEach(k=>r.push("+"+a.ing[k]+" 🧱 Ingot "+ING[k][0]));
+ if(a.cone)r.push("+"+a.cone+" 🔺 Cone");
  Object.keys(a.pot).forEach(k=>r.push("+"+a.pot[k]+" "+POT[k][0]));
  Object.keys(a.ess).forEach(e=>r.push("+"+a.ess[e]+" Essência "+RAR[e]));
  if(a.gems)r.push("+"+a.gems+" 💠 Gema Bushiana");
  const bs=Object.keys(a.b);bs.slice(0,15).forEach(k=>r.push("🎁 Bush: "+k+(a.b[k]>1?" x"+a.b[k]:"")));
  if(bs.length>15)r.push("🎁 +"+(bs.length-15)+" outros tipos de Bush");return r}
+const chIngTxt=t=>CHING[t].map(e=>ING[e[0]][0]+" "+(e[1]==e[2]?e[1]:e[1]+"–"+e[2])+(e[3]<100?" ("+e[3]+"%)":"")).join(" · ");
 function openChest(t){if(!S.chests[t])return;if(invFull())return invMsg();S.chests[t]--;const a=chestAcc();chestCore(t,a);
  modal("<h3>Baú "+RAR[t]+"</h3>"+chestLines(a).join("<br>"),[["OK","g",()=>render()]])}
 function openAllChests(){let n=0;const a=chestAcc();for(let t=0;t<S.chests.length;t++){while(S.chests[t]>0&&!invFull()){S.chests[t]--;chestCore(t,a);n++}}
@@ -881,9 +1052,9 @@ function buyME(k){const p=mePrice(k);if(S.money<p||!S.mSh.includes(k))return;S.m
 function applyME(k){const i=S.inv[k];if(!(S.me[mSel]>0))return toast("Sem essência dessa mutação",2000);if(i.ms.includes(mSel))return toast("O Bush já tem essa mutação",2000);S.me[mSel]--;i.ms.push(mSel);S.muts[M[mSel].n]=1;S.bm[i.id]=[...new Set([...(S.bm[i.id]||[]),M[mSel].n])];S.maxMuts=Math.max(S.maxMuts,i.ms.length);beep(SND.mut);modal(`🧬 ${M[mSel].n} Essence usada<br>${bush(i.id).name}<br>Mutações: ${i.ms.map(j=>"["+M[j].n+"]").join("")}<br>Multiplicador total: x${+mm(i).toFixed(2)}`,[["OK","g",()=>render()]])}
 const ESSXP=[20,50,120,300,800,2000,6000,20000,70000,250000];let eSel=0,fx={};
 let eQ=1,eK=null;
-function essCalc(){const i=S.inv[eK];if(!i)return null;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)*ABM(i,"xp")*bn("xp")),have=S.ess[eSel];eQ=Math.max(0,Math.min(have,Math.floor(+eQ)||0));const g=per*eQ;let lv=i.lv,xp=i.xp+g;while(lv<69&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}return{i,per,have,g,lv}}
-function essMax(){const i=S.inv[eK];if(!i||i.lv>=69)return 0;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)*ABM(i,"xp")*bn("xp"));let lv=i.lv,xp=i.xp,n=0;while(lv<69&&n<S.ess[eSel]){xp+=per;n++;while(lv<69&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}}return n}
-function essStats(){const c=essCalc(),e=$("#esst");if(!c||!e)return;const mx=c.i.lv>=69;
+function essCalc(){const i=S.inv[eK];if(!i)return null;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)*ABM(i,"xp")*bn("xp")),have=S.ess[eSel];eQ=Math.max(0,Math.min(have,Math.floor(+eQ)||0));const g=per*eQ;let lv=i.lv,xp=i.xp+g;while(lv<200&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}return{i,per,have,g,lv}}
+function essMax(){const i=S.inv[eK];if(!i||i.lv>=200)return 0;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)*ABM(i,"xp")*bn("xp"));let lv=i.lv,xp=i.xp,n=0;while(lv<200&&n<S.ess[eSel]){xp+=per;n++;while(lv<200&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}}return n}
+function essStats(){const c=essCalc(),e=$("#esst");if(!c||!e)return;const mx=c.i.lv>=200;
  e.innerHTML=`<div class="stat"><small>Essências disponíveis</small><b>${c.have}</b></div><div class="stat"><small>Selecionadas</small><b>${eQ}</b></div><div class="stat"><small>XP a receber</small><b>+${f(c.g)}</b></div><div class="stat"><small>Nível atual → previsto</small><b>${c.i.lv} → ${c.lv}${c.lv>c.i.lv?" ▲":""}</b></div>${mx?'<div class="aq-res" style="grid-column:1/-1">Este Bush já está no nível máximo.</div>':""}`;
  const ok=$("#esok");if(ok)ok.disabled=mx||eQ<1}
 function essSet(v,t){eQ=v;const c=essCalc();if(!c)return;const e=$("#eqin");if(e&&(!t||(e.value!==""&&+e.value!==eQ)))e.value=eQ;essStats()}
@@ -894,7 +1065,7 @@ function essUI(){const c=essCalc();if(!c)return closeOv();const o=$("#ov"),b=bus
 <div class="chips"><button class="chipb" onclick="essSet(1)">1</button><button class="chipb" onclick="essSet(10)">10</button><button class="chipb" onclick="essSet(100)">100</button><button class="chipb" onclick="essSet(essMax())">MÁX</button></div>
 <div class="stats4" id="esst"></div><p><button class="btn" onclick="closeOv();render()">CANCELAR</button><button class="btn g" id="esok" onclick="essGo()">USAR ESSÊNCIAS</button></p></div>`;essStats()}
 function essOpen(k){eK=k;const i=S.inv[k];if(!S.ess[eSel]){const t=S.ess.findIndex(x=>x>0);if(t>=0)eSel=t}eQ=S.ess[eSel]>0?1:0;essUI()}
-function essGo(){const c=essCalc();if(!c||eQ<1||c.i.lv>=69)return;S.ess[eSel]-=eQ;const l0=c.i.lv;addXp(c.i,c.g);fx={k:eK,t:"+"+f(c.g)+" XP"+(c.i.lv>l0?" · Lv "+c.i.lv+"!":"")};beep(SND.xp);closeOv();render()}
+function essGo(){const c=essCalc();if(!c||eQ<1||c.i.lv>=200)return;S.ess[eSel]-=eQ;const l0=c.i.lv;addXp(c.i,c.g);fx={k:eK,t:"+"+f(c.g)+" XP"+(c.i.lv>l0?" · Lv "+c.i.lv+"!":"")};beep(SND.xp);closeOv();render()}
 const emPrice=()=>Math.floor(5e7+bps()*2e4);
 function chkEm(){const n=Date.now();if(!(S.emT>0)||S.emT>n+6e4||n-S.emT>=2.16e7){S.emT=n;S.emStock=1}}
 function buyEM(){if(!S.emStock||S.money<emPrice())return;S.money-=emPrice();S.emStock=0;S.emut++;render()}
@@ -915,10 +1086,10 @@ let itT="res";
 const ITEMS=()=>{const all=Object.values(S.inv),
  nv=`<div class="subtabs">${[["res","💎","Recursos"],["use","🧪","Consumíveis"],["up","🎚","Aprimorar"]].map(t=>`<button class="stb sm ${itT==t[0]?"on":""}" onclick="itT='${t[0]}';render()"><i>${t[1]}</i><b>${t[2]}</b></button>`).join("")}</div>`;
  if(itT=="use")return nv+`<div class="panel"><h2>🧪 Poções</h2><div class="grid">${Object.keys(POT).map(k=>potCard(k,"u")).join("")}</div></div>
-<div class="panel"><h2>📦 Baús</h2><button class="btn g wide" ${S.chests.some(x=>x>0)?"":"disabled"} onclick="openAllChests()">ABRIR TODOS</button>${RAR.slice(0,9).map((r,t)=>`<div class="row"><span class="rc ${r}">${r}</span> <b>x${S.chests[t]}</b><button class="btn" style="margin-left:auto" ${S.chests[t]?"":"disabled"} onclick="openChest(${t})">ABRIR</button></div>`).join("")}</div>`;
+<div class="panel"><h2>📦 Baús</h2><button class="btn g wide" ${S.chests.some(x=>x>0)?"":"disabled"} onclick="openAllChests()">ABRIR TODOS</button>${RAR.map((r,t)=>`<div class="row"><span class="rc ${r}">${r}</span> <b>x${S.chests[t]}</b><button class="btn" style="margin-left:auto" ${S.chests[t]?"":"disabled"} onclick="openChest(${t})">ABRIR</button></div>`).join("")}<details style="margin-top:8px"><summary>🧱 Ingots que cada baú pode dar</summary>${RAR.map((r,t)=>`<div class="row"><span class="rc ${r}">${r}</span><small>${chIngTxt(t)}</small></div>`).join("")}</details></div>`;
  if(itT=="up"){const cn=RAR.map((_,t)=>all.filter(i=>bush(i.id).rarity==t).length);
   return nv+`<div class="panel"><h2>🎯 Auto Roll de Qualidade</h2><div id="aqb">${aqHtml()}</div></div>
-<div class="panel"><h2>🎚 Aprimorar Bushes</h2><small>Qualidade · Gema · Mutação · Essência de XP. Escolha a raridade e a mutação a aplicar.</small><div class="lab">Mutação a aplicar</div><select onchange="mSel=+this.value;render()" style="width:100%">${M.map((x,k)=>`<option value="${k}" ${mSel==k?"selected":""}>${x.n} Essence (x${S.me[k]})</option>`).join("")}</select><div class="lab">Raridade</div><div class="chips">${RAR.map((r,t)=>`<button class="chipb ${iR==t?"on":""}" onclick="iR=${t};render()">${r}<small>${cn[t]}</small></button>`).join("")}</div>${all.filter(i=>bush(i.id).rarity==iR).sort(SORT[0]).map(i=>{const b=bush(i.id);return`<div class="row up-row"><div class="ur-h">${bi(b)} <b>${b.name}</b> ${i.ms.map(k=>"<span class=chip>"+M[k].n+"</span>").join("")} <span class="chip ql" style="--qh:${i.q*28}">${Q[i.q].n}</span></div><div class="ur-i"><small>Lv${i.lv} · XP ${i.lv>=69?"MAX":f(i.xp)+"/"+f(xpNeed(i.lv))} · 💠${i.gem||0}/${GEM_MAX} (+${(gb(i)*100).toFixed(0)}% Vida/Dano/XP)</small><div class="bar"><i style="width:${i.lv>=69?100:i.xp/xpNeed(i.lv)*100}%"></i></div>${fx.k==i.k?`<b style="color:var(--ok)">${fx.t}</b>`:""}</div><div class="rbtns"><button class="btn" onclick="rerollQ('${i.k}')">Reroll 🔺1</button><button class="btn" ${gemOk(i)?"":"disabled"} onclick="useGem('${i.k}')">${(i.gem||0)>=GEM_MAX?"💠 NÍVEL MÁX":"+ Gema · 💠"+gemCost((i.gem||0)+1)}</button><button class="btn" ${gemOk(i)?"":"disabled"} onclick="useGem('${i.k}',1)">Subir máx.</button><button class="btn" ${S.ess.some(x=>x>0)&&i.lv<69?"":"disabled"} onclick="essOpen('${i.k}')">✨ Essências de XP</button><button class="btn" ${S.me[mSel]?"":"disabled"} onclick="applyME('${i.k}')">🧬 ${M[mSel].n} (x${S.me[mSel]})</button></div></div>`}).join("")||"<div class=\"row\">Sem Bushes nesta raridade.</div>"}</div>`}
+<div class="panel"><h2>🎚 Aprimorar Bushes</h2><small>Qualidade · Gema · Mutação · Essência de XP. Escolha a raridade e a mutação a aplicar.</small><div class="lab">Mutação a aplicar</div><select onchange="mSel=+this.value;render()" style="width:100%">${M.map((x,k)=>`<option value="${k}" ${mSel==k?"selected":""}>${x.n} Essence (x${S.me[k]})</option>`).join("")}</select><div class="lab">Raridade</div><div class="chips">${RAR.map((r,t)=>`<button class="chipb ${iR==t?"on":""}" onclick="iR=${t};render()">${r}<small>${cn[t]}</small></button>`).join("")}</div>${all.filter(i=>bush(i.id).rarity==iR).sort(SORT[0]).map(i=>{const b=bush(i.id);return`<div class="row up-row"><div class="ur-h">${bi(b)} <b>${b.name}</b> ${i.ms.map(k=>"<span class=chip>"+M[k].n+"</span>").join("")} <span class="chip ql" style="--qh:${i.q*28}">${Q[i.q].n}</span></div><div class="ur-i"><small>Lv${i.lv} · XP ${i.lv>=200?"MAX":f(i.xp)+"/"+f(xpNeed(i.lv))} · 💠${i.gem||0}/${GEM_MAX} (+${(gb(i)*100).toFixed(0)}% Vida/Dano/XP)</small><div class="bar"><i style="width:${i.lv>=200?100:i.xp/xpNeed(i.lv)*100}%"></i></div>${fx.k==i.k?`<b style="color:var(--ok)">${fx.t}</b>`:""}</div><div class="rbtns"><button class="btn" onclick="rerollQ('${i.k}')">Reroll 🔺1</button><button class="btn" ${gemOk(i)?"":"disabled"} onclick="useGem('${i.k}')">${(i.gem||0)>=GEM_MAX?"💠 NÍVEL MÁX":"+ Gema · 💠"+gemCost((i.gem||0)+1)}</button><button class="btn" ${gemOk(i)?"":"disabled"} onclick="useGem('${i.k}',1)">Subir máx.</button><button class="btn" ${S.ess.some(x=>x>0)&&i.lv<200?"":"disabled"} onclick="essOpen('${i.k}')">✨ Essências de XP</button><button class="btn" ${S.me[mSel]?"":"disabled"} onclick="applyME('${i.k}')">🧬 ${M[mSel].n} (x${S.me[mSel]})</button></div></div>`}).join("")||"<div class=\"row\">Sem Bushes nesta raridade.</div>"}</div>`}
  return nv+`<div class="panel"><h2>Moedas especiais</h2><div class="restiles"><div class="rt"><i>🔺</i><b>${S.cone||0}</b><small>Cones</small></div><div class="rt"><i>💠</i><b>${f(S.gems)}</b><small>Gemas Bushianas</small></div></div><small>Cada Bush tem seu próprio nível de Gema (máx. ${GEM_MAX}). Custo cresce por nível; 1→${GEM_MAX} = ${GEMTOT} gemas.</small></div>
 <div class="panel"><h2>✨ Essências</h2><div class="restiles">${RAR.map((r,t)=>`<div class="rt ${r}"><b class="rc ${r}">${f(S.ess[t])}</b><small>${r}</small></div>`).join("")}</div><h3>🧬 Essências de Mutação</h3>${M.map((x,k)=>S.me[k]?`<span class="chip">${x.n} ×${S.me[k]}</span>`:"").join(" ")||"<small>Nenhuma (compre na loja)</small>"}</div>`};
 function resetSave(){modal("Apagar TODO o progresso?",[["CANCEL","",()=>{}],["SIM","r",()=>modal("Tem certeza ABSOLUTA? Não dá para desfazer.",[["CANCEL","",()=>{}],["APAGAR","r",()=>{wipe=true;localStorage.removeItem("bushrng");location.reload()}]])]])}
@@ -951,8 +1122,8 @@ function upStep(k,d){const p=upPlan(k,UQ[k]||1),base=Math.max(1,p.n||1);upSet(k,
 const WRAR=RAR,WSLOT=6e5,WRAR_COUNT=r=>B.filter(b=>b.rarity==r).length;
 // ----- FORÇA DOS BOSSES (Guerra = endgame) -----
 // BOSSP[r] = "poder-alvo" do time (HP de cada Bush ÷ baseBps do Boss) para vencer o Boss da raridade r por pouco.
-// Cresce ~32% por raridade (Common 90 → Celestial 1100). Referência de 1 Bush: Qualidade × nível (até ×12,1 no Lv69) × Gema (até ~×3 a ×6,7) × habilidade × bônus de armadura/títulos.
-// Ex. Celestial (1100): 3 Big Bush Q:A–S, Lv 69, Gema 100, boa habilidade e armadura => vitória apertada (perde 1–2 Bushes). Times medianos perdem; times máximos (Q alta + mutações) vencem com dificuldade.
+// Cresce ~32% por raridade (Common 90 → Celestial 1100). Referência de 1 Bush: Qualidade × nível (até ×12,1 no Lv200) × Gema (até ~×3 a ×6,7) × habilidade × bônus de armadura/títulos.
+// Ex. Celestial (1100): 3 Big Bush Q:A–S, Lv 200, Gema 100, boa habilidade e armadura => vitória apertada (perde 1–2 Bushes). Times medianos perdem; times máximos (Q alta + mutações) vencem com dificuldade.
 const BOSSP=[90,120,155,205,275,360,475,630,830,1100],BOSSHK=4.6,BOSSDK=.1;
 const BOSSD=["Difícil","Difícil","Muito difícil","Muito difícil","Brutal","Brutal","Infernal","Infernal","Apocalíptica","Cataclísmica"];
 // A sub-raridade (I–V) influencia o Boss pela raiz do multiplicador (V ≈ ×2,2 de I, e não ×5) para nenhum Boss ficar impossível. O Celestial (Big Bush) usa o BPS base fixo.
@@ -1165,9 +1336,9 @@ const EGGS=()=>`<div class="panel"><h2>🥚 OVOS DE PET</h2>Pet Coins: <b>🐾 $
 // ===== CRAFT v5: um hub com seções separadas =====
 let crT="fus";
 const celHave=()=>DIV_ORIG.filter(id=>Object.values(S.inv).some(i=>i.id==id)).length;
-const CRAFT=()=>{const T=[["fus","🔀","Fusão",`Essência ${RAR[fr]}: ${S.ess[fr]}`],["arm","⚒","Armaduras",`${(S.arEq||[]).filter(Boolean).length}/5 equipadas`],["egg","🥚","Ovos de Pet",`🐾 ${f(S.pc)}`],["cel","🌌","Celestial",`${celHave()}/5 Divinos`]],
- d={fus:"Una 3 Bushes da mesma raridade para criar uma de raridade superior.",arm:"Forje Ingots e crie peças de armadura que somam bônus permanentes.",egg:"Gaste Pet Coins para chocar ovos e conseguir Pets.",cel:"Forje o Big Bush (Celestial) com os 5 Divinos originais."};
- return`<div class="subtabs s4">${T.map(t=>`<button class="stb ${crT==t[0]?"on":""}" onclick="crT='${t[0]}';render()"><i>${t[1]}</i><b>${t[2]}</b><small>${t[3]}</small></button>`).join("")}</div><div class="crhint">${d[crT]||d.fus}</div>`+(crT=="arm"?ARMOR():crT=="egg"?EGGS():crT=="cel"?CELPANEL():FUSPANEL())};
+const CRAFT=()=>{const T=[["fus","🔀","Fusão",`Essência ${RAR[fr]}: ${S.ess[fr]}`],["arm","⚒","Armaduras",`${(S.arEq||[]).filter(Boolean).length}/5 equipadas`],["egg","🥚","Ovos de Pet",`🐾 ${f(S.pc)}`],["cel","🌌","Celestial",`${celHave()}/5 Divinos`],["mat","⚗","Fundir","Ingots · Essências"]],
+ d={fus:"Una 3 Bushes da mesma raridade para criar uma de raridade superior.",arm:"Forje Ingots e crie peças de armadura que somam bônus permanentes.",egg:"Gaste Pet Coins para chocar ovos e conseguir Pets.",cel:"Forje o Big Bush (Celestial) com os 5 Divinos originais.",mat:"Junte vários Ingots ou Essências de uma raridade para criar 1 da raridade seguinte."};
+ return`<div class="subtabs s5">${T.map(t=>`<button class="stb ${crT==t[0]?"on":""}" onclick="crT='${t[0]}';render()"><i>${t[1]}</i><b>${t[2]}</b><small>${t[3]}</small></button>`).join("")}</div><div class="crhint">${d[crT]||d.fus}</div>`+(crT=="arm"?ARMOR():crT=="egg"?EGGS():crT=="cel"?CELPANEL():crT=="mat"?MATFUSE():FUSPANEL())};
 // ---------- MARCOS: TÍTULOS + CONQUISTAS ----------
 const cnt={rolls:()=>S.rolls,bushes:()=>Object.keys(S.bq).length,bps:()=>S.mb||0,reb:()=>S.reb,tower:()=>S.hiF,war:()=>S.wwins,fus:()=>S.nfus,pets:petOwned,hatch:()=>S.nhatch,evo:()=>Object.keys(S.bevo).length,skill:()=>S.nskill,mis:()=>S.mdone,mut:()=>Object.keys(S.muts).length,lvl:()=>S.maxLv,time:()=>S.online/3600,earn:()=>S.earned};
 const FAM=[["rolls","Rolls",[100,1e3,1e4,5e4,2e5,1e6],["Iniciante","Rolador","Viciado em Rolls","Sortudo Nato","Mestre do RNG","Lenda do Roll"]],
@@ -1183,7 +1354,7 @@ const FAM=[["rolls","Rolls",[100,1e3,1e4,5e4,2e5,1e6],["Iniciante","Rolador","Vi
 ["skill","Habilidades roladas",[1,10,50,200],["Talentoso","Caçador de Talentos","Mestre das Habilidades","Dono do Destino"]],
 ["mis","Missões concluídas",[1,25,100,300],["Ajudante","Trabalhador","Dedicado","Funcionário Lendário"]],
 ["mut","Mutações descobertas",[3,8,14,19],["Curioso","Mutante","Cientista Louco","Senhor das Mutações"]],
-["lvl","Maior nível de Bush",[10,30,50,69],["Estudante","Veterano","Elite","Nível Máximo"]],
+["lvl","Maior nível de Bush",[10,50,100,200],["Estudante","Veterano","Elite","Nível Máximo"]],
 ["time","Horas online",[1,10,50,200],["Visitante","Morador","Habitante","Eterno Fazendeiro"]],
 ["earn","Busheiros ganhos",[1e6,1e9,1e12,1e15],["Poupador","Milionário","Bilionário","Trilionário"]]];
 const TT=[],TTM={},ACHB=[];let ACHC={luck:0,xp:0,dmg:0,bps:0,hp:0};
@@ -1213,8 +1384,69 @@ const ingCost=t=>({m:Math.floor(RBASE[t+1]*150),e:3+2*t,r:t+1});
 let arT=0;
 const aTag=t=>`<span class="arm-t" style="background:${ING[t][1]}">${ING[t][0]}</span>`,aName=it=>APC[it.p].e+" "+APC[it.p].n+" de "+ING[it.t][0]+" "+ALN[it.l];
 function smelt(t,n){const c=ingCost(t);if(S.money<c.m*n||S.ess[c.r]<c.e*n)return;S.money-=c.m*n;S.ess[c.r]-=c.e*n;S.ing[t]+=n;beep(SND.buy);render()}
-function craftArmor(p,t){const c=APC[p].c;if(S.ing[t]<c)return;S.ing[t]-=c;const l=pick(ALW),k=newKey();S.ar[k]={k,p,t,l};S.narm=(S.narm||0)+1;beep(l>=3?SND.sec:SND.get);
- modal(`<h3>⚒ Craft!</h3>${aTag(t)} <b>${aName(S.ar[k])}</b><br>Nível <b>${ALN[l]}</b> (chance ${ALW[l]}%)<br>${benTxt(apv(p,t,l))}`,[["OK","g",()=>render()]])}
+// ---- Craft em quantidade + venda de peças ----
+const ARM_SELL=.5,ARQMAX=999,ARQ={};
+const arQty=p=>Math.max(1,Math.min(ARQMAX,Math.floor(ARQ[p])||1));
+const arUsed=it=>it.c>0?it.c:APC[it.p].c;
+const arSellVal=it=>Math.floor(arUsed(it)*ingCost(it.t).m*ARM_SELL);
+function craftArmor(p,t,n){n=Math.max(1,Math.min(ARQMAX,Math.floor(n)||1));const a=APC[p],need=a.c*n;if(!(S.ing[t]>=need))return;S.ing[t]-=need;
+ const cnt=ALN.map(()=>0);let best=0;
+ for(let i=0;i<n;i++){const l=pick(ALW);let k=newKey();while(S.ar[k])k=newKey();S.ar[k]={k,p,t,l,c:a.c};cnt[l]++;if(l>best)best=l}
+ S.narm=(S.narm||0)+n;beep(best>=3?SND.sec:SND.get);
+ const rows=cnt.map((q,l)=>q?`<div class="kv"><span>Nível ${ALN[l]} × ${q}</span><b>${benTxt(apv(p,t,l))}</b></div>`:"").join("");
+ modal(`<h3>⚒ Craft concluído!</h3>${aTag(t)} <b>${n}× ${a.e} ${a.n} de ${ING[t][0]}</b><br>Ingots usados: <b>${f(need)}</b>${rows}`,[["OK","g",()=>render()]])}
+function arBox(p){const a=APC[p],t=arT,n=arQty(p),tot=a.c*n,has=S.ing[t],mx=Math.floor(has/a.c),ok=has>=tot;
+ const ex=ALN.map((x,l)=>{const v=n*ALW[l]/100;return`<span class="chip">Nível ${x} ≈ ${v<10?+v.toFixed(1):Math.round(v)}</span>`}).join("");
+ return`<div class="stats4 up3"><div class="stat"><small>Quantidade</small><b>${n}</b></div><div class="stat"><small>Custo total</small><b>${f(tot)}</b></div><div class="stat"><small>Disponível</small><b>${f(has)}</b></div></div>`
+ +bar7(has/tot*100,"Ingots "+f(has)+" / "+f(tot))
+ +`<div class="lab">Resultado esperado · ${n}× ${a.n} de ${ING[t][0]}</div><div class="chips">${ex}</div>`
+ +(ok?"":`<small class="upn">Você consegue fabricar até ${f(mx)} agora</small>`)
+ +`<button class="btn g wide" ${ok?"":"disabled"} onclick="craftArmor(${p},${t},${n})">${ok?"⚒ CRAFT "+n+"× "+a.n.toUpperCase()+" · "+f(tot)+" Ingots":"FALTAM "+f(tot-has)+" INGOTS "+ING[t][0].toUpperCase()}</button>`}
+function arRefresh(p){const e=$("#arb_"+p);if(e)e.innerHTML=arBox(p)}
+function arSet(p,v,sync){v=Math.floor(+v);if(!(v>=1)){if(sync)v=1;else return}if(v>ARQMAX){v=ARQMAX;sync=1}ARQ[p]=v;if(sync){const i=$("#arq_"+p);if(i)i.value=v}arRefresh(p)}
+function arStep(p,d){arSet(p,arQty(p)+d,1)}
+function arMax(p){arSet(p,Math.max(1,Math.floor(S.ing[arT]/APC[p].c)),1)}
+function arSell(k){const it=S.ar[k];if(!it)return;const c=arUsed(it),u=ingCost(it.t).m,v=arSellVal(it),eq=S.arEq[it.p]==k;
+ modal(`<h3>💰 Vender equipamento?</h3>${aTag(it.t)} <b>${aName(it)}</b><br>Ingots usados no craft: <b>${f(c)}</b> ${ING[it.t][0]}<br>Valor por Ingot: 🪙 ${f(u)}<br>Valor total: 🪙 ${f(c*u)} × ${Math.round(ARM_SELL*100)}%<br><b>Você receberá: 🪙 ${f(v)}</b>${eq?"<br><small>Esta peça está equipada e será removida.</small>":""}`,
+ [["CANCEL","",()=>{}],["VENDER","g",()=>{const x=S.ar[k];if(!x)return;S.arEq=S.arEq.map(e=>e==k?null:e);delete S.ar[k];S.money+=arSellVal(x);beep(SND.buy);save();render()}]])}
+// ---- Seleção para venda em lote (por tipo de peça) ----
+const ARSM={},ARSK={};
+const arSelList=p=>Object.keys(ARSK).filter(k=>ARSK[k]&&S.ar[k]&&S.ar[k].p==p&&S.arEq[p]!=k).map(k=>S.ar[k]);
+function arSelMode(p){ARSM[p]=!ARSM[p];if(!ARSM[p])Object.keys(ARSK).forEach(k=>{if(S.ar[k]&&S.ar[k].p==p)delete ARSK[k]});render()}
+function arTog(k){if(ARSK[k])delete ARSK[k];else ARSK[k]=1;render()}
+function arSelAll(p){Object.values(S.ar).forEach(it=>{if(it.p==p&&S.arEq[p]!=it.k)ARSK[it.k]=1});render()}
+function arSelClr(p){Object.keys(ARSK).forEach(k=>{if(!S.ar[k]||S.ar[k].p==p)delete ARSK[k]});render()}
+function arSelBar(p,mine){if(!mine.length)return"";if(!ARSM[p])return`<div class="row"><button class="btn" onclick="arSelMode(${p})">☑ Selecionar para vender</button></div>`;
+ const l=arSelList(p),v=l.reduce((a,x)=>a+arSellVal(x),0);
+ return`<div class="row"><button class="btn r" onclick="arSelMode(${p})">✖ Cancelar</button><button class="btn" onclick="arSelAll(${p})">Todas não equipadas</button><button class="btn" onclick="arSelClr(${p})">Limpar</button></div><div class="row"><b>${l.length} selecionada(s)</b><button class="btn g" style="margin-left:auto" ${l.length?"":"disabled"} onclick="arSellSel(${p})">💰 Vender selecionadas · 🪙 ${f(v)}</button></div>`}
+function arSelRow(it,e){const on=!!ARSK[it.k];return`<div class="row" style="${on?"border:1px solid var(--ac);":""}${e?"opacity:.6;":""}">${e?'<span class="chip evo">equipada</span>':`<button class="chipb ${on?"on":""}" onclick="arTog('${it.k}')" aria-label="Selecionar">${on?"✔":"☐"}</button>`}${aTag(it.t)} <b>Nível ${ALN[it.l]}</b><span class="chip">${benTxt(apv(it.p,it.t,it.l))}</span><span style="margin-left:auto">🪙 ${f(arSellVal(it))}</span></div>`}
+function arSellSel(p){const l=arSelList(p);if(!l.length)return;const ing=l.reduce((a,x)=>a+arUsed(x),0),v=l.reduce((a,x)=>a+arSellVal(x),0),by={};
+ l.forEach(x=>{const n=ING[x.t][0]+" "+ALN[x.l];by[n]=(by[n]||0)+1});
+ modal(`<h3>💰 Vender ${l.length} equipamento(s)?</h3><b>${APC[p].e} ${APC[p].n}</b><br>${Object.keys(by).map(n=>`${by[n]}× ${n}`).join(" · ")}<br>Ingots usados no craft: <b>${f(ing)}</b><br>Valor: ${Math.round(ARM_SELL*100)}% do custo de forja<br><b>Você receberá: 🪙 ${f(v)}</b>`,
+ [["CANCEL","",()=>{}],["VENDER","g",()=>{const q=arSelList(p);let t=0;q.forEach(x=>{t+=arSellVal(x);delete S.ar[x.k];delete ARSK[x.k]});S.money+=t;beep(SND.buy);save();render()}]])}
+// ---- Inventário de armaduras (todas as peças, filtros, seleção e venda em lote) ----
+const ARF={p:-1,t:-1};
+const arInvAll=()=>Object.values(S.ar).filter(it=>(ARF.p<0||it.p==ARF.p)&&(ARF.t<0||it.t==ARF.t)).sort((a,b)=>b.t-a.t||b.l-a.l||a.p-b.p);
+const arInvSel=()=>Object.keys(ARSK).filter(k=>ARSK[k]&&S.ar[k]&&S.arEq[S.ar[k].p]!=k).map(k=>S.ar[k]);
+function arInvRender(){const o=$("#arinvl"),y=o?o.scrollTop:0;render();const n=$("#arinvl");if(n)n.scrollTop=y}
+function arFp(p){ARF.p=p;arInvRender()}
+function arFt(t){ARF.t=t;arInvRender()}
+function arInvTog(k){if(!S.ar[k])return;if(ARSK[k])delete ARSK[k];else ARSK[k]=1;arInvRender()}
+function arInvPickAll(){arInvAll().forEach(it=>{if(S.arEq[it.p]!=it.k)ARSK[it.k]=1});arInvRender()}
+function arInvClr(){Object.keys(ARSK).forEach(k=>delete ARSK[k]);arInvRender()}
+function arInvSell(){const l=arInvSel();if(!l.length)return;const ing=l.reduce((a,x)=>a+arUsed(x),0),v=l.reduce((a,x)=>a+arSellVal(x),0),by={};
+ l.forEach(x=>{const n=APC[x.p].e+" "+APC[x.p].n+" "+ING[x.t][0]+" "+ALN[x.l];by[n]=(by[n]||0)+1});
+ modal(`<h3>💰 Vender ${l.length} equipamento(s)?</h3>${Object.keys(by).map(n=>`${by[n]}× ${n}`).join("<br>")}<br><br>Ingots usados no craft: <b>${f(ing)}</b><br>Valor: ${Math.round(ARM_SELL*100)}% do custo de forja<br><b>Você receberá: 🪙 ${f(v)}</b><br><small>Peças equipadas não são vendidas.</small>`,
+ [["CANCEL","",()=>{}],["VENDER","g",()=>{const q=arInvSel();let t=0;q.forEach(x=>{t+=arSellVal(x);delete S.ar[x.k];delete ARSK[x.k]});S.money+=t;beep(SND.buy);save();render()}]])}
+function ARINV(){const all=arInvAll(),sel=arInvSel(),v=sel.reduce((a,x)=>a+arSellVal(x),0),free=all.filter(it=>S.arEq[it.p]!=it.k).length,
+ pc=[[-1,"Todas"]].concat(APC.map((a,p)=>[p,a.e+" "+a.n]));
+ return`<section class="panel sc"><div class="arh"><span class="ae">🎒</span><div><b>Inventário de armaduras</b><small>${Object.keys(S.ar).length} peça(s) · marque as que quer vender</small></div></div>
+<div class="lab">Peça</div><div class="chips">${pc.map(x=>`<button class="chipb ${ARF.p==x[0]?"on":""}" onclick="arFp(${x[0]})">${x[1]}</button>`).join("")}</div>
+<div class="lab">Tier</div><div class="chips"><button class="chipb ${ARF.t<0?"on":""}" onclick="arFt(-1)">Todos</button>${ING.map((g,k)=>`<button class="chipb ${ARF.t==k?"on":""}" style="border-color:${g[1]}" onclick="arFt(${k})">${g[0]}</button>`).join("")}</div>
+<div class="row"><button class="btn" onclick="arInvPickAll()">☑ Selecionar todas (${free})</button><button class="btn" onclick="arInvClr()">Limpar</button></div>
+<div id="arinvl" style="max-height:340px;overflow-y:auto">${all.map(it=>{const e=S.arEq[it.p]==it.k,on=!!ARSK[it.k];
+  return`<div class="row" style="${on?"border:1px solid var(--ac);":""}${e?"":"cursor:pointer"}" ${e?"":`onclick="arInvTog('${it.k}')"`}>${e?'<span class="chip evo">equipada</span>':`<span class="chipb ${on?"on":""}">${on?"✔":"☐"}</span>`}${aTag(it.t)} <b>${APC[it.p].e} ${APC[it.p].n} ${ALN[it.l]}</b><span class="chip">${benTxt(apv(it.p,it.t,it.l))}</span><span style="margin-left:auto">🪙 ${f(arSellVal(it))}</span><button class="btn ${e?"r":"g"}" onclick="event.stopPropagation();arEquip('${it.k}')">${e?"REMOVER":"EQUIPAR"}</button></div>`}).join("")||'<small class="hint">Nenhuma peça neste filtro.</small>'}</div>
+<div class="row"><b>${sel.length} selecionada(s)</b><button class="btn g" style="margin-left:auto" ${sel.length?"":"disabled"} onclick="arInvSell()">💰 Vender selecionadas · 🪙 ${f(v)}</button></div></section>`}
 function arEquip(k){const it=S.ar[k];if(!it)return;S.arEq[it.p]=S.arEq[it.p]==k?null:k;render()}
 function arBreak(k){const it=S.ar[k];if(!it)return;const r=Math.floor(APC[it.p].c/2);modal(`<h3>Desmontar?</h3>${aName(it)}<br>Devolve ${r} Ingot(s) ${ING[it.t][0]}.`,[["CANCEL","",()=>{}],["DESMONTAR","r",()=>{S.arEq=S.arEq.map(x=>x==k?null:x);delete S.ar[k];S.ing[it.t]+=r;render()}]])}
 const ARMOR_OLD=()=>{const t=arT,c=ingCost(t),own=Object.values(S.ar).sort((a,b)=>b.t-a.t||b.l-a.l||a.p-b.p),mis=S.ess[c.r]<c.e||S.money<c.m;
@@ -1289,7 +1521,7 @@ function profile(){const a=Object.values(S.inv).sort(SORT[0])[0],tt=S.title&&S.t
 achCalc();
 
 // loop
-let lt=Date.now();setInterval(()=>{const n=Date.now(),dt=(n-lt)/1000;lt=n;const cb=bps(),g=cb*dt;S.mb=Math.max(S.mb||0,cb);S.money+=g;S.earned+=g;const od=Math.min(dt,2);S.played+=od;S.online+=od;if(S.ev&&Date.now()>=S.ev.end){S.ev=null;toast("Evento terminou",3000)}const se=$("#shopT");if(se){se.textContent=tm(Math.max(0,(S.shopT+1.2e6-n)/1000));if(n-S.shopT>=1.2e6){chkShop();render()}}Object.keys(POT).forEach(k=>{const e=$("#pt_"+k);if(e)e.textContent=potA(k)?tm((S.pot[k]-n)/1000):"inativa"});const tb=$("#tbtn");if(tb){const lf=(S.tcd||0)-n;if(lf>0){tb.disabled=true;tb.textContent="AGUARDE "+Math.ceil(lf/1000)+"s"}else if(tb.textContent.startsWith("AGUARDE")){tb.textContent="ENTRAR NO ANDAR "+S.tf;tb.disabled=S.team.length<3}}if(S.tauto&&n>=(S.tcd||0)&&$("#ov").style.display!="flex"){S.team=S.team.filter(k=>S.inv[k]);if(S.team.length<3){S.tauto=false;toast("Auto Torre desligado: time incompleto",3000);if(tab=="tower")render()}else tfight(true)}hud();if(S.auto.on&&n>=cd&&$("#ov").style.display!="flex"){if(S.auto.sp&&S.obs>0)doRoll(10,"obs",true);else if(S.auto.sp&&S.dia>0)doRoll(3,"dia",true);else if(S.auto.sp&&S.gold>0)doRoll(2,"gold",true);else doRoll(1,0,true)}},100);
+let lt=Date.now();setInterval(()=>{const n=Date.now(),dt=(n-lt)/1000;lt=n;const cb=bps(),g=cb*dt;S.mb=Math.max(S.mb||0,cb);S.money+=g;S.earned+=g;const od=Math.min(dt,2);S.played+=od;S.online+=od;if(S.ev&&Date.now()>=S.ev.end){S.ev=null;toast("Evento terminou",3000)}const se=$("#shopT");if(se){se.textContent=tm(Math.max(0,(S.shopT+1.2e6-n)/1000));if(n-S.shopT>=1.2e6){chkShop();render()}}Object.keys(POT).forEach(k=>{const e=$("#pt_"+k);if(e)e.textContent=potA(k)?tm((S.pot[k]-n)/1000):"inativa"});const tb=$("#tbtn");if(tb){const lf=(S.tcd||0)-n;if(lf>0){tb.disabled=true;tb.textContent="AGUARDE "+Math.ceil(lf/1000)+"s"}else if(tb.textContent.startsWith("AGUARDE")){tb.textContent=tbLabel(S.tf);tb.disabled=S.team.length<3}}if(S.tauto&&n>=(S.tcd||0)&&$("#ov").style.display!="flex"){S.team=S.team.filter(k=>S.inv[k]);if(S.team.length<3){S.tauto=false;toast("Auto Torre desligado: time incompleto",3000);if(tab=="tower")render()}else tfight(true)}hud();if(S.auto.on&&n>=cd&&$("#ov").style.display!="flex"){if(S.auto.sp&&S.obs>0)doRoll(10,"obs",true);else if(S.auto.sp&&S.dia>0)doRoll(3,"dia",true);else if(S.auto.sp&&S.gold>0)doRoll(2,"gold",true);else doRoll(1,0,true)}},100);
 setInterval(()=>{if(S.ev)return;const bl=Math.floor(S.online/1800);if(Math.random()<.004*(1+bl*.75)*(1+lvc("evc")*UP.evc[4])){const m=Math.floor(Math.random()*M.length);S.ev={m,end:Date.now()+(300+Math.floor(Math.random()*300))*1000};toast("🔥 EVENT STARTED! "+M[m].n.toUpperCase()+" EVENT — "+M[m].n+" mutation chance 10x",6000);save()}},10000);
 setInterval(()=>{save();if(tab=="shop"&&!(document.activeElement&&document.activeElement.tagName=="INPUT"))render()},5000);
 addEventListener("beforeunload",save);document.addEventListener("visibilitychange",()=>{if(document.hidden)save()});
@@ -1307,14 +1539,49 @@ pick7=(sel,max,add,rem,ex,list)=>{const l=list||Object.values(S.inv).sort(SORT[0
 rew7=(r,bid)=>`<div class="rwt"><div class="rw h"><span>Recompensa</span><span>Qtd.</span><span>Chance</span></div>${warTable(r,bid).map(e=>`<div class="rw"><span class="rn">${e.ico} ${e.txt}</span><span class="rq">${e.min==e.max?f(e.min):f(e.min)+"–"+f(e.max)}</span><span class="rcb"><i style="width:${Math.min(100,e.ch)}%"></i><em>${e.ch>=100?"100%":e.ch+"%"}</em></span></div>`).join("")}</div>`;
 
 /* ---------- TORRE ---------- */
-const TOWER=()=>{const fl=S.tf,E=enemies(fl),T=S.team.map(k=>S.inv[k]).filter(Boolean),tt=tot7(S.team),et=E.reduce((a,e)=>({hp:a.hp+e.hp,dm:a.dm+e.dm}),{hp:0,dm:0}),cdl=Math.max(0,(S.tcd||0)-Date.now()),rd=T.length==3,tq=rd?T.reduce((a,i)=>a+QT[i.q],0)/3:1,
-rw=[["🪙 Busheiros","≈ "+f(Math.floor((80*Math.pow(1.13,fl)+bps()*30*(1+fl/25))*tq)),"100%"],["✨ Essência (raridade sorteada)","×"+(1+Math.floor(fl/10)),"100%"],["🐾 Pet Coin","×"+(1+Math.floor(fl/20)),"20%"],["🔺 Cone","×"+(1+Math.floor(fl/50)),pct(Math.min(.7,(.15+fl*.006)*Math.min(2,Math.sqrt(tq))))],["💠 Gema Bushiana","×"+(1+Math.floor(fl/40)),pct(Math.min(.7,(.08+fl*.004)*Math.sqrt(tq)))],["🧪 Poção","×1","10%"],["📦 Baú","×1",pct(Math.min(.9,.3+fl*.003))]];
-return`<div class="panel sc">${stp7("🗼","TORRE","Vença andar por andar. Derrota volta ao andar 1 (o recorde é mantido).")}<div class="kg">${kp7("Andar atual",fl,"","big")}${kp7("Recorde",S.hiF)}${kp7("Vitórias",S.twins||0)}${kp7("Auto Torre",S.tauto?"ON":"OFF","",S.tauto?"good":"")}</div>${bar7(fl/Math.max(fl,S.hiF)*100,"Andar "+fl+" · recorde "+S.hiF)}</div>`
-+sec7(1,"Inimigos do andar "+fl,"Total: ❤ "+f(et.hp)+" · ⚔ "+f(et.dm),`<div class="foes">${E.map(e=>`<div class="foe"><div class="bush">${e.em}</div><b>${e.n}</b><small>❤ ${f(e.hp)}</small><small>⚔ ${f(e.dm)}</small></div>`).join("")}</div>`)
+const TOWER=()=>{const fl=S.tf,E=enemies(fl),bs=isTBoss(fl),sup=isTSup(fl),T=S.team.map(k=>S.inv[k]).filter(Boolean),tt=tot7(S.team),et=E.reduce((a,e)=>({hp:a.hp+e.hp,dm:a.dm+e.dm}),{hp:0,dm:0}),cdl=Math.max(0,(S.tcd||0)-Date.now()),rd=T.length==3,tq=rd?T.reduce((a,i)=>a+QT[i.q],0)/3:1,
+ z=towerZone(fl),n10=tBossN(fl),nb=bs?fl:fl+(TW.BOSS_EVERY-fl%TW.BOSS_EVERY),rec=towerRec(fl),pv=rd?fight(fl):null,lf=pv?pv.T.reduce((a,x)=>a+Math.max(0,x.hp),0)/pv.T.reduce((a,x)=>a+x.mx,0):0,
+ dif=!rd?["—",""]:!pv.win?["Muito difícil","bad"]:lf>=.7?["Fácil","good"]:lf>=.35?["Equilibrado","good"]:lf>=.1?["Difícil",""]:["Arriscado","bad"],
+ cw=chestW(fl,bs),cws=cw.reduce((a,b)=>a+b,0),cwTxt=cw.map((w,t)=>w/cws>=.005?RAR[t]+" "+pct(w/cws):"").filter(Boolean).join(" · "),
+ mon=Math.floor((80*Math.pow(1.13,fl)+bps()*30*(1+fl/25))*tq*(bs?tbRew(fl):1)),
+ rw=bs?[["🪙 Busheiros","≈ "+f(mon),"100%"],["✨ Essência (raridade sorteada)","×"+(1+Math.floor(fl/10))*3,"100%"],["🐾 Pet Coin","×"+(1+Math.floor(fl/20))*3,"100%"],["🔺 Cone","×"+(1+Math.floor(fl/50))*2,"100%"],["💠 Gema Bushiana","×"+((1+Math.floor(fl/40))*2+1),"100%"],["🧪 Poção","×2","100%"],["📦 Baú do Boss","×"+(sup?"2–3":"1–2")+" (até "+RAR[z]+")","100%"]].concat(CHING[z].map(e=>{const mu=2+Math.floor(n10/10);return["🧱 Ingot "+ING[e[0]][0],"×"+(e[1]*mu==e[2]*mu?e[1]*mu:e[1]*mu+"–"+e[2]*mu),Math.min(100,e[3]*2.5)+"%"]}))
+  :[["🪙 Busheiros","≈ "+f(mon),"100%"],["✨ Essência (raridade sorteada)","×"+(1+Math.floor(fl/10)),"100%"],["🐾 Pet Coin","×"+(1+Math.floor(fl/20)),"20%"],["🔺 Cone","×"+(1+Math.floor(fl/50)),pct(Math.min(.7,(.15+fl*.006)*Math.min(2,Math.sqrt(tq))))],["💠 Gema Bushiana","×"+(1+Math.floor(fl/40)),pct(Math.min(.7,(.08+fl*.004)*Math.sqrt(tq)))],["🧪 Poção","×1","10%"],["📦 Baú (até "+RAR[z]+") · traz Ingots","×1",pct(Math.min(.9,.3+fl*.003))]];
+return`<div class="panel sc">${stp7("🗼","TORRE","Vença andar por andar. A cada "+TW.BOSS_EVERY+" andares há um Boss. Derrota volta ao andar 1 (o recorde é mantido).")}${bs?`<div class="bossban${sup?" sup":""}"><span>${sup?"★":"👑"}</span><b>${sup?"BOSS SUPREMO":"ANDAR DE BOSS"}</b><small>Andar ${fl} · ${E[2].em} ${E[2].n} · ❤ ${f(E[2].hp)} · ⚔ ${f(E[2].dm)}</small></div>`:""}<div class="kg">${kp7("Andar atual",fl,"","big")}${kp7("Recorde",S.hiF)}${kp7("Vitórias",S.twins||0)}${kp7("Próximo Boss",bs?"AGORA!":"Andar "+nb,bs?"":"faltam "+(nb-fl),bs?"bad":"")}${kp7("Bosses vencidos",S.tbk||0)}${kp7("Auto Torre",S.tauto?"ON":"OFF","",S.tauto?"good":"")}</div>${bar7(fl/Math.max(fl,S.hiF)*100,"Andar "+fl+" · recorde "+S.hiF)}</div>`
++sec7(1,bs?"👑 Boss do andar "+fl:"Inimigos do andar "+fl,"Total: ❤ "+f(et.hp)+" · ⚔ "+f(et.dm),`<div class="foes">${E.map(e=>`<div class="foe${e.boss?" boss":""}${e.sup?" sup":""}">${e.boss?'<small class="bt">'+(e.sup?"★ BOSS SUPREMO ★":"👑 BOSS 👑")+"</small>":""}<div class="bush">${e.em}</div><b>${e.n}</b><small>❤ ${f(e.hp)}</small><small>⚔ ${f(e.dm)}</small></div>`).join("")}</div><div class="kg" style="margin-top:8px">${kp7("Vida rec. por Bush","❤ "+f(rec),"time de 3 · termina com ≥40% de vida")}${kp7("Vida média do seu time","❤ "+f(tt.hp/Math.max(1,T.length)))}${kp7("Dificuldade",dif[0],"","bad"==dif[1]?"bad":dif[1])}</div>`)
 +sec7(2,"Seu time ("+T.length+"/3)",rd?"Time completo.":"Escolha 3 Bushes na lista lá embaixo.",slots7(S.team,"trem","Vazio")+`<div class="kg">${kp7("Vida do time","❤ "+f(tt.hp))}${kp7("Dano do time","⚔ "+f(tt.dm))}</div>`,rd)
-+sec7(3,"Batalha","",`<div class="acts"><button id="tbtn" class="btn g big" ${rd&&cdl<=0?"":"disabled"} onclick="tfight()">${cdl>0?"AGUARDE "+Math.ceil(cdl/1000)+"s":"ENTRAR NO ANDAR "+fl}</button><button class="btn tg ${S.tauto?"on":""}" onclick="tAuto()">AUTO TORRE: ${S.tauto?"ON ●":"OFF"}</button><button class="btn r" onclick="tReset()">Reiniciar Torre (andar 1)</button></div>${rd?"":'<small class="hint">Escolha 3 Bushes para entrar.</small>'}${tlog||'<small class="hint">O resultado da batalha aparece aqui.</small>'}`)
-+sec7(4,"Recompensas por vitória","Andar "+fl+(rd?" · com a qualidade do seu time":" · usando qualidade média ×1 (muda com seu time)"),`<div class="rwt"><div class="rw h"><span>Recompensa</span><span>Qtd.</span><span>Chance</span></div>${rw.map(r=>`<div class="rw"><span class="rn">${r[0]}</span><span class="rq">${r[1]}</span><span class="rcb"><i style="width:${parseFloat(r[2])}%"></i><em>${r[2]}</em></span></div>`).join("")}</div>`)
++sec7(3,"Batalha","",`<div class="acts"><button id="tbtn" class="btn g big" ${rd&&cdl<=0?"":"disabled"} onclick="tfight()">${cdl>0?"AGUARDE "+Math.ceil(cdl/1000)+"s":tbLabel(fl)}</button><button class="btn tg ${S.tauto?"on":""}" onclick="tAuto()">AUTO TORRE: ${S.tauto?"ON ●":"OFF"}</button><button class="btn r" onclick="tReset()">Reiniciar Torre (andar 1)</button></div>${rd?"":'<small class="hint">Escolha 3 Bushes para entrar.</small>'}${tlog||'<small class="hint">O resultado da batalha aparece aqui.</small>'}`)
++sec7(4,bs?"Recompensas do Boss":"Recompensas por vitória","Andar "+fl+(rd?" · com a qualidade do seu time":" · usando qualidade média ×1 (muda com seu time)"),`<div class="rwt"><div class="rw h"><span>Recompensa</span><span>Qtd.</span><span>Chance</span></div>${rw.map(r=>`<div class="rw"><span class="rn">${r[0]}</span><span class="rq">${r[1]}</span><span class="rcb"><i style="width:${parseFloat(r[2])}%"></i><em>${r[2]}</em></span></div>`).join("")}</div><small class="hint">📦 Raridade do baú neste andar${bs?" (Boss)":""}: ${cwTxt}. Raridades maiores só liberam em andares mais altos.</small>`)
 +sec7(5,"Escolher time","Toque para adicionar ou remover (máx. 3).",pick7(S.team,3,"tadd","trem"))};
+
+/* ---------- FUSÃO DE MATERIAIS (Ingots e Essências) ---------- */
+// Custo para fundir X unidades do tier t em 1 do tier t+1 (cresce com o tier).
+// Ingots: 4·5·6·8·10·12 → 1 Rainbow = 115.200 Bronze. Essências: sempre maior que a razão de XP entre raridades (ESSXP), então fundir nunca gera ganho de XP.
+const FMC={ing:[4,5,6,8,10,12],ess:[3,3,4,4,5,5,6,8,10]};
+const FM={k:"ing",t:0,n:1};
+const fmArr=k=>k=="ing"?S.ing:S.ess,
+fmNm=(k,t)=>k=="ing"?"🧱 Ingot "+ING[t][0]:"✨ Essência "+RAR[t],
+fmCl=(k,t)=>k=="ing"?`<span style="color:${ING[t][1]}">${ING[t][0]}</span>`:`<span class="rc ${RAR[t]}">${RAR[t]}</span>`,
+fmLbl=(k,t)=>(k=="ing"?"🧱 Ingot ":"✨ Essência ")+fmCl(k,t);
+function fmN(){const k=FM.k;if(FM.t>=FMC[k].length)FM.t=0;const c=FMC[k][FM.t],mx=Math.floor((fmArr(k)[FM.t]||0)/c);FM.n=Math.max(1,Math.min(mx||1,Math.floor(FM.n)||1));return FM.n}
+function fmBox(){const k=FM.k,t=FM.t,c=FMC[k][t],A=fmArr(k),have=A[t]||0,n=fmN(),tot=c*n,ok=have>=tot,mx=Math.floor(have/c),after=have-tot;
+return`<div class="fm-flow">${kp7("Material atual",fmLbl(k,t),"Você tem: "+f(have))}<i>➜</i>${kp7("Você receberá",fmLbl(k,t+1),"Você tem: "+f(A[t+1]||0))}</div>
+<div class="fm-sum">${kp7("Necessário por fusão",c+" → 1","a cada "+c+" "+(k=="ing"?"Ingots":"Essências")+" você recebe 1")}${kp7("Quantidade resultante","+"+f(n)+" "+(k=="ing"?ING[t+1][0]:RAR[t+1]),"em "+f(n)+" fusão(ões)","good")}</div>
+<div class="lab">Quantidade de fusões</div><div class="fm-q"><div class="qty sm"><button onclick="fmStep(-1)" aria-label="Diminuir">−</button><input id="fm_q" type="number" min="1" inputmode="numeric" value="${n}" oninput="fmSet(this.value)"><button onclick="fmStep(1)" aria-label="Aumentar">+</button></div><button class="btn fm-max" ${mx>=1?"":"disabled"} onclick="fmSet(${Math.max(1,mx)},1)">MÁX (${f(mx)})</button></div>
+<div class="fm-sum">${kp7("Custo total",f(tot)+" "+(k=="ing"?ING[t][0]:RAR[t]),ok?"restam "+f(after):"faltam "+f(tot-have),ok?"good":"bad")}${kp7("Você receberá","+"+f(n)+" "+(k=="ing"?ING[t+1][0]:RAR[t+1]),"total após: "+f((A[t+1]||0)+n),"good")}</div>
+<button class="btn g wide big" ${ok?"":"disabled"} onclick="fmAsk()">${ok?"🔥 FUNDIR "+f(n)+"×":"MATERIAL INSUFICIENTE · faltam "+f(tot-have)}</button>`}
+function fmRefresh(){const e=$("#fm_box");if(e)e.innerHTML=fmBox()}
+function fmSet(v,sync){v=Math.floor(+v);if(!(v>=1)){if(sync)v=1;else return}FM.n=v;const k=FM.k,mx=Math.floor((fmArr(k)[FM.t]||0)/FMC[k][FM.t]);if(mx>=1&&v>mx){FM.n=mx;sync=1}if(sync){const i=$("#fm_q");if(i)i.value=FM.n}fmRefresh()}
+function fmStep(d){fmSet(fmN()+d,1)}
+function fmKind(k){FM.k=k;FM.t=0;FM.n=1;render()}
+function fmPick(t){FM.t=t;FM.n=1;render()}
+function fmAsk(){const k=FM.k,t=FM.t,c=FMC[k][t],n=fmN(),tot=c*n,A=fmArr(k);if((A[t]||0)<tot)return toast("Material insuficiente",2000);
+modal(`<h3>🔥 Confirmar fusão?</h3>Custo total: <b>−${f(tot)}</b> ${fmLbl(k,t)}<br>Você receberá: <b>+${f(n)}</b> ${fmLbl(k,t+1)}<br><small>${c} → 1 · ${f(n)} fusão(ões)<br>Saldo: ${f(A[t])} → ${f(A[t]-tot)}</small>`,[["CANCELAR","",()=>{}],["FUNDIR","g",()=>fmDo(k,t,n)]])}
+function fmDo(k,t,n){const c=FMC[k][t],A=fmArr(k);n=Math.floor(n);if(!(n>=1)||t<0||t>=FMC[k].length||!((A[t]||0)>=c*n))return toast("Material insuficiente",2000);A[t]-=c*n;A[t+1]=(A[t+1]||0)+n;beep(SND.buy);FM.n=1;toast("Fundido: +"+f(n)+" "+(k=="ing"?"Ingot "+ING[t+1][0]:"Essência "+RAR[t+1]),2500);render()}
+const MATFUSE=()=>{const k=FM.k,A=fmArr(k),N=FMC[k].length+1;if(FM.t>=FMC[k].length)FM.t=0;
+return sec7(1,"Tipo de material","Escolha o que fundir.",`<div class="chips"><button class="chipb ${k=="ing"?"on":""}" onclick="fmKind('ing')">🧱 Ingots</button><button class="chipb ${k=="ess"?"on":""}" onclick="fmKind('ess')">✨ Essências</button></div>`,true)
++sec7(2,"Escolher raridade","Toque no material que quer fundir. O último tier não pode ser fundido.",`<div class="chips">${Array.from({length:N},(_,t)=>{const last=t==N-1,col=k=="ing"?ING[t][1]:"";return`<button class="chipb ${k=="ess"?RAR[t]:""} ${FM.t==t?"on":""}" ${last?"disabled":""} style="${k=="ing"?"border-color:"+col:""}" onclick="fmPick(${t})"><span style="${k=="ing"?"color:"+col:""}">${k=="ing"?ING[t][0]:RAR[t]}</span><small>${last?"máx.":f(A[t]||0)+" · "+FMC[k][t]+"→1"}</small></button>`}).join("")}</div>`,true)
++sec7(3,"Fusão","",`<div id="fm_box">${fmBox()}</div>`)
++sec7(4,"Tabela de custos","Quanto de cada material é preciso para subir de tier.",`<div class="rwt">${FMC[k].map((c,t)=>`<div class="rw"><span class="rn">${fmCl(k,t)} ➜ ${fmCl(k,t+1)}</span><span class="rq">${c} → 1</span><span class="rcb"></span></div>`).join("")}</div><small class="hint">Os materiais atuais continuam funcionando normalmente (forja de Ingots, armaduras, XP e mutações).</small>`)};
 
 /* ---------- GUERRA ---------- */
 const WAR=()=>{chkWar();const w=S.war;S.wteam=S.wteam.filter(k=>S.inv[k]);const T=S.wteam.map(k=>S.inv[k]),vt=w.rar>=0,boss=w.boss?bush(w.boss):null,bs=boss?bossStats(boss):null,cdl=Math.max(0,(S.wcd||0)-Date.now()),r=vt?w.rar:wPrev,tt=tot7(S.wteam),rd=T.length==3,pcs=Object.keys(S.pieces).filter(id=>S.pieces[id]>0&&bush(id));
@@ -1341,14 +1608,16 @@ return sec7(1,"Raridade da fusão","Une 3 Bushes da mesma raridade em 1 de rarid
 const ARMOR=()=>{const t=arT,c=ingCost(t),own=Object.values(S.ar),mis=S.ess[c.r]<c.e||S.money<c.m,eqN=(S.arEq||[]).filter(Boolean).length,ic={luck:"🍀",xp:"✨",dmg:"⚔",bps:"⚡",hp:"❤"};
 return sec7(1,"Ingots e forja","Forje Ingots e depois crie peças. Ingots também caem como recompensa de Guerra. O tier da peça é o do Ingot escolhido.",`<div class="lab">Tier (toque para escolher)</div><div class="chips">${ING.map((g,k)=>`<button class="chipb ${arT==k?"on":""}" style="border-color:${g[1]}" onclick="arT=${k};render()"><span style="color:${arT==k?"inherit":g[1]}">${g[0]}</span><small>🧱 ${f(S.ing[k])}</small></button>`).join("")}</div><div class="row">🔥 Forjar Ingot ${aTag(t)}: 🪙 ${f(c.m)} + ✨ ${c.e} Essência ${RAR[c.r]} (você tem ${S.ess[c.r]})<button class="btn g" ${mis?"disabled":""} onclick="smelt(${t},1)">×1</button><button class="btn" ${S.money>=c.m*5&&S.ess[c.r]>=c.e*5?"":"disabled"} onclick="smelt(${t},5)">×5</button></div><div class="lab">Chance do nível (igual para todas as peças)</div><div class="chips">${ALN.map((n,l)=>`<span class="chip">Nível ${n} · ${ALW[l]}% · ×${ALM[l]}</span>`).join("")}</div>`)
 +sec7(2,"Bônus das peças equipadas",eqN+"/5 equipadas · multiplicam junto de Títulos e Conquistas",`<div class="kg">${ST.map(x=>kp7(ic[x]+" "+STN[x],"+"+pct(arB(x)))).join("")}</div>`)
++ARINV()
 +APC.map((a,p)=>{const eq=S.ar[S.arEq[p]],mine=own.filter(x=>x.p==p).sort((x,y)=>y.t-x.t||y.l-x.l),has=S.ing[t],can=has>=a.c;
 return`<section class="panel sc arp"><div class="arh"><span class="ae">${a.e}</span><div><b>${a.n}</b><small>Atributos: ${Object.keys(a.w).map(s=>ic[s]+" "+STN[s]).join(" · ")}</small></div><span class="chip ${eq?"evo":""}">${eq?"Equipado":"Vazio"}</span></div>
 ${eq?`<div class="row">${aTag(eq.t)} <b>Nível ${ALN[eq.l]}</b><span class="chip">${benTxt(apv(eq.p,eq.t,eq.l))}</span><button class="btn r" style="margin-left:auto" onclick="arEquip('${eq.k}')">REMOVER</button></div>`:""}
-<div class="lab">Craft · tier ${aTag(t)}</div>${bar7(has/a.c*100,"Ingots "+f(has)+" / "+a.c)}
+<div class="lab">Craft · tier ${aTag(t)}</div><div class="qty sm"><button onclick="arStep(${p},-1)" aria-label="Diminuir">−</button><input id="arq_${p}" type="number" min="1" max="${ARQMAX}" inputmode="numeric" value="${arQty(p)}" oninput="arSet(${p},this.value)"><button onclick="arStep(${p},1)" aria-label="Aumentar">+</button></div>
+<div class="chips"><button class="chipb" onclick="arSet(${p},1,1)">1</button><button class="chipb" onclick="arSet(${p},10,1)">10</button><button class="chipb" onclick="arSet(${p},50,1)">50</button><button class="chipb" onclick="arMax(${p})">MÁX</button></div>
 <div class="kg">${kp7("Nível I",benTxt(apv(p,t,0)))}${kp7("Nível V",benTxt(apv(p,t,4)))}</div>
 <details><summary>Ver todos os níveis I–V</summary>${ALN.map((n,l)=>`<div class="kv"><span>Nível ${n} · ${ALW[l]}%</span><b>${benTxt(apv(p,t,l))}</b></div>`).join("")}</details>
-<button class="btn g wide" ${can?"":"disabled"} onclick="craftArmor(${p},${t})">${can?"⚒ CRAFT "+a.n.toUpperCase()+" · "+a.c+" Ingots":"FALTAM "+(a.c-has)+" INGOTS "+ING[t][0].toUpperCase()}</button>
-<div class="lab">Suas peças (${mine.length})</div>${mine.map(it=>{const e=S.arEq[it.p]==it.k;return`<div class="row">${aTag(it.t)} <b>Nível ${ALN[it.l]}</b><span class="chip">${benTxt(apv(it.p,it.t,it.l))}</span>${e?'<span class="chip evo">equipada</span>':""}<button class="btn ${e?"r":"g"}" style="margin-left:auto" onclick="arEquip('${it.k}')">${e?"REMOVER":"EQUIPAR"}</button><button class="btn" onclick="arBreak('${it.k}')">Desmontar</button></div>`}).join("")||'<small class="hint">Nenhuma peça deste tipo ainda.</small>'}</section>`}).join("")};
+<div id="arb_${p}">${arBox(p)}</div>
+<div class="lab">Suas peças (${mine.length})</div>${arSelBar(p,mine)}${mine.map(it=>{const e=S.arEq[it.p]==it.k;if(ARSM[p])return arSelRow(it,e);return`<div class="row">${aTag(it.t)} <b>Nível ${ALN[it.l]}</b><span class="chip">${benTxt(apv(it.p,it.t,it.l))}</span>${e?'<span class="chip evo">equipada</span>':""}<button class="btn ${e?"r":"g"}" style="margin-left:auto" onclick="arEquip('${it.k}')">${e?"REMOVER":"EQUIPAR"}</button><button class="btn" onclick="arBreak('${it.k}')">Desmontar</button><button class="btn g" onclick="arSell('${it.k}')">💰 Vender · 🪙 ${f(arSellVal(it))}</button></div>`}).join("")||'<small class="hint">Nenhuma peça deste tipo ainda.</small>'}</section>`}).join("")};
 
 /* ---------- MISSÕES ---------- */
 let qT=0;
@@ -1381,7 +1650,7 @@ return`<div class="panel sc">${stp7("📊","STATUS DO JOGADOR",esc(S.name)+" · 
 +sec7(3,"Luck","",kvs([["Base",1],["Rebirth","+"+rebLuck(S.reb).toFixed(2)],["Dado equipado","+"+(S.dEq>=0?DICE[S.dEq][2]:0)],["Upgrade","+"+(lvc("luck")*UP.luck[4]).toFixed(2)],["Poção de Luck",potA("luck")?"×2":"inativa"],["Bônus de atributo","×"+bn("luck").toFixed(2)],["Habilidades (Fazenda)","×"+abLuck().toFixed(2)],["<b>Luck total</b>","<b>"+luck().toFixed(2)+"x</b>"]]))
 +sec7(4,"Vida e Dano","Somados dos times (com todos os bônus)",kvs([pt(S.eq.filter(Boolean),"Fazenda"),pt(S.team,"Time da Torre"),pt(S.wteam,"Time da Guerra"),["Bônus de Vida","×"+bn("hp").toFixed(2)],["Bônus de Dano","×"+bn("dmg").toFixed(2)]]))
 +sec7(5,"XP","",kvs([["Bônus de XP","×"+bn("xp").toFixed(2)],["Poção de XP",potA("xp")?"ativa ×2":"inativa"],["Maior nível",R["Maior nível"]]]))+`</div>`
-+sec7(6,"Bush selecionada","Escolha qualquer Bush do inventário.",l.length?`<select style="width:100%;margin:0 0 10px" onchange="stSel=this.value;render()">${l.map(x=>`<option value="${x.k}" ${x.k==stSel?"selected":""}>${S.eq.includes(x.k)?"⭐ ":""}${bush(x.id).name} · ${Q[x.q].n} · Lv${x.lv} · ${f(bushBps(x))} BPS</option>`).join("")}</select><div class="bsel rr ${RAR[b.rarity]}">${art7(i)}<div><b style="font-size:16px">${b.name}${i.evo?" ✦":""}</b><br><span class="rc s${b.sub||0} ${RAR[b.rarity]}">${RAR[b.rarity]} ${SUBN[b.sub||0]}</span> <span class="chip">${S.eq.includes(i.k)?"na Fazenda":"no inventário"}</span></div></div>${bar7(i.lv>=69?100:i.xp/xpNeed(i.lv)*100,i.lv>=69?"Lv 69 · MAX":"Lv "+i.lv+" · XP "+f(i.xp)+" / "+f(xpNeed(i.lv)))}<div class="kg">${kp7("⚡ BPS",f(bushBps(i)))}${kp7("❤ Vida",f(ci.hp))}${kp7("⚔ Dano",f(ci.dm))}${kp7("Qualidade",Q[i.q].n)}${kp7("💠 Gemas",(i.gem||0)+"/100")}${kp7("Tier",i.t>=0?TIERS[i.t].n+" ×"+TIERS[i.t].m:"—")}</div><div class="kv"><span>Mutações</span><b>${i.ms.map(k=>M[k].n).join(", ")||"nenhuma"}</b></div><div class="kv"><span>Habilidade</span><b>${i.ab&&AB[i.ab]?AB[i.ab].n+" · "+abTxt(i.ab):"nenhuma"}</b></div>`:'<div class="panel empty">Você ainda não tem Bushes.</div>')
++sec7(6,"Bush selecionada","Escolha qualquer Bush do inventário.",l.length?`<select style="width:100%;margin:0 0 10px" onchange="stSel=this.value;render()">${l.map(x=>`<option value="${x.k}" ${x.k==stSel?"selected":""}>${S.eq.includes(x.k)?"⭐ ":""}${bush(x.id).name} · ${Q[x.q].n} · Lv${x.lv} · ${f(bushBps(x))} BPS</option>`).join("")}</select><div class="bsel rr ${RAR[b.rarity]}">${art7(i)}<div><b style="font-size:16px">${b.name}${i.evo?" ✦":""}</b><br><span class="rc s${b.sub||0} ${RAR[b.rarity]}">${RAR[b.rarity]} ${SUBN[b.sub||0]}</span> <span class="chip">${S.eq.includes(i.k)?"na Fazenda":"no inventário"}</span></div></div>${bar7(i.lv>=200?100:i.xp/xpNeed(i.lv)*100,i.lv>=200?"Lv 200 · MAX":"Lv "+i.lv+" · XP "+f(i.xp)+" / "+f(xpNeed(i.lv)))}<div class="kg">${kp7("⚡ BPS",f(bushBps(i)))}${kp7("❤ Vida",f(ci.hp))}${kp7("⚔ Dano",f(ci.dm))}${kp7("Qualidade",Q[i.q].n)}${kp7("💠 Gemas",(i.gem||0)+"/100")}${kp7("Tier",i.t>=0?TIERS[i.t].n+" ×"+TIERS[i.t].m:"—")}</div><div class="kv"><span>Mutações</span><b>${i.ms.map(k=>M[k].n).join(", ")||"nenhuma"}</b></div><div class="kv"><span>Habilidade</span><b>${i.ab&&AB[i.ab]?AB[i.ab].n+" · "+abTxt(i.ab):"nenhuma"}</b></div>`:'<div class="panel empty">Você ainda não tem Bushes.</div>')
 +`<div class="secd">📈 Progresso e recordes</div><div class="g2">`+grp("💰 Economia",["Busheiros ganhos","Busheiros vendidos","Maior BPS (bush)","Maior multiplicador","Luck máxima"])+grp("🎮 Progresso",["Total Rolls","Rebirths","Maior nível","Tempo online","Golden/Diamond/Obsidian"])+grp("🌿 Coleção",["Bushes descobertos","Mutações descobertas","Melhor Bush"])+grp("🎯 Maiores sequências sem...",["Maior seq. sem Legendary","Maior seq. sem Mythic","Maior seq. sem Secret","Maior seq. sem Eternal","Maior seq. sem Divino"])+`</div><div class="panel sc"><div class="gh">🎲 Pulls por raridade</div><div class="chips" style="justify-content:flex-start">${RAR.map((n,k)=>`<span class="chip rc ${n}">${n}: ${S.rc[k]||0}</span>`).join("")}</div></div>`};
 
 /* ===== INDEX: interface de coleção (somente apresentação; não altera lógica de Bushes/mutações) ===== */
@@ -1461,14 +1730,14 @@ async function trReg(){if(!LB.url)throw new Error("sem servidor");if(!S.pid)S.pi
 const TRK=id=>{const[t,k]=id.split(":");return t=="ess"?[S.ess,+k]:t=="me"?[S.me,+k]:t=="ch"?[S.chests,+k]:t=="pot"?[S.pinv,k]:t=="ing"?[S.ing,+k]:t=="pi"?[S.pieces,k]:t=="pet"?[S.pets,k]:[S,{gems:"gems",cone:"cone",emut:"emut",pcoin:"pc",wt:"wt"}[t]]};
 const trGet=id=>{const[o,k]=TRK(id);return Math.max(0,Math.floor(+o[k]||0))},trSet=(id,v)=>{const[o,k]=TRK(id);o[k]=v;if(id.startsWith("pet:")&&S.pet==id.slice(4)&&v<=0)S.pet=null};
 function trOk(id){const[t,k]=String(id).split(":"),i=Number.isInteger(+k)&&k!=="";return t=="ess"?i&&+k>=0&&+k<RAR.length:t=="me"?i&&+k>=0&&+k<M.length:t=="ch"?i&&+k>=0&&+k<9:t=="ing"?i&&+k>=0&&+k<7:t=="pot"?!!POT[k]:t=="pi"?B.some(b=>b.id==k):t=="pet"?!!PETM[k]:["gems","cone","emut","pcoin","wt"].includes(t)&&k===undefined}
-const trStacks=()=>{const l=[];RAR.forEach((_,t)=>l.push("ess:"+t));M.forEach((_,k)=>l.push("me:"+k));for(let t=0;t<9;t++)l.push("ch:"+t);Object.keys(POT).forEach(k=>l.push("pot:"+k));for(let k=0;k<7;k++)l.push("ing:"+k);Object.keys(S.pieces).filter(id=>B.some(b=>b.id==id)).forEach(id=>l.push("pi:"+id));["gems","cone","emut","pcoin","wt"].forEach(x=>l.push(x));PET.forEach(p=>l.push("pet:"+p.id));return l};
+const trStacks=()=>{const l=[];RAR.forEach((_,t)=>l.push("ess:"+t));M.forEach((_,k)=>l.push("me:"+k));for(let t=0;t<RAR.length;t++)l.push("ch:"+t);Object.keys(POT).forEach(k=>l.push("pot:"+k));for(let k=0;k<7;k++)l.push("ing:"+k);Object.keys(S.pieces).filter(id=>B.some(b=>b.id==id)).forEach(id=>l.push("pi:"+id));["gems","cone","emut","pcoin","wt"].forEach(x=>l.push(x));PET.forEach(p=>l.push("pet:"+p.id));return l};
 function trMeta(id){const[t,k]=id.split(":");if(t=="ess")return{n:"Essência "+RAR[k],e:"✨",r:RAR[k],x:"XP para Bushes"};if(t=="me")return{n:"Essência "+M[k].n,e:"🧬",x:"Mutação ×"+M[k].m};if(t=="ch")return{n:"Baú "+RAR[k],e:"📦",r:RAR[k]};if(t=="pot")return{n:POT[k][0],e:"🧪",x:"1 min"};if(t=="ing")return{n:"Ingot "+ING[k][0],e:"🔩"};
  if(t=="pi"){const b=bush(k);return{n:pieceName(b),e:bi(b),r:RAR[b.rarity],x:"Piece de evolução"}}if(t=="pet"){const p=PETM[k];return{n:p.n,e:p.e,r:PR[p.r],x:"BPS ×"+p.m,pet:1}}
  return{n:{gems:"Gemas Bushianas",cone:"Cone",emut:"Essência de Mutação (aleatória)",pcoin:"Pet Coin",wt:"War Token"}[t],e:{gems:"💠",cone:"🔺",emut:"🎲",pcoin:"🐾",wt:"🎟"}[t]}}
 // sanitiza itens recebidos (nunca confia no que veio do outro navegador)
 function trIn(o){const R={b:[],a:[],r:{},c:{}};if(!o||typeof o!="object")return R;const n=(v,lo,hi)=>Math.min(hi,Math.max(lo,Math.floor(+v)||lo)),K=/^[\w-]{1,40}$/;
  for(const id in(o.c||{})){if(!/^f\w{1,30}$/.test(id))return null;const d=o.c[id]||{};R.c[id]={name:String(d.name||"?").replace(/[<>&"']/g,"").slice(0,40),rarity:n(d.rarity,0,9),sub:n(d.sub,0,4),baseBps:Math.min(1e30,Math.max(1,+d.baseBps||1)),weight:0,imageSrc:PH_SRC,fused:true}}
- for(const x of(o.b||[])){const id=String(x.id);if(!K.test(String(x.k))||!(B.some(b=>b.id==id)||R.c[id]||S.cust[id]))return null;const i={k:String(x.k),id,q:n(x.q,0,10),ms:(Array.isArray(x.ms)?x.ms:[]).map(m=>Math.floor(+m)).filter(m=>m>=0&&m<M.length).slice(0,20),lv:n(x.lv,1,69),xp:Math.max(0,+x.xp||0),qty:1,gem:n(x.gem,0,GEM_MAX)};if(x.t>=0&&x.t<TIERS.length)i.t=Math.floor(x.t);if(x.evo)i.evo=1;if(x.ab&&AB[x.ab])i.ab=x.ab;R.b.push(i)}
+ for(const x of(o.b||[])){const id=String(x.id);if(!K.test(String(x.k))||!(B.some(b=>b.id==id)||R.c[id]||S.cust[id]))return null;const i={k:String(x.k),id,q:n(x.q,0,10),ms:(Array.isArray(x.ms)?x.ms:[]).map(m=>Math.floor(+m)).filter(m=>m>=0&&m<M.length).slice(0,20),lv:n(x.lv,1,200),xp:Math.max(0,+x.xp||0),qty:1,gem:n(x.gem,0,GEM_MAX)};if(x.t>=0&&x.t<TIERS.length)i.t=Math.floor(x.t);if(x.evo)i.evo=1;if(x.ab&&AB[x.ab])i.ab=x.ab;R.b.push(i)}
  for(const x of(o.a||[])){if(!K.test(String(x.k)))return null;R.a.push({k:String(x.k),p:n(x.p,0,50),t:n(x.t,0,50),l:n(x.l,0,9999)})}
  for(const id in(o.r||{})){const q=+o.r[id];if(!trOk(id)||!Number.isInteger(q)||q<1||q>1e9)return null;R.r[id]=q}return R}
 const trOff=()=>{const E=S.trE||{b:{},a:{},r:{}},c={};Object.values(E.b).forEach(i=>{if(S.cust[i.id])c[i.id]=S.cust[i.id]});return{b:Object.values(E.b),a:Object.values(E.a),r:E.r,c}};
@@ -1484,15 +1753,16 @@ function trTake(kind,key){const E=S.trE,t=TR.tr;if(!E||!t||t.st!="open")return;i
 function trReturn(){const E=S.trE;if(!E)return;Object.values(E.b).forEach(i=>{if(!S.inv[i.k])S.inv[i.k]=i});Object.values(E.a).forEach(a=>{if(!S.ar[a.k])S.ar[a.k]=a});Object.keys(E.r).forEach(id=>trSet(id,trGet(id)+E.r[id]));S.trE=null;save()}
 function trGive(c){for(const id in c.c)if(!S.cust[id])S.cust[id]=c.c[id];c.b.forEach(i=>{const k=S.inv[i.k]?newKey():i.k;S.inv[k]={...i,k};S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);S.bm[i.id]=[...new Set([...(S.bm[i.id]||[]),...i.ms.map(x=>M[x].n)])];i.ms.forEach(x=>S.muts[M[x].n]=1);if(i.evo)S.bevo[i.id]=1});c.a.forEach(a=>{const k=S.ar[a.k]?newKey():a.k;S.ar[k]={...a,k}});Object.keys(c.r).forEach(id=>trSet(id,trGet(id)+c.r[id]))}
 // ---- sincronização ----
-async function trPoll(){if(!LB.url||!S.trR||TR.busy)return;TR.busy=1;try{const t0=Date.now(),d=await trRpc("tr_poll",{p:S.pid,s:S.trk});TR.skew=d.now-(t0+Date.now())/2;TR.in=d.in||[];
+async function trPoll(){if(!LB.url||!S.trR)return;if(TR.busy){TR.again=1;return}TR.busy=1;try{const t0=Date.now(),d=await trRpc("tr_poll",{p:S.pid,s:S.trk});TR.skew=d.now-(t0+Date.now())/2;TR.in=d.in||[];
  TR.in.forEach(q=>{if(!TR.seen["i"+q.id]){TR.seen["i"+q.id]=1;toast("🤝 "+lbName(q.name)+" enviou uma solicitação de Trade",4500);beep(SND.get)}});
  (d.out||[]).forEach(q=>{if(!TR.seen["o"+q.id]){TR.seen["o"+q.id]=1;toast(lbName(q.name)+(q.st=="denied"?" negou":" não respondeu a")+" sua solicitação de Trade",3500)}});
- TR.tr=d.tr;await trStep()}catch(e){if(/auth/.test(e.message)){S.trR=0}}TR.busy=0;trUi()}
+ TR.tr=d.tr;await trStep()}catch(e){if(/auth/.test(e.message)){S.trR=0}else if(Date.now()-(TR.et||0)>8000){TR.et=Date.now();console.error("Trade:",e);toast("⚠ Trade: "+trErr(e),3000)}}TR.busy=0;if(TR.op&&Date.now()>TR.opT)TR.op=0;try{trUi()}catch(e){console.error("Trade UI:",e)}if(TR.again){TR.again=0;setTimeout(trPoll,60)}}
 async function trStep(){const t=TR.tr;if(!t){if(S.trE&&Date.now()-S.trE.ts>12e4)trReturn();return}
+ if(S.trDone[t.id]&&(t.st=="open"||t.st=="counting")){delete S.trDone[t.id];save()}
  if(S.trDone[t.id]){TR.tr=null;trRpc("tr_ack",trA({tid:t.id})).catch(()=>{});return}
  if(t.st=="completed"||t.st=="cancelled")return trSettle(t);
  if(!S.trE||S.trE.tid!=t.id){if(S.trE)trReturn();S.trE={tid:t.id,b:{},a:{},r:{},ts:Date.now()};save()}
- if(t.id!=TR.sh){TR.sh=t.id;TR.ui=true;TR.pick="b";beep(SND.get)}
+ TR.op=0;if(t.id!=TR.sh){TR.sh=t.id;TR.ui=true;TR.pick="b";TR.sg="";beep(SND.get)}
  if(t.st=="open"&&trSig(trOff())!=trSig(t.mine))trPush();if(t.st=="counting")trTick()}
 async function trPush(){const t=TR.tr;if(!t||!S.trE||TR.push)return;TR.push=1;try{await trRpc("tr_offer",trA({tid:t.id,o:trOff()}))}catch(e){if(/dup_item|invalid/.test(e.message)){toast("⚠ Item recusado pelo servidor — Trade cancelado",4000);trRpc("tr_cancel",trA({tid:t.id,why:"item_dup"})).catch(()=>{})}else if(!/closed/.test(e.message))toast(trErr(e),2500)}TR.push=0;TR.lp=0}
 async function trAcc(){const t=TR.tr;if(!t||t.st!="open"||trSig(trOff())!=trSig(t.mine))return;try{await trRpc("tr_acc",trA({tid:t.id,v:t.ver}))}catch(e){toast(trErr(e),3000)}trPoll()}
@@ -1510,8 +1780,8 @@ function trSettle(t){const ok=t.st=="completed",E=S.trE;let msg;
  trRpc("tr_ack",trA({tid:t.id})).catch(()=>{});modal(msg,[["OK","g",()=>render()]]);render();trUi(1)}
 function trTick(){const t=TR.tr;if(!t||t.st!="counting")return;const s=Math.ceil((t.cnt-(Date.now()+TR.skew))/1000),e=$("#trcd");if(e)e.innerHTML=s>0?"⏳ Trade será confirmada em <b>"+s+"</b>…":"Confirmando…";if(s<=0&&TR.com!=t.id)trCommit()}
 // ---- solicitações / leaderboard ----
-async function trSend(pid){if(!S.name)return toast("Defina seu nome e toque Enviar no Ranking",3000);if(pid==S.pid)return toast(TRERR.self,2500);try{await trReg();await trRpc("tr_send",trA({t:pid}));toast("🤝 Solicitação enviada",2500)}catch(e){toast(trErr(e),3500)}}
-async function trAnswer(id,ok){try{await trRpc("tr_resp",trA({rid:id,ok}))}catch(e){toast(trErr(e),3000)}TR.in=TR.in.filter(q=>q.id!=id);TR.lp=0;trPoll()}
+async function trSend(pid){if(!S.name)return toast("Defina seu nome e toque Enviar no Ranking",3000);if(pid==S.pid)return toast(TRERR.self,2500);try{await trReg();await trRpc("tr_send",trA({t:pid}));TR.fast=Date.now()+120000;TR.lp=0;toast("🤝 Solicitação enviada · a Trade abre sozinha quando aceitarem",3500)}catch(e){toast(trErr(e),3500)}}
+async function trAnswer(id,ok){let good=0;try{await trRpc("tr_resp",trA({rid:id,ok}));good=1}catch(e){toast(trErr(e),3000)}TR.in=TR.in.filter(q=>q.id!=id);if(ok&&good){TR.ui=true;TR.op=1;TR.opT=Date.now()+10000;TR.fast=Date.now()+60000;TR.sg=""}TR.lp=0;trPoll();if(ok&&good){trUi(1);setTimeout(trPoll,400)}}
 const trInline=()=>S.trR?`<button class="btn" onclick="TR.ui=true;trUi(1)">📨 Solicitações de Trade${TR.in.length?" ("+TR.in.length+")":""}</button>`:`<small>🤝 Envie seu nome ao Leaderboard para ativar o Trade.</small>`;
 const trInvNote=()=>{const E=S.trE;if(!E)return"";const n=Object.keys(E.b).length+Object.keys(E.a).length+Object.keys(E.r).length;return n?`<div class="panel"><b>🤝 ${n} item(ns) reservado(s) em Trade</b> <button class="btn" onclick="TR.ui=true;trUi(1)">Abrir</button></div>`:""};
 function trClose(){TR.ui=false;trUi(1)}
@@ -1532,9 +1802,9 @@ function trWin(t){const open=t.st=="open",cnt=t.st=="counting",sync=trSig(trOff(
  return`<div class="trbox"><button class="bd-x" onclick="trClose()" aria-label="Minimizar">▾</button><h2>🤝 TRADE</h2>${st}<div class="trcols"><section class="trs me">${hd(avHtml(),esc(S.name)||"Você","VOCÊ → oferece",t.mok)}<div class="trl">${trSide(t,1)}</div></section><section class="trs th">${hd(lbAv(t.oa),lbName(t.on),"OUTRO JOGADOR → oferece",t.tok)}<div class="trl">${trSide(t,0)}</div></section></div>${open?trPick():""}<div class="trbt"><button class="btn g" ${can?"":"disabled"} onclick="trAcc()">✅ Aceitar</button><button class="btn r" onclick="trCancel()">❌ ${cnt?"Cancelar Trade":"Negar / Cancelar"}</button></div><small>Mudar a oferta cancela os aceites. A troca é validada pelo servidor.</small></div>`}
 const trInbox=()=>`<div class="trbox"><button class="bd-x" onclick="trClose()" aria-label="Fechar">✕</button><h2>📨 Solicitações de Trade</h2>${TR.in.map(q=>`<div class="row trq"><span class="avatar sm">${lbAv(q.av)}</span><b>${lbName(q.name)}</b><span class="trqb"><button class="btn g" onclick="trAnswer(${q.id},true)">Aceitar</button><button class="btn r" onclick="trAnswer(${q.id},false)">Negar</button></span></div>`).join("")||'<div class="trem">Nenhuma solicitação no momento.</div>'}<small>Para enviar: Ranking → toque em um jogador → 🤝 Enviar Trade.</small></div>`;
 function trUi(force){const w=$("#trw"),fb=$("#trf");if(!w)return;const t=TR.tr,n=TR.in.length;fb.style.display=S.trR?"flex":"none";fb.innerHTML="🤝"+(t?"<b>●</b>":n?"<b>"+n+"</b>":"");
- if(!TR.ui){w.style.display="none";return}w.style.display="flex";const sg=JSON.stringify([t&&[t.id,t.st,t.ver,t.mok,t.tok,trSig(t.mine),trSig(t.th||{})],S.trE&&trSig(trOff()),TR.in.map(q=>q.id),TR.pick]);if(!force&&sg==TR.sg)return;TR.sg=sg;w.innerHTML=t?trWin(t):trInbox();if(t&&t.st=="counting")trTick()}
+ if(!TR.ui){w.style.display="none";return}w.style.display="flex";const sg=JSON.stringify([TR.op,t&&[t.id,t.st,t.ver,t.mok,t.tok,trSig(t.mine),trSig(t.th||{})],S.trE&&trSig(trOff()),TR.in.map(q=>q.id),TR.pick]);if(!force&&sg==TR.sg)return;TR.sg=sg;try{w.innerHTML=t?trWin(t):TR.op?`<div class="trbox"><h2>🤝 TRADE</h2><div class="trem">⏳ Abrindo Trade…</div></div>`:trInbox()}catch(e){console.error("Trade UI:",e);w.innerHTML='<div class="trbox"><h2>🤝 TRADE</h2><div class="trem">Erro ao montar a tela. Toque em Cancelar.</div><div class="trbt"><button class="btn r" onclick="trCancel()">❌ Cancelar</button></div></div>'}if(t&&t.st=="counting")trTick()}
 document.body.insertAdjacentHTML("beforeend",'<button id="trf" onclick="TR.ui=true;trUi(1)" aria-label="Trade"></button><div id="trw" onclick="if(event.target===this)trClose()"></div>');
-setInterval(()=>{if(!LB.url||!S.trR)return;const a=TR.tr||TR.ui;if(document.hidden&&!TR.tr)return;if(Date.now()-TR.lp>=(a?1500:6000)){TR.lp=Date.now();trPoll()}},500);setInterval(trTick,250);
+setInterval(()=>{if(!LB.url||!S.trR)return;const a=TR.tr||TR.ui||Date.now()<(TR.fast||0);if(document.hidden&&!TR.tr)return;if(Date.now()-TR.lp>=(TR.tr?1000:a?1500:6000)){TR.lp=Date.now();trPoll()}},500);setInterval(trTick,250);
 if(LB.url&&S.pid&&S.name)trReg().then(()=>trPoll()).catch(()=>{});else trUi();
 
 const INVHDR=()=>INVHDR0()+trInvNote();
