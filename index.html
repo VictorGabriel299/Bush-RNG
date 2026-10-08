@@ -553,6 +553,13 @@ details.panel .chips{justify-content:flex-start}
 .fm-flow .kp{text-align:center}
 .fm-flow .kp b{font-size:14px}.fm-flow .kp em{display:block;font-style:normal;font-size:11px;color:var(--mt)}
 .fm-sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0}
+.subtabs.s6{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:600px){.subtabs.s6{gap:2px}.subtabs.s6 .stb{padding:6px 0}.subtabs.s6 .stb b{font-size:8.5px;letter-spacing:0}.subtabs.s6 .stb small{font-size:7.5px}.subtabs.s6 .stb i{font-size:15px}}
+.ig-list{display:grid;gap:6px}
+.ig-r{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:center;text-align:left;background:#0c1711;color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:8px 10px;font-family:inherit;font-size:12px;cursor:pointer}
+.ig-r small{display:block;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--mt)}.ig-r b{font-size:13px}
+.ig-r.can b{color:var(--ok)}.ig-r.on{border-color:var(--ac);box-shadow:0 0 0 2px #f5b94233}
+.ig-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px;margin:10px 0}
 .fm-max{margin:0 0 0 8px;min-height:38px}
 .fm-q{display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
 @media(max-width:420px){.fm-flow{grid-template-columns:1fr}.fm-flow>i{transform:rotate(90deg);text-align:center}}
@@ -1323,7 +1330,7 @@ const AB={};
 // 15 famílias, 42 passivas. Nível I = comum · II = rara · III = muito rara · Lenda = extremamente rara.
 // Cada passiva guarda família+nível exatos (ex.: "berserker_3"). m = multiplicadores de status (entram em cs()); c = efeitos de combate (motor fcoreP).
 // O servidor sorteia o nível pelas chances abaixo (1/10000) e depois uma passiva do nível, uniforme (bush-rng-passives.sql tem a MESMA lista).
-const PPR=[["Comum","#aab8a0",6885],["Rara","#4aa8ff",2600],["Muito Rara","#b86bff",500],["Lendária","#ffd23f",15]],PPCOST=10,PP={},PPFAM=[
+const PPR=[["Comum","#aab8a0",6885],["Rara","#4aa8ff",2600],["Muito Rara","#b86bff",500],["Lendária","#ffd23f",15]],PPCOST=1,PP={},PPFAM=[
  ["destruidor","Destruidor","💥",[{m:{dmg:1.10}},{m:{dmg:1.25}},{m:{dmg:1.50}}]],
  ["colosso","Colosso","🗿",[{m:{hp:1.15}},{m:{hp:1.35}},{m:{hp:1.70}}]],
  ["berserker","Berserker","😡",[{c:{ber:.5}},{c:{ber:.9}},{c:{ber:1.5}}]],
@@ -1496,9 +1503,9 @@ const EGGS=()=>`<div class="panel"><h2>🥚 OVOS DE PET</h2>Pet Coins: <b>🐾 $
 // ===== CRAFT v5: um hub com seções separadas =====
 let crT="fus";
 const celHave=()=>DIV_ORIG.filter(id=>Object.values(S.inv).some(i=>i.id==id)).length;
-const CRAFT=()=>{const T=[["fus","🔀","Fusão",`Essência ${RAR[fr]}: ${S.ess[fr]}`],["arm","⚒","Armaduras",`${(S.arEq||[]).filter(Boolean).length}/5 equipadas`],["egg","🥚","Ovos de Pet",`🐾 ${f(S.pc)}`],["cel","🌌","Celestial",`${celHave()}/5 Divinos`],["mat","⚗","Fundir","Ingots · Essências"]],
- d={fus:"Una 3 Bushes da mesma raridade para criar uma de raridade superior.",arm:"Forje Ingots e crie peças de armadura que somam bônus permanentes.",egg:"Gaste Pet Coins para chocar ovos e conseguir Pets.",cel:"Forje o Big Bush (Celestial) com os 5 Divinos originais.",mat:"Junte vários Ingots ou Essências de uma raridade para criar 1 da raridade seguinte."};
- return`<div class="subtabs s5">${T.map(t=>`<button class="stb ${crT==t[0]?"on":""}" onclick="crT='${t[0]}';render()"><i>${t[1]}</i><b>${t[2]}</b><small>${t[3]}</small></button>`).join("")}</div><div class="crhint">${d[crT]||d.fus}</div>`+(crT=="arm"?ARMOR():crT=="egg"?EGGS():crT=="cel"?CELPANEL():crT=="mat"?MATFUSE():FUSPANEL())};
+const CRAFT=()=>{const T=[["fus","🔀","Fusão",`Essência ${RAR[fr]}: ${S.ess[fr]}`],["arm","⚒","Armaduras",`${(S.arEq||[]).filter(Boolean).length}/5 equipadas`],["egg","🥚","Ovos de Pet",`🐾 ${f(S.pc)}`],["cel","🌌","Celestial",`${celHave()}/5 Divinos`],["mat","⚗","Ingots","Combinar"],["ess","✨","Essências","Combinar"]],
+ d={fus:"Una 3 Bushes da mesma raridade para criar uma de raridade superior.",arm:"Forje Ingots e crie peças de armadura que somam bônus permanentes.",egg:"Gaste Pet Coins para chocar ovos e conseguir Pets.",cel:"Forje o Big Bush (Celestial) com os 5 Divinos originais.",mat:"Gaste Ingots de um tier para criar Ingots do tier seguinte (Bronze → Silver → … → Rainbow).",ess:"Gaste Essências de uma raridade para criar Essências da raridade seguinte."};
+ return`<div class="subtabs s6">${T.map(t=>`<button class="stb ${crT==t[0]?"on":""}" onclick="crT='${t[0]}';render()"><i>${t[1]}</i><b>${t[2]}</b><small>${t[3]}</small></button>`).join("")}</div><div class="crhint">${d[crT]||d.fus}</div>`+(crT=="arm"?ARMOR():crT=="egg"?EGGS():crT=="cel"?CELPANEL():crT=="mat"?MATFUSE():crT=="ess"?ESSFUSE():FUSPANEL())};
 // ---------- MARCOS: TÍTULOS + CONQUISTAS ----------
 const cnt={rolls:()=>S.rolls,bushes:()=>Object.keys(S.bq).length,bps:()=>S.mb||0,reb:()=>S.reb,tower:()=>S.hiF,war:()=>S.wwins,fus:()=>S.nfus,pets:petOwned,hatch:()=>S.nhatch,evo:()=>Object.keys(S.bevo).length,skill:()=>S.nskill,mis:()=>S.mdone,mut:()=>Object.keys(S.muts).length,lvl:()=>S.maxLv,time:()=>S.online/3600,earn:()=>S.earned};
 const FAM=[["rolls","Rolls",[100,1e3,1e4,5e4,2e5,1e6],["Iniciante","Rolador","Viciado em Rolls","Sortudo Nato","Mestre do RNG","Lenda do Roll"]],
@@ -1713,35 +1720,59 @@ return`<div class="panel sc">${stp7("🗼","TORRE","Vença andar por andar. A ca
 +sec7(4,bs?"Recompensas do Boss":"Recompensas por vitória","Andar "+fl+(rd?" · com a qualidade do seu time":" · usando qualidade média ×1 (muda com seu time)"),`<div class="rwt"><div class="rw h"><span>Recompensa</span><span>Qtd.</span><span>Chance</span></div>${rw.map(r=>`<div class="rw"><span class="rn">${r[0]}</span><span class="rq">${r[1]}</span><span class="rcb"><i style="width:${parseFloat(r[2])}%"></i><em>${r[2]}</em></span></div>`).join("")}</div><small class="hint">📦 Raridade do baú neste andar${bs?" (Boss)":""}: ${cwTxt}. Raridades maiores só liberam em andares mais altos.</small>`)
 +sec7(5,"Escolher time","Toque para adicionar ou remover (máx. 3).",pick7(S.team,3,"tadd","trem"))};
 
-/* ---------- FUSÃO DE MATERIAIS (Ingots e Essências) ---------- */
-// Custo para fundir X unidades do tier t em 1 do tier t+1 (cresce com o tier).
-// Ingots: 4·5·6·8·10·12 → 1 Rainbow = 115.200 Bronze. Essências: sempre maior que a razão de XP entre raridades (ESSXP), então fundir nunca gera ganho de XP.
-const FMC={ing:[4,5,6,8,10,12],ess:[3,3,4,4,5,5,6,8,10]};
-const FM={k:"ing",t:0,n:1};
-const fmArr=k=>k=="ing"?S.ing:S.ess,
-fmNm=(k,t)=>k=="ing"?"🧱 Ingot "+ING[t][0]:"✨ Essência "+RAR[t],
-fmCl=(k,t)=>k=="ing"?`<span style="color:${ING[t][1]}">${ING[t][0]}</span>`:`<span class="rc ${RAR[t]}">${RAR[t]}</span>`,
-fmLbl=(k,t)=>(k=="ing"?"🧱 Ingot ":"✨ Essência ")+fmCl(k,t);
-function fmN(){const k=FM.k;if(FM.t>=FMC[k].length)FM.t=0;const c=FMC[k][FM.t],mx=Math.floor((fmArr(k)[FM.t]||0)/c);FM.n=Math.max(1,Math.min(mx||1,Math.floor(FM.n)||1));return FM.n}
-function fmBox(){const k=FM.k,t=FM.t,c=FMC[k][t],A=fmArr(k),have=A[t]||0,n=fmN(),tot=c*n,ok=have>=tot,mx=Math.floor(have/c),after=have-tot;
-return`<div class="fm-flow">${kp7("Material atual",fmLbl(k,t),"Você tem: "+f(have))}<i>➜</i>${kp7("Você receberá",fmLbl(k,t+1),"Você tem: "+f(A[t+1]||0))}</div>
-<div class="fm-sum">${kp7("Necessário por fusão",c+" → 1","a cada "+c+" "+(k=="ing"?"Ingots":"Essências")+" você recebe 1")}${kp7("Quantidade resultante","+"+f(n)+" "+(k=="ing"?ING[t+1][0]:RAR[t+1]),"em "+f(n)+" fusão(ões)","good")}</div>
-<div class="lab">Quantidade de fusões</div><div class="fm-q"><div class="qty sm"><button onclick="fmStep(-1)" aria-label="Diminuir">−</button><input id="fm_q" type="number" min="1" inputmode="numeric" value="${n}" oninput="fmSet(this.value)"><button onclick="fmStep(1)" aria-label="Aumentar">+</button></div><button class="btn fm-max" ${mx>=1?"":"disabled"} onclick="fmSet(${Math.max(1,mx)},1)">MÁX (${f(mx)})</button></div>
-<div class="fm-sum">${kp7("Custo total",f(tot)+" "+(k=="ing"?ING[t][0]:RAR[t]),ok?"restam "+f(after):"faltam "+f(tot-have),ok?"good":"bad")}${kp7("Você receberá","+"+f(n)+" "+(k=="ing"?ING[t+1][0]:RAR[t+1]),"total após: "+f((A[t+1]||0)+n),"good")}</div>
-<button class="btn g wide big" ${ok?"":"disabled"} onclick="fmAsk()">${ok?"🔥 FUNDIR "+f(n)+"×":"MATERIAL INSUFICIENTE · faltam "+f(tot-have)}</button>`}
-function fmRefresh(){const e=$("#fm_box");if(e)e.innerHTML=fmBox()}
-function fmSet(v,sync){v=Math.floor(+v);if(!(v>=1)){if(sync)v=1;else return}FM.n=v;const k=FM.k,mx=Math.floor((fmArr(k)[FM.t]||0)/FMC[k][FM.t]);if(mx>=1&&v>mx){FM.n=mx;sync=1}if(sync){const i=$("#fm_q");if(i)i.value=FM.n}fmRefresh()}
-function fmStep(d){fmSet(fmN()+d,1)}
-function fmKind(k){FM.k=k;FM.t=0;FM.n=1;render()}
-function fmPick(t){FM.t=t;FM.n=1;render()}
-function fmAsk(){const k=FM.k,t=FM.t,c=FMC[k][t],n=fmN(),tot=c*n,A=fmArr(k);if((A[t]||0)<tot)return toast("Material insuficiente",2000);
-modal(`<h3>🔥 Confirmar fusão?</h3>Custo total: <b>−${f(tot)}</b> ${fmLbl(k,t)}<br>Você receberá: <b>+${f(n)}</b> ${fmLbl(k,t+1)}<br><small>${c} → 1 · ${f(n)} fusão(ões)<br>Saldo: ${f(A[t])} → ${f(A[t]-tot)}</small>`,[["CANCELAR","",()=>{}],["FUNDIR","g",()=>fmDo(k,t,n)]])}
-function fmDo(k,t,n){const c=FMC[k][t],A=fmArr(k);n=Math.floor(n);if(!(n>=1)||t<0||t>=FMC[k].length||!((A[t]||0)>=c*n))return toast("Material insuficiente",2000);A[t]-=c*n;A[t+1]=(A[t+1]||0)+n;beep(SND.buy);FM.n=1;toast("Fundido: +"+f(n)+" "+(k=="ing"?"Ingot "+ING[t+1][0]:"Essência "+RAR[t+1]),2500);render()}
-const MATFUSE=()=>{const k=FM.k,A=fmArr(k),N=FMC[k].length+1;if(FM.t>=FMC[k].length)FM.t=0;
-return sec7(1,"Tipo de material","Escolha o que fundir.",`<div class="chips"><button class="chipb ${k=="ing"?"on":""}" onclick="fmKind('ing')">🧱 Ingots</button><button class="chipb ${k=="ess"?"on":""}" onclick="fmKind('ess')">✨ Essências</button></div>`,true)
-+sec7(2,"Escolher raridade","Toque no material que quer fundir. O último tier não pode ser fundido.",`<div class="chips">${Array.from({length:N},(_,t)=>{const last=t==N-1,col=k=="ing"?ING[t][1]:"";return`<button class="chipb ${k=="ess"?RAR[t]:""} ${FM.t==t?"on":""}" ${last?"disabled":""} style="${k=="ing"?"border-color:"+col:""}" onclick="fmPick(${t})"><span style="${k=="ing"?"color:"+col:""}">${k=="ing"?ING[t][0]:RAR[t]}</span><small>${last?"máx.":f(A[t]||0)+" · "+FMC[k][t]+"→1"}</small></button>`}).join("")}</div>`,true)
-+sec7(3,"Fusão","",`<div id="fm_box">${fmBox()}</div>`)
-+sec7(4,"Tabela de custos","Quanto de cada material é preciso para subir de tier.",`<div class="rwt">${FMC[k].map((c,t)=>`<div class="rw"><span class="rn">${fmCl(k,t)} ➜ ${fmCl(k,t+1)}</span><span class="rq">${c} → 1</span><span class="rcb"></span></div>`).join("")}</div><small class="hint">Os materiais atuais continuam funcionando normalmente (forja de Ingots, armaduras, XP e mutações).</small>`)};
+/* ---------- COMBINAÇÃO DE INGOTS (somente Ingots · não usa Essências) ---------- */
+// IGC[t] = Ingots do tier t gastos POR transformação para gerar 1 Ingot do tier t+1.
+// Bronze→Silver→Gold→Diamond→Emerald→Void→Rainbow: 4·5·6·8·10·12 (1 Rainbow = 115.200 Bronze).
+const IGC=[4,5,6,8,10,12];
+const IG={t:0,n:1};
+const igHave=t=>S.ing[t]||0,
+igMax=t=>Math.floor(igHave(t)/IGC[t]),
+igCl=t=>`<span style="color:${ING[t][1]}">${ING[t][0]}</span>`;
+function igN(){if(!(IG.t>=0&&IG.t<IGC.length))IG.t=0;IG.n=Math.max(1,Math.min(Math.max(1,igMax(IG.t)),Math.floor(IG.n)||1));return IG.n}
+function igRes(){const t=IG.t,c=IGC[t],have=igHave(t),n=igN(),tot=c*n,ok=have>=tot;
+return`<div class="ig-sum">${kp7("Possuída",f(have)+" "+ING[t][0],ok?"restam "+f(have-tot):"faltam "+f(tot-have),ok?"good":"bad")}${kp7("Necessária",f(tot)+" "+ING[t][0],c+" por transformação × "+f(n))}${kp7("Resultado","+"+f(n)+" "+ING[t+1][0],"total após: "+f(igHave(t+1)+n),"good")}</div>
+<button class="btn g wide big" ${ok?"":"disabled"} onclick="igAsk()">${ok?"🔥 TRANSFORMAR "+f(n)+"×":"INGOTS INSUFICIENTES · faltam "+f(tot-have)}</button>`}
+function igBox(){const t=IG.t,mx=igMax(t);
+return`<div class="fm-flow">${kp7("Você gasta","🧱 "+igCl(t),"Possuída: "+f(igHave(t)))}<i>➜</i>${kp7("Você recebe","🧱 "+igCl(t+1),"Possuída: "+f(igHave(t+1)))}</div>
+<div class="lab">Quantidade de transformações</div><div class="fm-q"><div class="qty sm"><button onclick="igStep(-1)" aria-label="Diminuir">−</button><input id="ig_q" type="number" min="1" inputmode="numeric" value="${igN()}" oninput="igSet(this.value)"><button onclick="igStep(1)" aria-label="Aumentar">+</button></div><button class="btn fm-max" ${mx>=1?"":"disabled"} onclick="igSet(${Math.max(1,mx)},1)">MÁX (${f(mx)})</button></div>
+<div id="ig_res">${igRes()}</div>`}
+function igRefresh(){const e=$("#ig_res");if(e)e.innerHTML=igRes()}
+function igSet(v,sync){v=Math.floor(+v);if(!(v>=1)){if(sync)v=1;else return}const mx=igMax(IG.t);IG.n=v;if(mx>=1&&v>mx){IG.n=mx;sync=1}if(sync){const i=$("#ig_q");if(i)i.value=IG.n}igRefresh()}
+function igStep(d){igSet(igN()+d,1)}
+function igPick(t){IG.t=t;IG.n=1;render()}
+function igAsk(){const t=IG.t,c=IGC[t],n=igN(),tot=c*n;if(igHave(t)<tot)return toast("Ingots insuficientes",2000);
+modal(`<h3>🔥 Confirmar transformação?</h3>Você gasta: <b>−${f(tot)}</b> 🧱 ${igCl(t)}<br>Você recebe: <b>+${f(n)}</b> 🧱 ${igCl(t+1)}<br><small>${c} → 1 · ${f(n)} transformação(ões)<br>${ING[t][0]}: ${f(igHave(t))} → ${f(igHave(t)-tot)}</small>`,[["CANCELAR","",()=>{}],["TRANSFORMAR","g",()=>igDo(t,n)]])}
+function igDo(t,n){n=Math.floor(n);if(!(t>=0&&t<IGC.length)||!(n>=1)||igHave(t)<IGC[t]*n)return toast("Ingots insuficientes",2000);S.ing[t]-=IGC[t]*n;S.ing[t+1]=igHave(t+1)+n;beep(SND.buy);IG.n=1;toast("Transformado: +"+f(n)+" Ingot "+ING[t+1][0],2500);render()}
+const MATFUSE=()=>{if(!(IG.t>=0&&IG.t<IGC.length))IG.t=0;
+return sec7(1,"Escolher transformação","Gasta Ingots do tier inferior para gerar 1 do tier seguinte. Só Ingots entram aqui.",`<div class="ig-list">${IGC.map((c,t)=>`<button class="ig-r ${IG.t==t?"on":""} ${igHave(t)>=c?"can":""}" onclick="igPick(${t})"><span class="rn">${igCl(t)} ➜ ${igCl(t+1)}</span><span><small>Possuída</small><b>${f(igHave(t))}</b></span><span><small>Necessária</small><b>${c} → 1</b></span></button>`).join("")}</div>`,true)
++sec7(2,"Transformar","",`<div id="ig_box">${igBox()}</div>`)};
+
+/* ---------- COMBINAÇÃO DE ESSÊNCIAS (sistema separado · não usa Ingots) ---------- */
+// Sempre maior que a razão de XP entre raridades (ESSXP), então combinar nunca gera ganho de XP.
+const ESC=[3,3,4,4,5,5,6,8,10];
+const ES={t:0,n:1};
+const esHave=t=>S.ess[t]||0,
+esMax=t=>Math.floor(esHave(t)/ESC[t]),
+esCl=t=>`<span class="rc ${RAR[t]}">${RAR[t]}</span>`;
+function esN(){if(!(ES.t>=0&&ES.t<ESC.length))ES.t=0;ES.n=Math.max(1,Math.min(Math.max(1,esMax(ES.t)),Math.floor(ES.n)||1));return ES.n}
+function esRes(){const t=ES.t,c=ESC[t],have=esHave(t),n=esN(),tot=c*n,ok=have>=tot;
+return`<div class="fm-sum">${kp7("Custo total",f(tot)+" "+RAR[t],ok?"restam "+f(have-tot):"faltam "+f(tot-have),ok?"good":"bad")}${kp7("Você receberá","+"+f(n)+" "+RAR[t+1],"total após: "+f(esHave(t+1)+n),"good")}</div>
+<button class="btn g wide big" ${ok?"":"disabled"} onclick="esAsk()">${ok?"✨ COMBINAR "+f(n)+"×":"ESSÊNCIAS INSUFICIENTES · faltam "+f(tot-have)}</button>`}
+function esBox(){const t=ES.t,mx=esMax(t);
+return`<div class="fm-flow">${kp7("Essência atual","✨ "+esCl(t),"Você tem: "+f(esHave(t)))}<i>➜</i>${kp7("Você receberá","✨ "+esCl(t+1),"Você tem: "+f(esHave(t+1)))}</div>
+<div class="lab">Quantidade de combinações</div><div class="fm-q"><div class="qty sm"><button onclick="esStep(-1)" aria-label="Diminuir">−</button><input id="es_q" type="number" min="1" inputmode="numeric" value="${esN()}" oninput="esSet(this.value)"><button onclick="esStep(1)" aria-label="Aumentar">+</button></div><button class="btn fm-max" ${mx>=1?"":"disabled"} onclick="esSet(${Math.max(1,mx)},1)">MÁX (${f(mx)})</button></div>
+<div id="es_res">${esRes()}</div>`}
+function esRefresh(){const e=$("#es_res");if(e)e.innerHTML=esRes()}
+function esSet(v,sync){v=Math.floor(+v);if(!(v>=1)){if(sync)v=1;else return}const mx=esMax(ES.t);ES.n=v;if(mx>=1&&v>mx){ES.n=mx;sync=1}if(sync){const i=$("#es_q");if(i)i.value=ES.n}esRefresh()}
+function esStep(d){esSet(esN()+d,1)}
+function esPick(t){ES.t=t;ES.n=1;render()}
+function esAsk(){const t=ES.t,c=ESC[t],n=esN(),tot=c*n;if(esHave(t)<tot)return toast("Essências insuficientes",2000);
+modal(`<h3>✨ Confirmar combinação?</h3>Custo total: <b>−${f(tot)}</b> ✨ ${esCl(t)}<br>Você receberá: <b>+${f(n)}</b> ✨ ${esCl(t+1)}<br><small>${c} → 1 · ${f(n)} combinação(ões)<br>Saldo: ${f(esHave(t))} → ${f(esHave(t)-tot)}</small>`,[["CANCELAR","",()=>{}],["COMBINAR","g",()=>esDo(t,n)]])}
+function esDo(t,n){n=Math.floor(n);if(!(t>=0&&t<ESC.length)||!(n>=1)||esHave(t)<ESC[t]*n)return toast("Essências insuficientes",2000);S.ess[t]-=ESC[t]*n;S.ess[t+1]=esHave(t+1)+n;beep(SND.buy);ES.n=1;toast("Combinado: +"+f(n)+" Essência "+RAR[t+1],2500);render()}
+const ESSFUSE=()=>{if(!(ES.t>=0&&ES.t<ESC.length))ES.t=0;
+return sec7(1,"Escolher raridade","Toque na Essência que quer combinar. A última raridade não pode ser combinada.",`<div class="chips">${RAR.slice(0,ESC.length+1).map((r,t)=>{const last=t==ESC.length;return`<button class="chipb ${r} ${ES.t==t?"on":""}" ${last?"disabled":""} onclick="esPick(${t})"><span>${r}</span><small>${last?"máx.":f(esHave(t))+" · "+ESC[t]+"→1"}</small></button>`}).join("")}</div>`,true)
++sec7(2,"Combinação","",`<div id="es_box">${esBox()}</div>`)
++sec7(3,"Tabela de custos","Quanto de cada Essência é preciso para subir de raridade.",`<div class="rwt">${ESC.map((c,t)=>`<div class="rw"><span class="rn">${esCl(t)} ➜ ${esCl(t+1)}</span><span class="rq">${c} → 1</span><span class="rcb"></span></div>`).join("")}</div>`)};
 
 /* ---------- GUERRA ---------- */
 const WAR=()=>{chkWar();const w=S.war;S.wteam=S.wteam.filter(k=>S.inv[k]);const T=S.wteam.map(k=>S.inv[k]),vt=w.rar>=0,boss=w.boss?bush(w.boss):null,bs=boss?bossStats(boss):null,cdl=Math.max(0,(S.wcd||0)-Date.now()),r=vt?w.rar:wPrev,tt=tot7(S.wteam),rd=T.length==3,pcs=Object.keys(S.pieces).filter(id=>S.pieces[id]>0&&bush(id));
