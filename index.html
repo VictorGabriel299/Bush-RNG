@@ -636,6 +636,7 @@ details.panel .chips{justify-content:flex-start}
 @keyframes paIn{from{transform:scale(.8);opacity:.4}to{transform:scale(1.06);opacity:1}}
 @keyframes paKo{0%{transform:scale(1.1);filter:brightness(2)}100%{transform:scale(1)}}
 .pt-turn{font-size:14px;padding:8px;border-radius:10px;background:#0c1711;border:1px solid var(--ln)}.pt-turn.my{border-color:#5ee27a;box-shadow:0 0 12px #5ee27a55}.pt-acts{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.pt-fxs{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:3px}.pt-fx{font-size:10.5px;padding:1px 5px}.pt-fx.bad{background:#4a1414;border-color:#ff6a4d;color:#ffd0c0}.pt-fx.on{border-color:#ffd23f}.pt-fx.off{opacity:.5}.pt-fxl{color:#ffd9a0}
+.pt-defp{border-color:#ffd23f;box-shadow:0 0 14px #ffd23f66}.pt-dc{text-align:center;font-size:13px;margin:6px 0 0}
 .pt-heal{margin-top:4px;padding:5px 2px;font-size:12px;width:100%}.pt-acts .btn{flex:1;min-width:96px;padding:12px 6px;font-size:15px}
 /* ===== PvP: tela de resultado ===== */
 .pr-ban{text-align:center;padding:12px;border-radius:14px;margin:0 0 8px;font-weight:900;font-size:22px}.pr-ban small{display:block;font-weight:500;font-size:12px;color:var(--mt);margin-top:3px}
@@ -2003,7 +2004,7 @@ if(LB.url&&S.pid&&S.name)trReg().then(()=>trPoll()).catch(()=>{});else trUi();
    Fluxo: Leaderboard > ⚔ Enviar Batalha > o outro aceita/nega > os dois escolhem 3 Bushes > ambos confirmam.
    Não mexe em inventário, Trade, Guerra, Torre nem Fazenda: o time é só um "retrato" (snapshot) enviado ao servidor. */
 const PV={in:[],m:null,busy:0,lp:0,ui:false,sg:"",sel:[],sid:0,q:"",src:"inv",push:0,fast:0,seen:{},done:{},go:{},ak:"",bp:"b",bq:""};S.pvE=S.pvE||null;S.pvDone=S.pvDone||{};
-const PVERR={early:"A batalha ainda não começou",nomatch:"Batalha não encontrada",notready:"Os dois ainda não estão prontos",self:"Você não pode enviar Batalha para si mesmo",nouser:"Esse jogador ainda não ativou a Batalha (ele precisa abrir a versão atualizada e enviar o Leaderboard)",busy:"Um dos jogadores já está em uma Batalha",offline:"Esse jogador está offline agora",dup:"Solicitação já enviada (limite: 5 pendentes)",auth:"Falha de autenticação da Batalha",gone:"Solicitação expirada",closed:"A Batalha já foi encerrada ou o time está travado",incomplete:"Escolha 3 Bushes antes de confirmar",invalid:"Time ou aposta inválidos (recusado pelo servidor)",notyet:"A aposta só abre depois que os dois escolherem 3 Bushes",nobush:"Um dos Bushes não foi encontrado no servidor (tente de novo)",bushbusy:"Um dos Bushes já está em outra Batalha",locked:"Você já está pronto · cancele o Pronto para mudar time/aposta",noitem:"O servidor não reconhece esse item (tente de novo)",dup_item:"Esse item já está reservado em outra aposta",inteam:"Esse Bush está no seu time",nostock:"Quantidade maior do que você possui",blocked:"Bush bloqueado não pode ser apostado",betchg:"A aposta do adversário mudou · confira e inicie de novo",nofight:"A luta ainda não foi registrada no servidor",notturn:"Não é a sua vez",stale:"O turno já mudou · atualizando",over:"A batalha já terminou",badact:"Ação inválida",noheal:"Você não tem mais cargas de cura",full:"Esse Bush está com a Vida cheia",dead:"Esse Bush está derrotado",badbush:"Bush inválido",wait:"Sincronizando as passivas · aguarde um instante"};
+const PVERR={early:"A batalha ainda não começou",nomatch:"Batalha não encontrada",notready:"Os dois ainda não estão prontos",self:"Você não pode enviar Batalha para si mesmo",nouser:"Esse jogador ainda não ativou a Batalha (ele precisa abrir a versão atualizada e enviar o Leaderboard)",busy:"Um dos jogadores já está em uma Batalha",offline:"Esse jogador está offline agora",dup:"Solicitação já enviada (limite: 5 pendentes)",auth:"Falha de autenticação da Batalha",gone:"Solicitação expirada",closed:"A Batalha já foi encerrada ou o time está travado",incomplete:"Escolha 3 Bushes antes de confirmar",invalid:"Time ou aposta inválidos (recusado pelo servidor)",notyet:"A aposta só abre depois que os dois escolherem 3 Bushes",nobush:"Um dos Bushes não foi encontrado no servidor (tente de novo)",bushbusy:"Um dos Bushes já está em outra Batalha",locked:"Você já está pronto · cancele o Pronto para mudar time/aposta",noitem:"O servidor não reconhece esse item (tente de novo)",dup_item:"Esse item já está reservado em outra aposta",inteam:"Esse Bush está no seu time",nostock:"Quantidade maior do que você possui",blocked:"Bush bloqueado não pode ser apostado",betchg:"A aposta do adversário mudou · confira e inicie de novo",nofight:"A luta ainda não foi registrada no servidor",notturn:"Não é a sua vez",stale:"O turno já mudou · atualizando",over:"A batalha já terminou",badact:"Ação inválida",nodef:"Suas Defesas acabaram (0/3)",nopend:"Não há ataque para responder",noheal:"Você não tem mais cargas de cura",full:"Esse Bush está com a Vida cheia",dead:"Esse Bush está derrotado",badbush:"Bush inválido",wait:"Sincronizando as passivas · aguarde um instante"};
 const pvErr=e=>{const m=String(e&&e.message||e);if(/pvt_/.test(m))return"Servidor sem os turnos: rode bush-rng-pvp-turns.sql no Supabase";if(/pvb_/.test(m))return"Servidor sem a segurança das apostas: rode bush-rng-pvp-bets.sql no Supabase";if(/pv_bush_sync/.test(m))return"Servidor sem a segurança dos Bushes: rode bush-rng-pvp-security.sql no Supabase";if(/pv_fight/.test(m))return"Servidor sem a Batalha 3v3: rode bush-rng-pvp-battle.sql no Supabase";if(/pv_|schema cache/.test(m))return"Servidor sem PvP: rode bush-rng-pvp.sql no Supabase";return PVERR[m.split(/\W/)[0]]||"Erro: "+m.slice(0,80)};
 const pvA=a=>({p:S.pid,s:S.pvk,...a});
 async function pvReg(){if(!LB.url)throw new Error("sem servidor");if(!S.pid)S.pid=Date.now().toString(36)+Math.random().toString(36).slice(2,12);if(!S.pvk){const a=new Uint8Array(24);crypto.getRandomValues(a);S.pvk=[...a].map(x=>x.toString(16).padStart(2,"0")).join("")}await trRpc("pv_reg",{p:S.pid,s:S.pvk});S.pvR=1;save()}
@@ -2158,6 +2159,15 @@ async function pvFight(mid,go,n){
 const PT_TAG={ber:" · 😡 Berserker",pred:" · 🐺 Predador",exec:" · 🗡️ Execução",fort:" · 🏰 Fortaleza",guard:" · 🛡️ Guardião"};
 const PT_ACT=[["attack","⚔","Atacar · 85%","r"],["defend","🛡","Defender · 45%","g"]]; // Curar não gasta o turno: botão ✚ em cada Bush seu
 const ptSec=ms=>Math.max(0,Math.ceil((ms-pvNow())/1000));
+// ---- DEFESA SIMULTÂNEA (servidor: pvt_act "attack" abre o ataque pendente · pvt_def responde) ----
+// Contrato do estado st (enviado pelo servidor; sem ele a batalha usa o modo antigo):
+//   st.dc = {me:n, op:n}  Defesas restantes de cada lado (começam em 3, decididas e debitadas SÓ pelo servidor)
+//   st.pa = null | {s:"a"|"b", dl:ms}  ataque pendente do lado s; o outro lado pode responder até dl (relógio do servidor)
+// pvt_def {mid,t,d:1|0}: d=1 Defender (100% de sucesso, gasta 1 Defesa) · d=0 não defender. Não gasta o turno de ninguém.
+// Sem resposta até dl = não defendeu. O servidor recusa Defender com 0 Defesas, fora de ataque pendente e turno velho.
+const PT_DMAX=3,ptNewDef=st=>!!(st&&st.dc&&typeof st.dc==="object"),
+ptPend=st=>!!(st&&!st.w&&st.pa&&ptNewDef(st)),
+ptPendDef=st=>ptPend(st)&&st.pa.s!==st.me;
 async function pvTurnOpen(mid,go,n){
  try{const x=await trRpc("pvt_open",pvA({mid,pk:ppKey()}));
   if(!x||!x.ok||!x.r||!x.st)throw 0;
@@ -2184,12 +2194,12 @@ function pvTurnStart(mid,go,x){
  catch(e){PV.bf[mid]=0;PV.bfT=Date.now()+6000;toast("Resposta da batalha inválida · tentando de novo",3500)}}
 function pvTurnApply(st){const B=PV.bt;if(!B||!B.tb||B.res||!st)return;
  const o=B.tb.st;if(o&&!st.w&&(st.t<o.t||(st.t===o.t&&(st.lg||[]).length<(o.lg||[]).length)))return; // resposta velha
- const sg=JSON.stringify([st.t,st.ac,st.w,st.go,st.hp,st.hl,st.df,st.ia,st.bn,st.po,st.lu,(st.lg||[]).length]);
+ const sg=JSON.stringify([st.t,st.ac,st.w,st.go,st.hp,st.hl,st.df,st.ia,st.bn,st.po,st.lu,st.dc,st.pa,(st.lg||[]).length]);
  if(st.now)PV.skew=st.now-Date.now();
  const my=st.ac===st.me&&!st.w,was=o&&o.ac===o.me&&!o.w;
  B.tb.st=st;
  if(st.w){pvTurnFinish(st);return}
- if(sg!==B.tb.sig){B.tb.sig=sg;if(my&&!was&&o){try{beep(SND.get)}catch(e){}}pvUi(1)}}
+ if(sg!==B.tb.sig){B.tb.sig=sg;if((my&&!was&&o)||(ptPendDef(st)&&!ptPendDef(o))){try{beep(SND.get)}catch(e){}}pvUi(1)}}
 function pvTurnFinish(st){const B=PV.bt;if(!B||B.res)return;
  const win=st.w===st.me,dn=(S.pvDone||{})[B.mid];
  B.win=win;B.why=st.why||"ko";B.fh={L:st.hp.me.map(v=>+v||0),R:st.hp.op.map(v=>+v||0)};
@@ -2199,21 +2209,29 @@ function pvTurnFinish(st){const B=PV.bt;if(!B||B.res)return;
 async function pvTurnSync(){const B=PV.bt;if(!B||!B.tb||B.res||B.tb.sy)return;B.tb.sy=1;
  try{const x=await trRpc("pvt_state",pvA({mid:B.mid}));if(x&&x.st)pvTurnApply(x.st)}
  catch(e){const m=String(e&&e.message||e);if(Date.now()-B.tb.et>8000){B.tb.et=Date.now();if(/nomatch|auth|pvt_/.test(m))toast(pvErr(e),3000)}}
- B.tb.sy=0;const s=B.tb.st;B.tb.nx=Date.now()+(s&&s.ac===s.me?1500:900)}
+ B.tb.sy=0;const s=B.tb.st;B.tb.nx=Date.now()+(ptPend(s)?450:s&&s.ac===s.me?1500:900)}
 async function pvTurnAct(act){const B=PV.bt;if(!B||!B.tb||B.res||B.tb.busy||!B.tb.st)return;const st=B.tb.st;
- if(st.w||st.ac!==st.me||st.go===false)return toast(PVERR.notturn,1500);
+ if(st.w||st.ac!==st.me||st.go===false||ptPend(st))return toast(PVERR.notturn,1500);
  B.tb.busy=1;pvUi(1);
  try{const x=await trRpc("pvt_act",pvA({mid:B.mid,t:st.t,act}));if(x&&x.st)pvTurnApply(x.st)}
  catch(e){toast(pvErr(e),2000)}
  B.tb.busy=0;B.tb.nx=0;if(PV.bt===B&&!B.res)pvUi(1);pvTurnSync()}
 async function pvTurnHeal(j){const B=PV.bt;if(!B||!B.tb||B.res||B.tb.busy||!B.tb.st)return;const st=B.tb.st;
- if(st.w||st.ac!==st.me)return toast(PVERR.notturn,1500);
+ if(st.w||st.ac!==st.me||ptPend(st))return toast(PVERR.notturn,1500);
  B.tb.busy=1;pvUi(1);
  try{const x=await trRpc("pvt_act",pvA({mid:B.mid,t:st.t,act:"heal",k:j+1}));if(x&&x.st)pvTurnApply(x.st)}
  catch(e){toast(pvErr(e),2000)}
  B.tb.busy=0;B.tb.nx=0;if(PV.bt===B&&!B.res)pvUi(1);pvTurnSync()}
+async function pvTurnDef(d){const B=PV.bt;if(!B||!B.tb||B.res||B.tb.busy||!B.tb.st)return;const st=B.tb.st;
+ if(!ptPendDef(st))return toast(PVERR.nopend,1500);
+ if(d&&!(st.dc.me>0))return toast(PVERR.nodef,1800);
+ B.tb.busy=1;pvUi(1);
+ try{const x=await trRpc("pvt_def",pvA({mid:B.mid,t:st.t,d:d?1:0}));if(x&&x.st)pvTurnApply(x.st)}
+ catch(e){toast(pvErr(e),2000)}
+ B.tb.busy=0;B.tb.nx=0;if(PV.bt===B&&!B.res)pvUi(1);pvTurnSync()}
 function pvTurnTick(){const B=PV.bt;if(!B||!B.tb||B.res)return;const s=B.tb.st;
  const e=document.getElementById("pt_cd");if(e&&s)e.textContent=ptSec(s.dl);
+  const dd=document.getElementById("pt_dd");if(dd&&ptPend(s))dd.textContent=ptSec(s.pa.dl);
  if(!B.tb.sy&&!B.tb.busy&&Date.now()>=B.tb.nx)pvTurnSync()}
 function ptFx(st,k,j,hp){const pid=st.pid&&st.pid[k]&&st.pid[k][j],P=pid&&PP[pid],c=[];
  if(P)c.push(`<span class="chip pp pt-fx" style="--pc:${PPR[P.t][1]}" title="${(PPR[P.t][0]+" · "+ppTxt(pid)).replace(/"/g,"")}">${P.e} ${P.n}</span>`);
@@ -2225,8 +2243,9 @@ function ptFx(st,k,j,hp){const pid=st.pid&&st.pid[k]&&st.pid[k][j],P=pid&&PP[pid
 function ptCard(B,K,j){const st=B.tb.st,k=K==="L"?"me":"op",hp=st.hp[k][j],mx=B[K].hp[j],x=B[K].T.b[j],a=st.ia[k]-1===j&&hp>0,pc=mx>0?Math.max(0,Math.min(100,hp/mx*100)):0;
  return`<div class="pa-c ${hp<=0?"dead":a?"act":"wait"}"><span class="pa-sk">☠</span><div class="pa-im">${pvImg(x)}</div><b class="pa-n">${x.n}${x.evo?" ✦":""}</b><small class="pa-s">${RAR[x.r]} · Nv ${x.lv}</small><div class="pa-bar"><i class="pa-fill${pc>50?"":pc>25?" mid":" low"}" style="width:${pc.toFixed(1)}%"></i></div><small class="pa-hp">❤ ${f(Math.max(0,hp))} / ${f(mx)}</small><small class="pa-d">⚔ ${f(B[K].dm[j])}${a&&st.df[k]?" · 🛡 defendendo":""}</small>${ptFx(st,k,j,hp)}${K==="L"?(()=>{const ok=st.ac===st.me&&!st.w&&st.go!==false&&!B.tb.busy&&st.hl.me>0&&hp>0&&hp<mx-1e-9;return`<button class="btn g pt-heal" ${ok?"":"disabled"} onclick="pvTurnHeal(${j})">✚ Curar +50%</button>`})():""}</div>`}
 function pvTurnHtml(){const B=PV.bt,st=B.tb.st,my=st.ac===st.me&&!st.w&&st.go!==false,busy=B.tb.busy,op=esc(B.on);
- const ai=st.ia.me-1,full=st.hp.me[ai]>=B.L.hp[ai]-1e-9,can={attack:1,defend:1,heal:st.hl.me>0&&!full};
- const team=(K,cls,av,nm)=>{const k=K==="L"?"me":"op",alive=st.hp[k].filter(h=>h>0).length;return`<div class="pa-team ${cls}"><div class="pa-th"><span class="avatar sm">${av}</span><b>${nm}</b><small>${alive}/3 vivos · ✚ ${st.hl[k]}</small></div><div class="pa-row">${[0,1,2].map(j=>ptCard(B,K,j)).join("")}</div></div>`};
+ const nd=ptNewDef(st),pend=ptPend(st),pdf=ptPendDef(st),acts=nd?PT_ACT.filter(a=>a[0]!=="defend"):PT_ACT;
+  const ai=st.ia.me-1,full=st.hp.me[ai]>=B.L.hp[ai]-1e-9,can={attack:1,defend:1,heal:st.hl.me>0&&!full};
+ const team=(K,cls,av,nm)=>{const k=K==="L"?"me":"op",alive=st.hp[k].filter(h=>h>0).length;return`<div class="pa-team ${cls}"><div class="pa-th"><span class="avatar sm">${av}</span><b>${nm}</b><small>${alive}/3 vivos · ✚ ${st.hl[k]}${nd?" · 🛡 "+st.dc[k]+"/"+PT_DMAX:""}</small></div><div class="pa-row">${[0,1,2].map(j=>ptCard(B,K,j)).join("")}</div></div>`};
  const lg=(st.lg||[]).slice(-16).reverse().map(e=>{const K=e.s===st.me?"L":"R",Q2=K==="L"?"R":"L",nmK=(KK,ix)=>{const z=B[KK].T.b[ix-1];return z?z.n:"?"},an=nmK(K,e.i),on=nmK(Q2,e.o);
   if(e.a==="fx"){const t={vamp:`🧛 <b>${an}</b> roubou +${f(e.v)} de Vida`,burn_on:`🔥 <b>${an}</b> incendiou ${on}`,poi_on:`☠️ <b>${an}</b> envenenou ${on}`,
    ctr:`↩️ <b>${an}</b> contra-atacou ${on} (−${f(e.v)})`,gasp:`🕯️ <b>${an}</b> sobreviveu ao golpe fatal (Vida ${f(e.v)})`,reg:`💚 <b>${an}</b> regenerou +${f(e.v)}`,
@@ -2234,14 +2253,16 @@ function pvTurnHtml(){const B=PV.bt,st=B.tb.st,my=st.ac===st.me&&!st.w&&st.go!==
    poi_dmg:`☠️ <b>${an}</b> sofreu −${f(e.v)} de veneno (${e.o} acúmulo(s))`,dot_ko:`💀 <b>${an}</b> caiu por efeito contínuo`}[e.k]||"";
    return`<div class="pt-fxl">#${e.n} ${K==="L"?"Você":op}: ${t}</div>`}
   const who=K==="L"?"Você":op;
-  const t=e.a==="attack"?(e.ms?`💨 <b>${an}</b> errou o ataque em ${on}`:`⚔ <b>${an}</b> atacou ${on} (−${f(e.d)})${(e.fx||[]).map(q=>PT_TAG[q]||"").join("")}${e.dg===2?" · 🛡 defesa funcionou":e.dg===1?" · 🛡 defesa falhou":""}${e.ko?" · 💀 derrotado":""}`):e.a==="defend"?`🛡 <b>${an}</b> assumiu posição defensiva`:`✚ <b>${an}</b> recebeu cura +${f(e.h)} (não gasta o turno)`;
+  const t=e.a==="attack"?(e.ms?`💨 <b>${an}</b> errou o ataque em ${on}`:`⚔ <b>${an}</b> atacou ${on} (−${f(e.d)})${(e.fx||[]).map(q=>PT_TAG[q]||"").join("")}${e.dg===2?(nd?" · 🛡 defendido (100%)":" · 🛡 defesa funcionou"):e.dg===1?" · 🛡 defesa falhou":""}${e.ko?" · 💀 derrotado":""}`):e.a==="defend"?`🛡 <b>${an}</b> assumiu posição defensiva`:`✚ <b>${an}</b> recebeu cura +${f(e.h)} (não gasta o turno)`;
   return`<div>#${e.n} ${who}: ${t}${e.au?" ⏱ tempo esgotado":""}</div>`}).join("");
  return`<div class="trbox"><button class="bd-x" onclick="pvClose()" aria-label="Minimizar">▾</button><h2>⚔ BATALHA POR TURNOS</h2>
 <div class="pa-msg pt-turn${my?" my":""}">${st.go===false?"⏳ Sincronizando as passivas dos dois times…":(my?"🟢 <b>SUA VEZ</b>":"⏳ Vez de <b>"+op+"</b>")+" · Turno <b>"+st.t+"</b> · ⏱ <b id=\"pt_cd\">"+ptSec(st.dl)+"</b>s"}</div>
+${pdf?`<div class="pa-msg pt-turn my pt-defp">⚠ <b>${op}</b> escolheu <b>Atacar</b> · responda agora · ⏱ <b id="pt_dd">${ptSec(st.pa.dl)}</b>s</div>`:pend?`<div class="pa-msg pt-turn">⏳ Aguardando a resposta de <b>${op}</b> ao seu ataque · ⏱ <b id="pt_dd">${ptSec(st.pa.dl)}</b>s</div>`:""}
 <div class="pa-arena">${team("R","r",B.oav,op)}<div class="pa-vs">VS</div>${team("L","l",avHtml(),esc(S.name)||"Você")}</div>
-<div class="pvbt pt-acts">${PT_ACT.map(a=>`<button class="btn ${a[3]}" ${my&&!busy&&can[a[0]]?"":"disabled"} onclick="pvTurnAct('${a[0]}')">${a[1]} ${a[2]}${a[0]==="heal"?" ("+st.hl.me+")":""}</button>`).join("")}</div>
+${nd?`<div class="pa-msg pt-dc">🛡 Defesas: <b>${st.dc.me}/${PT_DMAX}</b></div><div class="pvbt pt-acts"><button class="btn g" ${pdf&&!busy&&st.dc.me>0?"":"disabled"} onclick="pvTurnDef(1)">🛡 Defender · 100% (${st.dc.me}/${PT_DMAX})</button><button class="btn" ${pdf&&!busy?"":"disabled"} onclick="pvTurnDef(0)">✋ Não defender</button></div>`:""}
+<div class="pvbt pt-acts">${acts.map(a=>`<button class="btn ${a[3]}" ${my&&!pend&&!busy&&can[a[0]]?"":"disabled"} onclick="pvTurnAct('${a[0]}')">${a[1]} ${a[2]}${a[0]==="heal"?" ("+st.hl.me+")":""}</button>`).join("")}</div>
 <div class="pa-log">${lg||"<div>A batalha começou.</div>"}</div>
-<small>Cada turno um jogador age. <b>Atacar</b>: 15% de errar; se acertar, causa o Dano real do Bush ativo. <b>Defender</b>: posição defensiva para o próximo ataque inimigo que acertar · 45% de defender (reduz 60% do dano) · vale só para esse ataque. <b>Curar</b> (✚ no Bush escolhido): 3 cargas, +50% da Vida máx., não gasta o turno. <b>Passivas</b> funcionam sozinhas (aparecem em cada Bush): Regeneração, Curandeiro, Queimadura e Veneno agem no início da vez do dono (a duração conta em rodadas); Berserker, Predador, Execução, Fortaleza, Guardião, Vampirismo, Contra-Ataque e Último Suspiro agem nos ataques. Chances, durações e valores são decididos pelo servidor. 30 s por turno; tempo esgotado = ataque automático; 3 seguidos = derrota.</small></div>`}
+<small>Cada turno um jogador age. <b>Atacar</b>: 15% de errar; se acertar, causa o Dano real do Bush ativo. ${nd?"<b>Defender</b>: resposta ao ataque do adversário, ao mesmo tempo que ele ataca · não gasta o seu turno nem o dele · 100% de sucesso (reduz 60% do dano) · só 3 vezes por partida (o servidor conta cada uso); depois o botão fica indisponível. Se não defender, o ataque acontece normalmente.":"<b>Defender</b>: posição defensiva para o próximo ataque inimigo que acertar · 45% de defender (reduz 60% do dano) · vale só para esse ataque."} <b>Curar</b> (✚ no Bush escolhido): 3 cargas, +50% da Vida máx., não gasta o turno. <b>Passivas</b> funcionam sozinhas (aparecem em cada Bush): Regeneração, Curandeiro, Queimadura e Veneno agem no início da vez do dono (a duração conta em rodadas); Berserker, Predador, Execução, Fortaleza, Guardião, Vampirismo, Contra-Ataque e Último Suspiro agem nos ataques. Chances, durações e valores são decididos pelo servidor. 30 s por turno; tempo esgotado = ataque automático; 3 seguidos = derrota.</small></div>`}
 
 // ---- resultado: entrega/perda das apostas (1x por partida; o vencedor vem do servidor via pv_fight) ----
 const PR_WAIT=5000;
