@@ -628,6 +628,8 @@ details.panel .chips{justify-content:flex-start}
 @keyframes paHit{0%,100%{transform:scale(1.06) translateX(0)}25%{transform:scale(1.06) translateX(-3px)}75%{transform:scale(1.06) translateX(3px)}}
 @keyframes paIn{from{transform:scale(.8);opacity:.4}to{transform:scale(1.06);opacity:1}}
 @keyframes paKo{0%{transform:scale(1.1);filter:brightness(2)}100%{transform:scale(1)}}
+.pt-turn{font-size:14px;padding:8px;border-radius:10px;background:#0c1711;border:1px solid var(--ln)}.pt-turn.my{border-color:#5ee27a;box-shadow:0 0 12px #5ee27a55}.pt-acts{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.pt-fxs{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:3px}.pt-fx{font-size:10.5px;padding:1px 5px}.pt-fx.bad{background:#4a1414;border-color:#ff6a4d;color:#ffd0c0}.pt-fx.on{border-color:#ffd23f}.pt-fx.off{opacity:.5}.pt-fxl{color:#ffd9a0}
+.pt-heal{margin-top:4px;padding:5px 2px;font-size:12px;width:100%}.pt-acts .btn{flex:1;min-width:96px;padding:12px 6px;font-size:15px}
 /* ===== PvP: tela de resultado ===== */
 .pr-ban{text-align:center;padding:12px;border-radius:14px;margin:0 0 8px;font-weight:900;font-size:22px}.pr-ban small{display:block;font-weight:500;font-size:12px;color:var(--mt);margin-top:3px}
 .pr-ban.w{background:#12301c;border:1px solid #6cf08e;color:#6cf08e}.pr-ban.l{background:#301212;border:1px solid #e0503a;color:#ff8a76}
@@ -636,6 +638,11 @@ details.panel .chips{justify-content:flex-start}
 .pr-t header{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12.5px}.pr-t header b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pr-t header small{color:var(--mt);font-size:10.5px;letter-spacing:.06em}
 .pr-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 .pr-bet{background:#0a140e;border:1px solid var(--ln);border-radius:12px;padding:8px;margin-bottom:8px;font-size:12px;display:flex;flex-direction:column;gap:3px}.pr-bet.w{border-color:#6cf08e}.pr-bet.l{border-color:#e0503a88}.pr-bet small{color:var(--mt);font-size:10.5px}
+
+/* ===== Passivas de Bush + PVP Token ===== */
+.hcur{grid-template-columns:repeat(5,minmax(0,1fr))}
+.chip.pp{background:linear-gradient(90deg,#10201a,var(--pc,#888));color:#fff;border-color:var(--pc,#888);font-weight:700;text-shadow:0 1px 2px #000a}
+.ppnote{display:block;margin-top:6px;font-size:12px;color:#f2785f}
 </style></head><body>
 <div id="hud"></div><div id="main"></div>
 <div id="nav"></div><div id="more" onclick="if(event.target===this)closeMore()"></div><div id="ov"></div><div id="toast"></div>
@@ -673,7 +680,7 @@ const DICE_PRICE_V7=[1e4,4e4,1.5e5,6e5,2.5e6, 5e7,3e8,2e9,1.2e10,8e10, 1e12,6e12
 const DICE_PRICE_V5=[2e3,8e3,3e4,1e5,3.5e5, 2e6,8e6,3e7,1.2e8,5e8, 5e9,2.5e10,1.2e11,6e11,3e12, 5e13,3e14,2e15,1.5e16,1e17, 2.5e18,4e19,6e20,1e22,2e23];
 const DICE_PRICE_V6=[1e4,5e4,2.5e5,1e6,5e6, 5e7,2.5e8,1.2e9,6e9,3e10, 5e12,3e13,2e14,1.2e15,8e15, 5e18,5e19,5e20,6e21,8e22, 1e25,2e26,5e27,2e29,1e31];
 const DICE=DICE_NAMES.map((n,k)=>[n+" Dice",DICE_PRICE[k],DICE_LUCK[k],"Faixa "+(Math.floor(k/5)+1)+" · "+DICE_BANDS[Math.floor(k/5)],Math.floor(k/5)+1]);
-const UP={luck:["Luck Upgrade","+0.1x Luck",2500,2,.1],money:["Money Upgrade","+15% Busheiros",2000,1.9,.15],xp:["XP Upgrade","+20% XP duplicatas",4000,2,.2],mut:["Mutation Upgrade","+5% chance mutações",5000,2.2,.05],qual:["Quality Upgrade","+8% chance Good+",4000,2.1,.08],speed:["Roll Speed","-6% cooldown",3500,1.8,0],bps:["BPS Upgrade","+12% BPS",3000,1.95,.12],off:["Offline Upgrade","+25% ganho offline",4500,2,.25],evc:["Event Chance","+8% chance de evento",6000,2.1,.08]};
+const UP={luck:["Luck Upgrade","+0.1x Luck",2500,2,.1],money:["Money Upgrade","+15% Busheiros",2000,1.9,.15],xp:["XP Upgrade","+20% XP duplicatas",4000,2,.2],mut:["Mutation Upgrade","+5% chance mutações",5000,2.2,.05],qual:["Quality Upgrade","+8% chance Good+",4000,2.1,.08],speed:["Roll Speed","-6% cooldown (Lv 1–30) · -4,2% (Lv 31–50)",3500,1.8,0],bps:["BPS Upgrade","+12% BPS",3000,1.95,.12],off:["Offline Upgrade","+25% ganho offline",4500,2,.25],evc:["Event Chance","+8% chance de evento",6000,2.1,.08]};
 const CARD={luck:["Lucky Card","+10% Luck"],money:["Money Card","+15% Money"],xp:["XP Card","+25% Bush XP"],mut:["Mutation Card","+4% mutação"],qual:["Quality Card","+6% qualidade"],reb:["Rebirth Card","+10% Rebirth mult"]};
 const CBASE=25000;
 const SUF=["","K","M","B","T","Qa","Qi","Sx","Sp","Oc","No","Dc"];
@@ -701,7 +708,9 @@ const bpsBase=()=>S.eq.reduce((s,id)=>s+(id&&S.inv[id]?bushBps(S.inv[id]):0),0)*
 const sellVal=i=>Math.floor(bushBps(i)*25+bush(i.id).baseBps*2);
 function pick(ws){let t=ws.reduce((a,b)=>a+b,0),r=Math.random()*t;for(let i=0;i<ws.length;i++){if((r-=ws[i])<0)return i}let l=ws.length-1;while(l>0&&!(ws[l]>0))l--;return l}
 // roll
-function cdTime(){return Math.max(.2,1.5*Math.pow(.94,lvc("speed")))*1000}
+// Roll Speed: Lv 1–30 inalterado (×0,94 por nível). Lv 31–50: continua a partir do Lv 30 em progressão geométrica até 0,10s (mínimo útil: o Auto Roll avança a cada 100ms).
+const SPD_L0=30,SPD_MAX=50,SPD_CD0=1.5*Math.pow(.94,SPD_L0),SPD_MIN=.1;
+function cdTime(){const L=lvc("speed");if(L<=SPD_L0)return Math.max(.2,1.5*Math.pow(.94,L))*1000;return Math.max(SPD_MIN,SPD_CD0*Math.pow(SPD_MIN/SPD_CD0,Math.min(L-SPD_L0,SPD_MAX-SPD_L0)/(SPD_MAX-SPD_L0)))*1000}
 function toast(t,ms){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(window._t);window._t=setTimeout(()=>e.style.display="none",ms||1500)}
 function doRoll(mult,kind,auto){mult=mult||1;if(invFull()){S.auto.on=false;invMsg();return false}if(Date.now()<cd)return false;if(kind&&S[kind]<1)return false;if(kind)S[kind]--;cd=Date.now()+cdTime();
  const L=luck()*mult;S.maxLuck=Math.max(S.maxLuck,L);
@@ -877,7 +886,7 @@ const eqBadges=i=>[S.eq.includes(i.k)?"⭐ Fazenda":"",S.team.includes(i.k)?"�
 // Card compacto: imagem, nome, raridade, BPS, nível, qualidade, mutações, habilidade, onde está equipada
 function icard(i){const b=bush(i.id),sub=b.sub||0,mn=i.ms.map(k=>M[k].n),e=S.eq.includes(i.k),bd=eqBadges(i),
  mu=mn.slice(0,2).map(n=>`<span class="chip">${n}</span>`).join("")+(mn.length>2?`<span class="chip">+${mn.length-2}</span>`:""),
- ab=i.ab&&AB[i.ab]?`<span class="chip ab ${AB[i.ab].sp?"sp":""}">🎟 ${AB[i.ab].n}</span>`:"";
+ ab=(i.ab&&AB[i.ab]?`<span class="chip ab ${AB[i.ab].sp?"sp":""}">🎟 ${AB[i.ab].n}</span>`:"")+ppChip(i);
  return`<div class="card bc rr ${RAR[b.rarity]}${e?" eqd":""}" role="button" tabindex="0" onclick="bdet('${i.k}')" onkeydown="if(event.key=='Enter')bdet('${i.k}')">
 <div class="bc-top"><span class="bc-lv">Lv ${i.lv}${i.lv>=200?" MAX":""}</span><span class="bc-ic">${i.evo?"✦":""}${S.lock[i.k]?"🔒":""}</span></div>
 <div class="art ${mn.map(mc).join(" ")}"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div></div>
@@ -899,6 +908,7 @@ function bdet(k){const i=S.inv[k];if(!i)return;const b=bush(i.id),sub=b.sub||0,m
 ${kv("Mutações",mn.length?i.ms.map(x=>`<span class="chip">${M[x].n} ×${M[x].m}</span>`).join(" "):"Nenhuma")}
 ${kv("Multiplicador especial",i.t>=0?`<span class="chip tier t${i.t}">${TIERS[i.t].n} ×${TIERS[i.t].m}</span>`:"Nenhum")}
 ${kv("Atributo especial",ab?`<span class="chip ab ${ab.sp?"sp":""}">🎟 ${ab.n}</span><br><small>${abTxt(i.ab)}</small>`:"Nenhum")}
+${kv("Passiva",i.pv&&PP[i.pv]?`${ppChip(i)}<br><small>${PPR[PP[i.pv].t][0]} · ${ppTxt(i.pv)}</small>`:"Nenhuma")}
 ${kv("Evolução",i.evo?"✦ Evoluída · BPS ×3":"—")}
 ${kv("Gemas",`💠 ${i.gem||0}/${GEM_MAX} · +${(gb(i)*100).toFixed(0)}% Vida/Dano/XP`)}
 ${kv("Combate",`❤ ${f(c.hp)} · ⚔ ${f(c.dm)}`)}
@@ -1021,17 +1031,17 @@ const enemies=fl=>{const h=towerHp(fl),DR=TW.DR;
   const g=[0,1].map(k=>{const e=EN[(fl+k)%EN.length];return{n:"Guarda "+e[0]+" "+fl+"-"+(k+1),em:e[1],hp:h*.4,dm:h*.4/DR}});
   return g.concat([{n:(sup?"★ ":"")+b[0],em:b[1],hp:h*tbHp(fl),dm:h*tbDm(fl)/DR,boss:true,sup}])}
  return [0,1,2].map(n=>{const hh=h*(1+n*.1),e=EN[(fl+n)%EN.length];return{n:e[0]+" "+fl+"-"+(n+1),em:e[1],hp:hh,dm:hh/DR}})};
-function fcore(T,E){let t=0;
+function fcore(T,E){if(T.some(x=>x.p))return fcoreP(T,E);let t=0;
  while(t<300&&T.some(x=>x.hp>0)&&E.some(x=>x.hp>0)){t++;let d=T.reduce((a,x)=>a+(x.hp>0?x.dm:0),0);for(const e of E){if(d<=0)break;const h=Math.min(e.hp,d);e.hp-=h;d-=h}for(const e of E){if(e.hp<=0)continue;const x=T.find(y=>y.hp>0);if(!x)break;x.hp-=e.dm}}
  return t}
-function fight(fl,EL,TK){const T=(TK||S.team).map(k=>S.inv[k]).filter(Boolean).map(i=>{const c=cs(i);return{i,hp:c.hp,mx:c.hp,dm:c.dm}}),E=(EL||enemies(fl)).map(e=>({...e,mx:e.hp}));const t=fcore(T,E);
- return{T,E,t,win:E.every(x=>x.hp<=0)&&T.some(x=>x.hp>0)}}
+function fight(fl,EL,TK,det){const T=(TK||S.team).map(k=>S.inv[k]).filter(Boolean).map(i=>{const c=cs(i);return{i,hp:c.hp,mx:c.hp,dm:c.dm,p:ppCombat(i)}}),E=(EL||enemies(fl)).map(e=>({...e,mx:e.hp}));const o=ppRnd;if(det)ppRnd=ppMul(ppHash(T.map(x=>x.i.k+(x.i.pv||"")).join("|")+"#"+fl));let t;try{t=fcore(T,E)}finally{ppRnd=o}
+ return{T,E,t,lg:T.lg,win:E.every(x=>x.hp<=0)&&T.some(x=>x.hp>0)}}
 // Vida média por Bush recomendada: time de 3 com Vida H e Dano H/8 que vence terminando com >=40% da vida
 function towerRec(fl){const E0=enemies(fl),h=towerHp(fl),ok=H=>{const T=[0,1,2].map(()=>({hp:H,mx:H,dm:H/8})),E=E0.map(e=>({...e}));fcore(T,E);return E.every(x=>x.hp<=0)&&T.reduce((a,x)=>a+Math.max(0,x.hp),0)>=H*3*.4};let lo=h*.01,hi=h*80;for(let k=0;k<60;k++){const m=Math.sqrt(lo*hi);ok(m)?hi=m:lo=m}return hi}
 let tlog="",fr=0,fsel=[];
 const TCD=2000;
 function tfight(auto){const fl=S.tf;S.team=S.team.filter(k=>S.inv[k]);if(S.team.length<3)return;if(Date.now()<Math.min(S.tcd||0,Date.now()+TCD))return;S.tcd=Date.now()+TCD;const r=fight(fl),bs=isTBoss(fl);
- let h=`<h3>${bs?(isTSup(fl)?"★ BOSS SUPREMO · ":"👑 BOSS · "):""}${r.win?"✅ VITÓRIA":"❌ DERROTA"} (${r.t} turnos)</h3>`+r.T.map(x=>`${bush(x.i.id).name}: ❤ ${f(Math.max(0,x.hp))}/${f(x.mx)}`).join("<br>")+"<br>"+r.E.map(e=>`${e.em} ${e.boss?"<b>"+e.n+"</b>":e.n}: ❤ ${f(Math.max(0,e.hp))}/${f(e.mx)}`).join("<br>");
+ let h=`<h3>${bs?(isTSup(fl)?"★ BOSS SUPREMO · ":"👑 BOSS · "):""}${r.win?"✅ VITÓRIA":"❌ DERROTA"} (${r.t} turnos)</h3>`+r.T.map(x=>`${bush(x.i.id).name}: ❤ ${f(Math.max(0,x.hp))}/${f(x.mx)}`).join("<br>")+"<br>"+r.E.map(e=>`${e.em} ${e.boss?"<b>"+e.n+"</b>":e.n}: ❤ ${f(Math.max(0,e.hp))}/${f(e.mx)}`).join("<br>")+ppLog(r);
  if(r.win){const tq=r.T.reduce((a,x)=>a+QT[x.i.q],0)/3,rw=[],n10=tBossN(fl),bm=bs?tbRew(fl):1,m=Math.floor((80*Math.pow(1.13,fl)+bps()*30*(1+fl/25))*tq*bm);S.money+=m;S.earned+=m;rw.push("+"+f(m)+" Busheiros");S.twins++;
   if(bs){S.tbk=(S.tbk||0)+1;h=`<div class="bossban${isTSup(fl)?" sup":""}"><span>💀</span><b>BOSS DERROTADO!</b></div>`+h}
   {const pc=(1+Math.floor(fl/20))*(bs?3:1);if(bs||Math.random()<.2){S.pc+=pc;rw.push("+"+pc+" 🐾 Pet Coin")}}
@@ -1151,8 +1161,9 @@ function save(){if(wipe)return;S.ts=Date.now();try{localStorage.setItem("bushrng
 // ===== UPGRADES EM LOTE =====
 // Custo = soma do preço individual de cada próximo nível (nunca preço atual × qtd).
 const UQ={};
-const upMax=k=>k=="speed"?30:Infinity;
-const upCostAt=(k,L)=>Math.floor(UP[k][2]*Math.pow(UP[k][3],L));
+const upMax=k=>k=="speed"?SPD_MAX:Infinity;
+// Roll Speed após o Lv 30: custo parte do valor que o Lv 31 já teria e cresce ×2,2 por nível (mais íngreme que o ×1,8 original)
+const upCostAt=(k,L)=>k=="speed"&&L>SPD_L0?Math.floor(UP.speed[2]*Math.pow(UP.speed[3],SPD_L0)*Math.pow(2.2,L-SPD_L0)):Math.floor(UP[k][2]*Math.pow(UP[k][3],L));
 function upPlan(k,want){const L=lvc(k),cap=upMax(k);want=Math.max(1,Math.floor(want)||1);let n=0,tot=0;
  while(n<want&&L+n<cap&&n<1e5){const c=upCostAt(k,L+n);if(!isFinite(c)||tot+c>S.money)break;tot+=c;n++}
  return{L,n,tot,end:L+n,cap,next:L+n<cap?upCostAt(k,L+n):null,want}}
@@ -1174,17 +1185,37 @@ function upStep(k,d){const p=upPlan(k,UQ[k]||1),base=Math.max(1,p.n||1);upSet(k,
 
 // ===== GUERRA DE BUSHES =====
 const WRAR=RAR,WSLOT=6e5,WRAR_COUNT=r=>B.filter(b=>b.rarity==r).length;
-// ----- FORÇA DOS BOSSES (Guerra = endgame) -----
-// BOSSP[r] = "poder-alvo" do time (HP de cada Bush ÷ baseBps do Boss) para vencer o Boss da raridade r por pouco.
-// Cresce ~32% por raridade (Common 90 → Celestial 1100). Referência de 1 Bush: Qualidade × nível (até ×12,1 no Lv200) × Gema (até ~×3 a ×6,7) × habilidade × bônus de armadura/títulos.
-// Ex. Celestial (1100): 3 Big Bush Q:A–S, Lv 200, Gema 100, boa habilidade e armadura => vitória apertada (perde 1–2 Bushes). Times medianos perdem; times máximos (Q alta + mutações) vencem com dificuldade.
+// ----- FORÇA DOS BOSSES (Guerra = endgame) — v2: nível máximo 200 + escala dinâmica -----
+// BOSSP[r] = calibração BASE original (poder-alvo = HP de cada Bush ÷ baseBps do Boss), feita quando o nível máximo era 69 (multiplicador de nível ×12,1). Mantida como base.
+// Com o nível máximo em 200 o multiplicador de nível chega a ×72,6 (6× mais), então a base antiga deixou de fazer sentido. A dificuldade final do Boss agora é:
+//   M = S[r] × G   (multiplicador total)   →   HP = base·M^a  e  Dano = base·M^(2-a)   (a = 1 - 0,02·raridade: nas raridades altas o dano cresce mais que a vida)
+//   S[r] = ESTÁTICO por raridade: lvMult(nível esperado do time) ÷ lvMult(69) × reforço de endgame. O nível esperado sobe de 50% (Common) a 100% do nível máx. (Divino/Celestial).
+//   G    = DINÂMICO: acompanha o progresso REAL do jogador. π = média geométrica do HP real ÷ baseBps das 3 melhores Bushes do inventário (nível, qualidade, Gema, mutações, tier,
+//          evolução, habilidade, armadura, título e conquistas, via cs()). Se π passa do poder-alvo estático, o Boss cresce π^α (α sobe com a raridade: Boss raro "acompanha" mais),
+//          com teto por raridade. α < 1: ficar mais forte sempre ajuda, mas o Boss nunca vira passeio. Abaixo do alvo, G = 1 (Boss estático; o jogador precisa evoluir).
+// Limiar de vitória medido no combate real (fcore): o time precisa de HP ≈ 0,767 × (baseBps do Boss × P × M), invariante à escala. O valor do Boss é fixado (snapshot) ao votar.
 const BOSSP=[90,120,155,205,275,360,475,630,830,1100],BOSSHK=4.6,BOSSDK=.1;
-const BOSSD=["Difícil","Difícil","Muito difícil","Muito difícil","Brutal","Brutal","Infernal","Infernal","Apocalíptica","Cataclísmica"];
+const WLV_OLD=69,WLV_MAX=200;
+const BOSS_LF=[.50,.55,.60,.66,.72,.80,.88,.95,1,1];            // nível esperado do time = fração × WLV_MAX
+const BOSS_END=[1,1,1,1.05,1.1,1.2,1.35,1.5,1.7,2];             // reforço extra de endgame por raridade
+// v3 — PROGRESSÃO DE DIFICULDADE POR RARIDADE: multiplicador estático aplicado ao multiplicador total do Boss (entra também no poder-alvo, então o Boss dinâmico continua sempre vencível).
+// Poder mínimo exigido (HP÷baseBps de cada Bush do time) ≈ Common 124 · Unc 284 · Rare 800 · Epic 2.1k · Leg 7k · Mythic 26k · Secret 111k · Eternal 551k · Divino 2,6M · Celestial 16M (antes: 124 → 10k, só ~83× entre Common e Celestial).
+const BOSS_DIFF=[1,1.5,2.8,4.6,9,19,47,140,400,2000];
+const BOSS_ALPHA=[.60,.63,.66,.69,.72,.75,.78,.81,.84,.87];     // quanto o Boss acompanha o progresso do jogador
+const BOSS_GCAP=[30,45,70,110,170,260,400,650,1e3,1600];        // teto do crescimento dinâmico
+const BOSSD=["Normal","Desafiadora","Difícil","Muito difícil","Brutal","Infernal","Apocalíptica","Cataclísmica","Extrema","ENDGAME EXTREMO"];
 // A sub-raridade (I–V) influencia o Boss pela raiz do multiplicador (V ≈ ×2,2 de I, e não ×5) para nenhum Boss ficar impossível. O Celestial (Big Bush) usa o BPS base fixo.
 const bossRef=b=>Math.max(1,b.rarity>=9?b.baseBps:b.baseBps/Math.sqrt(SUBM[b.sub||0]));
 const pieceName=b=>{const n=b.name.replace(/\s*bush\s*$/i,"").trim()||b.name;return n.charAt(0).toUpperCase()+n.slice(1)+" Piece"};
 const evoName=b=>(b.name.charAt(0).toUpperCase()+b.name.slice(1)).replace(/bush/ig,"Bush")+" Evoluído";
-const bossStats=b=>{const P=BOSSP[Math.min(9,b.rarity)],ref=bossRef(b);return{n:b.name,em:"👑",hp:ref*P*BOSSHK,dm:ref*P*BOSSDK}};
+const bossLvS=r=>{r=Math.max(0,Math.min(9,r|0));return lvMult(Math.round(WLV_MAX*BOSS_LF[r]))/lvMult(WLV_OLD)*BOSS_END[r]*BOSS_DIFF[r]};
+const bossPst=r=>BOSSP[r]*bossLvS(r);
+// Poder real do jogador: média geométrica de (HP real ÷ baseBps) das 3 melhores Bushes do inventário (independe do time escolhido)
+function bossPlayerPow(){const t=[];Object.values(S.inv).forEach(i=>{const b=bush(i.id);if(!b||!(b.baseBps>0))return;const h=cs(i).hp;if(h>0)t.push(h/b.baseBps)});if(!t.length)return 0;t.sort((x,y)=>y-x);const k=t.slice(0,3);return Math.exp(k.reduce((a,x)=>a+Math.log(x),0)/k.length)}
+const bossCalc=b=>{const r=Math.max(0,Math.min(9,b.rarity|0)),ref=bossRef(b),S0=bossLvS(r),rho=bossPlayerPow()/bossPst(r),G=rho>1?Math.min(BOSS_GCAP[r],Math.pow(rho,BOSS_ALPHA[r])):1,M=S0*G,a=1-.02*r;
+ return{n:b.name,em:"👑",hp:ref*BOSSP[r]*BOSSHK*Math.pow(M,a),dm:ref*BOSSP[r]*BOSSDK*Math.pow(M,2-a)}};
+// Snapshot: o Boss da Guerra atual é calculado 1 vez (ao votar) e guardado em S.war.bst, para não mudar enquanto o jogador se prepara. Guerra sem snapshot (save antigo) calcula e guarda na hora.
+const bossStats=b=>{const w=S.war;if(w&&w.rar>=0&&w.boss===b.id){if(!w.bst||!(w.bst.hp>0)||!(w.bst.dm>0)){const c=bossCalc(b);w.bst={hp:c.hp,dm:c.dm}}return{n:b.name,em:"👑",hp:w.bst.hp,dm:w.bst.dm}}return bossCalc(b)};
 function chkWar(){const id=Math.floor(Date.now()/WSLOT);if(!S.war||S.war.id<id)S.war={id,rar:-1,boss:null,won:false,tries:0,log:""}}
 function warVote(r){chkWar();if(S.war.rar>=0)return toast("Você já votou nesta Guerra",2000);
  const p=B.filter(b=>b.rarity==r);if(!p.length)return toast("Ainda não existem Bushes "+WRAR[r],2500);
@@ -1194,7 +1225,7 @@ function wrem(k){S.wteam=S.wteam.filter(x=>x!=k);render()}
 function wfight(){chkWar();const w=S.war;if(w.rar<0||w.won)return;S.wteam=S.wteam.filter(k=>S.inv[k]);if(S.wteam.length<3)return;
  if(Date.now()<Math.min(S.wcd||0,Date.now()+TCD))return;S.wcd=Date.now()+TCD;
  const bs=bush(w.boss),r=fight(0,[bossStats(bs)],S.wteam);w.tries++;
- let h=`<h3>${r.win?"✅ VITÓRIA":"❌ DERROTA"} (${r.t} turnos)</h3>`+r.T.map(x=>`${bush(x.i.id).name}: ❤ ${f(Math.max(0,x.hp))}/${f(x.mx)}`).join("<br>")+"<br>"+r.E.map(e=>`${e.em} ${e.n}: ❤ ${f(Math.max(0,e.hp))}/${f(e.mx)}`).join("<br>");
+ let h=`<h3>${r.win?"✅ VITÓRIA":"❌ DERROTA"} (${r.t} turnos)</h3>`+r.T.map(x=>`${bush(x.i.id).name}: ❤ ${f(Math.max(0,x.hp))}/${f(x.mx)}`).join("<br>")+"<br>"+r.E.map(e=>`${e.em} ${e.n}: ❤ ${f(Math.max(0,e.hp))}/${f(e.mx)}`).join("<br>")+ppLog(r);
  if(r.win){w.won=true;S.wwins++;h+=`<br><b>Recompensa:</b><br>`+warRewards(bs.rarity,bs.id).join("<br>")+`<br><small>Suas Bushes não foram perdidas.</small>`;beep(SND.lvl)}
  else h+=`<br><b>Derrota!</b> Suas Bushes não foram perdidas — tente outro time.`;
  w.log=h;save();render()}
@@ -1288,7 +1319,81 @@ const goTab=t=>{closeOv();tab=t;render()};
 const AB={};
 [["fortuna","Fortuna","luck"],["estudioso","Estudioso","xp"],["resiliente","Resiliente","hp"],["forca","Força","dmg"]].forEach(a=>[[16.5,1.1],[6,1.2],[3,1.3]].forEach((x,l)=>{AB[a[0]+(l+1)]={n:a[1]+" "+["I","II","III"][l],w:x[0],m:{[a[2]]:x[1]},sp:0}}));
 [["prodigio","Prodígio",.4,{hp:1.5,xp:1.5}],["assassino","Assassino",.4,{dmg:1.5,bps:1.5}],["berserk","Berserk",.4,{dmg:1.5,hp:1.5}],["empreendedor","Empreendedor",.35,{bps:1.5,xp:1.5}],["tita","Titã",.2,{dmg:1.5,xp:1.5,hp:1.5}],["superestrela","Superestrela",.075,{hp:1.5,bps:1.5,xp:1.5,dmg:1.5}],["escolhido","Escolhido",.025,{hp:2,dmg:2,xp:2,bps:2}]].forEach(a=>AB[a[0]]={n:a[1],w:a[2],m:a[3],sp:1});
-const ABL=Object.keys(AB),ABM=(i,s)=>i&&i.ab&&AB[i.ab]?AB[i.ab].m[s]||1:1;
+// ---------- PASSIVAS DE BUSH (PVP Token) — campo separado i.pv; NÃO substitui as habilidades (i.ab) ----------
+// 15 famílias, 42 passivas. Nível I = comum · II = rara · III = muito rara · Lenda = extremamente rara.
+// Cada passiva guarda família+nível exatos (ex.: "berserker_3"). m = multiplicadores de status (entram em cs()); c = efeitos de combate (motor fcoreP).
+// O servidor sorteia o nível pelas chances abaixo (1/10000) e depois uma passiva do nível, uniforme (bush-rng-passives.sql tem a MESMA lista).
+const PPR=[["Comum","#aab8a0",6885],["Rara","#4aa8ff",2600],["Muito Rara","#b86bff",500],["Lendária","#ffd23f",15]],PPCOST=10,PP={},PPFAM=[
+ ["destruidor","Destruidor","💥",[{m:{dmg:1.10}},{m:{dmg:1.25}},{m:{dmg:1.50}}]],
+ ["colosso","Colosso","🗿",[{m:{hp:1.15}},{m:{hp:1.35}},{m:{hp:1.70}}]],
+ ["berserker","Berserker","😡",[{c:{ber:.5}},{c:{ber:.9}},{c:{ber:1.5}}]],
+ ["regeneracao","Regeneração","💚",[{c:{reg:.025}},{c:{reg:.045}},{c:{reg:.07}}]],
+ ["vampirismo","Vampirismo","🧛",[{c:{vamp:.15}},{c:{vamp:.28}},{c:{vamp:.45}}]],
+ ["fortaleza","Fortaleza","🏰",[{c:{fort:.10}},{c:{fort:.18}},{c:{fort:.30}}]],
+ ["contra","Contra-Ataque","↩️",[{c:{ctr:[.25,.6]}},{c:{ctr:[.35,.9]}},{c:{ctr:[.45,1.3]}}]],
+ ["queimadura","Queimadura","🔥",[{c:{burn:[.15,.30,3]}},{c:{burn:[.25,.45,3]}},{c:{burn:[.35,.65,4]}}]],
+ ["veneno","Veneno","☠️",[{c:{poi:[.22,.22,4]}},{c:{poi:[.32,.30,5]}},{c:{poi:[.42,.40,6]}}]],
+ ["predador","Predador","🐺",[{c:{pred:.20}},{c:{pred:.40}},{c:{pred:.65}}]],
+ ["execucao","Execução","🗡️",[{c:{exec:.40}},{c:{exec:.80}},{c:{exec:1.40}}]],
+ ["guardiao","Guardião","🛡️",[{c:{guard:.10}},{c:{guard:.17}},{c:{guard:.26}}]],
+ ["suspiro","Último Suspiro","🕯️",[{c:{lg:[.30,.15]}},{c:{lg:[.45,.25]}},{c:{lg:[.60,.35]}}]],
+ ["curandeiro","Curandeiro","✚",[{c:{heal:[.015,.15]}},{c:{heal:[.03,.30]}}]],
+ ["lenda","Lenda","👑",[{m:{hp:1.15,dmg:1.15},c:{reg:.015,vamp:.08,fort:.08,ber:.4,ctr:[.20,.6],exec:.25,lg:[.25,.20],burn:[.15,.35,3]}}]]];
+const ROM=["I","II","III"];
+PPFAM.forEach(F=>F[3].forEach((d,k)=>{const id=F[0]=="lenda"?"lenda":F[0]+"_"+(k+1);PP[id]={f:F[0],l:F[0]=="lenda"?4:k+1,t:F[0]=="lenda"?3:k,n:F[1]+(F[0]=="lenda"?"":" "+ROM[k]),e:F[2],m:d.m||{},c:d.c||null}}));
+let PPOFF=0,ppRnd=Math.random;
+const PPL=Object.keys(PP),PPTN=PPR.map((_,t)=>PPL.filter(k=>PP[k].t==t).length),PPW=k=>PPR[PP[k].t][2]/10000/PPTN[PP[k].t]; // chance exata de cada passiva por rolagem
+const PVM=(i,s)=>i&&i.pv&&!PPOFF&&PP[i.pv]?PP[i.pv].m[s]||1:1;
+const ppCombat=i=>i&&i.pv&&!PPOFF&&PP[i.pv]?PP[i.pv].c:null;
+const ppPc=v=>fm(+(v*100).toFixed(1))+"%";
+function ppTxt(k){const p=PP[k],m=p.m,c=p.c||{},a=[];
+ if(m.hp)a.push("Vida máx. ×"+fm(m.hp));if(m.dmg)a.push("Dano ×"+fm(m.dmg));
+ if(c.ber)a.push("Dano até +"+ppPc(c.ber)+" conforme a Vida cai");if(c.reg)a.push("Cura "+ppPc(c.reg)+" da Vida máx. por rodada");
+ if(c.vamp)a.push("Rouba "+ppPc(c.vamp)+" do dano como Vida");if(c.fort)a.push("-"+ppPc(c.fort)+" de dano recebido");
+ if(c.ctr)a.push(ppPc(c.ctr[0])+" de contra-atacar ("+ppPc(c.ctr[1])+" do Dano)");
+ if(c.burn)a.push(ppPc(c.burn[0])+" de queimar: "+ppPc(c.burn[1])+" do Dano/rodada por "+c.burn[2]+" rodadas");
+ if(c.poi)a.push(ppPc(c.poi[0])+" de envenenar: "+ppPc(c.poi[1])+" do Dano/rodada por "+c.poi[2]+" rodadas (acumula)");
+ if(c.pred)a.push("+"+ppPc(c.pred)+" de Dano em inimigos com 60%+ de Vida");if(c.exec)a.push("+"+ppPc(c.exec)+" de Dano em inimigos com até 40% de Vida");
+ if(c.guard)a.push("Aliados recebem -"+ppPc(c.guard)+" de dano");
+ if(c.lg)a.push(ppPc(c.lg[0])+" de sobreviver a golpe fatal (1x, com "+ppPc(c.lg[1])+" da Vida)");
+ if(c.heal)a.push("Cura o aliado mais ferido ("+ppPc(c.heal[0])+" da Vida dele/rodada) · curas do time +"+ppPc(c.heal[1]));
+ return a.join(" · ")}
+const ppChip=i=>i&&i.pv&&PP[i.pv]?`<span class="chip pp" style="--pc:${PPR[PP[i.pv].t][1]}" title="${PPR[PP[i.pv].t][0]} · ${ppTxt(i.pv).replace(/"/g,"")}">${PP[i.pv].e} ${PP[i.pv].n}</span>`:"";
+// ---- RNG determinístico (só para as PRÉVIAS da Torre não "piscarem"); lutas reais usam Math.random ----
+const ppHash=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0},
+ ppMul=a=>()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+// ---- Motor de combate COM passivas (Torre e Guerra). Sem passivas de combate no time, fcore usa o caminho original, intocado. ----
+// Ordem da rodada: curas (Regeneração, Curandeiro) → danos por tempo (Queimadura/Veneno) → ataque do time (Berserker, Predador, Execução, Vampirismo, aplica status)
+// → ataque dos inimigos no 1º vivo (Fortaleza, Guardião, Último Suspiro, Contra-Ataque).
+function fcoreP(T,E){let t=0;const R=()=>ppRnd(),lg={reg:0,cur:0,vamp:0,ctr:0,ctrd:0,burn:0,poi:0,dot:0,gasp:0,bonus:0};T.lg=lg;E.forEach(e=>{e.bn=null;e.po=[]});
+ const alive=a=>a.some(x=>x.hp>0);
+ while(t<300&&alive(T)&&alive(E)){t++;
+  let hm=1;T.forEach(x=>{if(x.hp>0&&x.p&&x.p.heal)hm=Math.max(hm,1+x.p.heal[1])});
+  const heal=(u,v,k)=>{if(u.hp<=0)return;const h=Math.min(v*hm,u.mx-u.hp);if(h>0){u.hp+=h;lg[k]+=h}};
+  for(const x of T)if(x.hp>0&&x.p&&x.p.reg)heal(x,x.mx*x.p.reg,"reg");
+  for(const x of T){if(x.hp<=0||!x.p||!x.p.heal)continue;let w=null;for(const y of T)if(y.hp>0&&y.hp<y.mx&&(!w||y.hp/y.mx<w.hp/w.mx))w=y;if(w)heal(w,w.mx*x.p.heal[0],"cur")}
+  for(const e of E){if(e.hp<=0)continue;let d=0;if(e.bn){d+=e.bn.d;if(--e.bn.n<=0)e.bn=null}e.po=e.po.filter(q=>{d+=q.d;return--q.n>0});if(d>0){const h=Math.min(e.hp,d);e.hp-=h;lg.dot+=h}}
+  if(!alive(E))break;
+  for(const u of T){if(u.hp<=0)continue;const p=u.p||{};let rem=u.dm*(1+(p.ber||0)*(1-Math.max(0,u.hp)/u.mx)),first=null,dealt=0;
+   while(rem>0){const e=E.find(z=>z.hp>0);if(!e)break;if(!first)first=e;
+    const fr=e.hp/(e.mx||e.hp);let f=1;if(p.pred&&fr>=.6)f+=p.pred;if(p.exec&&fr<=.4)f+=p.exec;
+    const h=Math.min(e.hp,rem*f);e.hp-=h;dealt+=h;if(f>1)lg.bonus+=h-h/f;rem-=h/f;if(e.hp>0)break}
+   if(p.vamp&&dealt>0)heal(u,dealt*p.vamp,"vamp");
+   if(first&&first.hp>0){
+    if(p.burn&&R()<p.burn[0]){const d=u.dm*p.burn[1];if(!first.bn||d>=first.bn.d)first.bn={d,n:p.burn[2]};else first.bn.n=Math.max(first.bn.n,p.burn[2]);lg.burn++}
+    if(p.poi&&R()<p.poi[0]){first.po.push({d:u.dm*p.poi[1],n:p.poi[2]});if(first.po.length>5)first.po.shift();lg.poi++}}}
+  for(const e of E){if(e.hp<=0)continue;const x=T.find(y=>y.hp>0);if(!x)break;const px=x.p||{};let g=0;
+   for(const y of T)if(y!==x&&y.hp>0&&y.p&&y.p.guard>g)g=y.p.guard;
+   x.hp-=e.dm*(1-(px.fort||0))*(1-g);
+   if(x.hp<=0&&px.lg&&!x.lgu&&R()<px.lg[0]){x.lgu=1;x.hp=Math.max(1,x.mx*px.lg[1]);lg.gasp++}
+   if(x.hp>0&&px.ctr&&R()<px.ctr[0]){const c=x.dm*px.ctr[1],h=Math.min(e.hp,c);e.hp-=h;lg.ctr++;lg.ctrd+=h}}}
+ return t}
+const ppLog=r=>{const g=r&&r.lg;if(!g)return"";const a=[];
+ if(g.reg>=1)a.push("💚 +"+f(g.reg)+" Regeneração");if(g.cur>=1)a.push("✚ +"+f(g.cur)+" Curandeiro");if(g.vamp>=1)a.push("🧛 +"+f(g.vamp)+" Vampirismo");
+ if(g.ctr)a.push("↩️ "+g.ctr+" contra-ataque(s)");if(g.burn)a.push("🔥 "+g.burn+" queimadura(s)");if(g.poi)a.push("☠️ "+g.poi+" veneno(s)");
+ if(g.dot>=1)a.push("🩸 "+f(g.dot)+" dano por efeitos");if(g.bonus>=1)a.push("🐺 +"+f(g.bonus)+" dano extra");if(g.gasp)a.push("🕯️ "+g.gasp+" sobrevivência(s)");
+ return a.length?"<br><small>🔱 Passivas: "+a.join(" · ")+"</small>":""};
+const ABL=Object.keys(AB),ABM=(i,s)=>(i&&i.ab&&AB[i.ab]?AB[i.ab].m[s]||1:1)*PVM(i,s);
 const abTxt=k=>Object.keys(AB[k].m).map(s=>STN[s]+" ×"+fm(AB[k].m[s])).join(" · ");
 const abChip=i=>i&&i.ab&&AB[i.ab]?`<br><span class="chip ab ${AB[i.ab].sp?"sp":""}" title="${abTxt(i.ab)}">🎟 ${AB[i.ab].n} · ${abTxt(i.ab)}</span>`:"";
 const abLuck=()=>S.eq.reduce((a,id)=>a*(id&&S.inv[id]?ABM(S.inv[id],"luck"):1),1);
@@ -1347,6 +1452,7 @@ function warTable(r,bid){r=Math.max(0,Math.min(9,r|0));const n=r+1,T=[],bb=bid&&
  add=(id,ico,txt,mm,c,x)=>T.push(Object.assign({id,ico,txt,min:mm[0],max:mm[1],ch:Math.round(c)},x||{}));
  add("money","🪙","Busheiros",wSpan((2e3+bps()*400)*Math.pow(n,1.5),.8,1.25),100);
  add("wt","🎟","War Token",wSpan(WAR_WT[r],.8,1.25),100);
+ add("pvt","🔱","PVP Token (igual aos War Tokens)",wSpan(WAR_WT[r],.8,1.25),100,{lnk:1}); // só exibição: a quantidade real é a MESMA do War Token (ver warGive)
  add("pc","🐾","Pet Coin",wSpan(WAR_PC[r],.8,1.25),100);
  add("piece","🧩",bb?pieceName(bb):"Piece do Boss",[1,1],100);
  add("piece2","🧩",(bb?pieceName(bb):"Piece do Boss")+" (bônus)",[1,1],Math.min(60,20+r*4.5));
@@ -1361,12 +1467,12 @@ function warTable(r,bid){r=Math.max(0,Math.min(9,r|0));const n=r+1,T=[],bb=bid&&
  if(r>=6)add("obs","🟣","Obsidian Roll",[1,r>=9?2:1],(r-5)*10);
  return T}
 function warGive(e,q,bid){switch(e.id){
- case"money":S.money+=q;S.earned+=q;break;case"wt":S.wt+=q;break;case"pc":S.pc+=q;break;
+ case"money":S.money+=q;S.earned+=q;break;case"wt":S.wt+=q;ppEarn(q);break;case"pc":S.pc+=q;break;
  case"piece":case"piece2":S.pieces[bid]=(S.pieces[bid]||0)+q;break;
  case"ing":case"ing2":S.ing[e.idx]+=q;break;case"ess":S.ess[e.idx]+=q;break;
  case"gems":S.gems+=q;break;case"cone":S.cone=(S.cone||0)+q;break;case"chest":S.chests[e.idx]+=q;break;
  case"gold":S.gold+=q;break;case"dia":S.dia+=q;break;case"obs":S.obs+=q;break}}
-function warRewards(r,bid){const L=[];warTable(r,bid).forEach(e=>{if(Math.random()*100<e.ch){const q=wRng(e.min,e.max);warGive(e,q,bid);L.push("+"+f(q)+" "+e.ico+" "+e.txt)}});S.wmax=Math.max(S.wmax,r);return L}
+function warRewards(r,bid){const L=[];warTable(r,bid).forEach(e=>{if(e.lnk)return;if(Math.random()*100<e.ch){const q=wRng(e.min,e.max);warGive(e,q,bid);L.push("+"+f(q)+" "+e.ico+" "+e.txt);if(e.id=="wt")L.push("+"+f(q)+" 🔱 PVP Token")}});S.wmax=Math.max(S.wmax,r);return L}
 let wPrev=-1;function wprev(k){wPrev=k;render()}
 const WARREW=()=>{const w=S.war,voted=w.rar>=0,r=voted?w.rar:wPrev;
  return`<div class="panel"><h2>🎁 Recompensas da Guerra</h2><small>Cada item é sorteado separadamente (chance e quantidade). Quanto maior a raridade e a dificuldade do Boss, mais itens e mais chances. Perder não gasta nada.</small>
@@ -1431,7 +1537,7 @@ const tb=s=>{const t=S.title&&S.tu[S.title]&&TTM[S.title];return t?t.b[s]||0:0},
 // ---------- ARMADURAS (Craft com Ingots) — somam no bn(), junto de Conquistas e Títulos ----------
 const ING=[["Bronze","#cd7f32"],["Silver","#c8d0d8"],["Gold","#ffd23f"],["Diamond","#4cc3ff"],["Emerald","#2ecc71"],["Void","#8b5cf6"],["Rainbow","#ff5ec8"]];
 const APC=[{n:"Capacete",e:"⛑",c:5,w:{hp:.6,luck:.4}},{n:"Peitoral",e:"🦺",c:8,w:{hp:1,dmg:.3}},{n:"Calças",e:"👖",c:7,w:{hp:.6,bps:.6}},{n:"Botas",e:"🥾",c:4,w:{xp:1,luck:.3}},{n:"Espada",e:"🗡",c:6,w:{dmg:1,bps:.3}}];
-const ATB=[.02,.04,.07,.11,.16,.23,.35],ALM=[1,1.25,1.55,1.9,2.4],ALW=[50,28,14,6,2],ALN=["I","II","III","IV","V"];
+const ATB=[.02,.04,.07,.11,.16,.23,.35],ALM=[1,1.25,1.55,1.9,2.4],ALW=[64.9,25,9,1,.1],ALN=["I","II","III","IV","V"];
 const apv=(p,t,l)=>{const o={};for(const x in APC[p].w)o[x]=+(ATB[t]*ALM[l]*APC[p].w[x]).toFixed(4);return o};
 const arB=st=>{let v=0;for(let p=0;p<5;p++){const it=S.arEq&&S.ar&&S.ar[S.arEq[p]];if(it)v+=apv(it.p,it.t,it.l)[st]||0}return v};
 const ingCost=t=>({m:Math.floor(RBASE[t+1]*150),e:3+2*t,r:t+1});
@@ -1450,7 +1556,7 @@ function craftArmor(p,t,n){n=Math.max(1,Math.min(ARQMAX,Math.floor(n)||1));const
  const rows=cnt.map((q,l)=>q?`<div class="kv"><span>Nível ${ALN[l]} × ${q}</span><b>${benTxt(apv(p,t,l))}</b></div>`:"").join("");
  modal(`<h3>⚒ Craft concluído!</h3>${aTag(t)} <b>${n}× ${a.e} ${a.n} de ${ING[t][0]}</b><br>Ingots usados: <b>${f(need)}</b>${rows}`,[["OK","g",()=>render()]])}
 function arBox(p){const a=APC[p],t=arT,n=arQty(p),tot=a.c*n,has=S.ing[t],mx=Math.floor(has/a.c),ok=has>=tot;
- const ex=ALN.map((x,l)=>{const v=n*ALW[l]/100;return`<span class="chip">Nível ${x} ≈ ${v<10?+v.toFixed(1):Math.round(v)}</span>`}).join("");
+ const ex=ALN.map((x,l)=>{const v=n*ALW[l]/100;return`<span class="chip">Nível ${x} ≈ ${v<10?+v.toPrecision(2):Math.round(v)}</span>`}).join("");
  return`<div class="stats4 up3"><div class="stat"><small>Quantidade</small><b>${n}</b></div><div class="stat"><small>Custo total</small><b>${f(tot)}</b></div><div class="stat"><small>Disponível</small><b>${f(has)}</b></div></div>`
  +bar7(has/tot*100,"Ingots "+f(has)+" / "+f(tot))
  +`<div class="lab">Resultado esperado · ${n}× ${a.n} de ${ING[t][0]}</div><div class="chips">${ex}</div>`
@@ -1545,7 +1651,7 @@ function hud(){const e=S.ev,P=(l,v,x)=>`<div class="pill"><small>${l}</small><b>
  if(!$("#hav")){$("#hud").innerHTML=`<div class="hin"><div class="htop"><button class="avatar" id="hav" onclick="profile()" aria-label="Perfil"></button><div class="who" id="hw"></div><div class="hbps" id="hb"></div></div><div class="hcur" id="hc"></div><div class="hstats" id="hs"></div><div id="hev"></div></div>`;for(const k in HC)delete HC[k]}
  hset("hw",`<b>${esc(S.name)||"Jogador"}</b><small>${tt?"🏅 "+tt.n:"Sem título"}</small>`);
  hset("hb",`<small>⚡ BPS</small><b>${f(bps())}/s</b>`);
- hset("hc",`<div class="cur" title="Busheiros"><b><i>🪙</i>${f(S.money)}</b><small data-l="Busheiros" data-s="Busheiros"></small></div><div class="cur" title="Gemas Bushianas"><b><i>💠</i>${f(S.gems)}</b><small data-l="Gemas Bushianas" data-s="Gemas"></small></div><div class="cur" title="Pets"><b><i>🐾</i>${f(S.pc)}</b><small data-l="Pets" data-s="Pets"></small></div><div class="cur" title="War Tokens"><b><i>🎟</i>${f(S.wt)}</b><small data-l="War Tokens" data-s="Tokens"></small></div>`);
+ hset("hc",`<div class="cur" title="Busheiros"><b><i>🪙</i>${f(S.money)}</b><small data-l="Busheiros" data-s="Busheiros"></small></div><div class="cur" title="Gemas Bushianas"><b><i>💠</i>${f(S.gems)}</b><small data-l="Gemas Bushianas" data-s="Gemas"></small></div><div class="cur" title="Pets"><b><i>🐾</i>${f(S.pc)}</b><small data-l="Pets" data-s="Pets"></small></div><div class="cur" title="War Tokens"><b><i>🎟</i>${f(S.wt)}</b><small data-l="War Tokens" data-s="Tokens"></small></div><div class="cur" title="PVP Tokens"><b><i>🔱</i>${f(S.ppT||0)}</b><small data-l="PVP Tokens" data-s="PVP"></small></div>`);
  hset("hav",avHtml());
  hset("hs",P("🍀 Luck",luck().toFixed(2)+"x")+P("♻ Rebirth","x"+rebMult(S.reb).toFixed(2))+P("🔺 Cones",S.cone||0)+P("🌿 Equipados",S.eq.filter(x=>x).length+"/8")+(pt?P("Pet",pt.e+" ×"+pt.m):"")+(S.auto.on?P("Auto Roll","● ON"):"")+(AQ.on?P("Qualidade","● AUTO "+AQ.n):""));
  hset("hev",e?`<div class="evb">⚡ ${M[e.m].n.toUpperCase()} EVENT · mutações 10x mais comuns · ⏱ ${tm((e.end-Date.now())/1000)}</div>`:"")}
@@ -1594,7 +1700,7 @@ rew7=(r,bid)=>`<div class="rwt"><div class="rw h"><span>Recompensa</span><span>Q
 
 /* ---------- TORRE ---------- */
 const TOWER=()=>{const fl=S.tf,E=enemies(fl),bs=isTBoss(fl),sup=isTSup(fl),T=S.team.map(k=>S.inv[k]).filter(Boolean),tt=tot7(S.team),et=E.reduce((a,e)=>({hp:a.hp+e.hp,dm:a.dm+e.dm}),{hp:0,dm:0}),cdl=Math.max(0,(S.tcd||0)-Date.now()),rd=T.length==3,tq=rd?T.reduce((a,i)=>a+QT[i.q],0)/3:1,
- z=towerZone(fl),n10=tBossN(fl),nb=bs?fl:fl+(TW.BOSS_EVERY-fl%TW.BOSS_EVERY),rec=towerRec(fl),pv=rd?fight(fl):null,lf=pv?pv.T.reduce((a,x)=>a+Math.max(0,x.hp),0)/pv.T.reduce((a,x)=>a+x.mx,0):0,
+ z=towerZone(fl),n10=tBossN(fl),nb=bs?fl:fl+(TW.BOSS_EVERY-fl%TW.BOSS_EVERY),rec=towerRec(fl),pv=rd?fight(fl,null,null,1):null,lf=pv?pv.T.reduce((a,x)=>a+Math.max(0,x.hp),0)/pv.T.reduce((a,x)=>a+x.mx,0):0,
  dif=!rd?["—",""]:!pv.win?["Muito difícil","bad"]:lf>=.7?["Fácil","good"]:lf>=.35?["Equilibrado","good"]:lf>=.1?["Difícil",""]:["Arriscado","bad"],
  cw=chestW(fl,bs),cws=cw.reduce((a,b)=>a+b,0),cwTxt=cw.map((w,t)=>w/cws>=.005?RAR[t]+" "+pct(w/cws):"").filter(Boolean).join(" · "),
  mon=Math.floor((80*Math.pow(1.13,fl)+bps()*30*(1+fl/25))*tq*(bs?tbRew(fl):1)),
@@ -1648,7 +1754,7 @@ return`<div class="panel sc war-head"><div>${stp7("⚔","GUERRA DE BUSHES","Endg
 +sec7(6,"Recompensas possíveis e chances","Cada item é sorteado separadamente.",r>=0?rew7(r,vt?w.boss:null):'<div class="panel empty">Escolha uma raridade para ver a tabela.</div>')
 +sec7(7,"Iniciar a Guerra","",`<button id="wbtn" class="btn g wide big" ${w.rar<0||w.won||!rd||cdl>0?"disabled":""} onclick="wfight()">${w.rar<0?"VOTE UMA RARIDADE":w.won?"GUERRA CONCLUÍDA":!rd?"ESCOLHA 3 BUSHES":cdl>0?"AGUARDE "+Math.ceil(cdl/1000)+"s":"⚔ LUTAR CONTRA O BOSS"}</button>`)
 +sec7(8,"Área da batalha","",w.log?`<div class="card" style="text-align:left">${w.log}</div>`:'<small class="hint">O resultado da batalha aparece aqui.</small>')
-+ABPANEL()+`<section class="panel sc">${stp7("🧩","Suas Pieces","Para evoluir: a Bush original + "+PCN+" Pieces dela. BPS ×3.")}${pcs.map(id=>{const b=bush(id),n=S.pieces[id];return`<div class="row">${bi(b)} <b>${pieceName(b)}</b> <span class="chip">${n}/${PCN}</span><span class="chip ${hasB(id)?"evo":""}">${hasB(id)?"Bush original ✔":"Falta a Bush original ✘"}</span><div class="bar" style="flex:1 1 80px"><i style="width:${Math.min(100,n/PCN*100)}%"></i></div><button class="btn g" ${n<PCN||!hasB(id)?"disabled":""} onclick="evoOpen('${id}')">✦ EVOLUIR → ${evoName(b)}</button></div>`}).join("")||'<div class="panel empty">Nenhuma Piece ainda. Vença uma Guerra!</div>'}</section>`};
++ABPANEL()+PPPANEL()+`<section class="panel sc">${stp7("🧩","Suas Pieces","Para evoluir: a Bush original + "+PCN+" Pieces dela. BPS ×3.")}${pcs.map(id=>{const b=bush(id),n=S.pieces[id];return`<div class="row">${bi(b)} <b>${pieceName(b)}</b> <span class="chip">${n}/${PCN}</span><span class="chip ${hasB(id)?"evo":""}">${hasB(id)?"Bush original ✔":"Falta a Bush original ✘"}</span><div class="bar" style="flex:1 1 80px"><i style="width:${Math.min(100,n/PCN*100)}%"></i></div><button class="btn g" ${n<PCN||!hasB(id)?"disabled":""} onclick="evoOpen('${id}')">✦ EVOLUIR → ${evoName(b)}</button></div>`}).join("")||'<div class="panel empty">Nenhuma Piece ainda. Vença uma Guerra!</div>'}</section>`};
 
 /* ---------- FUSÃO ---------- */
 const FUSPANEL=()=>{const c=fusCost(fr),cand=Object.values(S.inv).filter(i=>bush(i.id).rarity==fr).sort(SORT[0]),mis=Math.max(0,c.e-S.ess[fr]),sl=fsel.map(k=>S.inv[k]).filter(Boolean),ok3=sl.length==3,fc=ok3?fusChances(sl):null,eM=S.money>=c.m,eE=!mis,avg=ok3?sl.reduce((a,i)=>a+bushBps(i)/tmul(i),0)/3:0,pf=v=>v*100<.01?(v*100<.0001?"<0,0001":(v*100).toFixed(4)):(v*100).toFixed(2);
@@ -1866,14 +1972,15 @@ if(LB.url&&S.pid&&S.name)trReg().then(()=>trPoll()).catch(()=>{});else trUi();
    Fluxo: Leaderboard > ⚔ Enviar Batalha > o outro aceita/nega > os dois escolhem 3 Bushes > ambos confirmam.
    Não mexe em inventário, Trade, Guerra, Torre nem Fazenda: o time é só um "retrato" (snapshot) enviado ao servidor. */
 const PV={in:[],m:null,busy:0,lp:0,ui:false,sg:"",sel:[],sid:0,q:"",src:"inv",push:0,fast:0,seen:{},done:{},go:{},ak:"",bp:"b",bq:""};S.pvE=S.pvE||null;S.pvDone=S.pvDone||{};
-const PVERR={early:"A batalha ainda não começou",nomatch:"Batalha não encontrada",notready:"Os dois ainda não estão prontos",self:"Você não pode enviar Batalha para si mesmo",nouser:"Esse jogador ainda não ativou a Batalha (ele precisa abrir a versão atualizada e enviar o Leaderboard)",busy:"Um dos jogadores já está em uma Batalha",offline:"Esse jogador está offline agora",dup:"Solicitação já enviada (limite: 5 pendentes)",auth:"Falha de autenticação da Batalha",gone:"Solicitação expirada",closed:"A Batalha já foi encerrada ou o time está travado",incomplete:"Escolha 3 Bushes antes de confirmar",invalid:"Time ou aposta inválidos (recusado pelo servidor)",notyet:"A aposta só abre depois que os dois escolherem 3 Bushes",nobush:"Um dos Bushes não foi encontrado no servidor (tente de novo)",bushbusy:"Um dos Bushes já está em outra Batalha",locked:"Você já está pronto · cancele o Pronto para mudar time/aposta",noitem:"O servidor não reconhece esse item (tente de novo)",dup_item:"Esse item já está reservado em outra aposta",inteam:"Esse Bush está no seu time",nostock:"Quantidade maior do que você possui",blocked:"Bush bloqueado não pode ser apostado",betchg:"A aposta do adversário mudou · confira e inicie de novo",nofight:"A luta ainda não foi registrada no servidor"};
-const pvErr=e=>{const m=String(e&&e.message||e);if(/pvb_/.test(m))return"Servidor sem a segurança das apostas: rode bush-rng-pvp-bets.sql no Supabase";if(/pv_bush_sync/.test(m))return"Servidor sem a segurança dos Bushes: rode bush-rng-pvp-security.sql no Supabase";if(/pv_fight/.test(m))return"Servidor sem a Batalha 3v3: rode bush-rng-pvp-battle.sql no Supabase";if(/pv_|schema cache/.test(m))return"Servidor sem PvP: rode bush-rng-pvp.sql no Supabase";return PVERR[m.split(/\W/)[0]]||"Erro: "+m.slice(0,80)};
+const PVERR={early:"A batalha ainda não começou",nomatch:"Batalha não encontrada",notready:"Os dois ainda não estão prontos",self:"Você não pode enviar Batalha para si mesmo",nouser:"Esse jogador ainda não ativou a Batalha (ele precisa abrir a versão atualizada e enviar o Leaderboard)",busy:"Um dos jogadores já está em uma Batalha",offline:"Esse jogador está offline agora",dup:"Solicitação já enviada (limite: 5 pendentes)",auth:"Falha de autenticação da Batalha",gone:"Solicitação expirada",closed:"A Batalha já foi encerrada ou o time está travado",incomplete:"Escolha 3 Bushes antes de confirmar",invalid:"Time ou aposta inválidos (recusado pelo servidor)",notyet:"A aposta só abre depois que os dois escolherem 3 Bushes",nobush:"Um dos Bushes não foi encontrado no servidor (tente de novo)",bushbusy:"Um dos Bushes já está em outra Batalha",locked:"Você já está pronto · cancele o Pronto para mudar time/aposta",noitem:"O servidor não reconhece esse item (tente de novo)",dup_item:"Esse item já está reservado em outra aposta",inteam:"Esse Bush está no seu time",nostock:"Quantidade maior do que você possui",blocked:"Bush bloqueado não pode ser apostado",betchg:"A aposta do adversário mudou · confira e inicie de novo",nofight:"A luta ainda não foi registrada no servidor",notturn:"Não é a sua vez",stale:"O turno já mudou · atualizando",over:"A batalha já terminou",badact:"Ação inválida",noheal:"Você não tem mais cargas de cura",full:"Esse Bush está com a Vida cheia",dead:"Esse Bush está derrotado",badbush:"Bush inválido",wait:"Sincronizando as passivas · aguarde um instante"};
+const pvErr=e=>{const m=String(e&&e.message||e);if(/pvt_/.test(m))return"Servidor sem os turnos: rode bush-rng-pvp-turns.sql no Supabase";if(/pvb_/.test(m))return"Servidor sem a segurança das apostas: rode bush-rng-pvp-bets.sql no Supabase";if(/pv_bush_sync/.test(m))return"Servidor sem a segurança dos Bushes: rode bush-rng-pvp-security.sql no Supabase";if(/pv_fight/.test(m))return"Servidor sem a Batalha 3v3: rode bush-rng-pvp-battle.sql no Supabase";if(/pv_|schema cache/.test(m))return"Servidor sem PvP: rode bush-rng-pvp.sql no Supabase";return PVERR[m.split(/\W/)[0]]||"Erro: "+m.slice(0,80)};
 const pvA=a=>({p:S.pid,s:S.pvk,...a});
 async function pvReg(){if(!LB.url)throw new Error("sem servidor");if(!S.pid)S.pid=Date.now().toString(36)+Math.random().toString(36).slice(2,12);if(!S.pvk){const a=new Uint8Array(24);crypto.getRandomValues(a);S.pvk=[...a].map(x=>x.toString(16).padStart(2,"0")).join("")}await trRpc("pv_reg",{p:S.pid,s:S.pvk});S.pvR=1;save()}
 // ---- retrato do time (o que o adversário enxerga) ----
 const pvC=v=>Math.min(1e30,Math.max(0,+v||0));
 // (exibição local apenas; NUNCA enviado ao servidor)
-function pvSnap(i){const b=bush(i.id),c=cs(i);return{k:i.k,id:i.id,n:esc(b.name).slice(0,40),r:b.rarity,q:i.q,lv:i.lv,ms:i.ms.slice(0,20),t:i.t>=0?i.t:-1,evo:i.evo?1:0,gem:i.gem||0,ab:i.ab||"",bps:pvC(bushBps(i)),hp:pvC(c.hp),dm:pvC(c.dm)}}
+function pvSnap(i){PPOFF=1;try{return pvSnap0(i)}finally{PPOFF=0}}
+function pvSnap0(i){const b=bush(i.id),c=cs(i);return{k:i.k,id:i.id,n:esc(b.name).slice(0,40),r:b.rarity,q:i.q,lv:i.lv,ms:i.ms.slice(0,20),t:i.t>=0?i.t:-1,evo:i.evo?1:0,gem:i.gem||0,ab:i.ab||"",bps:pvC(bushBps(i)),hp:pvC(c.hp),dm:pvC(c.dm)}}
 const pvArm=()=>(S.arEq||[]).map(k=>S.ar[k]).filter(Boolean).slice(0,5).map(a=>({p:a.p,t:a.t,l:a.l}));
 const PVB0={on:0,b:[],a:[],r:{},c:{},ak:""};
 const pvH=x=>{let h=5381;for(let i=0;i<x.length;i++)h=(h*33^x.charCodeAt(i))>>>0;return h.toString(36)};
@@ -2005,13 +2112,106 @@ function pvFightMaybe(t){
  if(!t||t.st!=="ready"||!t.go||PV.fin[t.id]||PV.bf[t.id])return;
  if(Date.now()<(PV.bfT||0))return;
  if(t.go-pvNow()>400)return;
- PV.bf[t.id]=1;pvFight(String(t.id),+t.go,0)}
+ PV.bf[t.id]=1;if(PV.noT)pvFight(String(t.id),+t.go,0);else pvTurnOpen(String(t.id),+t.go,0)}
 async function pvFight(mid,go,n){
  try{const r=await trRpc("pvb_fight",pvA({mid}));pvArenaOpen(mid,go,r)}
  catch(e){const m=String(e&&e.message||e);
   if(/invalid|incomplete|auth|nomatch|closed|pv_|schema cache/.test(m)){toast(pvErr(e),5000);PV.bf[mid]=0;PV.bfT=Date.now()+8000;if(/auth/.test(m)){S.pvR=0;pvReg().catch(()=>{})}PV.lp=0;pvPoll();return}
   if(n<15){setTimeout(()=>pvFight(mid,go,n+1),900);return}
   PV.bf[mid]=0;PV.bfT=Date.now()+6000;toast(pvErr(e)+" · tentando de novo",4000)}}
+// ===== PvP por TURNOS (Atacar / Defender / Curar) — servidor: bush-rng-pvp-turns.sql =====
+// O SERVIDOR controla a vez, o tempo e o resultado de cada ação. O cliente só mostra o estado e envia a ação escolhida
+// junto com o nº do turno (o servidor recusa fora da vez, turno velho/repetido e ação inválida).
+// Se o servidor ainda não tem os turnos (SQL não rodado), a batalha usa a luta rápida original. Partidas com APOSTA
+// também usam a luta rápida original enquanto o servidor não liquidar apostas por turnos (pvt_bets_ready).
+const PT_TAG={ber:" · 😡 Berserker",pred:" · 🐺 Predador",exec:" · 🗡️ Execução",fort:" · 🏰 Fortaleza",guard:" · 🛡️ Guardião"};
+const PT_ACT=[["attack","⚔","Atacar · 85%","r"],["defend","🛡","Defender · 45%","g"]]; // Curar não gasta o turno: botão ✚ em cada Bush seu
+const ptSec=ms=>Math.max(0,Math.ceil((ms-pvNow())/1000));
+async function pvTurnOpen(mid,go,n){
+ try{const x=await trRpc("pvt_open",pvA({mid,pk:ppKey()}));
+  if(!x||!x.ok||!x.r||!x.st)throw 0;
+  const bet=!!(S.pvE&&S.pvE.on&&String(S.pvE.mid)===String(mid));
+  if(bet&&!x.bets){toast("💰 Partida com aposta: luta rápida (apostas por turnos ainda não liberadas no servidor)",4000);pvArenaOpen(mid,go,x.r);return}
+  pvTurnStart(mid,go,x)}
+ catch(e){const m=String(e&&e.message||e);
+  if(/pvt_|schema cache|Could not find/.test(m)){PV.noT=1;toast("Turnos indisponíveis no servidor (rode bush-rng-pvp-turns.sql) · usando luta rápida",4500);pvFight(mid,go,0);return}
+  if(/invalid|incomplete|auth|nomatch|closed|pv_|notready/.test(m)){toast(pvErr(e),5000);PV.bf[mid]=0;PV.bfT=Date.now()+8000;if(/auth/.test(m)){S.pvR=0;pvReg().catch(()=>{})}PV.lp=0;pvPoll();return}
+  if(n<15){setTimeout(()=>pvTurnOpen(mid,go,n+1),900);return}
+  PV.bf[mid]=0;PV.bfT=Date.now()+6000;toast(pvErr(e)+" · tentando de novo",4000)}}
+function pvTurnStart(mid,go,x){
+ if(PV.fin[mid])return;
+ const num=(v,hi)=>{v=+v;return isFinite(v)?Math.min(hi,Math.max(0,v)):0};
+ try{const r=x.r,st=x.st,me=st.me,ot=me==="a"?"b":"a";
+  if(me!=="a"&&me!=="b")throw 0;
+  const mk=k=>{const T=pvIn({b:r[k].b,a:r[k].a}),hp=(r[k].hp||[]).map(v=>num(v,1e30)),dm=(r[k].dm||[]).map(v=>num(v,1e30));
+   if(T.b.length!==3||hp.length!==3||dm.length!==3||hp.some(h=>!(h>0)))throw 0;return{T,hp,dm}};
+  const L=mk(me),R=mk(ot),t=PV.m&&String(PV.m.id)===String(mid)?PV.m:null;
+  PV.fin[mid]=1;
+  PV.bt={mid,win:false,rs:null,res:0,fin0:0,L,R,du:[],why:"ko",t0:0,show:true,dom:0,det:0,snd:0,cc:{},tb:{st:null,sig:"",sy:0,busy:0,nx:0,et:0},
+   on:t?lbName(t.on):"Adversário",oav:t?lbAv(t.oa):"🌿"};
+  PV.ui=true;PV.sg="";pvTurnApply(st)}
+ catch(e){PV.bf[mid]=0;PV.bfT=Date.now()+6000;toast("Resposta da batalha inválida · tentando de novo",3500)}}
+function pvTurnApply(st){const B=PV.bt;if(!B||!B.tb||B.res||!st)return;
+ const o=B.tb.st;if(o&&!st.w&&(st.t<o.t||(st.t===o.t&&(st.lg||[]).length<(o.lg||[]).length)))return; // resposta velha
+ const sg=JSON.stringify([st.t,st.ac,st.w,st.go,st.hp,st.hl,st.df,st.ia,st.bn,st.po,st.lu,(st.lg||[]).length]);
+ if(st.now)PV.skew=st.now-Date.now();
+ const my=st.ac===st.me&&!st.w,was=o&&o.ac===o.me&&!o.w;
+ B.tb.st=st;
+ if(st.w){pvTurnFinish(st);return}
+ if(sg!==B.tb.sig){B.tb.sig=sg;if(my&&!was&&o){try{beep(SND.get)}catch(e){}}pvUi(1)}}
+function pvTurnFinish(st){const B=PV.bt;if(!B||B.res)return;
+ const win=st.w===st.me,dn=(S.pvDone||{})[B.mid];
+ B.win=win;B.why=st.why||"ko";B.fh={L:st.hp.me.map(v=>+v||0),R:st.hp.op.map(v=>+v||0)};
+ B.rs=dn||{w:win?1:0,bet:0,got:[],back:[],lost:[],pend:(S.pvE&&S.pvE.lk&&String(S.pvE.mid)===String(B.mid))?1:0};
+ B.snd=1;try{beep(win?SND.lvl:SND.sec)}catch(e){}
+ B.res=1;B.fin0=Date.now();B.dom=0;if(B.rs&&B.rs.pend)pvbEnd(B.mid);pvUi(1)}
+async function pvTurnSync(){const B=PV.bt;if(!B||!B.tb||B.res||B.tb.sy)return;B.tb.sy=1;
+ try{const x=await trRpc("pvt_state",pvA({mid:B.mid}));if(x&&x.st)pvTurnApply(x.st)}
+ catch(e){const m=String(e&&e.message||e);if(Date.now()-B.tb.et>8000){B.tb.et=Date.now();if(/nomatch|auth|pvt_/.test(m))toast(pvErr(e),3000)}}
+ B.tb.sy=0;const s=B.tb.st;B.tb.nx=Date.now()+(s&&s.ac===s.me?1500:900)}
+async function pvTurnAct(act){const B=PV.bt;if(!B||!B.tb||B.res||B.tb.busy||!B.tb.st)return;const st=B.tb.st;
+ if(st.w||st.ac!==st.me||st.go===false)return toast(PVERR.notturn,1500);
+ B.tb.busy=1;pvUi(1);
+ try{const x=await trRpc("pvt_act",pvA({mid:B.mid,t:st.t,act}));if(x&&x.st)pvTurnApply(x.st)}
+ catch(e){toast(pvErr(e),2000)}
+ B.tb.busy=0;B.tb.nx=0;if(PV.bt===B&&!B.res)pvUi(1);pvTurnSync()}
+async function pvTurnHeal(j){const B=PV.bt;if(!B||!B.tb||B.res||B.tb.busy||!B.tb.st)return;const st=B.tb.st;
+ if(st.w||st.ac!==st.me)return toast(PVERR.notturn,1500);
+ B.tb.busy=1;pvUi(1);
+ try{const x=await trRpc("pvt_act",pvA({mid:B.mid,t:st.t,act:"heal",k:j+1}));if(x&&x.st)pvTurnApply(x.st)}
+ catch(e){toast(pvErr(e),2000)}
+ B.tb.busy=0;B.tb.nx=0;if(PV.bt===B&&!B.res)pvUi(1);pvTurnSync()}
+function pvTurnTick(){const B=PV.bt;if(!B||!B.tb||B.res)return;const s=B.tb.st;
+ const e=document.getElementById("pt_cd");if(e&&s)e.textContent=ptSec(s.dl);
+ if(!B.tb.sy&&!B.tb.busy&&Date.now()>=B.tb.nx)pvTurnSync()}
+function ptFx(st,k,j,hp){const pid=st.pid&&st.pid[k]&&st.pid[k][j],P=pid&&PP[pid],c=[];
+ if(P)c.push(`<span class="chip pp pt-fx" style="--pc:${PPR[P.t][1]}" title="${(PPR[P.t][0]+" · "+ppTxt(pid)).replace(/"/g,"")}">${P.e} ${P.n}</span>`);
+ if(hp>0){const bn=st.bn&&st.bn[k]&&st.bn[k][j],po=st.po&&st.po[k]&&st.po[k][j]||[];
+  if(bn&&bn.n>0)c.push(`<span class="chip pt-fx bad" title="Queimadura: ${f(bn.d)} de dano por rodada">🔥 ${bn.n}r</span>`);
+  if(po.length){const mn=Math.max(...po.map(q=>q.n));c.push(`<span class="chip pt-fx bad" title="Veneno: ${po.length} acúmulo(s)">☠️ ×${po.length} · ${mn}r</span>`)}
+  if(P&&P.c&&P.c.lg)c.push(`<span class="chip pt-fx ${st.lu&&st.lu[k]&&st.lu[k][j]?"off":"on"}" title="Último Suspiro">🕯️ ${st.lu&&st.lu[k]&&st.lu[k][j]?"usado":"pronto"}</span>`)}
+ return c.length?`<div class="pt-fxs">${c.join("")}</div>`:""}
+function ptCard(B,K,j){const st=B.tb.st,k=K==="L"?"me":"op",hp=st.hp[k][j],mx=B[K].hp[j],x=B[K].T.b[j],a=st.ia[k]-1===j&&hp>0,pc=mx>0?Math.max(0,Math.min(100,hp/mx*100)):0;
+ return`<div class="pa-c ${hp<=0?"dead":a?"act":"wait"}"><span class="pa-sk">☠</span><div class="pa-im">${pvImg(x)}</div><b class="pa-n">${x.n}${x.evo?" ✦":""}</b><small class="pa-s">${RAR[x.r]} · Nv ${x.lv}</small><div class="pa-bar"><i class="pa-fill${pc>50?"":pc>25?" mid":" low"}" style="width:${pc.toFixed(1)}%"></i></div><small class="pa-hp">❤ ${f(Math.max(0,hp))} / ${f(mx)}</small><small class="pa-d">⚔ ${f(B[K].dm[j])}${a&&st.df[k]?" · 🛡 defendendo":""}</small>${ptFx(st,k,j,hp)}${K==="L"?(()=>{const ok=st.ac===st.me&&!st.w&&st.go!==false&&!B.tb.busy&&st.hl.me>0&&hp>0&&hp<mx-1e-9;return`<button class="btn g pt-heal" ${ok?"":"disabled"} onclick="pvTurnHeal(${j})">✚ Curar +50%</button>`})():""}</div>`}
+function pvTurnHtml(){const B=PV.bt,st=B.tb.st,my=st.ac===st.me&&!st.w&&st.go!==false,busy=B.tb.busy,op=esc(B.on);
+ const ai=st.ia.me-1,full=st.hp.me[ai]>=B.L.hp[ai]-1e-9,can={attack:1,defend:1,heal:st.hl.me>0&&!full};
+ const team=(K,cls,av,nm)=>{const k=K==="L"?"me":"op",alive=st.hp[k].filter(h=>h>0).length;return`<div class="pa-team ${cls}"><div class="pa-th"><span class="avatar sm">${av}</span><b>${nm}</b><small>${alive}/3 vivos · ✚ ${st.hl[k]}</small></div><div class="pa-row">${[0,1,2].map(j=>ptCard(B,K,j)).join("")}</div></div>`};
+ const lg=(st.lg||[]).slice(-16).reverse().map(e=>{const K=e.s===st.me?"L":"R",Q2=K==="L"?"R":"L",nmK=(KK,ix)=>{const z=B[KK].T.b[ix-1];return z?z.n:"?"},an=nmK(K,e.i),on=nmK(Q2,e.o);
+  if(e.a==="fx"){const t={vamp:`🧛 <b>${an}</b> roubou +${f(e.v)} de Vida`,burn_on:`🔥 <b>${an}</b> incendiou ${on}`,poi_on:`☠️ <b>${an}</b> envenenou ${on}`,
+   ctr:`↩️ <b>${an}</b> contra-atacou ${on} (−${f(e.v)})`,gasp:`🕯️ <b>${an}</b> sobreviveu ao golpe fatal (Vida ${f(e.v)})`,reg:`💚 <b>${an}</b> regenerou +${f(e.v)}`,
+   cur:`✚ <b>${nmK(K,e.o)}</b> curou ${an} +${f(e.v)}`,burn_dmg:`🔥 <b>${an}</b> sofreu −${f(e.v)} de queimadura (${e.o} rodada(s) restante(s))`,
+   poi_dmg:`☠️ <b>${an}</b> sofreu −${f(e.v)} de veneno (${e.o} acúmulo(s))`,dot_ko:`💀 <b>${an}</b> caiu por efeito contínuo`}[e.k]||"";
+   return`<div class="pt-fxl">#${e.n} ${K==="L"?"Você":op}: ${t}</div>`}
+  const who=K==="L"?"Você":op;
+  const t=e.a==="attack"?(e.ms?`💨 <b>${an}</b> errou o ataque em ${on}`:`⚔ <b>${an}</b> atacou ${on} (−${f(e.d)})${(e.fx||[]).map(q=>PT_TAG[q]||"").join("")}${e.dg===2?" · 🛡 defesa funcionou":e.dg===1?" · 🛡 defesa falhou":""}${e.ko?" · 💀 derrotado":""}`):e.a==="defend"?`🛡 <b>${an}</b> assumiu posição defensiva`:`✚ <b>${an}</b> recebeu cura +${f(e.h)} (não gasta o turno)`;
+  return`<div>#${e.n} ${who}: ${t}${e.au?" ⏱ tempo esgotado":""}</div>`}).join("");
+ return`<div class="trbox"><button class="bd-x" onclick="pvClose()" aria-label="Minimizar">▾</button><h2>⚔ BATALHA POR TURNOS</h2>
+<div class="pa-msg pt-turn${my?" my":""}">${st.go===false?"⏳ Sincronizando as passivas dos dois times…":(my?"🟢 <b>SUA VEZ</b>":"⏳ Vez de <b>"+op+"</b>")+" · Turno <b>"+st.t+"</b> · ⏱ <b id=\"pt_cd\">"+ptSec(st.dl)+"</b>s"}</div>
+<div class="pa-arena">${team("R","r",B.oav,op)}<div class="pa-vs">VS</div>${team("L","l",avHtml(),esc(S.name)||"Você")}</div>
+<div class="pvbt pt-acts">${PT_ACT.map(a=>`<button class="btn ${a[3]}" ${my&&!busy&&can[a[0]]?"":"disabled"} onclick="pvTurnAct('${a[0]}')">${a[1]} ${a[2]}${a[0]==="heal"?" ("+st.hl.me+")":""}</button>`).join("")}</div>
+<div class="pa-log">${lg||"<div>A batalha começou.</div>"}</div>
+<small>Cada turno um jogador age. <b>Atacar</b>: 15% de errar; se acertar, causa o Dano real do Bush ativo. <b>Defender</b>: posição defensiva para o próximo ataque inimigo que acertar · 45% de defender (reduz 60% do dano) · vale só para esse ataque. <b>Curar</b> (✚ no Bush escolhido): 3 cargas, +50% da Vida máx., não gasta o turno. <b>Passivas</b> funcionam sozinhas (aparecem em cada Bush): Regeneração, Curandeiro, Queimadura e Veneno agem no início da vez do dono (a duração conta em rodadas); Berserker, Predador, Execução, Fortaleza, Guardião, Vampirismo, Contra-Ataque e Último Suspiro agem nos ataques. Chances, durações e valores são decididos pelo servidor. 30 s por turno; tempo esgotado = ataque automático; 3 seguidos = derrota.</small></div>`}
+
 // ---- resultado: entrega/perda das apostas (1x por partida; o vencedor vem do servidor via pv_fight) ----
 const PR_WAIT=5000;
 function pvBetNames(c){const l=[];if(!c)return l;trWith(c.c||{},()=>c.b.forEach(i=>l.push(esc(bush(i.id).name)+" · Nv "+i.lv)));c.a.forEach(a=>l.push("🛡 "+esc(aName(a))));Object.keys(c.r).forEach(id=>l.push(trMeta(id).n+" ×"+f(c.r[id])));return l}
@@ -2061,6 +2261,7 @@ const pvSetC=(B,id,k,v,fn)=>{const key=id+k;if(B.cc[key]===v)return;B.cc[key]=v;
 function pvArenaFinish(B){if(!B.snd){B.snd=1;try{beep(B.win?SND.lvl:SND.sec)}catch(e){}if(B.rs&&B.rs.pend)pvbEnd(B.mid)}B.res=1;B.fin0=Date.now();B.dom=0;pvUi(1)}
 function pvArenaTick(){
  const B=PV.bt;if(!B||!B.show)return;
+ if(B.tb){if(B.res&&B.dom&&PV.ui)pvResTick(B);else pvTurnTick();return}
  if(!B.res&&(!PV.ui||!B.dom)){if(pvArenaState(B,pvNow()-B.t0).fin)pvArenaFinish(B);return}
  if(!B.dom||!PV.ui)return;
  if(B.res){pvResTick(B);return}
@@ -2086,9 +2287,9 @@ function pvArenaEnd(){const B=PV.bt,m=PV.m;if(!B)return;const w=PR_WAIT-(Date.no
  if(m&&String(m.id)===String(B.mid))pvCancel(); // fecha a partida no servidor (o resultado já foi aplicado e salvo)
  pvUi(1);try{render()}catch(e){console.error(e)}}
 
-const PR_WHY={disc:"O adversário desconectou durante a luta · vitória por desistência (decidido pelo servidor)",quit:"O adversário abandonou a luta · vitória por desistência (decidido pelo servidor)",tie:"Os últimos Bushes caíram juntos · desempate pelo BPS total do time (decidido pelo servidor)",stalemate:"Ninguém conseguia causar dano · desempate pela Vida restante (decidido pelo servidor)"};
+const PR_WHY={disc:"O adversário desconectou durante a luta · vitória por desistência (decidido pelo servidor)",quit:"O adversário abandonou a luta · vitória por desistência (decidido pelo servidor)",tie:"Os últimos Bushes caíram juntos · desempate pelo BPS total do time (decidido pelo servidor)",stalemate:"Ninguém conseguia causar dano · desempate pela Vida restante (decidido pelo servidor)",limit:"Limite de 200 turnos · vitória por maior % de Vida restante (decidido pelo servidor)",afk:"Inatividade por 3 turnos seguidos · vitória decidida pelo servidor"};
 function pvResultHtml(){
- const B=PV.bt;B.cc={};const a=pvArenaState(B,1e15),rs=B.rs||{},win=B.win,me=esc(S.name)||"Você",op=B.on,
+ const B=PV.bt;B.cc={};const a=B.tb?{hp:B.fh}:pvArenaState(B,1e15),rs=B.rs||{},win=B.win,me=esc(S.name)||"Você",op=B.on,
   nm=K=>K==="L"?me:op,av=K=>K==="L"?avHtml():B.oav,W=win?"L":"R",Lo=win?"R":"L",
   al=K=>a.hp[K].filter(h=>h>0).length,li=l=>(l||[]).map(x=>"<div>"+x+"</div>").join(""),
   side=(K,cls,tag)=>`<section class="pr-t ${cls}"><header><span class="avatar sm">${av(K)}</span><b>${nm(K)}</b><small>${tag}</small></header><div class="pr-row">${[0,1,2].map(j=>{const x=B[K].T.b[j],h=a.hp[K][j],mx=B[K].hp[j],ok=h>0;return`<div class="pa-c ${ok?"win":"dead"}"><span class="pa-sk">☠</span><div class="pa-im">${pvImg(x)}</div><b class="pa-n">${x.n}${x.evo?" ✦":""}</b><small class="pa-s">${RAR[x.r]} · Nv ${x.lv} · ${Q[x.q].n}</small><small class="pa-hp">${ok?"✔ Sobreviveu":"☠ Derrotado"}</small><small class="pa-d">❤ ${f(Math.max(0,h))} / ${f(mx)}</small></div>`}).join("")}</div></section>`,
@@ -2157,12 +2358,100 @@ ${need&&pk&&!t.mok?`<div class="pvmsg">${need}</div>`:""}
 <small>O time vira um retrato dos seus Bushes agora. Itens apostados ficam reservados no servidor (fora do inventário: não dá para usar, vender, fundir ou negociar) e voltam exatamente iguais se a batalha for cancelada, se alguém desconectar antes da luta ou se a aposta não for aceita pelos dois. Se alguém desconectar durante a luta, o outro vence.</small></div>`}
 const pvInbox=()=>`<div class="trbox"><button class="bd-x" onclick="pvClose()" aria-label="Fechar">✕</button><h2>⚔ Solicitações de Batalha</h2>${PV.in.map(q=>`<div class="row trq"><span class="avatar sm">${lbAv(q.av)}</span><b>${lbName(q.name)}</b><span class="trqb"><button class="btn g" onclick="pvAnswer(${+q.id},true)">Aceitar</button><button class="btn r" onclick="pvAnswer(${+q.id},false)">Negar</button></span></div>`).join("")||'<div class="trem">Nenhuma solicitação no momento.</div>'}<small>Para enviar: Ranking → toque em um jogador → ⚔ Enviar Batalha.</small></div>`;
 function pvUi(force){const w=$("#pvw"),fb=$("#pvf");if(!w)return;const t=PV.m,n=PV.in.length;fb.style.display=S.pvR?"flex":"none";fb.innerHTML="⚔"+(t||(PV.bt&&PV.bt.show)?"<b>●</b>":n?"<b>"+n+"</b>":"");
- if(!PV.ui){w.style.display="none";return}w.style.display="flex";if(PV.bt&&PV.bt.show){if(!PV.bt.dom||force){w.innerHTML=PV.bt.res?pvResultHtml():pvArenaHtml();PV.bt.dom=1}return}const sg=JSON.stringify([t,PV.sel,PV.in.map(q=>q.id),PV.src,PV.q,PV.bp,PV.bq,S.pvE&&[S.pvE.on,Object.keys(S.pvE.b),Object.keys(S.pvE.a),S.pvE.r,S.pvE.lk]]);if(!force&&sg==PV.sg)return;PV.sg=sg;
+ if(!PV.ui){w.style.display="none";return}w.style.display="flex";if(PV.bt&&PV.bt.show){if(!PV.bt.dom||force){w.innerHTML=PV.bt.res?pvResultHtml():PV.bt.tb?pvTurnHtml():pvArenaHtml();PV.bt.dom=1}return}const sg=JSON.stringify([t,PV.sel,PV.in.map(q=>q.id),PV.src,PV.q,PV.bp,PV.bq,S.pvE&&[S.pvE.on,Object.keys(S.pvE.b),Object.keys(S.pvE.a),S.pvE.r,S.pvE.lk]]);if(!force&&sg==PV.sg)return;PV.sg=sg;
  try{w.innerHTML=t?pvWin(t):pvInbox()}catch(e){console.error("PvP UI:",e);w.innerHTML='<div class="trbox"><h2>⚔ BATALHA</h2><div class="trem">Erro ao montar a tela. Toque em Cancelar.</div><div class="pvbt"><button class="btn r" onclick="pvCancel()">❌ Cancelar</button></div></div>'}}
 document.body.insertAdjacentHTML("beforeend",'<button id="pvf" onclick="PV.ui=true;pvUi(1)" aria-label="Batalha"></button><div id="pvw" onclick="if(event.target===this)pvClose()"></div>');
 setInterval(()=>{if(!LB.url||!S.pvR)return;const a=PV.m||PV.ui||Date.now()<PV.fast;if(document.hidden&&!PV.m)return;if(Date.now()-PV.lp>=(PV.m?1000:a?1500:8000)){PV.lp=Date.now();pvPoll()}},500);
 if(LB.url&&S.pid&&S.name)pvReg().then(()=>pvPoll()).catch(()=>{});else pvUi();
 
+
+/* ===== PASSIVAS DE BUSH + PVP TOKEN =====
+   O saldo de PVP Token e a passiva de cada Bush vivem NO SERVIDOR (bush-rng-passives.sql). O navegador só pede:
+   pp_grant (crédito por Guerra vencida, 1x por Guerra e com teto por raridade), pp_roll (cobra e sorteia no servidor) e pp_state (espelho).
+   A passiva guardada em i.pv é só um espelho: a cada sincronização o servidor sobrescreve. */
+S.ppT=S.ppT||0;S.ppQ=S.ppQ||[];S.ppD=S.ppD||{};S.ppN=S.ppN||0;
+const PPS={busy:0,fl:0,sy:0,v:0,ok:0,err:"",lt:0,sg:""},PAU={want:{},all:0,on:0,stop:0,n:0,spent:0,res:"",last:null,open:0,open2:0};let ppK=null;
+const PPERR={auth:"Falha de autenticação das Passivas",funds:"PVP Tokens insuficientes",bad:"Pedido recusado pelo servidor (dados inválidos)",old:"Guerra antiga demais para creditar PVP Tokens",limit:"Limite de Bushes com passiva atingido"};
+const ppErr=e=>{const m=String(e&&e.message||e);if(/pp_|schema cache|Could not find/.test(m))return"Servidor sem as Passivas: rode bush-rng-passives.sql no Supabase";if(/Failed to fetch|NetworkError|Load failed|sem servidor/i.test(m))return"Sem conexão com o servidor";return PPERR[m.split(/\W/)[0]]||"Erro: "+m.slice(0,80)};
+// segredo do jogador (192 bits, nunca publicado: o Ranking só expõe o pid). É a identidade no servidor.
+function ppKey(){if(!S.ppk){const a=new Uint8Array(24);crypto.getRandomValues(a);S.ppk=[...a].map(x=>x.toString(16).padStart(2,"0")).join("");save()}return S.ppk}
+const ppRpc=(fn,a)=>{if(!LB.url)return Promise.reject(new Error("sem servidor"));return trRpc(fn,{p_s:ppKey(),...a})};
+const ppPend=()=>S.ppQ.reduce((a,g)=>a+g.q,0);
+function ppRefresh(force){const sg=[S.ppT,S.ppQ.length,PPS.err,PPS.busy,PPS.ok].join("|");hud();if((force||sg!=PPS.sg)&&tab=="war"&&!PPS.busy)render();PPS.sg=sg}
+// Chamado por warGive junto com os War Tokens: MESMA quantidade q. 1 crédito por Guerra (id do slot).
+function ppEarn(q){const w=S.war;q=Math.floor(+q);if(!w||!(q>0)||!(w.rar>=0)||S.ppD[w.id])return;S.ppD[w.id]=1;const ks=Object.keys(S.ppD);if(ks.length>200)ks.sort((a,b)=>a-b).slice(0,ks.length-200).forEach(k=>delete S.ppD[k]);
+ S.ppQ.push({w:w.id,r:w.rar|0,q});save();setTimeout(()=>ppFlush().then(ppSync),0)}
+async function ppFlush(){if(PPS.fl||!LB.url||!S.ppQ.length)return;PPS.fl=1;
+ try{while(S.ppQ.length){const g=S.ppQ[0];
+   try{const r=await ppRpc("pp_grant",{p_w:g.w,p_r:g.r,p_q:g.q});S.ppT=+r.t||0;S.ppQ.shift()}
+   catch(e){const c=String(e.message||e).split(/\W/)[0];if(c=="bad"||c=="old"){S.ppQ.shift();toast("⚠ PVP Token recusado: "+ppErr(e),3500)}else throw e}save()}
+  PPS.err=""}catch(e){PPS.err=ppErr(e)}finally{PPS.fl=0;ppRefresh()}}
+async function ppSync(){if(!LB.url||PPS.sy||PPS.busy)return;PPS.sy=1;const v=PPS.v;
+ try{const r=await ppRpc("pp_state");if(v!=PPS.v)return;S.ppT=+r.t||0;const m=r.b||{};let ch=0;
+  Object.values(S.inv).forEach(i=>{const a=m[i.k];if(a&&PP[a]){if(i.pv!==a){i.pv=a;ch=1}}else if(i.pv){delete i.pv;ch=1}});
+  PPS.err="";PPS.ok=1;save();ppRefresh(ch)}catch(e){PPS.err=ppErr(e);ppRefresh()}finally{PPS.sy=0}}
+function ppRoll(){const i=S.inv[ppK];if(!i||PPS.busy)return;if(S.ppT<PPCOST)return toast("PVP Tokens insuficientes",2000);
+ const k=ppK,old=i.pv&&PP[i.pv]?PP[i.pv]:null;
+ if(old)return modal(`<h3>Substituir passiva?</h3>${bush(i.id).name} tem <b>${old.n}</b> (${PPR[old.t][0]} · ${ppTxt(i.pv)}).<br>Um novo sorteio substitui a atual e custa ${PPCOST} PVP Tokens.`,[["CANCEL","",()=>{}],["ROLAR","r",()=>ppGo(k)]]);
+ ppGo(k)}
+async function ppGo(k){const i=S.inv[k];if(!i||PPS.busy||S.ppT<PPCOST)return;PPS.busy=1;PPS.v++;render();
+ try{const r=await ppRpc("pp_roll",{p_b:String(k)}),a=r&&r.a;if(!a||!PP[a])throw new Error("bad");
+  const cur=S.inv[k],o=r.o&&PP[r.o]?PP[r.o]:null;S.ppT=+r.t||0;S.ppN++;PPS.err="";
+  if(cur)cur.pv=a;beep(PP[a].t>=2?SND.sec:SND.get);PPS.busy=0;PPS.v++;save();hud();
+  modal(`<h2>🔱 Passiva!</h2><b>${cur?bush(cur.id).name:""}</b><br><span class="chip pp" style="--pc:${PPR[PP[a].t][1]}">${PP[a].e} ${PP[a].n} · ${PPR[PP[a].t][0]}</span><br><small>${ppTxt(a)}</small>${o?"<br><small>Anterior: "+o.n+" ("+PPR[o.t][0]+")</small>":""}`,[["OK","g",()=>render()]])}
+ catch(e){PPS.busy=0;PPS.v++;PPS.err=ppErr(e);toast(PPS.err,3500);ppSync();render()}}
+// ---- Auto Roll com níveis ----
+// Para quando sair: a passiva escolhida, QUALQUER nível maior da MESMA família (Berserker II → também Berserker III) e a Lenda.
+// Opcional ("raridade ≥"): qualquer passiva de nível/raridade igual ou superior à MENOR escolhida.
+const ppAcc=()=>{const w=Object.keys(PAU.want).filter(k=>PP[k]),a={};if(!w.length)return[];
+ w.forEach(k=>PPL.forEach(q=>{if(PP[q].f==PP[k].f&&PP[q].l>=PP[k].l)a[q]=1}));a.lenda=1;
+ if(PAU.all){const mt=Math.min(...w.map(k=>PP[k].t));PPL.forEach(q=>{if(PP[q].t>=mt)a[q]=1})}return Object.keys(a)};
+const ppAccCh=()=>ppAcc().reduce((s,k)=>s+PPW(k),0);
+function ppAuTog(k){if(PAU.on)return;if(PAU.want[k])delete PAU.want[k];else PAU.want[k]=1;PAU.res="";render()}
+function ppAuAll(){if(PAU.on)return;PAU.all=PAU.all?0:1;PAU.res="";render()}
+function ppAuClr(){if(PAU.on)return;PAU.want={};PAU.res="";render()}
+function ppAuHtml(){const run=PAU.on,ac=ppAcc(),ch=ppAccCh(),nm=k=>PP[k].n;
+ const sel=ac.length?`<div class="lab">Para quando sair:</div><div class="chips">${ac.map(k=>`<span class="chip pp" style="--pc:${PPR[PP[k].t][1]}">${PP[k].e} ${nm(k)}</span>`).join("")}</div>`:"";
+ return`<div class="stats4"><div class="stat"><small>Chance por tentativa</small><b>${ch>0?(ch*100).toFixed(ch<.01?3:2)+"%":"-"}</b>${ch>0?`<small>média: ~${f(Math.ceil(1/ch))} tentativas (${f(Math.ceil(1/ch)*PPCOST)} 🔱)</small>`:""}</div><div class="stat"><small>Tentativas / 🔱 gastos</small><b>${f(PAU.n)} / ${f(PAU.spent)}</b></div><div class="stat"><small>Último resultado</small><b>${PAU.last&&PP[PAU.last]?PP[PAU.last].n:"-"}</b></div></div>
+${PAU.res?`<div class="aq-res">${PAU.res}</div>`:run?`<div class="aq-res run">Rolando no servidor… toque em STOP para parar.</div>`:""}`}
+function ppAuUi(){const e=$("#ppab");if(e)e.innerHTML=ppAuHtml()}
+async function ppAuto(){if(PAU.on){PAU.stop=1;return}const i=S.inv[ppK],ac=ppAcc();
+ if(!i)return;if(PPS.busy)return;if(!LB.url){PAU.res="Sem servidor.";return render()}
+ if(!ac.length){PAU.res="Escolha pelo menos uma passiva desejada.";return render()}
+ if(S.ppT<PPCOST){PAU.res="Você não tem PVP Tokens suficientes.";return render()}
+ if(i.pv&&ac.includes(i.pv)){PAU.res="Esta Bush já tem "+PP[i.pv].n+", que já atende ao que você escolheu.";return render()}
+ const go=()=>ppAuRun(ppK);const o=i.pv&&PP[i.pv];
+ if(o)return modal(`<h3>Iniciar Auto Roll?</h3>${bush(i.id).name} tem <b>${o.n}</b>.<br>Ela será substituída a cada tentativa (${PPCOST} 🔱 cada) até sair uma passiva desejada.`,[["CANCEL","",()=>{}],["INICIAR","g",go]]);
+ go()}
+async function ppAuRun(k){const i0=S.inv[k];if(!i0)return;const ac=ppAcc(),first=i0.pv&&PP[i0.pv]?i0.pv:null;
+ PAU.on=1;PAU.stop=0;PAU.n=0;PAU.spent=0;PAU.res="";PAU.last=null;PPS.busy=1;PPS.v++;render();let hit=0;
+ try{while(!PAU.stop){const r=await ppRpc("pp_auto",{p_b:String(k),p_want:ac,p_max:25}),a=r&&r.a;if(!a||!PP[a])throw new Error("bad");
+   S.ppT=+r.t||0;PAU.n+=r.n|0;PAU.spent+=(r.n|0)*PPCOST;S.ppN+=r.n|0;PAU.last=a;const cur=S.inv[k];if(cur)cur.pv=a;PPS.v++;save();ppAuUi();hud();
+   if(!cur){PAU.res="A Bush selecionada não existe mais.";break}
+   if(r.hit){hit=1;break}if(S.ppT<PPCOST){PAU.res="Os PVP Tokens acabaram. Nenhuma passiva desejada saiu em "+PAU.n+" tentativa(s).";break}}
+  if(!hit&&!PAU.res)PAU.res="Parado após "+PAU.n+" tentativa(s) · "+PAU.spent+" 🔱 gastos.";PPS.err=""}
+ catch(e){PPS.err=ppErr(e);PAU.res=PPS.err}
+ PAU.on=0;PPS.busy=0;PPS.v++;save();
+ if(hit){const a=PAU.last;PAU.res="🎯 Resultado atingido: "+PP[a].n+" após "+PAU.n+" tentativa(s) · "+PAU.spent+" 🔱 gastos.";beep(PP[a].t>=2?SND.sec:SND.get);toast("🎯 "+PP[a].n+"!",3000)}
+ ppSync();render()}
+function PPPANEL(){const l=Object.values(S.inv).sort(SORT[0]);if(!S.inv[ppK])ppK=l[0]?l[0].k:null;const i=S.inv[ppK],b=i&&bush(i.id),pd=ppPend(),bs=PPS.busy;
+ if(LB.url&&!PPS.ok&&!PPS.sy&&!PPS.fl&&Date.now()-PPS.lt>30000){PPS.lt=Date.now();setTimeout(()=>ppFlush().then(ppSync),0)}
+ const chb=k=>`<button class="chipb ${PAU.want[k]?"on":""}" style="border-color:${PPR[PP[k].t][1]}" ${PAU.on?"disabled":""} onclick="ppAuTog('${k}')">${PP[k].l==4?"👑":ROM[PP[k].l-1]}<small>${fm(+(PPW(k)*100).toFixed(2))}%</small></button>`;
+ return`<div class="panel"><h2>🔱 PASSIVAS DE BUSH</h2><small>Cada Bush tem 1 slot de passiva (família + nível, ex.: Berserker III). Gaste ${PPCOST} PVP Tokens para sortear uma nova (ela substitui a anterior). Valem na Torre e na Guerra automaticamente. PVP Tokens vêm dos Bosses da Guerra, na mesma quantidade dos War Tokens. Sorteio e saldo são validados pelo servidor.</small>
+<div class="stats4"><div class="stat"><small>PVP Tokens</small><b>🔱 ${f(S.ppT)}</b>${pd?`<small>+${f(pd)} a creditar</small>`:""}</div><div class="stat"><small>Custo por rolagem</small><b>🔱 ${PPCOST}</b></div><div class="stat"><small>Passivas roladas</small><b>${S.ppN}</b></div></div>
+<select style="width:100%" ${bs?"disabled":""} onchange="ppK=this.value;render()">${l.map(x=>`<option value="${x.k}" ${x.k==ppK?"selected":""}>${S.eq.includes(x.k)?"⭐ ":""}${bush(x.id).name} · ${Q[x.q].n} · Lv${x.lv}${x.pv&&PP[x.pv]?" · "+PP[x.pv].e+" "+PP[x.pv].n:""}</option>`).join("")}</select>
+${i?`<div class="row">${bi(b)}<b>${b.name}</b> · Passiva: ${ppChip(i)||"nenhuma"}</div>${i.pv&&PP[i.pv]?`<small>${PPR[PP[i.pv].t][0]} · ${ppTxt(i.pv)}</small>`:""}`:""}
+<button class="btn g wide" ${i&&S.ppT>=PPCOST&&!bs&&LB.url?"":"disabled"} onclick="ppRoll()">${bs&&!PAU.on?"Rolando no servidor…":"🔱 ROLAR PASSIVA · "+PPCOST+" PVP Token"}</button>
+${PPS.err&&!PAU.on?`<span class="ppnote">${PPS.err}</span>`:""}
+<details ${PAU.open?"open":""} ontoggle="PAU.open=this.open"><summary>🤖 Auto Roll</summary>
+<small>Toque no nível que você quer. O Auto Roll para quando sair essa passiva, um <b>nível maior da mesma família</b> ou a <b>Lenda</b>.</small>
+${PPFAM.map(F=>`<div class="row"><b style="min-width:128px">${F[2]} ${F[1]}</b><span class="chips">${F[3].map((_,k)=>chb(F[0]=="lenda"?"lenda":F[0]+"_"+(k+1))).join("")}</span></div>`).join("")}
+<div class="chips"><button class="chipb ${PAU.all?"on":""}" ${PAU.on?"disabled":""} onclick="ppAuAll()">Aceitar qualquer passiva de raridade ≥ à menor escolhida</button><button class="chipb" ${PAU.on?"disabled":""} onclick="ppAuClr()">Limpar</button></div>
+<div id="ppab">${ppAuHtml()}</div>
+${PAU.on?'<button class="btn r wide" onclick="ppAuto()">■ STOP</button>':`<button class="btn g wide" ${i&&!bs?"":"disabled"} onclick="ppAuto()">▶ START</button>`}</details>
+<details ${PAU.open2?"open":""} ontoggle="PAU.open2=this.open"><summary>Ver raridades e passivas (${PPL.length})</summary>${PPR.map((r,ti)=>`<div class="lab" style="color:${r[1]}">${["Nível I","Nível II","Nível III","Lenda"][ti]} · ${r[0]} · ${fm(+(r[2]/100).toFixed(2))}% (${fm(+(r[2]/100/PPTN[ti]).toFixed(3))}% cada)</div><table>${PPL.filter(k=>PP[k].t==ti).map(k=>`<tr><th>${PP[k].e} ${PP[k].n}</th><td>${ppTxt(k)}</td></tr>`).join("")}</table>`).join("")}<small>O nível é sorteado primeiro; dentro dele todas as passivas têm a mesma chance. Efeitos de combate agem na Torre e na Guerra.</small></details></div>`}
+if(LB.url)setTimeout(()=>ppFlush().then(ppSync),0);
+setInterval(()=>{if(S.ppQ.length&&!document.hidden)ppFlush().then(ppSync)},15000);
 
 const INVHDR=()=>INVHDR0()+trInvNote();
 render();
