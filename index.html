@@ -516,6 +516,7 @@ details.panel .chips{justify-content:flex-start}
 /* ===== TRADE ===== */
 #trf{position:fixed;right:12px;bottom:92px;z-index:19;width:48px;height:48px;border-radius:50%;border:2px solid var(--ac);background:var(--pn2);font-size:22px;display:none;align-items:center;justify-content:center;box-shadow:0 6px 18px #000a;cursor:pointer;color:var(--tx)}
 #trf b{position:absolute;top:-4px;right:-4px;background:#e0503a;color:#fff;border-radius:99px;font-size:11px;min-width:18px;height:18px;line-height:18px;text-align:center}
+#trinv{position:fixed;left:0;right:0;top:10px;z-index:45;display:none;flex-direction:column;gap:8px;align-items:center;padding:0 10px;pointer-events:none}.trinv{pointer-events:auto;width:100%;max-width:420px;background:linear-gradient(180deg,var(--pn2),var(--pn));border:2px solid var(--ac);border-radius:16px;padding:12px;color:var(--tx);box-shadow:0 10px 30px #000c;text-align:center}.trinv .who{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:10px;text-align:left}.trinv .btn{flex:1;margin:0;padding:11px}.trinv .bb{display:flex;gap:8px}
 #trw{position:fixed;inset:0;z-index:30;background:#040a07e6;backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;padding:10px;overflow:auto}
 .trbox{position:relative;width:100%;max-width:880px;background:linear-gradient(180deg,var(--pn2),var(--pn));border:1px solid var(--ln);border-radius:18px;padding:14px;color:var(--tx);text-align:left}
 .trbox h2{margin:0 0 8px;text-align:center}.trbox .bd-x{position:absolute;top:8px;right:10px}
@@ -582,6 +583,59 @@ details.panel .chips{justify-content:flex-start}
 .farm2 .wh .sh{width:62px;height:22px;margin:-15px auto 3px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#b98a4e 0,#7a5226 55%,#4a2f14 100%);border:2px solid var(--c,#4a2f14);box-shadow:0 3px 0 #2f1d0a,0 0 9px var(--c,#0000),inset 0 2px 3px #fff4}
 @media(max-width:600px){.farm2 .wh .sh{width:50px;height:18px}}
 @media(max-width:600px){.farm2{height:470px}.farm2 .wh .sl,.farm2 .wh .sl.f{width:66px}}
+
+/* ===== PvP: solicitação e preparação ===== */
+#pvf{position:fixed;right:12px;bottom:148px;z-index:19;width:48px;height:48px;border-radius:50%;border:2px solid #e0503a;background:var(--pn2);font-size:22px;display:none;align-items:center;justify-content:center;box-shadow:0 6px 18px #000a;cursor:pointer;color:var(--tx)}
+#pvf b{position:absolute;top:-4px;right:-4px;background:#e0503a;color:#fff;border-radius:99px;font-size:11px;min-width:18px;height:18px;line-height:18px;text-align:center}
+#pvw{position:fixed;inset:0;z-index:31;background:#040a07ee;backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;padding:10px;overflow:auto}
+.pvmsg{text-align:center;font-size:12.5px;color:var(--mt);margin:2px 0 10px}.pvmsg.go{color:#6cf08e;font-weight:800;font-size:14px}
+.pvsec{background:#0c1711;border:1px solid var(--ln);border-radius:14px;padding:8px;margin-bottom:10px}.pvsec.me{border-color:var(--ac)}.pvsec.th{border-color:#e0503a88}
+.pvsec header{display:flex;align-items:center;gap:8px;margin-bottom:6px}.pvsec header div{flex:1;display:flex;flex-direction:column;min-width:0}.pvsec header small{color:var(--mt);font-size:10px;letter-spacing:.06em}.pvsec .ok{color:#6cf08e;font-style:normal;font-size:11px;font-weight:700}.pvsec .wt{color:var(--mt);font-style:normal;font-size:11px}
+.pvt{display:grid;grid-template-columns:1fr;gap:6px}@media(min-width:680px){.pvt{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.pvc{background:#0a140e;border:1px solid var(--c,var(--ln));border-left:5px solid var(--c,var(--ln));border-radius:10px;padding:6px 8px;min-width:0}
+.pvc.em{border-style:dashed;border-left-width:1px;color:var(--mt);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:64px;text-align:center}.pvc.em b{font-size:22px;opacity:.5}.pvc.em small{font-size:10.5px}
+.pvh{display:flex;gap:8px;align-items:center}.pvb{flex:0 0 44px;display:flex;justify-content:center}.pvb .bi{width:44px;height:44px}
+.pvn{display:flex;flex-direction:column;min-width:0}.pvn b{font-size:13px;overflow-wrap:anywhere}.pvn small{color:var(--mt);font-size:10.5px}
+.pvs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:5px 0}.pvs span{background:#0f1c14;border-radius:6px;padding:3px 4px;text-align:center;font-size:10px;color:var(--mt)}.pvs b{display:block;color:var(--tx);font-size:12px}
+.pvx small{display:block;font-size:10.5px;color:var(--mt);line-height:1.35;overflow-wrap:anywhere}.pvx small b{color:var(--tx)}
+.pva{font-size:11px;color:var(--mt);margin:6px 2px 0;line-height:1.4}.pva b{color:var(--tx)}
+.pvbt{position:sticky;bottom:0;display:flex;gap:8px;padding:8px 0 2px;background:linear-gradient(transparent,var(--pn) 30%)}.pvbt .btn{flex:1;margin:0;padding:12px}
+.pvrd{display:flex;gap:8px;margin:0 0 10px}.pvrd span{flex:1;text-align:center;padding:8px;border-radius:10px;background:#0c1711;border:1px solid var(--ln);font-size:12.5px;color:var(--mt)}.pvrd span.on{border-color:#6cf08e;color:#6cf08e}.pvrd b{display:block;font-size:14px}
+.pvbet .lab{margin-bottom:4px}.pvbc{display:grid;grid-template-columns:1fr;gap:8px;margin:6px 0}@media(min-width:680px){.pvbc{grid-template-columns:1fr 1fr}}.pvbs{background:#0a140e;border-radius:10px;padding:6px;display:flex;flex-direction:column;gap:5px}.pvbs.me{border:1px solid var(--ac)}.pvbs.th{border:1px solid #e0503a88}.pvbs>b{font-size:12px}.pvbs>small{color:var(--mt);font-size:10.5px}
+.lb-tr{gap:6px;flex-wrap:wrap}
+/* ===== PvP: arena 3x3 ===== */
+.pa-msg{text-align:center;font-size:13px;color:var(--mt);margin:0 0 8px;min-height:18px}.pa-msg b{color:var(--tx)}
+.pa-arena{background:radial-gradient(120% 90% at 50% 50%,#1a2a1c 0%,#0a140e 70%);border:1px solid var(--ln);border-radius:16px;padding:8px;margin-bottom:8px}
+.pa-team{padding:4px 2px}.pa-th{display:flex;align-items:center;gap:6px;margin:0 0 5px;font-size:12px}.pa-th b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pa-th small{color:var(--mt);font-size:10.5px}
+.pa-team.r .pa-th b{color:#ff8a76}.pa-team.l .pa-th b{color:#6cf08e}
+.pa-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pa-vs{text-align:center;font-weight:900;letter-spacing:.12em;color:#ffd24a;font-size:14px;padding:6px 0;border-top:1px dashed #ffffff22;border-bottom:1px dashed #ffffff22;margin:4px 0}
+.pa-c{position:relative;background:#0a140e;border:1px solid var(--ln);border-radius:10px;padding:5px 3px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;transition:transform .25s,filter .4s,box-shadow .25s,opacity .4s}
+.pa-c.act{transform:scale(1.06);border-color:#ffd24a;box-shadow:0 0 14px #ffd24a88;z-index:1;animation:paIn .35s}
+.pa-c.act.hit{animation:paHit .4s infinite}
+.pa-c.win{border-color:#6cf08e;box-shadow:0 0 12px #6cf08e66}
+.pa-c.dead,.pa-c.ko{filter:grayscale(1) brightness(.55);opacity:.7}.pa-c.ko{animation:paKo .6s}
+.pa-sk{position:absolute;top:1px;right:3px;font-size:15px;display:none}.pa-c.dead .pa-sk,.pa-c.ko .pa-sk{display:block}
+.pa-im{display:flex;justify-content:center}.pa-im .bi{width:42px;height:42px}
+.pa-n{font-size:11px;overflow-wrap:anywhere;line-height:1.15}
+.pa-s,.pa-hp,.pa-d{font-size:9.5px;color:var(--mt);line-height:1.2;overflow-wrap:anywhere}.pa-hp{color:var(--tx);font-weight:700}
+.pa-bar{width:92%;height:8px;background:#1a0d0d;border-radius:99px;overflow:hidden;border:1px solid #0006}
+.pa-fill{display:block;height:100%;width:100%;background:#4fd36f;transition:width .15s linear}.pa-fill.mid{background:#e8c43a}.pa-fill.low{background:#e0503a}
+.pa-res{display:none;text-align:center;padding:10px;border-radius:12px;margin:0 0 8px;font-weight:900;font-size:18px}.pa-res small{display:block;font-weight:500;font-size:11.5px;color:var(--mt);margin-top:3px}
+.pa-res.w{display:block;background:#12301c;border:1px solid #6cf08e;color:#6cf08e}.pa-res.l{display:block;background:#301212;border:1px solid #e0503a;color:#ff8a76}
+.pa-log{display:flex;flex-direction:column-reverse;gap:2px;max-height:130px;overflow:auto;font-size:11.5px;color:var(--mt);margin:0 0 8px;background:#0a140e;border-radius:10px;padding:6px}.pa-log div b{color:var(--tx)}
+.pa-det{margin-top:6px}.pa-det h3{font-size:12px;margin:8px 0 4px}
+@keyframes paHit{0%,100%{transform:scale(1.06) translateX(0)}25%{transform:scale(1.06) translateX(-3px)}75%{transform:scale(1.06) translateX(3px)}}
+@keyframes paIn{from{transform:scale(.8);opacity:.4}to{transform:scale(1.06);opacity:1}}
+@keyframes paKo{0%{transform:scale(1.1);filter:brightness(2)}100%{transform:scale(1)}}
+/* ===== PvP: tela de resultado ===== */
+.pr-ban{text-align:center;padding:12px;border-radius:14px;margin:0 0 8px;font-weight:900;font-size:22px}.pr-ban small{display:block;font-weight:500;font-size:12px;color:var(--mt);margin-top:3px}
+.pr-ban.w{background:#12301c;border:1px solid #6cf08e;color:#6cf08e}.pr-ban.l{background:#301212;border:1px solid #e0503a;color:#ff8a76}
+.pr-sum{display:flex;gap:8px;margin:0 0 8px}.pr-sum div{flex:1;min-width:0;text-align:center;padding:8px;border-radius:10px;background:#0c1711;border:1px solid var(--ln);font-size:11px;color:var(--mt)}.pr-sum b{display:block;font-size:13.5px;color:var(--tx);overflow-wrap:anywhere}.pr-sum .w{border-color:#6cf08e}.pr-sum .l{border-color:#e0503a88}
+.pr-t{background:#0c1711;border:1px solid var(--ln);border-radius:14px;padding:8px;margin-bottom:8px}.pr-t.w{border-color:#6cf08e}.pr-t.l{border-color:#e0503a88}
+.pr-t header{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12.5px}.pr-t header b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pr-t header small{color:var(--mt);font-size:10.5px;letter-spacing:.06em}
+.pr-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pr-bet{background:#0a140e;border:1px solid var(--ln);border-radius:12px;padding:8px;margin-bottom:8px;font-size:12px;display:flex;flex-direction:column;gap:3px}.pr-bet.w{border-color:#6cf08e}.pr-bet.l{border-color:#e0503a88}.pr-bet small{color:var(--mt);font-size:10.5px}
 </style></head><body>
 <div id="hud"></div><div id="main"></div>
 <div id="nav"></div><div id="more" onclick="if(event.target===this)closeMore()"></div><div id="ov"></div><div id="toast"></div>
@@ -896,7 +950,7 @@ let pfEd=false;
 const lbAv=(v,own)=>{if(own)return avHtml();v=String(v==null?"":v);if(/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]{20,16000}$/.test(v))return'<img alt="" loading="lazy" src="'+v+'">';return(v&&v.length<=8&&!/[<>&"'`\\]/.test(v))?v:"🌿"};
 const lbName=x=>String(x==null?"":x).replace(/[<>&"']/g,"");
 function lbRows(){if(!lbData)return'<li class="lb-empty">Carregando…</li>';if(!lbData.length)return'<li class="lb-empty">Nenhum jogador no ranking ainda.</li>';const me=String(S.name||"").trim().toLowerCase();
- return lbData.map((r,k)=>{const nm=lbName(r.name),own=me&&nm.trim().toLowerCase()==me,bn=lbName(r.best_name||"-");const mine=own||(r.pid&&r.pid==S.pid);return`<li class="lb-r${k<3?" r"+(k+1):""}${mine?" own":""}" onclick="lbSel=lbSel=='${r.pid||""}'?null:'${r.pid||""}';render()"><span class="lb-k">${k<3?["🥇","🥈","🥉"][k]:k+1}</span><span class="avatar sm">${lbAv(r.avatar,own)}</span><div class="lb-n"><b>${nm}${own?' <em>você</em>':""}</b><small>${bn!="-"?"🌿 "+bn:"—"}</small></div><div class="lb-s">${f(r[lbCat])}</div>${r.pid&&lbSel==r.pid?`<div class="lb-tr">${mine?"<small>Você não pode negociar consigo mesmo</small>":`<button class="btn g" onclick="event.stopPropagation();trSend('${r.pid}')">🤝 Enviar Trade</button>`}</div>`:""}</li>`}).join("")}
+ return lbData.map((r,k)=>{const nm=lbName(r.name),own=me&&nm.trim().toLowerCase()==me,bn=lbName(r.best_name||"-");const mine=own||(r.pid&&r.pid==S.pid);return`<li class="lb-r${k<3?" r"+(k+1):""}${mine?" own":""}" onclick="lbSel=lbSel=='${r.pid||""}'?null:'${r.pid||""}';render()"><span class="lb-k">${k<3?["🥇","🥈","🥉"][k]:k+1}</span><span class="avatar sm">${lbAv(r.avatar,own)}</span><div class="lb-n"><b>${nm}${own?' <em>você</em>':""}</b><small>${bn!="-"?"🌿 "+bn:"—"}</small></div><div class="lb-s">${f(r[lbCat])}</div>${r.pid&&lbSel==r.pid?`<div class="lb-tr">${mine?"<small>Você não pode enviar Trade ou Batalha para si mesmo</small>":`<button class="btn g" onclick="event.stopPropagation();trSend('${r.pid}')">🤝 Enviar Trade</button><button class="btn r" onclick="event.stopPropagation();pvSend('${r.pid}')">⚔ Enviar Batalha</button>`}</div>`:""}</li>`}).join("")}
 const LBHTML=()=>`<div class="panel lbp"><h2>🏆 LEADERBOARD</h2>${LB.url?`<div class="lb-ctl"><div class="lb-f"><small>Seu nome</small><div class="lb-send"><input id="nm" maxlength="16" value="${(S.name||"").replace(/"/g,"")}"><button class="btn g" onclick="lbSend()">Enviar</button></div></div><div class="lb-f"><small>Categoria</small><div class="lb-send"><select onchange="lbCat=this.value;lbLoad()">${Object.keys(LBC).map(k=>`<option value="${k}" ${k==lbCat?"selected":""}>${LBC[k]}</option>`).join("")}</select><button class="btn" onclick="lbLoad()">Atualizar</button></div></div></div>${lbMsg?`<p class="lb-msg">${lbMsg}</p>`:""}${trInline()}<ol class="lb-list">${lbRows()}</ol>`:`Configure o Supabase: crie um projeto gratuito, rode o SQL abaixo e preencha <code>LB.url</code> e <code>LB.key</code> (só a chave <b>anon</b>) no script.<pre style="white-space:pre-wrap;font-size:10px">${LBSQL}</pre>`}</div>`;
 // miniatura 64px da foto (ou emoji do avatar padrão) para compartilhar no ranking
 function avThumb(){const d=S.av||"🌿";return new Promise(res=>{if(!(S.avPh&&S.avImg))return res(d);const im=new Image();im.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=64;c.getContext("2d").drawImage(im,0,0,64,64);res(c.toDataURL("image/jpeg",.72))}catch(e){res(d)}};im.onerror=()=>res(d);im.src=S.avImg})}
@@ -906,8 +960,8 @@ async function lbSend(){const n=($("#nm")||{}).value;S.name=(n||S.name||"Anon").
  async function push(body){let ok=false,err="";for(const q of["pid=eq."+encodeURIComponent(S.pid),"name=eq."+encodeURIComponent(S.name)]){const r=await fetch(U+"?"+q,{method:"PATCH",headers:{...H,Prefer:"return=representation"},body,cache:"no-store"});let rows=[];if(r.ok)rows=await r.json();else err=(await r.text()).slice(0,160);if(rows.length){ok=true;break}if(/avatar/i.test(err))return{noav:1}}
   if(ok)return{m:"Atualizado!"};const r=await fetch(U,{method:"POST",headers:{...H,Prefer:"return=minimal"},body,cache:"no-store"});if(r.ok)return{m:"Criado!"};const t=(await r.text()).slice(0,160);if(/avatar/i.test(t))return{noav:1};return{m:"Erro "+r.status+": "+(t||err)}}
  try{let o=await push(JSON.stringify({...base,avatar:av}));if(o.noav){o=await push(JSON.stringify(base));lbMsg=o.m+" · foto não enviada: rode o SQL atualizado no Supabase"}else lbMsg=o.m}catch(e){lbMsg="Falha de rede"}
- save();lbLoad();trReg().then(()=>trPoll()).catch(()=>{})}
-async function lbLoad(){const hd={apikey:LB.key,Authorization:"Bearer "+LB.key},q=a=>`${LB.url}/rest/v1/leaderboard?select=pid,name,best_name,${a}${lbCat}&order=${lbCat}.desc&limit=100`;try{let r=await fetch(q("avatar,"),{headers:hd,cache:"no-store"});if(r.status==400)r=await fetch(q(""),{headers:hd,cache:"no-store"});lbData=r.ok?await r.json():[];{const m={};lbData.forEach(x=>{const k=String(x.name).trim().toLowerCase();if(!m[k]||x[lbCat]>m[k][lbCat])m[k]=x});lbData=Object.values(m).sort((x,y)=>y[lbCat]-x[lbCat]).slice(0,20)}if(!r.ok)lbMsg="Erro "+r.status}catch(e){lbMsg="Falha de rede";lbData=[]}if(tab=="top")render()}
+ save();lbLoad();trReg().then(()=>trPoll()).catch(()=>{});pvReg().then(()=>pvPoll()).catch(()=>{})}
+async function lbLoad(){const hd={apikey:LB.key,Authorization:"Bearer "+LB.key},q=a=>`${LB.url}/rest/v1/leaderboard?select=pid,name,best_name,${a}${lbCat}&order=${lbCat}.desc&limit=100`;try{let r=await fetch(q("avatar,"),{headers:hd,cache:"no-store"});if(r.status==400)r=await fetch(q(""),{headers:hd,cache:"no-store"});lbData=r.ok?await r.json():[];{const m={};lbData.forEach(x=>{const k=x.pid?"p:"+x.pid:"n:"+String(x.name).trim().toLowerCase();if(!m[k]||x[lbCat]>m[k][lbCat])m[k]=x});lbData=Object.values(m).sort((x,y)=>y[lbCat]-x[lbCat]).slice(0,20)}if(!r.ok)lbMsg="Erro "+r.status}catch(e){lbMsg="Falha de rede";lbData=[]}if(tab=="top")render()}
 const POT={money:["Poção 2x Dinheiro",2.5e6],luck:["Poção 2x Sorte",5e6],xp:["Poção 2x XP",1.5e6],qual:["Poção 2x Qualidade",8e6]};
 const potA=k=>(S.pot[k]||0)>Date.now();
 function buyPot(k){const p=potPlan(k,'b',PQS.b[k]||1);if(p.n<1)return render();S.money-=p.tot;S.pinv[k]+=p.n;beep(SND.buy);render()}
@@ -1754,9 +1808,9 @@ function trReturn(){const E=S.trE;if(!E)return;Object.values(E.b).forEach(i=>{if
 function trGive(c){for(const id in c.c)if(!S.cust[id])S.cust[id]=c.c[id];c.b.forEach(i=>{const k=S.inv[i.k]?newKey():i.k;S.inv[k]={...i,k};S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);S.bm[i.id]=[...new Set([...(S.bm[i.id]||[]),...i.ms.map(x=>M[x].n)])];i.ms.forEach(x=>S.muts[M[x].n]=1);if(i.evo)S.bevo[i.id]=1});c.a.forEach(a=>{const k=S.ar[a.k]?newKey():a.k;S.ar[k]={...a,k}});Object.keys(c.r).forEach(id=>trSet(id,trGet(id)+c.r[id]))}
 // ---- sincronização ----
 async function trPoll(){if(!LB.url||!S.trR)return;if(TR.busy){TR.again=1;return}TR.busy=1;try{const t0=Date.now(),d=await trRpc("tr_poll",{p:S.pid,s:S.trk});TR.skew=d.now-(t0+Date.now())/2;TR.in=d.in||[];
- TR.in.forEach(q=>{if(!TR.seen["i"+q.id]){TR.seen["i"+q.id]=1;toast("🤝 "+lbName(q.name)+" enviou uma solicitação de Trade",4500);beep(SND.get)}});
+ TR.in.forEach(q=>{if(!TR.seen["i"+q.id]){TR.seen["i"+q.id]=1;TR.sg2="";toast("🤝 "+lbName(q.name)+" enviou uma solicitação de Trade",4500);beep(SND.get)}});
  (d.out||[]).forEach(q=>{if(!TR.seen["o"+q.id]){TR.seen["o"+q.id]=1;toast(lbName(q.name)+(q.st=="denied"?" negou":" não respondeu a")+" sua solicitação de Trade",3500)}});
- TR.tr=d.tr;await trStep()}catch(e){if(/auth/.test(e.message)){S.trR=0}else if(Date.now()-(TR.et||0)>8000){TR.et=Date.now();console.error("Trade:",e);toast("⚠ Trade: "+trErr(e),3000)}}TR.busy=0;if(TR.op&&Date.now()>TR.opT)TR.op=0;try{trUi()}catch(e){console.error("Trade UI:",e)}if(TR.again){TR.again=0;setTimeout(trPoll,60)}}
+ TR.tr=d.tr;await trStep()}catch(e){if(/auth/.test(e.message)){S.trR=0;trReg().then(()=>{TR.lp=0}).catch(()=>{if(Date.now()-(TR.et||0)>8000){TR.et=Date.now();toast("⚠ Trade: falha de autenticação. Toque Enviar no Ranking para reativar",4000)}})}else if(Date.now()-(TR.et||0)>8000){TR.et=Date.now();console.error("Trade:",e);toast("⚠ Trade: "+trErr(e),3000)}}TR.busy=0;if(TR.op&&Date.now()>TR.opT)TR.op=0;try{trUi()}catch(e){console.error("Trade UI:",e)}if(TR.again){TR.again=0;setTimeout(trPoll,60)}}
 async function trStep(){const t=TR.tr;if(!t){if(S.trE&&Date.now()-S.trE.ts>12e4)trReturn();return}
  if(S.trDone[t.id]&&(t.st=="open"||t.st=="counting")){delete S.trDone[t.id];save()}
  if(S.trDone[t.id]){TR.tr=null;trRpc("tr_ack",trA({tid:t.id})).catch(()=>{});return}
@@ -1780,8 +1834,8 @@ function trSettle(t){const ok=t.st=="completed",E=S.trE;let msg;
  trRpc("tr_ack",trA({tid:t.id})).catch(()=>{});modal(msg,[["OK","g",()=>render()]]);render();trUi(1)}
 function trTick(){const t=TR.tr;if(!t||t.st!="counting")return;const s=Math.ceil((t.cnt-(Date.now()+TR.skew))/1000),e=$("#trcd");if(e)e.innerHTML=s>0?"⏳ Trade será confirmada em <b>"+s+"</b>…":"Confirmando…";if(s<=0&&TR.com!=t.id)trCommit()}
 // ---- solicitações / leaderboard ----
-async function trSend(pid){if(!S.name)return toast("Defina seu nome e toque Enviar no Ranking",3000);if(pid==S.pid)return toast(TRERR.self,2500);try{await trReg();await trRpc("tr_send",trA({t:pid}));TR.fast=Date.now()+120000;TR.lp=0;toast("🤝 Solicitação enviada · a Trade abre sozinha quando aceitarem",3500)}catch(e){toast(trErr(e),3500)}}
-async function trAnswer(id,ok){let good=0;try{await trRpc("tr_resp",trA({rid:id,ok}));good=1}catch(e){toast(trErr(e),3000)}TR.in=TR.in.filter(q=>q.id!=id);if(ok&&good){TR.ui=true;TR.op=1;TR.opT=Date.now()+10000;TR.fast=Date.now()+60000;TR.sg=""}TR.lp=0;trPoll();if(ok&&good){trUi(1);setTimeout(trPoll,400)}}
+async function trSend(pid){if(!S.name)return toast("Defina seu nome e toque Enviar no Ranking",3000);if(pid==S.pid)return toast(TRERR.self,2500);try{await trReg();await trRpc("tr_send",trA({t:pid}));TR.fast=Date.now()+120000;TR.lp=0;trPoll();toast("🤝 Convite de Trade enviado · aguardando resposta",3500)}catch(e){toast(trErr(e),3500)}}
+async function trAnswer(id,ok){let good=0;try{await trRpc("tr_resp",trA({rid:id,ok}));good=1}catch(e){toast(trErr(e),3000)}TR.in=TR.in.filter(q=>q.id!=id);TR.sg2="";try{trInvUi()}catch(e){}if(ok&&good){TR.ui=true;TR.op=1;TR.opT=Date.now()+10000;TR.fast=Date.now()+60000;TR.sg=""}TR.lp=0;trPoll();if(ok&&good){trUi(1);setTimeout(trPoll,400)}}
 const trInline=()=>S.trR?`<button class="btn" onclick="TR.ui=true;trUi(1)">📨 Solicitações de Trade${TR.in.length?" ("+TR.in.length+")":""}</button>`:`<small>🤝 Envie seu nome ao Leaderboard para ativar o Trade.</small>`;
 const trInvNote=()=>{const E=S.trE;if(!E)return"";const n=Object.keys(E.b).length+Object.keys(E.a).length+Object.keys(E.r).length;return n?`<div class="panel"><b>🤝 ${n} item(ns) reservado(s) em Trade</b> <button class="btn" onclick="TR.ui=true;trUi(1)">Abrir</button></div>`:""};
 function trClose(){TR.ui=false;trUi(1)}
@@ -1801,11 +1855,314 @@ function trWin(t){const open=t.st=="open",cnt=t.st=="counting",sync=trSig(trOff(
  hd=(av,n,l,ok)=>`<header><span class="avatar sm">${av}</span><div><b>${n}</b><small>${l}</small></div>${ok?'<i class="ok">✔ Aceitou</i>':""}</header>`;
  return`<div class="trbox"><button class="bd-x" onclick="trClose()" aria-label="Minimizar">▾</button><h2>🤝 TRADE</h2>${st}<div class="trcols"><section class="trs me">${hd(avHtml(),esc(S.name)||"Você","VOCÊ → oferece",t.mok)}<div class="trl">${trSide(t,1)}</div></section><section class="trs th">${hd(lbAv(t.oa),lbName(t.on),"OUTRO JOGADOR → oferece",t.tok)}<div class="trl">${trSide(t,0)}</div></section></div>${open?trPick():""}<div class="trbt"><button class="btn g" ${can?"":"disabled"} onclick="trAcc()">✅ Aceitar</button><button class="btn r" onclick="trCancel()">❌ ${cnt?"Cancelar Trade":"Negar / Cancelar"}</button></div><small>Mudar a oferta cancela os aceites. A troca é validada pelo servidor.</small></div>`}
 const trInbox=()=>`<div class="trbox"><button class="bd-x" onclick="trClose()" aria-label="Fechar">✕</button><h2>📨 Solicitações de Trade</h2>${TR.in.map(q=>`<div class="row trq"><span class="avatar sm">${lbAv(q.av)}</span><b>${lbName(q.name)}</b><span class="trqb"><button class="btn g" onclick="trAnswer(${q.id},true)">Aceitar</button><button class="btn r" onclick="trAnswer(${q.id},false)">Negar</button></span></div>`).join("")||'<div class="trem">Nenhuma solicitação no momento.</div>'}<small>Para enviar: Ranking → toque em um jogador → 🤝 Enviar Trade.</small></div>`;
-function trUi(force){const w=$("#trw"),fb=$("#trf");if(!w)return;const t=TR.tr,n=TR.in.length;fb.style.display=S.trR?"flex":"none";fb.innerHTML="🤝"+(t?"<b>●</b>":n?"<b>"+n+"</b>":"");
+function trInvUi(){const el=$("#trinv");if(!el)return;const l=TR.tr?[]:TR.in;const sg=JSON.stringify(l.map(q=>q.id));if(sg==TR.sg2)return;TR.sg2=sg;if(!l.length){el.style.display="none";el.innerHTML="";return}el.style.display="flex";el.innerHTML=l.slice(0,3).map(q=>`<div class="trinv"><div class="who"><span class="avatar sm">${lbAv(q.av)}</span><b>${lbName(q.name)} quer trocar com você</b></div><div class="bb"><button class="btn g" onclick="trAnswer(${q.id},true)">ACEITAR</button><button class="btn r" onclick="trAnswer(${q.id},false)">NEGAR</button></div></div>`).join("")}
+function trUi(force){const w=$("#trw"),fb=$("#trf");if(!w)return;try{trInvUi()}catch(e){console.error("Trade invite UI:",e)}const t=TR.tr,n=TR.in.length;fb.style.display=S.trR?"flex":"none";fb.innerHTML="🤝"+(t?"<b>●</b>":n?"<b>"+n+"</b>":"");
  if(!TR.ui){w.style.display="none";return}w.style.display="flex";const sg=JSON.stringify([TR.op,t&&[t.id,t.st,t.ver,t.mok,t.tok,trSig(t.mine),trSig(t.th||{})],S.trE&&trSig(trOff()),TR.in.map(q=>q.id),TR.pick]);if(!force&&sg==TR.sg)return;TR.sg=sg;try{w.innerHTML=t?trWin(t):TR.op?`<div class="trbox"><h2>🤝 TRADE</h2><div class="trem">⏳ Abrindo Trade…</div></div>`:trInbox()}catch(e){console.error("Trade UI:",e);w.innerHTML='<div class="trbox"><h2>🤝 TRADE</h2><div class="trem">Erro ao montar a tela. Toque em Cancelar.</div><div class="trbt"><button class="btn r" onclick="trCancel()">❌ Cancelar</button></div></div>'}if(t&&t.st=="counting")trTick()}
-document.body.insertAdjacentHTML("beforeend",'<button id="trf" onclick="TR.ui=true;trUi(1)" aria-label="Trade"></button><div id="trw" onclick="if(event.target===this)trClose()"></div>');
-setInterval(()=>{if(!LB.url||!S.trR)return;const a=TR.tr||TR.ui||Date.now()<(TR.fast||0);if(document.hidden&&!TR.tr)return;if(Date.now()-TR.lp>=(TR.tr?1000:a?1500:6000)){TR.lp=Date.now();trPoll()}},500);setInterval(trTick,250);
+document.body.insertAdjacentHTML("beforeend",'<div id="trinv"></div><button id="trf" onclick="TR.ui=true;trUi(1)" aria-label="Trade"></button><div id="trw" onclick="if(event.target===this)trClose()"></div>');
+setInterval(()=>{if(!LB.url||!S.trR)return;const a=TR.tr||TR.ui||Date.now()<(TR.fast||0);if(document.hidden&&!TR.tr)return;if(Date.now()-TR.lp>=(TR.tr?1000:a?1500:2500)){TR.lp=Date.now();trPoll()}},500);document.addEventListener("visibilitychange",()=>{if(!document.hidden&&LB.url&&S.trR){TR.lp=Date.now();trPoll()}});setInterval(trTick,250);
 if(LB.url&&S.pid&&S.name)trReg().then(()=>trPoll()).catch(()=>{});else trUi();
+
+/* ===== PvP: início da batalha entre jogadores (servidor: bush-rng-pvp.sql) =====
+   Fluxo: Leaderboard > ⚔ Enviar Batalha > o outro aceita/nega > os dois escolhem 3 Bushes > ambos confirmam.
+   Não mexe em inventário, Trade, Guerra, Torre nem Fazenda: o time é só um "retrato" (snapshot) enviado ao servidor. */
+const PV={in:[],m:null,busy:0,lp:0,ui:false,sg:"",sel:[],sid:0,q:"",src:"inv",push:0,fast:0,seen:{},done:{},go:{},ak:"",bp:"b",bq:""};S.pvE=S.pvE||null;S.pvDone=S.pvDone||{};
+const PVERR={early:"A batalha ainda não começou",nomatch:"Batalha não encontrada",notready:"Os dois ainda não estão prontos",self:"Você não pode enviar Batalha para si mesmo",nouser:"Esse jogador ainda não ativou a Batalha (ele precisa abrir a versão atualizada e enviar o Leaderboard)",busy:"Um dos jogadores já está em uma Batalha",offline:"Esse jogador está offline agora",dup:"Solicitação já enviada (limite: 5 pendentes)",auth:"Falha de autenticação da Batalha",gone:"Solicitação expirada",closed:"A Batalha já foi encerrada ou o time está travado",incomplete:"Escolha 3 Bushes antes de confirmar",invalid:"Time ou aposta inválidos (recusado pelo servidor)",notyet:"A aposta só abre depois que os dois escolherem 3 Bushes",nobush:"Um dos Bushes não foi encontrado no servidor (tente de novo)",bushbusy:"Um dos Bushes já está em outra Batalha",locked:"Você já está pronto · cancele o Pronto para mudar time/aposta",noitem:"O servidor não reconhece esse item (tente de novo)",dup_item:"Esse item já está reservado em outra aposta",inteam:"Esse Bush está no seu time",nostock:"Quantidade maior do que você possui",blocked:"Bush bloqueado não pode ser apostado",betchg:"A aposta do adversário mudou · confira e inicie de novo",nofight:"A luta ainda não foi registrada no servidor"};
+const pvErr=e=>{const m=String(e&&e.message||e);if(/pvb_/.test(m))return"Servidor sem a segurança das apostas: rode bush-rng-pvp-bets.sql no Supabase";if(/pv_bush_sync/.test(m))return"Servidor sem a segurança dos Bushes: rode bush-rng-pvp-security.sql no Supabase";if(/pv_fight/.test(m))return"Servidor sem a Batalha 3v3: rode bush-rng-pvp-battle.sql no Supabase";if(/pv_|schema cache/.test(m))return"Servidor sem PvP: rode bush-rng-pvp.sql no Supabase";return PVERR[m.split(/\W/)[0]]||"Erro: "+m.slice(0,80)};
+const pvA=a=>({p:S.pid,s:S.pvk,...a});
+async function pvReg(){if(!LB.url)throw new Error("sem servidor");if(!S.pid)S.pid=Date.now().toString(36)+Math.random().toString(36).slice(2,12);if(!S.pvk){const a=new Uint8Array(24);crypto.getRandomValues(a);S.pvk=[...a].map(x=>x.toString(16).padStart(2,"0")).join("")}await trRpc("pv_reg",{p:S.pid,s:S.pvk});S.pvR=1;save()}
+// ---- retrato do time (o que o adversário enxerga) ----
+const pvC=v=>Math.min(1e30,Math.max(0,+v||0));
+// (exibição local apenas; NUNCA enviado ao servidor)
+function pvSnap(i){const b=bush(i.id),c=cs(i);return{k:i.k,id:i.id,n:esc(b.name).slice(0,40),r:b.rarity,q:i.q,lv:i.lv,ms:i.ms.slice(0,20),t:i.t>=0?i.t:-1,evo:i.evo?1:0,gem:i.gem||0,ab:i.ab||"",bps:pvC(bushBps(i)),hp:pvC(c.hp),dm:pvC(c.dm)}}
+const pvArm=()=>(S.arEq||[]).map(k=>S.ar[k]).filter(Boolean).slice(0,5).map(a=>({p:a.p,t:a.t,l:a.l}));
+const PVB0={on:0,b:[],a:[],r:{},c:{},ak:""};
+const pvH=x=>{let h=5381;for(let i=0;i<x.length;i++)h=(h*33^x.charCodeAt(i))>>>0;return h.toString(36)};
+const pvBetSig=o=>pvH((o.on?1:0)+trSig(o));
+const pvBetN=o=>o.b.length+o.a.length+Object.keys(o.r).length;
+const pvBetOff=()=>{const E=S.pvE||{b:{},a:{},r:{}},c={};Object.values(E.b).forEach(i=>{if(S.cust[i.id])c[i.id]=S.cust[i.id]});return{on:S.pvE&&S.pvE.on?1:0,b:Object.values(E.b),a:Object.values(E.a),r:E.r,c}};
+const pvBetOut=()=>({...pvBetOff(),ak:PV.ak||""});
+function pvBetIn(o){if(!o||typeof o!="object")return{...PVB0};const R=trIn(o)||{b:[],a:[],r:{},c:{}};R.b=R.b.slice(0,60);R.a=R.a.slice(0,60);R.on=o.on?1:0;R.ak=/^[0-9a-z]{1,10}$/.test(String(o.ak))?String(o.ak):"";return R}
+const pvBoth=t=>PV.sel.length==3&&pvIn(t.th).b.length==3;
+const pvBetOpen=()=>!!(PV.m&&PV.m.st=="pick"&&pvBoth(PV.m));
+const pvBetSync=t=>!PV.bb;
+// SEGURANÇA: ao servidor vão só as CHAVES dos Bushes. Vida/Dano/BPS/armaduras são buscados e calculados lá (pv_team → registro do servidor).
+const pvTeamSend=()=>({b:PV.sel.filter(k=>S.inv[k]).slice(0,3).map(k=>({k:String(k)})),a:[],bt:pvBetOut()});
+// registro do servidor: só atributos BRUTOS (nunca hp/dm/bps). Envia só o que mudou desde a última sincronização.
+PV.sy=PV.sy||{};PV.syOk=0;
+const pvRaw=i=>{const o={k:String(i.k),id:i.id,q:i.q,lv:i.lv,ms:i.ms.slice(0,20),t:i.t>=0?i.t:-1,evo:i.evo?1:0,gem:i.gem||0,ab:i.ab||""},c=S.cust[i.id];if(c){o.fb=c.baseBps;o.fr=c.rarity;o.fn=c.name}return o};
+async function pvBushSync(){
+ const all={};Object.keys(S.inv).forEach(k=>{const i=S.inv[k];if(i&&i.id&&i.ms)all[k]=pvRaw({...i,k})});
+ const ch=[],full=!PV.syOk;for(const k in all){const sg=JSON.stringify(all[k]);if(full||PV.sy[k]!==sg)ch.push([k,sg])}
+ const del=Object.keys(PV.sy).filter(k=>!all[k]),ar=Object.values(S.ar||{}).filter(a=>a&&a.k).map(a=>({k:String(a.k),p:a.p,t:a.t,l:a.l})).slice(0,300),
+  eq=(S.arEq||[]).slice(0,5).map(k=>k==null?null:String(k)),bn={ah:ACHC.hp,ad:ACHC.dmg,th:tb("hp"),td:tb("dmg")};
+ let first=true;const bad={};
+ do{const part=ch.splice(0,400),r=await trRpc("pv_bush_sync",pvA({fl:first&&full,l:part.map(x=>JSON.parse(x[1])),del:first?del:[],ar:first?ar:null,eq,bn}));
+  (r&&r.bad||[]).forEach(k=>bad[k]=1);part.forEach(x=>{if(!bad[x[0]])PV.sy[x[0]]=x[1]});first=false}while(ch.length);
+ del.forEach(k=>delete PV.sy[k]);PV.syOk=1;
+ return Object.keys(bad)}
+const pvTeam=()=>({b:PV.sel.map(k=>S.inv[k]).filter(Boolean).slice(0,3).map(pvSnap),a:pvArm(),bt:pvBetOut()});
+// sanitiza o que veio do outro navegador (nunca confia)
+function pvIn(o){const R={b:[],a:[]};if(!o||typeof o!="object")return R;const n=(v,lo,hi)=>{v=Math.floor(+v);return isFinite(v)?Math.min(hi,Math.max(lo,v)):lo};
+ for(const x of(Array.isArray(o.b)?o.b:[]).slice(0,3)){if(!x||!/^[\w-]{1,40}$/.test(String(x.id)))continue;R.b.push({k:String(x.k||"").replace(/[^\w-]/g,"").slice(0,40),id:String(x.id),n:esc(x.n).slice(0,40)||"?",r:n(x.r,0,RAR.length-1),q:n(x.q,0,Q.length-1),lv:n(x.lv,1,200),ms:(Array.isArray(x.ms)?x.ms:[]).map(m=>Math.floor(+m)).filter(m=>m>=0&&m<M.length).slice(0,20),t:n(x.t,-1,TIERS.length-1),evo:x.evo?1:0,gem:n(x.gem,0,GEM_MAX),ab:Object.prototype.hasOwnProperty.call(AB,x.ab)?x.ab:"",bps:pvC(x.bps),hp:pvC(x.hp),dm:pvC(x.dm)})}
+ for(const x of(Array.isArray(o.a)?o.a:[]).slice(0,5)){if(!x)continue;R.a.push({p:n(x.p,0,APC.length-1),t:n(x.t,0,ING.length-1),l:n(x.l,0,ALN.length-1)})}R.bt=pvBetIn(o.bt);return R}
+// ---- ações ----
+async function pvSend(pid){if(!S.name)return toast("Defina seu nome e toque Enviar no Ranking",3000);if(!pid||pid==S.pid)return toast(PVERR.self,2500);
+ try{await pvReg();await trRpc("pv_send",pvA({t:pid}));PV.fast=Date.now()+120000;PV.lp=0;toast("⚔ Solicitação de Batalha enviada · a tela abre sozinha quando aceitarem",3500)}catch(e){toast(pvErr(e),3500)}}
+async function pvAnswer(id,ok){let good=0;try{await trRpc("pv_resp",pvA({rid:id,ok}));good=1}catch(e){toast(pvErr(e),3000)}PV.in=PV.in.filter(q=>q.id!=id);if(ok&&good){PV.ui=true;PV.fast=Date.now()+60000}PV.lp=0;PV.sg="";await pvPoll();pvUi(1)}
+async function pvPush(rd){const t=PV.m;if(!t||t.st!="pick")return;if(!rd){PV.ak="";PV.un=Date.now()}if(PV.push){PV.pend=[rd,String(t.id)];return}PV.push=1;
+ try{const bd=await pvBushSync();if(bd.some(k=>PV.sel.includes(k))){PV.sel=PV.sel.filter(k=>!bd.includes(k));toast("⚠ Bush recusado pelo servidor (dados inválidos) · removido do time",4000);pvUi(1)}if(rd&&S.pvE&&S.pvE.on)await trRpc("pvb_ack_bet",pvA({mid:t.id,sig:PV.thSig||""}));await trRpc("pv_team",pvA({mid:t.id,tm:pvTeamSend(),rd:!!rd}))}catch(e){toast(pvErr(e),2500)}PV.push=0;if(PV.pend){const r=PV.pend[0],pm=PV.pend[1];PV.pend=null;if(PV.m&&String(PV.m.id)===pm)pvPush(r);else{PV.lp=0;pvPoll()}}else{PV.lp=0;pvPoll()}}
+function pvAdd(k){if(!PV.m||PV.m.st!="pick"||PV.m.mok||!S.inv[k]||PV.sel.includes(k)||PV.sel.length>=3)return;PV.sel.push(k);pvUi(1);pvPush(false)}
+function pvRem(k){if(!PV.m||PV.m.st!="pick"||PV.m.mok)return;PV.sel=PV.sel.filter(x=>x!=k);pvUi(1);pvPush(false)}
+// ---- apostas (opcionais; itens saem do inventário ao entrar na aposta e voltam se a batalha não começar) ----
+function pvBetReturn(){const E=S.pvE;if(!E)return 0;const n=Object.keys(E.b).length+Object.keys(E.a).length+Object.keys(E.r).length;
+ Object.values(E.b).forEach(i=>{const k=S.inv[i.k]?newKey():i.k;S.inv[k]={...i,k}});Object.values(E.a).forEach(a=>{const k=S.ar[a.k]?newKey():a.k;S.ar[k]={...a,k}});Object.keys(E.r).forEach(id=>trSet(id,trGet(id)+E.r[id]));S.pvE=null;save();return n}
+const pvBetEd=()=>{const t=PV.m;return t&&t.st=="pick"&&!t.mok&&S.pvE&&S.pvE.on&&S.pvE.mid==t.id};
+// o servidor valida e reserva; o cliente só ESPELHA o escrow (S.pvE) — ver pvbRec
+async function pvbSet(fn){if(PV.bb)return;PV.bb=1;PV.bv=(PV.bv|0)+1;pvUi(1);
+ try{const t=PV.m;if(!t||t.st!="pick"||t.mok)throw new Error("closed");const E=S.pvE&&String(S.pvE.mid)===String(t.id)?S.pvE:{on:0,b:{},a:{},r:{}},d={on:E.on?1:0,b:Object.keys(E.b),a:Object.keys(E.a),r:{...E.r}};fn(d);
+  await pvbSync();const x=await trRpc("pvb_bet",pvA({mid:t.id,mon:!!d.on,b:d.b,a:d.a,r:d.r}));pvbRec([x],0);save()}
+ catch(e){toast(pvErr(e),3000)}PV.bb=0;PV.lp=0;pvUi(1);pvPoll()}
+function pvBetOn(on){const t=PV.m;if(!t||t.st!="pick"||t.mok)return;if(on&&!pvBetOpen())return toast(PVERR.notyet,2500);pvbSet(d=>{d.on=on?1:0;if(!on){d.b=[];d.a=[];d.r={}}})}
+function pvBetPut(kind,key,n){if(!pvBetEd())return;if(!pvBetOpen())return toast(PVERR.notyet,2500);
+ if(kind=="b"){if(!S.inv[key])return;if(S.lock[key])return toast("🔒 Bush bloqueado não pode ser apostado",2500);if(PV.sel.includes(key))return toast("Essa Bush está no seu time · tire do time para apostar",2500);pvbSet(d=>{if(!d.b.includes(key))d.b.push(key)})}
+ else if(kind=="a"){if(!S.ar[key])return;pvbSet(d=>{if(!d.a.includes(key))d.a.push(key)})}
+ else{if(!trOk(key))return;const have=trGet(key)+((S.pvE&&S.pvE.r[key])||0);n=Math.max(0,Math.min(have,Math.floor(+n)||0));pvbSet(d=>{if(n)d.r[key]=n;else delete d.r[key]})}}
+function pvBetTake(kind,key){if(!pvBetEd())return;pvbSet(d=>{if(kind=="b")d.b=d.b.filter(x=>x!=key);else if(kind=="a")d.a=d.a.filter(x=>x!=key);else delete d.r[key]})}
+// registro de itens livres enviado ao servidor (só diferenças); o servidor só aceita apostar o que está aqui e não está reservado
+PV.sb=PV.sb||{};PV.sbOk=0;
+async function pvbSync(){const bs={},as={};
+ Object.keys(S.inv).forEach(k=>{const i=S.inv[k];if(i&&i.id){const o={...i,k,lk:S.lock[k]?1:0};if(S.cust[i.id])o.cu=S.cust[i.id];bs[k]=JSON.stringify(o)}});
+ Object.values(S.ar||{}).forEach(a=>{if(a&&a.k)as[a.k]=JSON.stringify({k:String(a.k),p:a.p,t:a.t,l:a.l})});
+ const full=!PV.sbOk,cb=[],ca=[];for(const k in bs)if(full||PV.sb["b"+k]!==bs[k])cb.push(k);for(const k in as)if(full||PV.sb["a"+k]!==as[k])ca.push(k);
+ const gone=c=>Object.keys(PV.sb).filter(x=>x[0]==c&&!(c=="b"?bs:as)[x.slice(1)]).map(x=>x.slice(1)),db=gone("b"),da=gone("a"),stk={};
+ trStacks().forEach(id=>{const q=trGet(id)+((S.pvE&&S.pvE.r[id])||0);if(q>0)stk[id]=q});
+ let first=true;
+ do{const pb=cb.splice(0,300),r=await trRpc("pvb_sync",pvA({fl:first&&full,b:pb.map(k=>JSON.parse(bs[k])),a:first?ca.map(k=>JSON.parse(as[k])):[],kb:first&&full?Object.keys(bs):null,ka:first&&full?Object.keys(as):null,db:first?db:[],da:first?da:[],st:first?stk:null})),bad={};
+  (r&&r.bad||[]).forEach(k=>bad[k]=1);pb.forEach(k=>{if(!bad[k])PV.sb["b"+k]=bs[k]});if(first)ca.forEach(k=>{if(!bad[k])PV.sb["a"+k]=as[k]});first=false}while(cb.length);
+ db.forEach(k=>delete PV.sb["b"+k]);da.forEach(k=>delete PV.sb["a"+k]);PV.sbOk=1}
+// ---- espelho do escrow do servidor (idempotente: o servidor é a verdade; nada é criado/apagado sem ele) ----
+const pvbRaw=it=>{it=it||{};const c={};(it.b||[]).forEach(i=>{if(i.cu)c[i.id]=i.cu});return{b:(it.b||[]).map(i=>{const{cu,...x}=i;return x}),a:it.a||[],r:it.r||{},c}};
+const pvbIn=it=>trIn(pvbRaw(it));
+const pvbBt=x=>x?{on:x.on?1:0,...pvbRaw(x.it),ak:""}:{on:0,b:[],a:[],r:{},c:{}};
+function pvbMirror(e,L){let E=S.pvE;if(E&&String(E.mid)!==String(e.mid)){pvBetReturn();E=null}if(!E)E=S.pvE={mid:String(e.mid),on:0,b:{},a:{},r:{}};
+ E.on=e.on?1:0;E.lk=e.st=="locked"?1:0;
+ const wb={},wa={};L.b.forEach(i=>wb[i.k]=1);L.a.forEach(i=>wa[i.k]=1);
+ for(const k in wb)if(!E.b[k]&&S.inv[k]){E.b[k]=S.inv[k];unequip0(k);S.wteam=S.wteam.filter(y=>y!=k);delete S.inv[k]}
+ for(const k of Object.keys(E.b))if(!wb[k]){const k2=S.inv[k]?newKey():k;S.inv[k2]={...E.b[k],k:k2};delete E.b[k]}
+ for(const k in wa)if(!E.a[k]&&S.ar[k]){E.a[k]=S.ar[k];S.arEq=S.arEq.map(y=>y==k?null:y);delete S.ar[k]}
+ for(const k of Object.keys(E.a))if(!wa[k]){const k2=S.ar[k]?newKey():k;S.ar[k2]={...E.a[k],k:k2};delete E.a[k]}
+ for(const id in L.r){const c=E.r[id]||0,w=L.r[id];if(w>c){const d=Math.min(w-c,trGet(id));if(d>0){trSet(id,trGet(id)-d);E.r[id]=c+d}}else if(w<c){trSet(id,trGet(id)+(c-w));E.r[id]=w}}
+ for(const id of Object.keys(E.r))if(!(id in L.r)){trSet(id,trGet(id)+E.r[id]);delete E.r[id]}}
+function pvbFinal(e,L){const mid=String(e.mid),D=S.pvDone=S.pvDone||{};
+ if(!D[mid]){let P=null;if(e.st=="won"){P=pvbIn(e.prize);if(!P)return console.error("pvb: prêmio inválido")}
+  const sm=D[mid]={w:e.st=="won"?1:0,bet:1,got:[],back:[],lost:[],pend:0,why:e.why||""};
+  pvbMirror(e,L);const E=S.pvE,mine={b:Object.values(E.b),a:Object.values(E.a),r:E.r,c:{}};mine.b.forEach(i=>{if(S.cust[i.id])mine.c[i.id]=S.cust[i.id]});
+  if(e.st=="lost"){sm.lost=pvBetNames(mine);S.pvE=null}
+  else{if(P){sm.got=pvBetNames(P);trGive(P)}sm.back=pvBetNames(mine);PV.rn=(PV.rn||0)+mine.b.length+mine.a.length+Object.keys(mine.r).length;pvBetReturn()}
+  const ks=Object.keys(D);if(ks.length>40)ks.slice(0,ks.length-40).forEach(k=>delete D[k]);save()}
+ const B=PV.bt;if(B&&String(B.mid)===mid&&e.st!="refund"){B.rs=D[mid];B.win=!!D[mid].w;if(e.why=="disc"||e.why=="quit"){B.why=e.why;if(!B.res)B.t0-=1e9}PV.sg="";pvUi(1)}
+ trRpc("pvb_ack",pvA({mid})).catch(()=>{})}
+function pvbRec(arr,full){let live=false;
+ for(const e of arr){const L=pvbIn(e.it);if(!L){console.error("pvb: itens inválidos");continue}
+  if(e.st=="open"||e.st=="locked"){pvbMirror(e,L);live=true}else pvbFinal(e,L)}
+ if(full&&!live&&S.pvE&&!PV.bb){const E=S.pvE;if(!arr.some(e=>String(e.mid)===String(E.mid))&&pvBetReturn())PV.rn=(PV.rn||0)+1}
+ save()}
+async function pvbEnd(mid){try{await trRpc("pvb_end",pvA({mid}))}catch(e){console.error("pvb_end",e)}PV.lp=0;pvPoll()}
+function pvStart(){const t=PV.m;if(!t||t.st!="pick"||t.mok)return;const o=pvBetOff();
+ if(PV.sel.length!=3)return toast("Escolha 3 Bushes",2000);if(!pvBoth(t))return toast("Aguardando o adversário escolher 3 Bushes",2500);if(o.on&&!pvBetN(o))return toast("Adicione itens à aposta ou desative-a",2500);if(!pvBetSync(t))return toast("⏳ Sincronizando aposta…",2000);
+ if(o.on&&!(pvIn(t.th).bt||PVB0).on)return toast("O adversário ainda não ativou a aposta · aguarde ou desative a sua",3000);pvPush(true)}
+// os dois apertaram START: confere a aposta e inicia
+function pvGo(t){const E=S.pvE;if(E&&E.lk)toast("💰 Aposta travada pelo servidor · aguardando o início sincronizado",3000)}
+async function pvCancel(){const t=PV.m;if(!t)return;try{await trRpc("pvb_cancel",pvA({mid:t.id,wy:"cancelado"}))}catch(e){toast(pvErr(e),3000)}PV.lp=0;pvPoll()}
+function pvClose(){PV.ui=false;pvUi(1)}
+// ---- sincronização ----
+async function pvPoll(){if(!LB.url||!S.pvR)return;if(PV.busy){PV.again=1;return}PV.busy=1;
+ try{const t0=Date.now(),v0=PV.bv|0,d=await trRpc("pvb_poll",{p:S.pid,s:S.pvk});if(d.now)PV.skew=d.now-(t0+Date.now())/2;PV.in=d.in||[];
+  PV.in.forEach(q=>{if(!PV.seen["i"+q.id]){PV.seen["i"+q.id]=1;PV.ui=true;PV.sg="";toast("⚔ "+lbName(q.name)+" enviou uma solicitação de Batalha",4500);beep(SND.get)}});
+  (d.out||[]).forEach(q=>{if(!PV.seen["o"+q.id]){PV.seen["o"+q.id]=1;toast(lbName(q.name)+(q.st=="denied"?" negou":" não respondeu a")+" sua solicitação de Batalha",3500)}});
+  PV.m=d.m||null;{const bt=d.bet||{};PV.thSig=bt.th?bt.th.sig:"";if(PV.m){const me=(bt.me||[]).find(x=>String(x.mid)===String(PV.m.id));PV.m.mine=PV.m.mine||{};PV.m.th=PV.m.th||{};PV.m.mine.bt=pvbBt(me);PV.m.th.bt=pvbBt(bt.th)}pvbRec(bt.me||[],v0===(PV.bv|0));const B=PV.bt;if(B&&B.res&&B.rs&&B.rs.pend&&Date.now()>(B.et||0)){B.et=Date.now()+3000;pvbEnd(B.mid)}}pvStep()}
+ catch(e){if(/auth/.test(e.message)){S.pvR=0;pvReg().then(()=>{PV.lp=0}).catch(()=>{})}else if(Date.now()-(PV.et||0)>8000){PV.et=Date.now();console.error("PvP:",e);if(/pvb_/.test(e.message))toast(pvErr(e),5000)}}
+ PV.busy=0;try{pvUi()}catch(e){console.error("PvP UI:",e)}if(PV.again){PV.again=0;setTimeout(pvPoll,60)}}
+function pvStep(){const t=PV.m,rn=PV.rn||0;PV.rn=0;if(rn&&!(t&&t.st=="cancelled"))toast("💰 Apostas devolvidas",3000);if(!t){PV.sid=0;PV.ak="";PV.pm=false;if(!PV.bt){PV.fin={};PV.bf={};PV.go={};PV.done={};PV.bfT=0;PV.sel=[]}return}
+ if(t.st=="cancelled"){if(!PV.done[t.id]){PV.done[t.id]=1;if(PV.fin[t.id]){PV.sg=""}else{PV.ui=false;PV.sg="";modal("<h3>❌ Batalha cancelada</h3>"+(t.why=="timeout"?"Tempo esgotado.":t.why=="disc"?(t.by==S.pid?"Você ficou offline.":"O outro jogador desconectou."):t.by==S.pid?"Você cancelou.":"O outro jogador cancelou.")+(rn?"<br>💰 Suas apostas foram devolvidas.":""),[["OK","g",()=>{}]])}}
+  trRpc("pv_ack",pvA({mid:t.id})).catch(()=>{});PV.m=null;PV.sid=0;PV.sel=[];return}
+ if(PV.sid!=t.id){if(PV.bt&&String(PV.bt.mid)!=String(t.id))PV.bt=null;PV.sid=t.id;PV.ak="";PV.pm=false;PV.un=0;PV.bfT=0;PV.pend=null;PV.thSig="";PV.go={};PV.bf={};PV.sel=((t.mine&&t.mine.b)||[]).map(x=>String(x.k)).filter(k=>S.inv[k]).slice(0,3);PV.src="inv";PV.q="";PV.ui=true;PV.sg="";beep(SND.get);toast("⚔ Batalha aceita! Escolha 3 Bushes",3500)}
+ if(t.st=="pick"){if(PV.pm&&!t.mok&&Date.now()-(PV.un||0)>6000){toast("⚠ O adversário mudou time/aposta · aperte Iniciar Batalha de novo",4000);PV.ak=""}PV.pm=!!t.mok}
+ if(t.st=="ready"&&!PV.go[t.id]){PV.go[t.id]=1;pvGo(t)}
+ if(t.st=="ready")pvFightMaybe(t)}
+// ---- início sincronizado: o servidor fixa o horário (t.go) e os dois contam juntos ----
+const pvCd=t=>{if(!t.go)return"⚔ Os dois estão prontos · BATALHA INICIADA";const n=Math.ceil((t.go-(Date.now()+(PV.skew||0)))/1000);return n>0?"⚔ Pronto! A batalha começa em <b>"+n+"</b>…":"⚔ BATALHA INICIADA · abrindo a arena…"};
+setInterval(()=>{const e=$("#pvcd");if(e&&PV.m&&PV.m.st=="ready")e.innerHTML=pvCd(PV.m)},250);
+// ===== PvP: combate real 3x3 =====
+// O CLIENTE NÃO CALCULA NADA DE COMBATE. Vida/Dano/BPS vêm do retrato (pvSnap), que usa as funções
+// centrais do jogo (cs / bushBps → bushRaw: qualidade, mutações, tier, nível, evolução; ABM: habilidade;
+// gb: Gema Bushiana; bn: conquistas, título e armaduras). Nenhum bônus é reaplicado aqui.
+// O servidor (RPC pv_fight, bush-rng-pvp-battle.sql) simula a luta e decide o vencedor; a arena só reproduz o resultado.
+PV.bf=PV.bf||{};PV.fin=PV.fin||{};PV.bt=PV.bt||null;
+const PA_DUR=2600,PA_LEAD=1500;
+const pvNow=()=>Date.now()+(PV.skew||0);
+function pvFightMaybe(t){
+ if(!t||t.st!=="ready"||!t.go||PV.fin[t.id]||PV.bf[t.id])return;
+ if(Date.now()<(PV.bfT||0))return;
+ if(t.go-pvNow()>400)return;
+ PV.bf[t.id]=1;pvFight(String(t.id),+t.go,0)}
+async function pvFight(mid,go,n){
+ try{const r=await trRpc("pvb_fight",pvA({mid}));pvArenaOpen(mid,go,r)}
+ catch(e){const m=String(e&&e.message||e);
+  if(/invalid|incomplete|auth|nomatch|closed|pv_|schema cache/.test(m)){toast(pvErr(e),5000);PV.bf[mid]=0;PV.bfT=Date.now()+8000;if(/auth/.test(m)){S.pvR=0;pvReg().catch(()=>{})}PV.lp=0;pvPoll();return}
+  if(n<15){setTimeout(()=>pvFight(mid,go,n+1),900);return}
+  PV.bf[mid]=0;PV.bfT=Date.now()+6000;toast(pvErr(e)+" · tentando de novo",4000)}}
+// ---- resultado: entrega/perda das apostas (1x por partida; o vencedor vem do servidor via pv_fight) ----
+const PR_WAIT=5000;
+function pvBetNames(c){const l=[];if(!c)return l;trWith(c.c||{},()=>c.b.forEach(i=>l.push(esc(bush(i.id).name)+" · Nv "+i.lv)));c.a.forEach(a=>l.push("🛡 "+esc(aName(a))));Object.keys(c.r).forEach(id=>l.push(trMeta(id).n+" ×"+f(c.r[id])));return l}
+// valida (nunca confia) e prepara a reprodução do resultado do servidor
+function pvArenaOpen(mid,go,r){
+ if(PV.fin[mid])return;
+ const num=(v,hi)=>{v=+v;return isFinite(v)?Math.min(hi,Math.max(0,v)):0};
+ try{
+  if(!r||!r.ok||(r.w!=="a"&&r.w!=="b")||!r.a||!r.b)throw 0;
+  const me=r.ap===S.pid?"a":"b",ot=me==="a"?"b":"a";
+  const mk=k=>{const T=pvIn({b:r[k].b,a:r[k].a}),hp=(r[k].hp||[]).map(v=>num(v,1e30)),dm=(r[k].dm||[]).map(v=>num(v,1e30));
+   if(T.b.length!==3||hp.length!==3||dm.length!==3||hp.some(h=>!(h>0)))throw 0;return{T,hp,dm}};
+  const L=mk(me),R=mk(ot);
+  const du=(Array.isArray(r.duels)?r.duels:[]).slice(0,12).map(d=>{
+   const a=Math.floor(+d.a),b=Math.floor(+d.b),ah=num(d.ah,1e30),bh=num(d.bh,1e30),n=Math.min(1e12,Math.max(1,Math.floor(num(d.r,1e12))));
+   return me==="a"?{l:a,r:b,lh:ah,rh:bh,n}:{l:b,r:a,lh:bh,rh:ah,n}});
+  if(du.some(d=>!(d.l>=0&&d.l<3&&d.r>=0&&d.r<3)))throw 0;
+  const t=PV.m&&String(PV.m.id)===String(mid)?PV.m:null;
+  PV.fin[mid]=1;const dn=(S.pvDone||{})[mid],rs=dn||{w:r.w===me?1:0,bet:0,got:[],back:[],lost:[],pend:(S.pvE&&S.pvE.lk&&String(S.pvE.mid)===String(mid))?1:0};
+  PV.bt={mid,win:dn?!!dn.w:r.w===me,rs,res:0,fin0:0,L,R,du,why:String(r.why||"ko"),t0:(go||pvNow())+PA_LEAD,show:true,dom:0,det:0,snd:0,cc:{},
+   on:t?lbName(t.on):"Adversário",oav:t?lbAv(t.oa):"🌿"};
+  PV.ui=true;PV.sg="";pvUi(1)
+ }catch(e){PV.bf[mid]=0;PV.bfT=Date.now()+6000;toast("Resposta da batalha inválida · tentando de novo",3500)}}
+// estado da arena em um instante (el = ms desde o início); só leitura dos números do servidor
+function pvArenaState(B,el){
+ const D=B.du,n=D.length,hp={L:B.L.hp.slice(),R:B.R.hp.slice()},st={L:["wait","wait","wait"],R:["wait","wait","wait"]};let act=null;
+ for(let q=0;q<n;q++){const d=D[q],s=q*PA_DUR;if(el<s)break;const p=Math.min(1,Math.max(0,(el-s-400)/1400));
+  if(p<1){const a0=hp.L[d.l],b0=hp.R[d.r];hp.L[d.l]=a0+(d.lh-a0)*p;hp.R[d.r]=b0+(d.rh-b0)*p;act={d,q,p,ko:false};break}
+  hp.L[d.l]=d.lh;hp.R[d.r]=d.rh;if(el<s+PA_DUR){act={d,q,p:1,ko:true};break}}
+ const fin=el>=n*PA_DUR;
+ for(const K of["L","R"])for(let j=0;j<3;j++)if(hp[K][j]<=0)st[K][j]="dead";
+ if(act){st.L[act.d.l]=hp.L[act.d.l]<=0?"ko":"act";st.R[act.d.r]=hp.R[act.d.r]<=0?"ko":"act"}
+ if(fin)for(const K of["L","R"])for(let j=0;j<3;j++)if(hp[K][j]>0)st[K][j]="win";
+ return{hp,st,act,fin}}
+function pvArenaLog(B,el){
+ const nL=j=>B.L.T.b[j].n,nR=j=>B.R.T.b[j].n,o=[];
+ B.du.forEach((d,q)=>{const s=q*PA_DUR;if(el<s)return;const pv=q?B.du[q-1]:null;
+  if(!pv||pv.l!==d.l)o.push(`➡ <b>${nL(d.l)}</b> (você) entra na arena`);
+  if(!pv||pv.r!==d.r)o.push(`➡ <b>${nR(d.r)}</b> (adversário) entra na arena`);
+  if(el<s+1800)return;
+  const lm=B.L.hp[d.l],rm=B.R.hp[d.r];
+  if(d.lh<=0&&d.rh<=0)o.push(`💥 <b>${nL(d.l)}</b> e <b>${nR(d.r)}</b> caíram juntos`);
+  else if(d.rh<=0)o.push(`💀 <b>${nR(d.r)}</b> derrotado por <b>${nL(d.l)}</b> (resta ${Math.max(1,Math.round(d.lh/lm*100))}% de Vida)`);
+  else if(d.lh<=0)o.push(`💀 <b>${nL(d.l)}</b> derrotado por <b>${nR(d.r)}</b> (resta ${Math.max(1,Math.round(d.rh/rm*100))}% de Vida)`)});
+ return o}
+const pvSetC=(B,id,k,v,fn)=>{const key=id+k;if(B.cc[key]===v)return;B.cc[key]=v;const e=document.getElementById(id);if(e)fn(e,v)};
+function pvArenaFinish(B){if(!B.snd){B.snd=1;try{beep(B.win?SND.lvl:SND.sec)}catch(e){}if(B.rs&&B.rs.pend)pvbEnd(B.mid)}B.res=1;B.fin0=Date.now();B.dom=0;pvUi(1)}
+function pvArenaTick(){
+ const B=PV.bt;if(!B||!B.show)return;
+ if(!B.res&&(!PV.ui||!B.dom)){if(pvArenaState(B,pvNow()-B.t0).fin)pvArenaFinish(B);return}
+ if(!B.dom||!PV.ui)return;
+ if(B.res){pvResTick(B);return}
+ const el=pvNow()-B.t0,a=pvArenaState(B,el);
+ for(const K of["L","R"]){let alive=0;
+  for(let j=0;j<3;j++){const id="pa_"+K+j,mx=B[K].hp[j],h=a.hp[K][j],pc=mx>0?Math.max(0,Math.min(100,h/mx*100)):0,sv=a.st[K][j];
+   if(sv!=="dead"&&sv!=="ko")alive++;
+   pvSetC(B,id,"c",sv+(sv==="act"?" hit":""),(e,v)=>e.className="pa-c "+v);
+   pvSetC(B,id,"w",pc.toFixed(1),(e,v)=>{const fl=e.querySelector(".pa-fill");fl.style.width=v+"%";fl.className="pa-fill"+(pc>50?"":pc>25?" mid":" low")});
+   pvSetC(B,id,"t",f(h),(e,v)=>e.querySelector(".pa-hp").textContent="❤ "+v+" / "+f(mx))}
+  pvSetC(B,"pa_c"+K,"n",alive,(e,v)=>e.textContent=v+"/3 vivos")}
+ const msg=el<0?"⚔ Preparando a arena… <b>"+Math.ceil(-el/1000)+"</b>":a.fin?"⚔ Batalha encerrada":a.act?`⚔ <b>${B.L.T.b[a.act.d.l].n}</b> vs <b>${B.R.T.b[a.act.d.r].n}</b> · Round <b>${f(a.act.ko?a.act.d.n:Math.max(1,Math.ceil(a.act.p*a.act.d.n)))}</b>`:"⚔ …";
+ pvSetC(B,"pa_msg","h",msg,(e,v)=>e.innerHTML=v);
+ const lg=pvArenaLog(B,el);
+ pvSetC(B,"pa_log","n",lg.length,e=>e.innerHTML=lg.map(x=>"<div>"+x+"</div>").join(""));
+ if(a.fin){pvArenaFinish(B);return}
+ pvSetC(B,"pa_vs","t","VS",(e,v)=>e.textContent=v)}
+setInterval(()=>{try{pvArenaTick()}catch(e){console.error("Arena:",e)}},120);
+function pvArenaSkip(){const B=PV.bt;if(B)B.t0-=1e9}
+function pvArenaDet(){const B=PV.bt;if(!B)return;B.det=B.det?0:1;B.dom=0;pvUi(1)}
+function pvArenaEnd(){const B=PV.bt,m=PV.m;if(!B)return;const w=PR_WAIT-(Date.now()-(B.fin0||Date.now()));if(!B.res||w>0)return toast("Aguarde "+Math.ceil(Math.max(0,w)/1000)+"s para sair",1500);if(B.rs&&B.rs.pend&&Date.now()-(B.fin0||0)<60000)return toast("⏳ Aguardando o servidor confirmar a aposta",2000);
+ PV.bt=null;PV.ui=false;PV.sg="";PV.sel=[];PV.ak="";PV.q="";PV.bq="";PV.bp="b";PV.src="inv"; // libera os Bushes usados e limpa a tela
+ if(m&&String(m.id)===String(B.mid))pvCancel(); // fecha a partida no servidor (o resultado já foi aplicado e salvo)
+ pvUi(1);try{render()}catch(e){console.error(e)}}
+
+const PR_WHY={disc:"O adversário desconectou durante a luta · vitória por desistência (decidido pelo servidor)",quit:"O adversário abandonou a luta · vitória por desistência (decidido pelo servidor)",tie:"Os últimos Bushes caíram juntos · desempate pelo BPS total do time (decidido pelo servidor)",stalemate:"Ninguém conseguia causar dano · desempate pela Vida restante (decidido pelo servidor)"};
+function pvResultHtml(){
+ const B=PV.bt;B.cc={};const a=pvArenaState(B,1e15),rs=B.rs||{},win=B.win,me=esc(S.name)||"Você",op=B.on,
+  nm=K=>K==="L"?me:op,av=K=>K==="L"?avHtml():B.oav,W=win?"L":"R",Lo=win?"R":"L",
+  al=K=>a.hp[K].filter(h=>h>0).length,li=l=>(l||[]).map(x=>"<div>"+x+"</div>").join(""),
+  side=(K,cls,tag)=>`<section class="pr-t ${cls}"><header><span class="avatar sm">${av(K)}</span><b>${nm(K)}</b><small>${tag}</small></header><div class="pr-row">${[0,1,2].map(j=>{const x=B[K].T.b[j],h=a.hp[K][j],mx=B[K].hp[j],ok=h>0;return`<div class="pa-c ${ok?"win":"dead"}"><span class="pa-sk">☠</span><div class="pa-im">${pvImg(x)}</div><b class="pa-n">${x.n}${x.evo?" ✦":""}</b><small class="pa-s">${RAR[x.r]} · Nv ${x.lv} · ${Q[x.q].n}</small><small class="pa-hp">${ok?"✔ Sobreviveu":"☠ Derrotado"}</small><small class="pa-d">❤ ${f(Math.max(0,h))} / ${f(mx)}</small></div>`}).join("")}</div></section>`,
+  bet=rs.pend?'<div class="pr-bet"><b>💰 Aposta</b><small>⏳ Aguardando o servidor confirmar a entrega…</small></div>':!rs.bet?'<div class="pr-bet"><b>💰 Aposta</b><small>Sem aposta nesta batalha · nenhuma recompensa.</small></div>'
+   :win?`<div class="pr-bet w"><b>💰 Você ganhou os itens apostados por ${op}</b>${li(rs.got)||"<small>—</small>"}<small>Seus próprios itens apostados voltaram ao seu inventário${rs.back&&rs.back.length?":":"."}</small>${li(rs.back)}</div>`
+   :`<div class="pr-bet l"><b>💰 Você perdeu os itens que apostou</b>${li(rs.lost)||"<small>—</small>"}<small>Eles foram para ${op}.</small></div>`;
+ return`<div class="trbox"><button class="bd-x" onclick="pvClose()" aria-label="Minimizar">▾</button><h2>🏁 RESULTADO DA BATALHA</h2>
+<div class="pr-ban ${win?"w":"l"}">${win?"🏆 VITÓRIA!":"💀 DERROTA"}<small>${PR_WHY[B.why]||"Vencedor definido pelo servidor"}</small></div>
+<div class="pr-sum"><div class="w">🏆 Vencedor<b>${nm(W)}</b></div><div class="l">💀 Perdedor<b>${nm(Lo)}</b></div></div>
+<div class="pr-sum"><div>Resultado final<b>${me} ${al("L")}/3 × ${al("R")}/3 ${op}</b>Bushes vivos no fim</div></div>
+${side(W,"w","VENCEDOR")}${side(Lo,"l","PERDEDOR")}${bet}
+<div class="pvbt"><button class="btn g" id="pr_exit" disabled onclick="pvArenaEnd()">⏳ Sair em ${Math.ceil(PR_WAIT/1000)}s</button></div>
+<small>O vencedor foi definido pelo servidor. Apostas só valem quando os dois apostaram; sem aposta, não há recompensa.</small></div>`}
+function pvResTick(B){const s=Math.ceil((PR_WAIT-(Date.now()-B.fin0))/1000),ok=s<=0;pvSetC(B,"pr_exit","s",ok?"ok":"w"+s,e=>{e.disabled=!ok;e.textContent=ok?"✔ Sair da batalha":"⏳ Sair em "+s+"s"})}
+function pvArenaHtml(){
+ const B=PV.bt;B.cc={};
+ const card=(K,j)=>{const x=B[K].T.b[j],mx=B[K].hp[j];
+  return`<div class="pa-c wait" id="pa_${K}${j}"><span class="pa-sk">☠</span><div class="pa-im">${pvImg(x)}</div><b class="pa-n">${x.n}${x.evo?" ✦":""}</b><small class="pa-s">${RAR[x.r]} · Nv ${x.lv} · ${Q[x.q].n}</small><div class="pa-bar"><i class="pa-fill"></i></div><small class="pa-hp">❤ ${f(mx)} / ${f(mx)}</small><small class="pa-d">⚔ ${f(B[K].dm[j])} · ⚡ ${f(x.bps)}</small></div>`};
+ const team=(K,cls,av,nm)=>`<div class="pa-team ${cls}"><div class="pa-th"><span class="avatar sm">${av}</span><b>${nm}</b><small id="pa_c${K}">3/3 vivos</small></div><div class="pa-row">${[0,1,2].map(j=>card(K,j)).join("")}</div></div>`;
+ return`<div class="trbox"><button class="bd-x" onclick="pvClose()" aria-label="Minimizar">▾</button><h2>⚔ ARENA 3 × 3</h2>
+<div class="pa-msg" id="pa_msg">⚔ Preparando a arena…</div>
+<div class="pa-arena">${team("R","r",B.oav,B.on)}<div class="pa-vs" id="pa_vs">VS</div>${team("L","l",avHtml(),esc(S.name)||"Você")}</div>
+<div class="pa-log" id="pa_log"></div>
+<div class="pvbt"><button class="btn" onclick="pvArenaDet()">📋 ${B.det?"Ocultar":"Ver"} atributos</button><button class="btn g" id="pa_skip" onclick="pvArenaSkip()">⏩ Pular</button></div>
+${B.det?`<div class="pa-det"><h3>⚔ ${B.on}</h3>${pvSlots(B.R.T,"")}<h3>🌿 Seu time</h3>${pvSlots(B.L.T,"")}</div>`:""}
+<small>Vida, Dano e BPS vêm das mesmas funções centrais do jogo (qualidade, mutações, nível, evolução, habilidade, Gema Bushiana, conquistas, título e armaduras). O servidor simulou a luta e decidiu o vencedor.</small></div>`}
+
+// ---- interface ----
+const pvImg=x=>bi(B.find(b=>b.id===x.id)||S.cust[x.id]||{imageSrc:PH_SRC,rarity:x.r});
+const pvEq=x=>[x.t>=0?"🔶 "+TIERS[x.t].n+" ×"+TIERS[x.t].m:"",x.evo?"✦ Evoluído ×3":"",x.gem?"💠 "+x.gem+" gemas":"",x.ab?"🎯 "+AB[x.ab].n:""].filter(Boolean).join(" · ")||"nenhum";
+const pvCard=x=>`<div class="pvc rr ${RAR[x.r]}"><div class="pvh"><span class="pvb">${pvImg(x)}</span><span class="pvn"><b>${x.n}${x.evo?" ✦":""}</b><small>${RAR[x.r]} · Nível ${x.lv}</small></span></div>
+<div class="pvs"><span>⚡ BPS<b>${f(x.bps)}</b></span><span>❤ Life<b>${f(x.hp)}</b></span><span>⚔ Damage<b>${f(x.dm)}</b></span></div>
+<div class="pvx"><small>🎖 Qualidade: <b>${Q[x.q].n} ×${Q[x.q].m}</b></small><small>🧬 Mutações: <b>${x.ms.length?x.ms.map(k=>M[k].n).join(", "):"nenhuma"}</b></small><small>🛠 Equipamentos: <b>${pvEq(x)}</b></small>${x.ab?`<small>🎟 Habilidade: <b>${AB[x.ab].n}</b> · ${abTxt(x.ab)}</small>`:"<small>🎟 Habilidade: <b>nenhuma</b></small>"}</div></div>`;
+const pvSlots=(T,w)=>`<div class="pvt">${[0,1,2].map(j=>T.b[j]?pvCard(T.b[j]):`<div class="pvc em"><b>${j+1}</b><small>${w}</small></div>`).join("")}</div><div class="pva">🛡 <b>Armaduras:</b> ${T.a.length?T.a.map(a=>aName(a)+" ("+benTxt(apv(a.p,a.t,a.l))+")").join(" · "):"nenhuma equipada"}</div>`;
+function pvPicker(){const q=PV.q.toLowerCase(),tab=(k,l)=>`<button class="chipb ${PV.src==k?"on":""}" onclick="PV.src='${k}';pvUi(1)">${l}</button>`;
+ let l=Object.values(S.inv);if(PV.src=="eq")l=l.filter(i=>S.eq.includes(i.k)||S.team.includes(i.k)||S.wteam.includes(i.k));if(q)l=l.filter(i=>bush(i.id).name.toLowerCase().includes(q));
+ const tot=l.length;l=l.sort(SORT[0]).slice(0,150);
+ return`<div class="pvsec"><div class="lab">Escolher 3 Bushes (${PV.sel.length}/3)</div><div class="chips">${tab("inv","🎒 Inventário")}${tab("eq","⭐ Equipadas")}</div><input class="fs" placeholder="🔍 Buscar nome" value="${PV.q.replace(/"/g,"")}" onchange="PV.q=this.value;pvUi(1)">${pick7(PV.sel,3,"pvAdd","pvRem",i=>" · ⚡"+f(bushBps(i))+(eqBadges(i).length?" · "+eqBadges(i).join(" "):""),l)}${tot>150?`<small>Mostrando as 150 melhores de ${tot}. Use a busca para achar outras.</small>`:""}</div>`}
+const pvBetRows=(c,x)=>{const h=c.b.map(i=>trBi(i,c.c,x?x("b",i.k):"")).concat(c.a.map(a=>trAr(a,x?x("a",a.k):"")),Object.keys(c.r).map(id=>trIt(trMeta(id),c.r[id],"",x?x("r",id):"")));return h.join("")||'<div class="trem">Nada apostado</div>'};
+function pvBetPick(){const q=(PV.bq||"").toLowerCase(),p=PV.bp||"b",E=S.pvE,tab=(k,l)=>`<button class="chipb ${p==k?"on":""}" onclick="PV.bp='${k}';pvUi(1)">${l}</button>`;let h="";
+ if(p=="b")h=Object.values(S.inv).filter(i=>!S.lock[i.k]&&!PV.sel.includes(i.k)&&(!q||bush(i.id).name.toLowerCase().includes(q))).sort(SORT[0]).slice(0,60).map(i=>trBi(i,{},`<button class="btn g" onclick="pvBetPut('b','${i.k}')">+</button>`)).join("")||'<div class="trem">Nenhuma Bush disponível (🔒 bloqueadas e as do seu time não aparecem)</div>';
+ else if(p=="a")h=Object.values(S.ar).map(a=>trAr(a,`<button class="btn g" onclick="pvBetPut('a','${a.k}')">+</button>`)).join("")||'<div class="trem">Sem armaduras</div>';
+ else h=trStacks().filter(id=>(p=="p")==id.startsWith("pet:")).map(id=>({id,have:trGet(id)+((E&&E.r[id])||0)})).filter(x=>x.have>0).map(x=>{const cur=(E&&E.r[x.id])||0,iid="pq_"+x.id.replace(":","_");return trIt(trMeta(x.id),0,"Você tem "+x.have,`<input id="${iid}" type="number" min="0" max="${x.have}" value="${cur||1}" inputmode="numeric"><button class="btn g" onclick="pvBetPut('r','${x.id}',document.getElementById('${iid}').value)">Apostar</button>`)}).join("")||'<div class="trem">Nada disponível</div>';
+ return`<div class="trpk"><div class="chips">${tab("b","🌿 Bushes")}${tab("a","🛡 Armaduras")}${tab("i","🧪 Itens")}${tab("p","🐾 Pets")}</div>${p=="b"?`<input class="fs" placeholder="🔍 Buscar nome" value="${(PV.bq||"").replace(/"/g,"")}" onchange="PV.bq=this.value;pvUi(1)">`:""}<div class="trl">${h}</div></div>`}
+function pvBetBox(t,pk,rdy){const E=S.pvE,mon=!!(E&&E.on),both=pvBoth(t),th=pvIn(t.th).bt||PVB0,ed=pk&&!t.mok&&mon,act=mon&&!!th.on,
+ mc={b:E?Object.values(E.b):[],a:E?Object.values(E.a):[],r:E?E.r:{},c:{}},
+ x=(k,i)=>ed?`<button class="btn r" onclick="pvBetTake('${k}','${i}')">✕</button>`:"",
+ st=!both&&!mon&&!rdy?'<div class="pvmsg">🔒 A aposta abre quando os dois escolherem 3 Bushes (é opcional)</div>':rdy&&act&&E&&E.lk?'<div class="pvmsg go">🔒 APOSTA ATIVA E TRAVADA · cada um arrisca os itens abaixo</div>':act?'<div class="pvmsg go">✔ Os dois querem apostar · APOSTA ATIVA</div>':mon?'<div class="pvmsg">Aguardando o adversário aceitar apostar · sem o aceite dele, seus itens voltam ao inventário</div>':th.on?'<div class="pvmsg">O adversário quer apostar · ative a sua aposta se quiser participar</div>':'<div class="pvmsg">Sem aposta · é opcional</div>',
+ sy=mon&&!pvBetSync(t)?'<div class="pvmsg">⏳ Sincronizando aposta com o servidor… (se não terminar, rode o bush-rng-pvp.sql atualizado)</div>':"",
+ tg=pk&&!t.mok&&(both||mon)?`<button class="btn ${mon?"r":"g"}" onclick="pvBetOn(${mon?0:1})">${mon?"✕ Desativar minha aposta":"💰 Quero apostar"}</button>`:"";
+ return`<section class="pvsec pvbet"><div class="lab">💰 APOSTA (opcional)</div>${st}${sy}<div class="pvbc"><div class="pvbs me"><b>🎒 VOCÊ ESTÁ APOSTANDO</b><small>${mon?"quer apostar":"não quer apostar"}</small>${pvBetRows(mon?mc:{b:[],a:[],r:{},c:{}},x)}</div><div class="pvbs th"><b>⚔ ${lbName(t.on)} ESTÁ APOSTANDO</b><small>${th.on?"quer apostar":"não quer apostar"}</small>${pvBetRows(th.on?th:{b:[],a:[],r:{},c:{}})}</div></div>${tg}${ed&&both?pvBetPick():""}</section>`}
+function pvWin(t){const pk=t.st=="pick",rdy=t.st=="ready",lock=!!t.mok||rdy,mine=lock?pvIn(t.mine):pvTeam(),th=pvIn(t.th),mr=!!t.mok||rdy,or=!!t.tok||rdy,
+ hd=(av,n,l,ok)=>`<header><span class="avatar sm">${av}</span><div><b>${n}</b><small>${l}</small></div>${ok?'<i class="ok">✔ Pronto!</i>':'<i class="wt">Aguardando jogador…</i>'}</header>`,
+ both=pvBoth(t),
+ msg=rdy?'<div class="pvmsg go" id="pvcd">'+pvCd(t)+'</div>':mr?'<div class="pvmsg">✔ Você está pronto · Aguardando jogador…</div>':or?'<div class="pvmsg">O adversário está pronto! Escolha 3 Bushes e aperte Iniciar Batalha</div>':!both?'<div class="pvmsg">Escolha 3 Bushes · a aposta abre quando os dois terminarem</div>':'<div class="pvmsg">Times completos! Faça a aposta (opcional) e aperte Iniciar Batalha</div>',
+ rd=`<div class="pvrd"><span class="${mr?"on":""}">Você:<b>${mr?"✔ Pronto!":"Aguardando jogador…"}</b></span><span class="${or?"on":""}">Adversário:<b>${or?"✔ Pronto!":"Aguardando jogador…"}</b></span></div>`,
+ o=pvBetOff(),need=PV.sel.length!=3?"Escolha 3 Bushes ("+PV.sel.length+"/3)":!both?"Aguardando o adversário escolher 3 Bushes":o.on&&!pvBetN(o)?"Adicione itens à aposta ou desative-a":!pvBetSync(t)?"Sincronizando aposta…":"",
+ bt=pk&&!t.mok?`<button class="btn g" ${need?"disabled":""} onclick="pvStart()">⚔ Iniciar Batalha</button>`:pk?'<button class="btn" onclick="pvPush(false)">↩ Desfazer Pronto</button>':"";
+ return`<div class="trbox"><button class="bd-x" onclick="pvClose()" aria-label="Minimizar">▾</button><h2>⚔ BATALHA PvP</h2>${msg}${rd}
+<section class="pvsec me">${hd(avHtml(),esc(S.name)||"Você","SEU TIME",mr)}${pvSlots(mine,"Escolha abaixo")}</section>
+${pk&&!t.mok?pvPicker():""}
+<section class="pvsec th">${hd(lbAv(t.oa),lbName(t.on),"TIME ADVERSÁRIO",or)}${pvSlots(th,"Aguardando")}</section>
+${pvBetBox(t,pk,rdy)}
+${need&&pk&&!t.mok?`<div class="pvmsg">${need}</div>`:""}
+<div class="pvbt">${bt}<button class="btn r" onclick="pvCancel()">❌ ${rdy?"Encerrar":"Cancelar batalha"}</button></div>
+<small>O time vira um retrato dos seus Bushes agora. Itens apostados ficam reservados no servidor (fora do inventário: não dá para usar, vender, fundir ou negociar) e voltam exatamente iguais se a batalha for cancelada, se alguém desconectar antes da luta ou se a aposta não for aceita pelos dois. Se alguém desconectar durante a luta, o outro vence.</small></div>`}
+const pvInbox=()=>`<div class="trbox"><button class="bd-x" onclick="pvClose()" aria-label="Fechar">✕</button><h2>⚔ Solicitações de Batalha</h2>${PV.in.map(q=>`<div class="row trq"><span class="avatar sm">${lbAv(q.av)}</span><b>${lbName(q.name)}</b><span class="trqb"><button class="btn g" onclick="pvAnswer(${+q.id},true)">Aceitar</button><button class="btn r" onclick="pvAnswer(${+q.id},false)">Negar</button></span></div>`).join("")||'<div class="trem">Nenhuma solicitação no momento.</div>'}<small>Para enviar: Ranking → toque em um jogador → ⚔ Enviar Batalha.</small></div>`;
+function pvUi(force){const w=$("#pvw"),fb=$("#pvf");if(!w)return;const t=PV.m,n=PV.in.length;fb.style.display=S.pvR?"flex":"none";fb.innerHTML="⚔"+(t||(PV.bt&&PV.bt.show)?"<b>●</b>":n?"<b>"+n+"</b>":"");
+ if(!PV.ui){w.style.display="none";return}w.style.display="flex";if(PV.bt&&PV.bt.show){if(!PV.bt.dom||force){w.innerHTML=PV.bt.res?pvResultHtml():pvArenaHtml();PV.bt.dom=1}return}const sg=JSON.stringify([t,PV.sel,PV.in.map(q=>q.id),PV.src,PV.q,PV.bp,PV.bq,S.pvE&&[S.pvE.on,Object.keys(S.pvE.b),Object.keys(S.pvE.a),S.pvE.r,S.pvE.lk]]);if(!force&&sg==PV.sg)return;PV.sg=sg;
+ try{w.innerHTML=t?pvWin(t):pvInbox()}catch(e){console.error("PvP UI:",e);w.innerHTML='<div class="trbox"><h2>⚔ BATALHA</h2><div class="trem">Erro ao montar a tela. Toque em Cancelar.</div><div class="pvbt"><button class="btn r" onclick="pvCancel()">❌ Cancelar</button></div></div>'}}
+document.body.insertAdjacentHTML("beforeend",'<button id="pvf" onclick="PV.ui=true;pvUi(1)" aria-label="Batalha"></button><div id="pvw" onclick="if(event.target===this)pvClose()"></div>');
+setInterval(()=>{if(!LB.url||!S.pvR)return;const a=PV.m||PV.ui||Date.now()<PV.fast;if(document.hidden&&!PV.m)return;if(Date.now()-PV.lp>=(PV.m?1000:a?1500:8000)){PV.lp=Date.now();pvPoll()}},500);
+if(LB.url&&S.pid&&S.name)pvReg().then(()=>pvPoll()).catch(()=>{});else pvUi();
+
 
 const INVHDR=()=>INVHDR0()+trInvNote();
 render();
