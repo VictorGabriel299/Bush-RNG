@@ -336,6 +336,7 @@ details.panel .chips{justify-content:flex-start}
 .bc-chips .chip{margin:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bc-eq{font-size:10px;font-weight:700;color:var(--ok);line-height:1.3}
 .bc .btn{margin:6px 0 0;min-height:36px;padding:6px;font-size:12px;width:100%}
+.bc-at{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin:3px 0}.bc-at .chip{margin:0;font-size:9px;padding:1px 4px;line-height:1.3}
 .chip.ql{background:hsl(var(--qh,0) 65% 32%);color:#fff;border-color:transparent;font-weight:800}
 @media(max-width:600px){.bc{padding:7px 6px 8px}.bc .bush{font-size:42px}.bc .art{min-height:66px}.bc .art.m-Bigbig .bush{font-size:52px}.bc .art.m-Mini .bush{font-size:30px}.bc-bps{font-size:15px}}
 /* Detalhe da Bush */
@@ -651,6 +652,31 @@ details.panel .chips{justify-content:flex-start}
 .hcur{grid-template-columns:repeat(5,minmax(0,1fr))}
 .chip.pp{background:linear-gradient(90deg,#10201a,var(--pc,#888));color:#fff;border-color:var(--pc,#888);font-weight:700;text-shadow:0 1px 2px #000a}
 .ppnote{display:block;margin-top:6px;font-size:12px;color:#f2785f}
+
+/* ===== FIX: saldo sempre visível no HUD + painel de Tiers ===== */
+/* (a regra antiga "#hud b{font-size:16px}" tem peso de ID e anulava todos os tamanhos das moedas → números estouravam e eram cortados) */
+#hud .hcur{grid-template-columns:minmax(0,1.9fr) repeat(4,minmax(0,1fr))}
+#hud .hcur .cur b{overflow:visible;text-overflow:clip;max-width:none;font-size:14px}
+#hud .hcur .cur.lg b{font-size:12px}
+#hud .hcur .cur.mny{border-color:var(--ac);background:linear-gradient(180deg,#2c4f39,var(--pn));cursor:pointer}
+#hud .hcur .cur.mny b{font-size:17px;color:#ffe066}
+#hud .hcur .cur.mny.lg b{font-size:14px}
+@media(max-width:600px){#hud .hcur .cur:not(.mny) b i{display:none}#hud .hcur .cur b{font-size:12.5px}#hud .hcur .cur.lg b{font-size:11px}#hud .hcur .cur.mny b{font-size:15px}#hud .hcur .cur.mny.lg b{font-size:12.5px}}
+@media(max-width:340px){#hud .hcur{gap:3px}#hud .hcur .cur b{font-size:11.5px}#hud .hcur .cur.lg b{font-size:10px}#hud .hcur .cur.mny b{font-size:13.5px}#hud .hcur .cur.mny.lg b{font-size:11.5px}#hud .hcur .cur small{font-size:7.5px}}
+.up3{grid-template-columns:repeat(3,minmax(0,1fr))!important}.up3 .stat{min-width:0}.up3 .stat b{font-size:13px;overflow-wrap:anywhere}.up-card{min-width:0}.qty.sm{max-width:100%}
+#toast{pointer-events:none}
+.atinfo{margin:0 0 6px}.atinfo summary{cursor:pointer;color:var(--ac2);font-weight:700;font-size:12px;min-height:32px;display:flex;align-items:center}
+.atg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.atc{background:#0b1510;border:1px solid var(--ln);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;min-width:0;cursor:pointer}
+.atc.on{border-color:var(--ac);box-shadow:0 0 0 2px #f5b94233}
+.atc-h{display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-weight:700;font-size:13px;min-width:0}
+.atc-h .chip{max-width:100%;white-space:nowrap}
+.atc-e{font-size:12px;color:var(--ac2);font-weight:700;overflow-wrap:anywhere}
+.atc .btn{margin:0;width:100%;padding:6px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.25;font-size:12px;min-height:var(--tap)}
+.atc .btn small{font-size:11.5px;font-weight:800;overflow-wrap:anywhere}
+@media(min-width:700px){.atg{grid-template-columns:repeat(4,1fr)}}
+#atb .arm-tbl{display:block;overflow-x:auto}
+#atb .stats4 .stat b{overflow-wrap:anywhere}
 </style></head><body>
 <div id="hud"></div><div id="main"></div>
 <div id="nav"></div><div id="more" onclick="if(event.target===this)closeMore()"></div><div id="ov"></div><div id="toast"></div>
@@ -693,8 +719,9 @@ const CARD={luck:["Lucky Card","+10% Luck"],money:["Money Card","+15% Money"],xp
 const CBASE=25000;
 const SUF=["","K","M","B","T","Qa","Qi","Sx","Sp","Oc","No","Dc"];
 function f(n){if(!isFinite(n))return"∞";if(n<1000)return(Math.floor(n*100)/100).toLocaleString("en");let i=0;while(n>=1000&&i<SUF.length-1){n/=1000;i++}return(Math.floor(n*100)/100)+SUF[i]}
-const def=()=>({money:0,inv:{},eq:Array(8).fill(null),up:{},cards:{},dice:[],dEq:-1,reb:0,pity:0,rolls:0,earned:0,sold:0,bestBps:0,maxLv:0,maxLuck:1,maxMult:1,since:[0,0,0],maxSince:[0,0,0],muts:{},offer:[],offerT:0,ts:Date.now(),played:0,snd:true,anim:true,bestName:"-",online:0,ev:null,gold:0,dia:0,obs:0,auto:{on:false,eq:false,leg:false,myth:false,sec:false,et:false,dv:false,mut:false,sp:true},bq:{},bm:{},rc:Array(10).fill(0),bb:{},shop:[],shopT:0,lock:{},hist:[],ach:{},maxMuts:0,xt:0,name:"",pid:"",mb:0,v:0,cust:{},mSh:[],mT:0,me:Array(19).fill(0),ess:Array(10).fill(0),gems:0,chests:Array(10).fill(0),emut:0,emStock:0,emT:0,tf:1,hiF:0,team:[],pieces:{},bevo:{},war:null,wteam:[],wwins:0,wcd:0,cs:null,csSlot:0,cone:0,asell:Array(10).fill(false),pinv:{money:0,luck:0,xp:0,qual:0},pot:{},ing:Array(7).fill(0),ar:{},arEq:[null,null,null,null,null]});
+const def=()=>({atPk:0,money:0,inv:{},eq:Array(8).fill(null),up:{},cards:{},dice:[],dEq:-1,reb:0,pity:0,rolls:0,earned:0,sold:0,bestBps:0,maxLv:0,maxLuck:1,maxMult:1,since:[0,0,0],maxSince:[0,0,0],muts:{},offer:[],offerT:0,ts:Date.now(),played:0,snd:true,anim:true,bestName:"-",online:0,ev:null,gold:0,dia:0,obs:0,auto:{on:false,eq:false,leg:false,myth:false,sec:false,et:false,dv:false,mut:false,sp:true},bq:{},bm:{},rc:Array(10).fill(0),bb:{},shop:[],shopT:0,lock:{},hist:[],ach:{},maxMuts:0,xt:0,name:"",pid:"",mb:0,v:0,cust:{},mSh:[],mT:0,me:Array(19).fill(0),ess:Array(10).fill(0),gems:0,chests:Array(10).fill(0),emut:0,emStock:0,emT:0,tf:1,hiF:0,team:[],pieces:{},bevo:{},war:null,wteam:[],wwins:0,wcd:0,cs:null,csSlot:0,cone:0,asell:Array(10).fill(false),pinv:{money:0,luck:0,xp:0,qual:0},pot:{},ing:Array(7).fill(0),ar:{},arEq:[null,null,null,null,null]});
 let S;try{S=Object.assign(def(),JSON.parse(localStorage.getItem("bushrng")||"{}"))}catch(e){S=def()}
+S.money=Number.isFinite(+S.money)&&+S.money>0?+S.money:0;
 let invF=-1,tab="farm",cd=0,last=null,wipe=false;Object.values(S.inv).forEach(i=>{if(i.ms===undefined){i.ms=[i.m];delete i.m}});S.auto=Object.assign(def().auto,S.auto);S.since=S.since.concat([0,0]).slice(0,5);if(S.ev&&!S.ev.end)S.ev.end=Date.now()+(S.ev.left||0)*1000;S.dice=S.dice.filter(k=>k<DICE.length);if(S.v<2){const mq=q=>[0,3,5,7,9][q]??3;Object.values(S.inv).forEach(i=>i.q=mq(i.q));Object.keys(S.bq).forEach(k=>S.bq[k]=mq(S.bq[k]));S.hist.forEach(h=>h[1]=mq(h[1]));S.v=2}if(S.v<3){Object.entries(S.inv).forEach(([k,i])=>{i.k=k;i.gem=0;S.bq[i.id]=Math.max(S.bq[i.id]??-1,i.q);for(let n=1;n<Math.min(i.qty||1,30);n++){const nk="u"+n+Math.random().toString(36).slice(2,8)+k;S.inv[nk]={...i,k:nk,lv:1,xp:0,qty:1}}i.qty=1});S.v=3}if(S.v<4){const sw=q=>q==1?2:q==2?1:q;Object.values(S.inv).forEach(i=>i.q=sw(i.q));Object.keys(S.bq).forEach(k=>S.bq[k]=sw(S.bq[k]));S.hist.forEach(h=>h[1]=sw(h[1]));S.v=4}if(S.v<5){let rf=0;(S.dice||[]).forEach(k=>{if(k>=0&&k<25)rf+=Math.round(500*Math.pow(3.1,k))});if(rf>0){S.money=(+S.money||0)+rf;S.dice=[];S.dEq=-1;S.diceRefund=rf;setTimeout(()=>{try{toast("🎲 Dados rebalanceados: reembolso de "+f(rf)+" Busheiros",5000)}catch(e){}},1500)}S.v=5}if(S.v<6){let rf=0;(S.dice||[]).forEach(k=>{if(k>=0&&k<25)rf+=DICE_PRICE_V5[k]});if(rf>0){S.money=(+S.money||0)+rf;S.dice=[];S.dEq=-1;setTimeout(()=>{try{toast("🎲 Preços dos dados aumentados: reembolso de "+f(rf)+" Busheiros",5000)}catch(e){}},1500)}S.v=6}if(S.v<7){let rf=0;(S.dice||[]).forEach(k=>{if(k>=0&&k<25)rf+=DICE_PRICE_V6[k]});if(rf>0){S.money=(+S.money||0)+rf;S.dice=[];S.dEq=-1;setTimeout(()=>{try{toast("🎲 Dados recalibrados: reembolso de "+f(rf)+" Busheiros",5000)}catch(e){}},1500)}S.v=7}if(S.v<8){let rf=0;(S.dice||[]).forEach(k=>{if(k>=0&&k<25)rf+=DICE_PRICE_V7[k]});if(rf>0){S.money=(+S.money||0)+rf;S.dice=[];S.dEq=-1;setTimeout(()=>{try{toast("🎲 Dados recalibrados: reembolso de "+f(rf)+" Busheiros",5000)}catch(e){}},1500)}S.v=8}S.pinv=Object.assign({money:0,luck:0,xp:0,qual:0},S.pinv);S.ing=Array.from({length:7},(_,k)=>+(S.ing&&S.ing[k])||0);if(!S.ar||Array.isArray(S.ar))S.ar={};S.arEq=Array.from({length:5},(_,k)=>S.arEq&&S.ar[S.arEq[k]]?S.arEq[k]:null);if(S.dEq>=DICE.length)S.dEq=-1;S.maxSince=S.maxSince.concat([0,0]).slice(0,5);while(S.ess.length<RAR.length)S.ess.push(0);while(S.rc.length<RAR.length)S.rc.push(0);S.chests=Array.from({length:RAR.length},(_,k)=>+(S.chests&&S.chests[k])||0);S.asell=Array.isArray(S.asell)?Array.from({length:RAR.length},(_,k)=>!!S.asell[k]):Array(RAR.length).fill(false);
 const $=s=>document.querySelector(s),lvc=(k)=>S.up[k]||0,cc=k=>0;
 // audio
@@ -706,11 +733,20 @@ const xpNeed=l=>Math.floor(40*Math.pow(l,1.6));
 const rebMult=n=>1+.25*n+.02*n*n;
 const rebLuck=n=>.2*n+.03*n*n;const luck=()=>(1+rebLuck(S.reb)+(S.dEq>=0?DICE[S.dEq][2]:0)+lvc("luck")*UP.luck[4])*(potA("luck")?2:1)*bn("luck")*abLuck();
 const moneyMult=()=>(1+lvc("money")*UP.money[4])*(1+lvc("bps")*UP.bps[4])*rebMult(S.reb)*(potA("money")?2:1);
-// ===== MULTIPLICADORES ESPECIAIS (tiers) — c = chance % por roll normal, mutuamente exclusivos, fixos (não afetados por Luck) =====
-const TIERS=[{n:"Silver",m:2,c:5},{n:"Gold",m:3,c:2},{n:"Diamond",m:5,c:.6},{n:"Void",m:10,c:.1},{n:"Emerald",m:25,c:.02},{n:"Rainbow",m:75,c:.0025},{n:"Pastel",m:125,c:.0001}];
+// ===== MULTIPLICADORES ESPECIAIS (tiers) — c = chance % por roll normal, mutuamente exclusivos, fixos (não afetados por Luck). Silver 1/20 · Gold 1/50 · Diamond 1/166,7 · Void 1/1.000 · Emerald 1/5.000 · Rainbow 1/15.000 · Pastel 1/40.000 =====
+const TIERS=[{n:"Silver",m:2,c:5},{n:"Gold",m:3,c:2},{n:"Diamond",m:5,c:.6},{n:"Void",m:10,c:.1},{n:"Emerald",m:25,c:.02},{n:"Rainbow",m:75,c:100/15000},{n:"Pastel",m:125,c:100/40000}];
 const tmul=i=>i.t>=0?TIERS[i.t].m:1;
 function rollTier(){const x=Math.random()*100;let c=0;for(let k=TIERS.length-1;k>=0;k--){c+=TIERS[k].c;if(x<c)return k}return -1}
-const bushRaw=i=>{const b=bush(i.id);return b.baseBps*Q[i.q].m*mm(i)*tmul(i)*lvMult(i.lv)*(i.evo?3:1)};const bushBps=i=>bushRaw(i)*ABM(i,"bps");const mm=i=>i.ms.reduce((a,k)=>a*M[k].m,1);
+// ===== TIERS DE ATRIBUTO (Dano · Vida · XP · BPS) — sistema SEPARADO da Qualidade geral (i.q) =====
+// Cada Bush guarda i.ta=[dano,vida,xp,bps] (índices em AT). Ausente = D (×1,00, neutro) → saves antigos não mudam.
+// Cada Tier multiplica SÓ o seu atributo, em UM único lugar: BPS em bushBps, Dano/Vida em cs, XP em essCalc/essMax.
+// Escala (mesma ordem da Qualidade: F<E<D<C<B<A<A+<S<SS<SR<XR<UR). [nome, multiplicador, peso do sorteio]
+const AT=[["F",.6,20],["E",.8,22],["D",1,20],["C",1.25,16],["B",1.6,10],["A",2,3],["A+",2.5,1.7],["S",3,1],["SS",4,.4],["SR",5,.12],["XR",6.5,.03],["UR",8,.005]].map(a=>({n:a[0],m:a[1],w:a[2]})),
+ATK=[["dmg","Dano","⚔"],["hp","Vida","❤"],["xp","XP","✨"],["bps","BPS","⚡"]],ATX={dmg:0,hp:1,xp:2,bps:3},AT_DEF=2,
+atI=(i,a)=>{const v=i&&i.ta?i.ta[a]:undefined;return Number.isInteger(v)&&v>=0&&v<AT.length?v:AT_DEF},
+atMul=(i,k)=>AT[atI(i,ATX[k])].m,
+atPick=()=>pick(AT.map(x=>x.w)),atRollAll=()=>ATK.map(atPick);
+const bushRaw=i=>{const b=bush(i.id);return b.baseBps*Q[i.q].m*mm(i)*tmul(i)*lvMult(i.lv)*(i.evo?3:1)};const bushBps=i=>bushRaw(i)*ABM(i,"bps")*atMul(i,"bps");const mm=i=>i.ms.reduce((a,k)=>a*M[k].m,1);
 const bush=id=>B.find(x=>x.id===id)||S.cust[id];
 const bpsBase=()=>S.eq.reduce((s,id)=>s+(id&&S.inv[id]?bushBps(S.inv[id]):0),0)*moneyMult()*bn("bps");const bps=()=>bpsBase()*petMult();
 const sellVal=i=>Math.floor(bushBps(i)*25+bush(i.id).baseBps*2);
@@ -729,10 +765,10 @@ function doRoll(mult,kind,auto){mult=mult||1;if(invFull()){S.auto.on=false;invMs
  const mv=ms.reduce((a,k)=>a*M[k].m,1),tr=rollTier();
  S.rolls++;S.rc[r]=(S.rc[r]||0)+1;if(Math.random()<.006){S.cone=(S.cone||0)+1;toast("🔺 +1 Cone!",2500)}if(S.rolls%10==0)S.gold++;if(S.rolls%100==0)S.dia++;if(S.rolls%1000==0)S.obs++;
  S.pity=r>=4?0:S.pity+1;[4,5,6,7,8].forEach((t,k)=>{if(r>=t)S.since[k]=0;else{S.since[k]++;S.maxSince[k]=Math.max(S.maxSince[k],S.since[k])}});
- const had=S.bq[b.id]!==undefined,xp=0,lv=false,note=had?"Duplicata — novo Bush!":"NOVO!";const nk=giveInst(b.id,q,ms,tr);
+ const had=S.bq[b.id]!==undefined,xp=0,lv=false,note=had?"Duplicata — novo Bush!":"NOVO!";const nk=giveInst(b.id,q,ms,tr),nta=S.inv[nk].ta.slice();
  S.bq[b.id]=Math.max(S.bq[b.id]??-1,q);S.bm[b.id]=[...new Set([...(S.bm[b.id]||[]),...ms.map(k=>M[k].n)])];let ml=false;ms.forEach(k=>{if(!S.muts[M[k].n])ml=true;S.muts[M[k].n]=1});
- const bp=b.baseBps*Q[q].m*mv*(tr>=0?TIERS[tr].m:1);if(bp>S.bestBps){S.bestBps=bp;S.bestName=((tr>=0?TIERS[tr].n+" ":"")+ms.map(k=>M[k].n).join(" ")+" "+b.name).trim()}
- S.bb[b.id]=Math.max(S.bb[b.id]||0,bp);const asv=S.asell[r]?autoSellInst(nk):0;last={b,q,ms,xp,lv,note:note+(asv?" · 💰 Auto Sell +"+f(asv):""),ml,bp,kind,tr,asv};S.hist.unshift([b.id,q,ms,kind||0,bp]);if(S.hist.length>50)S.hist.length=50;S.maxMuts=Math.max(S.maxMuts,ms.length);if(r>=6&&q==10&&ms.length>1)S.xt=1;chk();
+ const bp=b.baseBps*Q[q].m*mv*(tr>=0?TIERS[tr].m:1)*atMul({ta:nta},"bps");if(bp>S.bestBps){S.bestBps=bp;S.bestName=((tr>=0?TIERS[tr].n+" ":"")+ms.map(k=>M[k].n).join(" ")+" "+b.name).trim()}
+ S.bb[b.id]=Math.max(S.bb[b.id]||0,bp);const asv=S.asell[r]?autoSellInst(nk):0;last={b,q,ms,xp,lv,note:note+(asv?" · 💰 Auto Sell +"+f(asv):""),ml,bp,kind,tr,asv,ta:nta};S.hist.unshift([b.id,q,ms,kind||0,bp]);if(S.hist.length>50)S.hist.length=50;S.maxMuts=Math.max(S.maxMuts,ms.length);if(r>=6&&q==10&&ms.length>1)S.xt=1;chk();
  const stop=auto&&((S.auto.leg&&r>=4)||(S.auto.myth&&r>=5)||(S.auto.sec&&r>=6)||(S.auto.et&&r>=7)||(S.auto.dv&&r>=8)||(S.auto.mut&&ms.length));
  if(auto&&S.auto.eq)equipBest(true,true);
  beep(SND.roll);setTimeout(()=>{beep(r>=7?SND.reb:r==6?SND.sec:r==5?SND.myth:r==4?SND.leg:SND.get);if(ms.length)beep(SND.mut);if(lv)beep(SND.lvl)},250);
@@ -744,9 +780,9 @@ function togAS(k,v){S.asell[k]=!!v;save();render()}
 function equipBest(quiet,nr){const a=Object.values(S.inv).filter(i=>invF<0||bush(i.id).rarity==invF).sort((x,y)=>bushBps(y)-bushBps(x)).slice(0,8).map(i=>i.k);S.eq=Array.from({length:8},(_,k)=>a[k]||null);if(nr)return;if(quiet)render();else modal("EQUIP BEST<br>"+a.length+" best Bushes equipped!",[["OK","g",()=>render()]])}
 function addXp(i,x){if(i.lv>=200)return false;i.xp+=x;let up=false;while(i.lv<200&&i.xp>=xpNeed(i.lv)){i.xp-=xpNeed(i.lv);i.lv++;up=true}if(i.lv>=200)i.xp=0;S.maxLv=Math.max(S.maxLv,i.lv);return up}
 function bcard(i){const b=bush(i.id),mn=i.ms.map(k=>M[k].n);return`<div class="art ${mn.map(mc).join(" ")}"><div class="bush" style="filter:${mf(i.ms)}">${bi(b)}</div></div><div class="rc s${b.sub||0} ${RAR[b.rarity]}">${RAR[b.rarity]} ${SUBN[b.sub||0]}${(b.sub||0)>=3?" "+"★".repeat(b.sub-2):""}${b.fused?" · Fundido":""}</div><b>${b.name}</b>${S.lock[i.k]?" 🔒":""}${i.t>=0?`<br><span class="chip tier t${i.t}">${TIERS[i.t].n} ×${TIERS[i.t].m}</span>`:""}${i.evo?`<br><span class="chip evo">✦ EVOLUÍDO ×3 BPS</span>`:""}${abChip(i)}<br>${mn.map(n=>"<span class=chip>["+n+"]</span>").join(" ")||"No mutation"}<br>${Q[i.q].n} · Mutation Multiplier x${+mm(i).toFixed(2)}<br>${f(bushBps(i))} BPS`}
-function showRes(){const o=$("#ov"),r=last;const i={id:r.b.id,q:r.q,ms:r.ms,lv:1,t:r.tr};const rr=RAR[r.b.rarity],n=r.ms.includes(10);
+function showRes(){const o=$("#ov"),r=last;const i={id:r.b.id,q:r.q,ms:r.ms,lv:1,t:r.tr,ta:r.ta};const rr=RAR[r.b.rarity],n=r.ms.includes(10);
  o.className="fx-"+(n?"NICHER":r.ms.length>1?"multi":rr)+" k-"+(r.kind||"n");o.style.display="flex";
- o.innerHTML=`<div class="box ${rr}"><h2>${r.note}</h2><div class="card rr" style="background:inherit;color:inherit">${bcard(i)}</div>${r.xp?`<p>+${f(r.xp)} XP${r.lv?" · LEVEL UP!":""}</p>`:""}${r.ml?"<p>🧬 Nova mutação!</p>":""}${r.ms.length>1?"<h3>⚡ MULTI MUTATION ×"+r.ms.length+"</h3>":""}${n?"<h2>✨ NICHER ✨</h2>":""}<button class="btn" onclick="closeOv()">OK</button></div>`}
+ o.innerHTML=`<div class="box ${rr}"><h2>${r.note}</h2><div class="card rr" style="background:inherit;color:inherit">${bcard(i)}</div>${atChips(i)}${r.xp?`<p>+${f(r.xp)} XP${r.lv?" · LEVEL UP!":""}</p>`:""}${r.ml?"<p>🧬 Nova mutação!</p>":""}${r.ms.length>1?"<h3>⚡ MULTI MUTATION ×"+r.ms.length+"</h3>":""}${n?"<h2>✨ NICHER ✨</h2>":""}<button class="btn" onclick="closeOv()">OK</button></div>`}
 function closeOv(){$("#ov").style.display="none"}
 function modal(html,btns){const o=$("#ov");o.className="";o.style.display="flex";window._b=btns;o.innerHTML=`<div class="box">${html}<p>${btns.map((b,k)=>`<button class="btn ${b[1]||""}" onclick="closeOv();_b[${k}][2]()">${b[0]}</button>`).join("")}</p></div>`}
 // actions
@@ -771,7 +807,7 @@ const cardCost=k=>Math.floor(CBASE*Math.pow(2.2,cc(k)));
 function buyCard(k){const c=cardCost(k);if(S.money>=c){S.money-=c;S.cards[k]=cc(k)+1;S.offer=S.offer.filter(x=>x!=k);beep(SND.buy)}render()}
 function newOffer(){const ks=Object.keys(CARD).sort(()=>Math.random()-.5).slice(0,3);S.offer=ks;S.offerT=Date.now()}
 const rebReq=()=>1e6*Math.pow(10,S.reb);
-function rebirth(){if(S.money<rebReq())return;modal("<h3>REBIRTH?</h3>Perde Busheiros, upgrades e dados.<br><b>Bushes, níveis e XP ficam!</b>",[["CANCEL","",()=>{}],["REBIRTH","r",()=>{S.reb++;S.money=0;S.up={};S.cards={};S.dice=[];S.dEq=-1;S.pity=0;S.maxMult=Math.max(S.maxMult,rebMult(S.reb));newOffer();beep(SND.reb);tab="farm";render()}]])}
+function rebirth(){if(S.money<rebReq())return;modal("<h3>REBIRTH?</h3>Perde Busheiros, upgrades e dados.<br><b>Bushes, níveis e XP ficam!</b>",[["CANCEL","",()=>{}],["REBIRTH","r",()=>{S.reb++;S.money=0;S.atPk=0;_atI.t=0;S.up={};S.cards={};S.dice=[];S.dEq=-1;S.pity=0;S.maxMult=Math.max(S.maxMult,rebMult(S.reb));newOffer();beep(SND.reb);tab="farm";render()}]])}
 // render
 const tm=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
 // ===== NAVEGAÇÃO v5: grupos claros (Principal · Combate · Coleção · Progresso · Sistema) =====
@@ -902,6 +938,7 @@ function icard(i){const b=bush(i.id),sub=b.sub||0,mn=i.ms.map(k=>M[k].n),e=S.eq.
 <div class="rc s${sub} ${RAR[b.rarity]} bc-r">${RAR[b.rarity]} ${SUBN[sub]}${sub>=3?" "+"★".repeat(sub-2):""}${b.fused?" · Fundido":""}</div>
 <div class="bc-bps">${f(bushBps(i))} <small>BPS</small></div>
 <div class="bc-chips"><span class="chip ql" style="--qh:${i.q*28}" title="Qualidade">${Q[i.q].n}</span>${i.t>=0?`<span class="chip tier t${i.t}">${TIERS[i.t].n}</span>`:""}${mu}${ab}</div>
+${atChips(i)}
 ${bd.length?`<div class="bc-eq">${bd.join(" · ")}</div>`:""}
 <button class="btn ${e?"":"g"}" onclick="event.stopPropagation();${e?"unequip":"equip"}('${i.k}')">${e?"Remover":"Equipar"}</button></div>`}
 // Detalhes (informações secundárias) ao selecionar a Bush
@@ -920,9 +957,11 @@ ${kv("Passiva",i.pv&&PP[i.pv]?`${ppChip(i)}<br><small>${PPR[PP[i.pv].t][0]} · $
 ${kv("Evolução",i.evo?"✦ Evoluída · BPS ×3":"—")}
 ${kv("Gemas",`💠 ${i.gem||0}/${GEM_MAX} · +${(gb(i)*100).toFixed(0)}% Vida/Dano/XP`)}
 ${kv("Combate",`❤ ${f(c.hp)} · ⚔ ${f(c.dm)}`)}
+<div class="lab">Tiers de atributos</div>
+${ATK.map((K,a)=>kv(K[2]+" "+K[1],`${atChip(atI(i,a))}<br><small>${atEff(i,a)}</small>`)).join("")}
 ${kv("BPS base da espécie",f(b.baseBps))}
 ${kv("Valor de venda",`🪙 ${f(sellVal(i))} + ${ESSG[b.rarity]} Essência ${RAR[b.rarity]}`)}
-<div class="bd-act"><button class="btn ${e?"":"g"}" onclick="bdEq('${k}')">${e?"Remover da fazenda":"Equipar"}</button><button class="btn" onclick="lockB('${k}');bdet('${k}')">${S.lock[k]?"🔓 Desbloquear":"🔒 Bloquear"}</button><button class="btn" onclick="bdMng('${k}')">🎚 Aprimorar</button><button class="btn r" onclick="closeOv();sell('${k}')">Vender</button></div></div>`}
+<div class="bd-act"><button class="btn ${e?"":"g"}" onclick="bdEq('${k}')">${e?"Remover da fazenda":"Equipar"}</button><button class="btn" onclick="lockB('${k}');bdet('${k}')">${S.lock[k]?"🔓 Desbloquear":"🔒 Bloquear"}</button><button class="btn" onclick="bdMng('${k}')">🎚 Aprimorar</button><button class="btn" onclick="bdTier('${k}')">🎲 Tiers</button><button class="btn r" onclick="closeOv();sell('${k}')">Vender</button></div></div>`}
 function bdEq(k){if(S.eq.includes(k)){unequip(k);return bdet(k)}if(S.eq.indexOf(null)<0){closeOv();return equip(k)}equip(k);bdet(k)}
 function bdMng(k){const i=S.inv[k];if(!i)return;iR=bush(i.id).rarity;invT="items";itT="up";closeOv();render();window.scrollTo(0,0)}
 function INVB(){const q=invQ.toLowerCase(),stf=[()=>1,i=>S.eq.includes(i.k),i=>S.lock[i.k],i=>i.ab&&AB[i.ab],i=>i.evo][invSt],
@@ -1029,8 +1068,8 @@ const CHING=[
  [[5,5,10,100],[6,3,6,100],[6,5,12,30]]];
 function ingRoll(t,mul,cm){const o={};CHING[t].forEach(e=>{if(Math.random()*100<Math.min(100,e[3]*(cm||1))){const q=(e[1]+Math.floor(Math.random()*(e[2]-e[1]+1)))*(mul||1);o[e[0]]=(o[e[0]]||0)+q}});return o}
 const newKey=()=>"u"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-const gb=i=>(i.gem||0)*.01*(1+(Q[i.q].m-1)*.25),cs=i=>{const bp=bushRaw(i),g=1+gb(i);return{hp:bp*g*ABM(i,"hp")*bn("hp"),dm:bp/8*g*ABM(i,"dmg")*bn("dmg")}};
-function giveInst(id,q,ms,t){const k=newKey();S.inv[k]={k,id,q,ms:ms||[],lv:1,xp:0,qty:1,gem:0};if(t>=0)S.inv[k].t=t;S.bq[id]=Math.max(S.bq[id]??-1,q);return k}
+const gb=i=>(i.gem||0)*.01*(1+(Q[i.q].m-1)*.25),cs=i=>{const bp=bushRaw(i),g=1+gb(i);return{hp:bp*g*ABM(i,"hp")*bn("hp")*atMul(i,"hp"),dm:bp/8*g*ABM(i,"dmg")*bn("dmg")*atMul(i,"dmg")}};
+function giveInst(id,q,ms,t){const k=newKey();S.inv[k]={k,id,q,ms:ms||[],lv:1,xp:0,qty:1,gem:0,ta:atRollAll()};if(t>=0)S.inv[k].t=t;S.bq[id]=Math.max(S.bq[id]??-1,q);return k}
 function givePool(r){const p=B.filter(b=>b.rarity==r),b=p[pick(p.map(x=>x.weight))];giveInst(b.id,pickQ());return b}
 const EN=[["Slime","🟢"],["Goblin","👺"],["Lobo","🐺"],["Ogro","👹"],["Golem","🗿"],["Dragão","🐲"],["Fantasma","👻"]];
 const TBN=[["Rei Slime","🟢"],["Chefe Goblin","👺"],["Lobo Alfa","🐺"],["Ogro Ancestral","👹"],["Golem Titã","🗿"],["Dragão Ancião","🐲"],["Espectro Rei","👻"],["Kraken Abissal","🦑"],["Fênix Sombria","🔥"],["Lorde Demônio","😈"]];
@@ -1119,13 +1158,98 @@ function aqHtml(){const i=S.inv[AQ.k],b=i&&bush(i.id),ch=aqChance(),run=AQ.on;
 <div class="lab">Qualidade mínima — para ao atingir ou superar</div><div class="chips">${Q.map((x,k)=>`<button class="chipb ${AQ.min==k?"on":""}" ${run?"disabled":""} onclick="aqMin(${k})">${x.n}</button>`).join("")}</div>
 <div class="stats4"><div class="stat"><small>Cones</small><b>${S.cone||0}</b></div><div class="stat"><small>Chance por Roll</small><b>${(ch*100).toFixed(ch<.01?3:1)}%</b></div><div class="stat"><small>Rolls / Cones usados</small><b>${AQ.n}</b></div><div class="stat"><small>Último resultado</small><b>${AQ.last>=0?Q[AQ.last].n:"-"}</b></div></div>
 <button class="btn ${run?"r":"g"} wide" onclick="aqToggle()">${run?"■ PARAR AUTO ROLL":"▶ INICIAR AUTO ROLL"}</button>${AQ.res?`<div class="aq-res">${AQ.res}</div>`:run?`<div class="aq-res run">Rolando… sem confirmações.</div>`:""}`}
+/* ===== TIERS DE ATRIBUTOS — reroll individual com dinheiro (tudo acontece dentro do painel, sem pop-ups) =====
+   PREÇO (fórmula ÚNICA — usada por botões, tabela, confirmação, Auto Roll e débito em atRoll):
+        custo = piso(raridade) + renda × segundos(raridade)
+     • segundos(r) = t0 × g^r     (t0 = Common; g = salto por raridade)  → Common 2,5 s · Rare 5,6 s · Legendary 12,7 s · Secret 28,5 s · Celestial 96 s de renda por tentativa.
+     • piso(r)     = floorK × RBASE[r]: só pesa no começo (renda ~0); garante que nunca seja de graça.
+     • renda       = atIncome(): BPS dos 8 melhores Bushes do INVENTÁRIO × Money/BPS Upgrades × Rebirth × bônus × Pet,
+                     SEM Poção (temporária) e travada no PICO desde o último Rebirth (S.atPk). Assim tirar o Pet/Título/Armadura
+                     ou desequipar Bushes antes de rolar NÃO baixa o preço; já Upgrades, níveis, Rebirth e novos Bushes o elevam.
+     • O preço exibido é o que é cobrado: atRoll recusa (sem cobrar) se o preço subiu acima do valor mostrado/confirmado.
+   O dinheiro é descontado em UM só lugar (atRoll), com validações. Para rebalancear, mexa SÓ em AT_PRICE.
+   Tempo de renda até o Tier S (média 61 rolls): Common 2,5 min · Rare 5,7 min · Legendary 13 min · Secret 29 min · Celestial 98 min. */
+const AT_PRICE={t0:2.5,g:1.5,floorK:5,top:8,ttl:1000,tol:1.25};
+const atRar=r=>Math.max(0,Math.min(9,r|0)),
+atSec=r=>AT_PRICE.t0*Math.pow(AT_PRICE.g,atRar(r)),
+atFloor=r=>AT_PRICE.floorK*RBASE[atRar(r)],
+atPriceOf=(r,inc)=>Math.ceil(atFloor(r)+(Number.isFinite(inc)&&inc>0?inc:0)*atSec(r));
+let _atI={t:0,v:0};
+const atPk=()=>Number.isFinite(S.atPk)&&S.atPk>0?S.atPk:0;
+function atLive(){return Object.values(S.inv).map(bushBps).filter(Number.isFinite).sort((x,y)=>y-x).slice(0,AT_PRICE.top).reduce((x,y)=>x+y,0)*(moneyMult()/(potA("money")?2:1))*bn("bps")*petMult()}
+function atIncome(){const n=Date.now();if(n-_atI.t<AT_PRICE.ttl)return _atI.v;
+ const l=atLive();if(Number.isFinite(l)&&l>atPk())S.atPk=l;
+ const v=Math.max(Number.isFinite(l)?l:0,atPk());
+ _atI={t:n,v:Number.isFinite(v)&&v>0?v:0};return _atI.v}
+const atCost=r=>atPriceOf(r,atIncome()),
+atDur=sec=>!(sec>=0)||!isFinite(sec)?"—":sec<90?Math.max(1,Math.round(sec))+" s":sec<5400?Math.round(sec/60)+" min":sec<172800?(sec/3600).toFixed(1).replace(".",",")+" h":Math.round(sec/86400)+" dias";
+const atTot=AT.reduce((a,x)=>a+x.w,0),atChance=m=>AT.slice(m).reduce((a,x)=>a+x.w,0)/atTot;
+const AT_S={k:null,a:0,min:7,on:false,n:0,spent:0,res:"",prev:-1,last:-1,cf:0,pend:0,apend:0,c0:0,shown:0};
+const atChip=x=>`<span class="chip ql" style="--qh:${x*25}">${AT[x].n} ×${AT[x].m}</span>`,
+atChips=i=>`<div class="bc-at">${ATK.map((k,a)=>`<span class="chip ql" style="--qh:${atI(i,a)*25}" title="${k[1]} ${AT[atI(i,a)].n} ×${AT[atI(i,a)].m}">${k[2]}${AT[atI(i,a)].n}</span>`).join("")}</div>`,
+atEff=(i,a)=>{const c=cs(i);return[`⚔ ${f(c.dm)}`,`❤ ${f(c.hp)}`,`✨ XP ×${atMul(i,"xp")}`,`⚡ ${f(bushBps(i))} BPS`][a]};
+// troca SOMENTE o Tier do atributo escolhido; qualidade, mutações, habilidades, passiva, evolução, gemas e os outros Tiers ficam intactos
+// ÚNICO ponto que cobra. max = preço que o jogador viu/confirmou: se o preço atual passou disso, NÃO cobra e devolve {rq} para exibir o novo preço.
+function atRoll(i,a,max){const c=atCost(bush(i.id).rarity);if(!Number.isFinite(c)||!(c>=0))return null;if(max>0&&c>max)return{rq:c};if(!(S.money>=c))return null;S.money=Math.max(0,S.money-c);i.ta=ATK.map((_,x)=>atI(i,x));const o=i.ta[a];i.ta[a]=atPick();_atI.t=0;return{o,nw:i.ta[a],c}}
+function atRollA(x){if(AT_S.on)return;if(AT_S.a!=x){AT_S.a=x;atReset()}atGo()}
+function atReset(){AT_S.cf=0;AT_S.pend=0;AT_S.apend=0;AT_S.n=0;AT_S.spent=0;AT_S.res="";AT_S.prev=-1;AT_S.last=-1}
+function atSel(k){if(AT_S.on)return;AT_S.k=k||null;atReset();atUi()}
+function atAttr(a){if(AT_S.on)return;AT_S.a=a;atReset();atUi()}
+function atMin(n){if(AT_S.on)return;AT_S.min=n;AT_S.res="";AT_S.apend=0;atUi()}
+function atGo(){if(AT_S.on)return;const i=S.inv[AT_S.k];if(!i){AT_S.res="Selecione um Bush primeiro.";return atUi()}
+ const c=atCost(bush(i.id).rarity);
+ if(!(S.money>=c)){AT_S.res="Dinheiro insuficiente: faltam 🪙 "+f(c-S.money)+" para este reroll.";AT_S.pend=0;return atUi()}
+ // 1º toque mostra o preço e pede confirmação (inline, sem pop-up). Confirmado, os próximos rerolls seguem direto enquanto o preço não subir >25%.
+ // Nunca se cobra mais do que o preço exibido: se mudou, mostra o novo preço e pede nova confirmação.
+ let cap=AT_S.shown>0?AT_S.shown:c;
+ if(!(AT_S.cf>0&&c<=AT_S.cf*AT_PRICE.tol)){
+  if(!(AT_S.pend>0&&c<=AT_S.pend)){AT_S.pend=c;AT_S.res="Este reroll custa 🪙 "+f(c)+" (≈ "+atDur(c/(atIncome()||1))+" da sua renda). Toque em CONFIRMAR para rolar — os próximos rerolls deste atributo não pedem confirmação.";return atUi()}
+  AT_S.cf=AT_S.pend;cap=AT_S.pend;AT_S.pend=0}
+ const r=atRoll(i,AT_S.a,cap);if(!r){AT_S.res="Dinheiro insuficiente.";return atUi()}
+ if(r.rq){AT_S.cf=0;AT_S.pend=r.rq;AT_S.res="O preço mudou para 🪙 "+f(r.rq)+" (nada foi cobrado). Toque em CONFIRMAR para rolar neste novo valor.";return atUi()}
+ AT_S.prev=r.o;AT_S.last=r.nw;AT_S.n++;AT_S.spent+=r.c;AT_S.res="";save();hud();atUi()}
+function atStop(m){if(AT_S.on){AT_S.on=false;save()}AT_S.res=m;hud();atUi()}
+function atToggle(){if(AT_S.on)return atStop("Parado manualmente.");const i=S.inv[AT_S.k];
+ if(!i){AT_S.res="Selecione um Bush primeiro.";return atUi()}
+ if(atI(i,AT_S.a)>=AT_S.min){AT_S.res="Este atributo já está em "+AT[AT_S.min].n+" ou melhor. Escolha um Tier mínimo maior.";return atUi()}
+ const c=atCost(bush(i.id).rarity),ch=atChance(AT_S.min);
+ if(S.money<c){AT_S.res="Dinheiro insuficiente: faltam 🪙 "+f(c-S.money)+" para o 1º roll.";return atUi()}
+ // Auto Roll também mostra o preço antes: 1º toque informa preço e custo médio até o alvo; 2º toque inicia.
+ if(!(AT_S.apend>0&&c<=AT_S.apend)){AT_S.apend=c;AT_S.res="Auto Roll: 🪙 "+f(c)+" por roll · custo médio até ≥ "+AT[AT_S.min].n+" ≈ 🪙 "+f(Math.round(c/ch))+" ("+f(Math.round(1/ch))+" rolls). Para sozinho ao atingir o alvo, quando faltar dinheiro ou se o preço subir mais de 25%. Toque em CONFIRMAR para iniciar.";return atUi()}
+ AT_S.apend=0;AT_S.c0=c;AT_S.on=true;AT_S.n=0;AT_S.spent=0;AT_S.res="";AT_S.prev=atI(i,AT_S.a);AT_S.last=-1;atUi()}
+function atTick(){if(!AT_S.on)return;const i=S.inv[AT_S.k];if(!i)return atStop("O Bush selecionado não existe mais.");
+ const r=atRoll(i,AT_S.a,AT_S.c0*AT_PRICE.tol);if(r&&r.rq)return atStop("O preço subiu de 🪙 "+f(AT_S.c0)+" para 🪙 "+f(r.rq)+" (mais de 25%). Auto Roll parado sem cobrar — reinicie para confirmar o novo preço.");if(!r)return atStop("Dinheiro insuficiente após "+AT_S.n+" roll(s) · gasto 🪙 "+f(AT_S.spent)+".");
+ AT_S.last=r.nw;AT_S.n++;AT_S.spent+=r.c;
+ if(r.nw>=AT_S.min){beep(SND.leg);return atStop("🎯 Alvo atingido: "+ATK[AT_S.a][1]+" "+AT[r.nw].n+" após "+AT_S.n+" roll(s) · gasto 🪙 "+f(AT_S.spent)+".")}
+ if(AT_S.n%10==0)save();atUiR()}
+setInterval(atTick,120);
+function atUiR(){const e=$("#atr");if(e)e.innerHTML=atCtl()}
+function atUi(){const e=$("#atb");if(e)e.innerHTML=atHtml()}
+function atCtl(){const i=S.inv[AT_S.k],a=AT_S.a,run=AT_S.on,K=ATK[a];
+ const sel=`<select ${run?"disabled":""} onchange="atSel(this.value)" style="width:100%"><option value="">Selecionar Bush…</option>${Object.values(S.inv).sort(SORT[0]).map(x=>`<option value="${x.k}" ${x.k==AT_S.k?"selected":""}>${S.eq.includes(x.k)?"⭐ ":""}${bush(x.id).name} · ${RAR[bush(x.id).rarity]} · ${Q[x.q].n} · Lv${x.lv}</option>`).join("")}</select>`;
+ if(!i)return sel+`<div class="aq-res">Selecione um Bush para ver e rolar os Tiers de Dano, Vida, XP e BPS.</div>`;
+ const b=bush(i.id),c=atCost(b.rarity),inc=atIncome(),cur=atI(i,a),ch=atChance(AT_S.min),ok=S.money>=c&&!run,pr=AT_S.pend>0;AT_S.shown=c;
+ const ba=ATK.map((k,x)=>{const t=atI(i,x),sel=a==x,pd=sel&&pr;return`<div class="atc ${sel?"on":""}" onclick="atAttr(${x})"><div class="atc-h"><span>${k[2]} ${k[1]}</span>${atChip(t)}</div><div class="atc-e">${atEff(i,x)}</div><button class="btn ${pd?"r":"g"}" ${run||!(S.money>=c)?"disabled":""} onclick="event.stopPropagation();atRollA(${x})">${pd?"✔ CONFIRMAR":"🎲 ROLAR"}<small>🪙 ${f(pd?AT_S.pend:c)}</small></button></div>`}).join("");
+ const dl=AT_S.last>=0?`<span class="chip ql" style="--qh:${AT_S.prev*25}">${AT[AT_S.prev].n}</span> ➜ ${atChip(AT_S.last)} ${AT_S.last>AT_S.prev?"▲":AT_S.last<AT_S.prev?"▼":"="}`:"-";
+ return sel+`<div class="lab">Tiers do Bush · toque em ROLAR no atributo desejado</div><div class="atg">${ba}</div>${!run&&!(S.money>=c)?`<div class="aq-res">Dinheiro insuficiente: faltam 🪙 ${f(c-S.money)}</div>`:""}
+<div class="kv"><span>Último resultado · ${K[1]}</span><b>${dl}</b></div>
+<div class="lab">Tier mínimo do Auto Roll — para ao atingir ou superar</div><div class="chips">${AT.map((x,k)=>`<button class="chipb ${AT_S.min==k?"on":""}" ${run?"disabled":""} onclick="atMin(${k})">${x.n}</button>`).join("")}</div>
+<div class="stats4"><div class="stat"><small>Custo por roll</small><b>🪙 ${f(c)}</b><small>≈ ${atDur(c/(inc||1))} de renda</small></div><div class="stat"><small>Seu dinheiro</small><b>🪙 ${f(S.money)}</b><small>paga ${f(Math.floor(S.money/c))} roll(s)</small></div><div class="stat"><small>Chance do alvo (≥ ${AT[AT_S.min].n})</small><b>${(ch*100).toFixed(ch<.01?4:2)}%</b></div><div class="stat"><small>Rolls · gasto</small><b>${f(AT_S.n)} · 🪙 ${f(AT_S.spent)}</b></div></div>
+<div class="kv"><span>Custo médio até o alvo</span><b>≈ 🪙 ${f(Math.round(c/ch))}<br><small>${f(Math.round(1/ch))} rolls · ${atDur(c/ch/(inc||1))} de renda</small></b></div>
+`}
+function atHtml(){const run=AT_S.on;
+ return`<details class="atinfo"><summary>ℹ Como funciona</summary><small>Cada Bush tem Tiers separados de Dano, Vida, XP e BPS (sorteados quando é obtida). Rolar troca somente o Tier do atributo escolhido, pode piorar, e custa dinheiro: um piso por raridade mais alguns segundos da sua renda real (BPS, upgrades, Rebirth e bônus; pico desde o último Rebirth, então tirar Pet/Título/Armadura não baixa o preço). Quanto maior a raridade, mais segundos de renda por roll. O preço aparece antes de rolar, o primeiro reroll (e o Auto Roll) pede confirmação e nunca se cobra mais que o valor exibido. Não altera qualidade, mutações, habilidades ou os outros Tiers.</small></details><div id="atr">${atCtl()}</div>
+<button class="btn ${run?"r":"g"} wide" onclick="atToggle()" ${S.inv[AT_S.k]?"":"disabled"}>${run?"■ PARAR AUTO ROLL":(AT_S.apend>0?"✔ CONFIRMAR AUTO ROLL":"▶ INICIAR AUTO ROLL")+(S.inv[AT_S.k]?" · 🪙 "+f(atCost(bush(S.inv[AT_S.k].id).rarity))+" por roll":"")}</button>${AT_S.res?`<div class="aq-res">${AT_S.res}</div>`:run?`<div class="aq-res run">Rolando… sem confirmações.</div>`:""}
+<details style="margin-top:8px"><summary>Preço do reroll por raridade (agora)</summary><table class="arm-tbl"><tr><th>Raridade</th><th>Por roll</th><th>Renda</th><th>Médio até ≥ ${AT[AT_S.min].n}</th></tr>${RAR.map((n,r)=>{const c=atCost(r),sel=S.inv[AT_S.k]&&bush(S.inv[AT_S.k].id).rarity==r,cm=c/atChance(AT_S.min);return`<tr${sel?' style="font-weight:800"':""}><td class="rc ${n}">${n}</td><td>🪙 ${f(c)}</td><td>≈ ${atDur(c/(atIncome()||1))}</td><td>🪙 ${f(Math.round(cm))}<br><small>${atDur(cm/(atIncome()||1))}</small></td></tr>`}).join("")}</table></details>
+<details style="margin-top:8px"><summary>Tabela de Tiers (multiplicador e chance)</summary><table class="arm-tbl"><tr><th>Tier</th><th>Efeito</th><th>Chance</th><th>1 em</th></tr>${AT.map((x,k)=>{const p=x.w/atTot;return`<tr><td>${atChip(k)}</td><td>×${x.m}</td><td>${(p*100).toFixed(p<.001?4:2)}%</td><td>${f(Math.round(1/p))}</td></tr>`}).join("")}</table></details>`}
+function bdTier(k){const i=S.inv[k];if(!i)return;AT_S.k=k;AT_S.a=AT_S.a||0;atReset();invT="items";itT="up";closeOv();render();const e=$("#atb"),pn=e&&e.closest(".panel");if(pn)window.scrollTo(0,Math.max(0,pn.getBoundingClientRect().top+window.scrollY-($("#hud").offsetHeight+10)));else window.scrollTo(0,0)}
 let iR=0;
 function buyME(k){const p=mePrice(k);if(S.money<p||!S.mSh.includes(k))return;S.money-=p;S.me[k]++;S.mSh=S.mSh.filter(x=>x!=k);beep(SND.buy);render()}
 function applyME(k){const i=S.inv[k];if(!(S.me[mSel]>0))return toast("Sem essência dessa mutação",2000);if(i.ms.includes(mSel))return toast("O Bush já tem essa mutação",2000);S.me[mSel]--;i.ms.push(mSel);S.muts[M[mSel].n]=1;S.bm[i.id]=[...new Set([...(S.bm[i.id]||[]),M[mSel].n])];S.maxMuts=Math.max(S.maxMuts,i.ms.length);beep(SND.mut);modal(`🧬 ${M[mSel].n} Essence usada<br>${bush(i.id).name}<br>Mutações: ${i.ms.map(j=>"["+M[j].n+"]").join("")}<br>Multiplicador total: x${+mm(i).toFixed(2)}`,[["OK","g",()=>render()]])}
 const ESSXP=[20,50,120,300,800,2000,6000,20000,70000,250000];let eSel=0,fx={};
 let eQ=1,eK=null;
-function essCalc(){const i=S.inv[eK];if(!i)return null;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)*ABM(i,"xp")*bn("xp")),have=S.ess[eSel];eQ=Math.max(0,Math.min(have,Math.floor(+eQ)||0));const g=per*eQ;let lv=i.lv,xp=i.xp+g;while(lv<200&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}return{i,per,have,g,lv}}
-function essMax(){const i=S.inv[eK];if(!i||i.lv>=200)return 0;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)*ABM(i,"xp")*bn("xp"));let lv=i.lv,xp=i.xp,n=0;while(lv<200&&n<S.ess[eSel]){xp+=per;n++;while(lv<200&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}}return n}
+function essCalc(){const i=S.inv[eK];if(!i)return null;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)*ABM(i,"xp")*bn("xp")*atMul(i,"xp")),have=S.ess[eSel];eQ=Math.max(0,Math.min(have,Math.floor(+eQ)||0));const g=per*eQ;let lv=i.lv,xp=i.xp+g;while(lv<200&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}return{i,per,have,g,lv}}
+function essMax(){const i=S.inv[eK];if(!i||i.lv>=200)return 0;const per=Math.floor(ESSXP[eSel]*(1+gb(i))*(potA("xp")?2:1)*ABM(i,"xp")*bn("xp")*atMul(i,"xp"));let lv=i.lv,xp=i.xp,n=0;while(lv<200&&n<S.ess[eSel]){xp+=per;n++;while(lv<200&&xp>=xpNeed(lv)){xp-=xpNeed(lv);lv++}}return n}
 function essStats(){const c=essCalc(),e=$("#esst");if(!c||!e)return;const mx=c.i.lv>=200;
  e.innerHTML=`<div class="stat"><small>Essências disponíveis</small><b>${c.have}</b></div><div class="stat"><small>Selecionadas</small><b>${eQ}</b></div><div class="stat"><small>XP a receber</small><b>+${f(c.g)}</b></div><div class="stat"><small>Nível atual → previsto</small><b>${c.i.lv} → ${c.lv}${c.lv>c.i.lv?" ▲":""}</b></div>${mx?'<div class="aq-res" style="grid-column:1/-1">Este Bush já está no nível máximo.</div>':""}`;
  const ok=$("#esok");if(ok)ok.disabled=mx||eQ<1}
@@ -1149,11 +1273,11 @@ function fusChances(sel){const p=TIERS.map((T,k)=>Math.min(.6,sel.filter(i=>i.t=
 function fusTier(sel){const c=fusChances(sel);for(let k=TIERS.length-1;k>=0;k--){if(Math.random()<c.p[k])return k}return -1}
 function fuse(){const c=fusCost(fr);if(fsel.length!=3||S.money<c.m||S.ess[fr]<c.e)return;const sel=fsel.map(k=>S.inv[k]);if(sel.some(i=>!i)||sel.some(i=>bush(i.id).rarity!=fr))return;
  const bs=sel.map(i=>bush(i.id)),id="f"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),w=bs.map(b=>b.name.replace(/ bush$/i,"").split(" ")[0]);
- const tr=fusTier(sel),nb={id,name:w[0].slice(0,Math.ceil(w[0].length/2))+w[1].slice(Math.floor(w[1].length/2))+"-"+w[2].slice(0,3)+" bush",rarity:fr+1,sub:2,baseBps:0,weight:0,imageSrc:PH_SRC,fused:true},q=Math.round(sel.reduce((a,i)=>a+i.q,0)/3),avg=sel.reduce((a,i)=>a+bushBps(i)/tmul(i),0)/3;nb.baseBps=Math.max(1,Math.round(2.5*avg/Q[q].m));
+ const tr=fusTier(sel),nb={id,name:w[0].slice(0,Math.ceil(w[0].length/2))+w[1].slice(Math.floor(w[1].length/2))+"-"+w[2].slice(0,3)+" bush",rarity:fr+1,sub:2,baseBps:0,weight:0,imageSrc:PH_SRC,fused:true},q=Math.round(sel.reduce((a,i)=>a+i.q,0)/3),avg=sel.reduce((a,i)=>a+bushBps(i)/tmul(i)/atMul(i,"bps"),0)/3;nb.baseBps=Math.max(1,Math.round(2.5*avg/Q[q].m));
  S.cust[id]=nb;fsel.forEach(k=>delete S.inv[k]);S.eq=S.eq.map(k=>S.inv[k]?k:null);S.team=S.team.filter(k=>S.inv[k]);S.money-=c.m;S.ess[fr]-=c.e;fsel=[];giveInst(id,q,[],tr);S.nfus++;beep(tr>=0?SND.sec:SND.reb);
  modal("<h3>🔀 Fusão!</h3><b>"+nb.name+"</b><br>"+RAR[nb.rarity]+" · Fundido<br>"+(tr>=0?'<span class="chip tier t'+tr+'">'+TIERS[tr].n+' ×'+TIERS[tr].m+'</span> herdado!<br>':"Sem multiplicador especial<br>")+"BPS base: "+f(2.5*avg)+" (2,5× a média sem tiers: "+f(avg)+")<br>Qualidade: "+Q[q].n+" (média)",[["OK","g",()=>render()]])}
 // FUSÃO: removida de Itens; será montada na aba Craft (próxima etapa)
-const FUSPANEL_OLD=()=>{const c=fusCost(fr),cand=Object.values(S.inv).filter(i=>bush(i.id).rarity==fr).sort(SORT[0]),mis=Math.max(0,c.e-S.ess[fr]),sl=fsel.map(k=>S.inv[k]).filter(Boolean),fc=sl.length==3?fusChances(sl):null;return`<div class="panel"><h2>🔀 FUSÃO (3 Bushes da mesma raridade)</h2><select style="width:100%;margin:2px 0 8px" onchange="fr=+this.value;fsel=[];render()">${RAR.slice(0,8).map((r,k)=>`<option value="${k}" ${fr==k?"selected":""}>${r} → ${RAR[k+1]}</option>`).join("")}</select><div class="stats4"><div class="stat"><small>Custo</small><b>🪙 ${f(c.m)}</b></div><div class="stat"><small>Essência ${RAR[fr]}</small><b>${S.ess[fr]}/${c.e}</b></div><div class="stat"><small>Selecionadas</small><b>${fsel.length}/3</b></div><div class="stat"><small>Status</small><b>${mis||S.money<c.m?"Faltam recursos":"Pronto"}</b></div></div><details><summary>ℹ Como funciona</summary><small>Silver/Gold/Diamond/Void/Emerald/Rainbow/Pastel nas Bushes usadas aumentam a chance de a Bush resultante receber o mesmo multiplicador. Não é garantido — o BPS dos tiers usados não é somado ao resultado.</small></details>${sl.length==3?`Resultado previsto: BPS base ${f(2.5*sl.reduce((a,i)=>a+bushBps(i)/tmul(i),0)/3)} · Qualidade ${Q[Math.round(sl.reduce((a,i)=>a+i.q,0)/3)].n}<br><details open><summary>Chance de multiplicador</summary><small>${TIERS.map((T,k)=>"<span class='chip tier t"+k+"'>"+T.n+" ×"+T.m+"</span> "+(fc.out[k]*100<.01?fc.out[k]*100<.0001?"<0,0001":(fc.out[k]*100).toFixed(4):(fc.out[k]*100).toFixed(2))+"%").join(" · ")}<br>Sem multiplicador: ${(fc.none*100).toFixed(2)}%</small></details>`:""}<button class="btn g wide" ${fsel.length==3&&S.money>=c.m&&!mis?"":"disabled"} onclick="fuse()">FUNDIR</button><div class="lab">Escolha 3 Bushes (${cand.length} disponíveis)</div>${cand.map(i=>{const b=bush(i.id);return`<div class="row">${bi(b)} ${b.name} (${SUBN[b.sub||0]})${S.lock[i.k]?" 🔒":""}${S.eq.includes(i.k)?" ⭐":""}${i.t>=0?` <span class="chip tier t${i.t}">${TIERS[i.t].n} ×${TIERS[i.t].m}</span>`:""}${i.evo?" <span class='chip evo'>✦ Evoluída (será consumida)</span>":""} · <b>${Q[i.q].n}</b> · ${f(bushBps(i))} BPS · Lv${i.lv} <button class="btn ${fsel.includes(i.k)?"g":""}" style="margin-left:auto" onclick="togF('${i.k}')">${fsel.includes(i.k)?"✔":"Escolher"}</button></div>`}).join("")}</div>`};
+const FUSPANEL_OLD=()=>{const c=fusCost(fr),cand=Object.values(S.inv).filter(i=>bush(i.id).rarity==fr).sort(SORT[0]),mis=Math.max(0,c.e-S.ess[fr]),sl=fsel.map(k=>S.inv[k]).filter(Boolean),fc=sl.length==3?fusChances(sl):null;return`<div class="panel"><h2>🔀 FUSÃO (3 Bushes da mesma raridade)</h2><select style="width:100%;margin:2px 0 8px" onchange="fr=+this.value;fsel=[];render()">${RAR.slice(0,8).map((r,k)=>`<option value="${k}" ${fr==k?"selected":""}>${r} → ${RAR[k+1]}</option>`).join("")}</select><div class="stats4"><div class="stat"><small>Custo</small><b>🪙 ${f(c.m)}</b></div><div class="stat"><small>Essência ${RAR[fr]}</small><b>${S.ess[fr]}/${c.e}</b></div><div class="stat"><small>Selecionadas</small><b>${fsel.length}/3</b></div><div class="stat"><small>Status</small><b>${mis||S.money<c.m?"Faltam recursos":"Pronto"}</b></div></div><details><summary>ℹ Como funciona</summary><small>Silver/Gold/Diamond/Void/Emerald/Rainbow/Pastel nas Bushes usadas aumentam a chance de a Bush resultante receber o mesmo multiplicador. Não é garantido — o BPS dos tiers usados não é somado ao resultado.</small></details>${sl.length==3?`Resultado previsto: BPS base ${f(2.5*sl.reduce((a,i)=>a+bushBps(i)/tmul(i)/atMul(i,"bps"),0)/3)} · Qualidade ${Q[Math.round(sl.reduce((a,i)=>a+i.q,0)/3)].n}<br><details open><summary>Chance de multiplicador</summary><small>${TIERS.map((T,k)=>"<span class='chip tier t"+k+"'>"+T.n+" ×"+T.m+"</span> "+(fc.out[k]*100<.01?fc.out[k]*100<.0001?"<0,0001":(fc.out[k]*100).toFixed(4):(fc.out[k]*100).toFixed(2))+"%").join(" · ")}<br>Sem multiplicador: ${(fc.none*100).toFixed(2)}%</small></details>`:""}<button class="btn g wide" ${fsel.length==3&&S.money>=c.m&&!mis?"":"disabled"} onclick="fuse()">FUNDIR</button><div class="lab">Escolha 3 Bushes (${cand.length} disponíveis)</div>${cand.map(i=>{const b=bush(i.id);return`<div class="row">${bi(b)} ${b.name} (${SUBN[b.sub||0]})${S.lock[i.k]?" 🔒":""}${S.eq.includes(i.k)?" ⭐":""}${i.t>=0?` <span class="chip tier t${i.t}">${TIERS[i.t].n} ×${TIERS[i.t].m}</span>`:""}${i.evo?" <span class='chip evo'>✦ Evoluída (será consumida)</span>":""} · <b>${Q[i.q].n}</b> · ${f(bushBps(i))} BPS · Lv${i.lv} <button class="btn ${fsel.includes(i.k)?"g":""}" style="margin-left:auto" onclick="togF('${i.k}')">${fsel.includes(i.k)?"✔":"Escolher"}</button></div>`}).join("")}</div>`};
 let itT="res";
 const ITEMS=()=>{const all=Object.values(S.inv),
  nv=`<div class="subtabs">${[["res","💎","Recursos"],["use","🧪","Consumíveis"],["up","🎚","Aprimorar"]].map(t=>`<button class="stb sm ${itT==t[0]?"on":""}" onclick="itT='${t[0]}';render()"><i>${t[1]}</i><b>${t[2]}</b></button>`).join("")}</div>`;
@@ -1161,6 +1285,7 @@ const ITEMS=()=>{const all=Object.values(S.inv),
 <div class="panel"><h2>📦 Baús</h2><button class="btn g wide" ${S.chests.some(x=>x>0)?"":"disabled"} onclick="openAllChests()">ABRIR TODOS</button>${RAR.map((r,t)=>`<div class="row"><span class="rc ${r}">${r}</span> <b>x${S.chests[t]}</b><button class="btn" style="margin-left:auto" ${S.chests[t]?"":"disabled"} onclick="openChest(${t})">ABRIR</button></div>`).join("")}<details style="margin-top:8px"><summary>🧱 Ingots que cada baú pode dar</summary>${RAR.map((r,t)=>`<div class="row"><span class="rc ${r}">${r}</span><small>${chIngTxt(t)}</small></div>`).join("")}</details></div>`;
  if(itT=="up"){const cn=RAR.map((_,t)=>all.filter(i=>bush(i.id).rarity==t).length);
   return nv+`<div class="panel"><h2>🎯 Auto Roll de Qualidade</h2><div id="aqb">${aqHtml()}</div></div>
+<div class="panel"><h2>🎲 Tiers de Atributos</h2><div id="atb">${atHtml()}</div></div>
 <div class="panel"><h2>🎚 Aprimorar Bushes</h2><small>Qualidade · Gema · Mutação · Essência de XP. Escolha a raridade e a mutação a aplicar.</small><div class="lab">Mutação a aplicar</div><select onchange="mSel=+this.value;render()" style="width:100%">${M.map((x,k)=>`<option value="${k}" ${mSel==k?"selected":""}>${x.n} Essence (x${S.me[k]})</option>`).join("")}</select><div class="lab">Raridade</div><div class="chips">${RAR.map((r,t)=>`<button class="chipb ${iR==t?"on":""}" onclick="iR=${t};render()">${r}<small>${cn[t]}</small></button>`).join("")}</div>${all.filter(i=>bush(i.id).rarity==iR).sort(SORT[0]).map(i=>{const b=bush(i.id);return`<div class="row up-row"><div class="ur-h">${bi(b)} <b>${b.name}</b> ${i.ms.map(k=>"<span class=chip>"+M[k].n+"</span>").join("")} <span class="chip ql" style="--qh:${i.q*28}">${Q[i.q].n}</span></div><div class="ur-i"><small>Lv${i.lv} · XP ${i.lv>=200?"MAX":f(i.xp)+"/"+f(xpNeed(i.lv))} · 💠${i.gem||0}/${GEM_MAX} (+${(gb(i)*100).toFixed(0)}% Vida/Dano/XP)</small><div class="bar"><i style="width:${i.lv>=200?100:i.xp/xpNeed(i.lv)*100}%"></i></div>${fx.k==i.k?`<b style="color:var(--ok)">${fx.t}</b>`:""}</div><div class="rbtns"><button class="btn" onclick="rerollQ('${i.k}')">Reroll 🔺1</button><button class="btn" ${gemOk(i)?"":"disabled"} onclick="useGem('${i.k}')">${(i.gem||0)>=GEM_MAX?"💠 NÍVEL MÁX":"+ Gema · 💠"+gemCost((i.gem||0)+1)}</button><button class="btn" ${gemOk(i)?"":"disabled"} onclick="useGem('${i.k}',1)">Subir máx.</button><button class="btn" ${S.ess.some(x=>x>0)&&i.lv<200?"":"disabled"} onclick="essOpen('${i.k}')">✨ Essências de XP</button><button class="btn" ${S.me[mSel]?"":"disabled"} onclick="applyME('${i.k}')">🧬 ${M[mSel].n} (x${S.me[mSel]})</button></div></div>`}).join("")||"<div class=\"row\">Sem Bushes nesta raridade.</div>"}</div>`}
  return nv+`<div class="panel"><h2>Moedas especiais</h2><div class="restiles"><div class="rt"><i>🔺</i><b>${S.cone||0}</b><small>Cones</small></div><div class="rt"><i>💠</i><b>${f(S.gems)}</b><small>Gemas Bushianas</small></div></div><small>Cada Bush tem seu próprio nível de Gema (máx. ${GEM_MAX}). Custo cresce por nível; 1→${GEM_MAX} = ${GEMTOT} gemas.</small></div>
 <div class="panel"><h2>✨ Essências</h2><div class="restiles">${RAR.map((r,t)=>`<div class="rt ${r}"><b class="rc ${r}">${f(S.ess[t])}</b><small>${r}</small></div>`).join("")}</div><h3>🧬 Essências de Mutação</h3>${M.map((x,k)=>S.me[k]?`<span class="chip">${x.n} ×${S.me[k]}</span>`:"").join(" ")||"<small>Nenhuma (compre na loja)</small>"}</div>`};
@@ -1209,7 +1334,15 @@ const BOSS_END=[1,1,1,1.05,1.1,1.2,1.35,1.5,1.7,2];             // reforço extr
 // v3 — PROGRESSÃO DE DIFICULDADE POR RARIDADE: multiplicador estático aplicado ao multiplicador total do Boss (entra também no poder-alvo, então o Boss dinâmico continua sempre vencível).
 // Poder mínimo exigido (HP÷baseBps de cada Bush do time) ≈ Common 124 · Unc 284 · Rare 800 · Epic 2.1k · Leg 7k · Mythic 26k · Secret 111k · Eternal 551k · Divino 2,6M · Celestial 16M (antes: 124 → 10k, só ~83× entre Common e Celestial).
 const BOSS_DIFF=[1,1.5,2.8,4.6,9,19,47,140,400,2000];
-const BOSS_ALPHA=[.60,.63,.66,.69,.72,.75,.78,.81,.84,.87];     // quanto o Boss acompanha o progresso do jogador
+// v4 — REBALANCEAMENTO (nível máx. 200): o Boss acompanhava o jogador com α de 0,60 a 0,87. Como a Vida/Dano do Boss crescia ρ^α, ficar mais forte quase não ajudava nas raridades altas
+//   e usar Bushes de raridade ABAIXO da do Boss custava ×100–×10.000 de poder (Celestial/Divino viravam praticamente impossíveis). α agora é menor e quase uniforme (0,40; 0,38 e 0,35 no topo):
+//   o Boss ainda acompanha o progresso, mas evoluir as Bushes volta a compensar e cada raridade de diferença custa ≈ a razão natural de BPS base entre as raridades.
+const BOSS_ALPHA=[.40,.40,.40,.40,.40,.40,.40,.40,.38,.35];     // quanto o Boss acompanha o progresso do jogador (v4: era .60→.87)
+// v4 — FATORES DE VIDA e DANO por raridade, aplicados DEPOIS de todo o cálculo (S × G): redução proporcional à raridade. Quanto menor a raridade, maior o corte (Boss acessível);
+//   raridades altas cortam menos (continuam endgame). Poder necessário da equipe ∝ √(KV×KD) ≈ K. Para ajustar a dificuldade de UMA raridade, mexa só no valor dela aqui.
+//   Common −85% · Uncommon −83% · Rare −81% · Epic −70% · Legendary −62% · Mythic −54% · Secret −48% · Eternal −44% · Divino −40% · Celestial −50% (o Celestial era o único praticamente intransponível, então recebe um corte um pouco maior que o Divino).
+const BOSS_KV=[.15,.17,.19,.30,.38,.46,.52,.56,.60,.50];        // multiplicador final da VIDA do Boss
+const BOSS_KD=[.15,.17,.19,.30,.38,.46,.52,.56,.60,.50];        // multiplicador final do DANO do Boss
 const BOSS_GCAP=[30,45,70,110,170,260,400,650,1e3,1600];        // teto do crescimento dinâmico
 const BOSSD=["Normal","Desafiadora","Difícil","Muito difícil","Brutal","Infernal","Apocalíptica","Cataclísmica","Extrema","ENDGAME EXTREMO"];
 // A sub-raridade (I–V) influencia o Boss pela raiz do multiplicador (V ≈ ×2,2 de I, e não ×5) para nenhum Boss ficar impossível. O Celestial (Big Bush) usa o BPS base fixo.
@@ -1221,7 +1354,7 @@ const bossPst=r=>BOSSP[r]*bossLvS(r);
 // Poder real do jogador: média geométrica de (HP real ÷ baseBps) das 3 melhores Bushes do inventário (independe do time escolhido)
 function bossPlayerPow(){const t=[];Object.values(S.inv).forEach(i=>{const b=bush(i.id);if(!b||!(b.baseBps>0))return;const h=cs(i).hp;if(h>0)t.push(h/b.baseBps)});if(!t.length)return 0;t.sort((x,y)=>y-x);const k=t.slice(0,3);return Math.exp(k.reduce((a,x)=>a+Math.log(x),0)/k.length)}
 const bossCalc=b=>{const r=Math.max(0,Math.min(9,b.rarity|0)),ref=bossRef(b),S0=bossLvS(r),rho=bossPlayerPow()/bossPst(r),G=rho>1?Math.min(BOSS_GCAP[r],Math.pow(rho,BOSS_ALPHA[r])):1,M=S0*G,a=1-.02*r;
- return{n:b.name,em:"👑",hp:ref*BOSSP[r]*BOSSHK*Math.pow(M,a),dm:ref*BOSSP[r]*BOSSDK*Math.pow(M,2-a)}};
+ return{n:b.name,em:"👑",hp:ref*BOSSP[r]*BOSSHK*Math.pow(M,a)*BOSS_KV[r],dm:ref*BOSSP[r]*BOSSDK*Math.pow(M,2-a)*BOSS_KD[r]}};
 // Snapshot: o Boss da Guerra atual é calculado 1 vez (ao votar) e guardado em S.war.bst, para não mudar enquanto o jogador se prepara. Guerra sem snapshot (save antigo) calcula e guarda na hora.
 const bossStats=b=>{const w=S.war;if(w&&w.rar>=0&&w.boss===b.id){if(!w.bst||!(w.bst.hp>0)||!(w.bst.dm>0)){const c=bossCalc(b);w.bst={hp:c.hp,dm:c.dm}}return{n:b.name,em:"👑",hp:w.bst.hp,dm:w.bst.dm}}return bossCalc(b)};
 function chkWar(){const id=Math.floor(Date.now()/WSLOT);if(!S.war||S.war.id<id)S.war={id,rar:-1,boss:null,won:false,tries:0,log:""}}
@@ -1330,8 +1463,8 @@ const AB={};
 // ---------- PASSIVAS DE BUSH (PVP Token) — campo separado i.pv; NÃO substitui as habilidades (i.ab) ----------
 // 15 famílias, 42 passivas. Nível I = comum · II = rara · III = muito rara · Lenda = extremamente rara.
 // Cada passiva guarda família+nível exatos (ex.: "berserker_3"). m = multiplicadores de status (entram em cs()); c = efeitos de combate (motor fcoreP).
-// O servidor sorteia o nível pelas chances abaixo (1/10000) e depois uma passiva do nível, uniforme (bush-rng-passives.sql tem a MESMA lista).
-const PPR=[["Comum","#aab8a0",6885],["Rara","#4aa8ff",2600],["Muito Rara","#b86bff",500],["Lendária","#ffd23f",15]],PPCOST=1,PP={},PPFAM=[
+// O servidor sorteia o nível pelas chances abaixo (em partes por 1.000.000: Comum 85,225% · Rara 14% · Muito Rara 0,75% · Lenda 0,025% = 1 em 4.000) e depois uma passiva do nível, uniforme (bush-rng-passives.sql tem a MESMA lista).
+const PPR=[["Comum","#aab8a0",852250],["Rara","#4aa8ff",140000],["Muito Rara","#b86bff",7500],["Lendária","#ffd23f",250]],PPCOST=1,PP={},PPFAM=[
  ["destruidor","Destruidor","💥",[{m:{dmg:1.10}},{m:{dmg:1.25}},{m:{dmg:1.50}}]],
  ["colosso","Colosso","🗿",[{m:{hp:1.15}},{m:{hp:1.35}},{m:{hp:1.70}}]],
  ["berserker","Berserker","😡",[{c:{ber:.5}},{c:{ber:.9}},{c:{ber:1.5}}]],
@@ -1350,7 +1483,7 @@ const PPR=[["Comum","#aab8a0",6885],["Rara","#4aa8ff",2600],["Muito Rara","#b86b
 const ROM=["I","II","III"];
 PPFAM.forEach(F=>F[3].forEach((d,k)=>{const id=F[0]=="lenda"?"lenda":F[0]+"_"+(k+1);PP[id]={f:F[0],l:F[0]=="lenda"?4:k+1,t:F[0]=="lenda"?3:k,n:F[1]+(F[0]=="lenda"?"":" "+ROM[k]),e:F[2],m:d.m||{},c:d.c||null}}));
 let PPOFF=0,ppRnd=Math.random;
-const PPL=Object.keys(PP),PPTN=PPR.map((_,t)=>PPL.filter(k=>PP[k].t==t).length),PPW=k=>PPR[PP[k].t][2]/10000/PPTN[PP[k].t]; // chance exata de cada passiva por rolagem
+const PPL=Object.keys(PP),PPTN=PPR.map((_,t)=>PPL.filter(k=>PP[k].t==t).length),PPBASE=1e6,PPW=k=>PPR[PP[k].t][2]/PPBASE/PPTN[PP[k].t]; // chance exata de cada passiva por rolagem
 const PVM=(i,s)=>i&&i.pv&&!PPOFF&&PP[i.pv]?PP[i.pv].m[s]||1:1;
 const ppCombat=i=>i&&i.pv&&!PPOFF&&PP[i.pv]?PP[i.pv].c:null;
 const ppPc=v=>fm(+(v*100).toFixed(1))+"%";
@@ -1432,7 +1565,7 @@ function aaHtml(){const run=AA.on,ch=aaChance(),chip=k=>`<button class="chipb ${
 <div class="chips">${ABL.filter(k=>!AB[k].sp).map(chip).join("")}</div>
 <div class="lab">Especiais</div><div class="chips">${ABL.filter(k=>AB[k].sp).map(chip).join("")}</div>
 <div class="chips"><button class="chipb" ${run?"disabled":""} onclick="aaPreset('sp')">★ Todas as especiais</button><button class="chipb" ${run?"disabled":""} onclick="aaPreset('clr')">Limpar</button></div>
-<div class="stats4"><div class="stat"><small>War Tokens</small><b>🎟 ${f(S.wt)}</b></div><div class="stat"><small>Chance por tentativa</small><b>${ch>0?(ch*100).toFixed(ch<.01?3:2)+"%":"-"}</b>${ch>0?`<small>média: ~${f(Math.ceil(1/ch))} tokens</small>`:""}</div><div class="stat"><small>Tentativas / tokens gastos</small><b>${f(AA.n)}</b></div><div class="stat"><small>Último resultado</small><b>${AA.last&&AB[AA.last]?AB[AA.last].n:"-"}</b></div></div>
+<div class="stats4"><div class="stat"><small>War Tokens</small><b>🎟 ${f(S.wt)}</b></div><div class="stat"><small>Chance por tentativa</small><b>${ch>0?(ch*100).toFixed(ch<.01?4:2)+"%":"-"}</b>${ch>0?`<small>média: ~${f(Math.ceil(1/ch))} tokens</small>`:""}</div><div class="stat"><small>Tentativas / tokens gastos</small><b>${f(AA.n)}</b></div><div class="stat"><small>Último resultado</small><b>${AA.last&&AB[AA.last]?AB[AA.last].n:"-"}</b></div></div>
 <button class="btn ${run?"r":"g"} wide" onclick="aaToggle()">${run?"■ STOP":"▶ START"}</button>${AA.res?`<div class="aq-res">${AA.res}</div>`:run?`<div class="aq-res run">Rolando… sem confirmações.</div>`:""}`}
 function abRoll(){const i=S.inv[abK];if(!i||S.wt<1||AA.on)return;if(i.ab&&AB[i.ab])return modal(`<h3>Substituir habilidade?</h3>${bush(i.id).name} tem <b>${AB[i.ab].n}</b> (${abTxt(i.ab)}).<br>Um novo sorteio substitui a atual.`,[["CANCEL","",()=>{}],["ROLAR","r",()=>abGo(abK)]]);abGo(abK)}
 function abRollCore(i){S.wt--;const a=ABL[pick(ABW)],old=i.ab;i.ab=a;S.nskill=(S.nskill||0)+1;return{a,old}}
@@ -1505,7 +1638,7 @@ const EGGS=()=>`<div class="panel"><h2>🥚 OVOS DE PET</h2>Pet Coins: <b>🐾 $
 let crT="fus";
 const celHave=()=>DIV_ORIG.filter(id=>Object.values(S.inv).some(i=>i.id==id)).length;
 const CRAFT=()=>{const T=[["fus","🔀","Fusão",`Essência ${RAR[fr]}: ${S.ess[fr]}`],["arm","⚒","Armaduras",`${(S.arEq||[]).filter(Boolean).length}/5 equipadas`],["egg","🥚","Ovos de Pet",`🐾 ${f(S.pc)}`],["cel","🌌","Celestial",`${celHave()}/5 Divinos`],["mat","⚗","Ingots","Combinar"],["ess","✨","Essências","Combinar"]],
- d={fus:"Una 3 Bushes da mesma raridade para criar uma de raridade superior.",arm:"Forje Ingots e crie peças de armadura que somam bônus permanentes.",egg:"Gaste Pet Coins para chocar ovos e conseguir Pets.",cel:"Forje o Big Bush (Celestial) com os 5 Divinos originais.",mat:"Gaste Ingots de um tier para criar Ingots do tier seguinte (Bronze → Silver → … → Rainbow).",ess:"Gaste Essências de uma raridade para criar Essências da raridade seguinte."};
+ d={fus:"Una 3 Bushes da mesma raridade para criar uma de raridade superior.",arm:"Use Ingots para criar peças de armadura que somam bônus permanentes.",egg:"Gaste Pet Coins para chocar ovos e conseguir Pets.",cel:"Forje o Big Bush (Celestial) com os 5 Divinos originais.",mat:"Gaste Ingots de um tier para criar Ingots do tier seguinte (Bronze → Silver → … → Rainbow).",ess:"Gaste Essências de uma raridade para criar Essências da raridade seguinte."};
  return`<div class="subtabs s6">${T.map(t=>`<button class="stb ${crT==t[0]?"on":""}" onclick="crT='${t[0]}';render()"><i>${t[1]}</i><b>${t[2]}</b><small>${t[3]}</small></button>`).join("")}</div><div class="crhint">${d[crT]||d.fus}</div>`+(crT=="arm"?ARMOR():crT=="egg"?EGGS():crT=="cel"?CELPANEL():crT=="mat"?MATFUSE():crT=="ess"?ESSFUSE():FUSPANEL())};
 // ---------- MARCOS: TÍTULOS + CONQUISTAS ----------
 const cnt={rolls:()=>S.rolls,bushes:()=>Object.keys(S.bq).length,bps:()=>S.mb||0,reb:()=>S.reb,tower:()=>S.hiF,war:()=>S.wwins,fus:()=>S.nfus,pets:petOwned,hatch:()=>S.nhatch,evo:()=>Object.keys(S.bevo).length,skill:()=>S.nskill,mis:()=>S.mdone,mut:()=>Object.keys(S.muts).length,lvl:()=>S.maxLv,time:()=>S.online/3600,earn:()=>S.earned};
@@ -1551,7 +1684,6 @@ const arB=st=>{let v=0;for(let p=0;p<5;p++){const it=S.arEq&&S.ar&&S.ar[S.arEq[p
 const ingCost=t=>({m:Math.floor(RBASE[t+1]*150),e:3+2*t,r:t+1});
 let arT=0;
 const aTag=t=>`<span class="arm-t" style="background:${ING[t][1]}">${ING[t][0]}</span>`,aName=it=>APC[it.p].e+" "+APC[it.p].n+" de "+ING[it.t][0]+" "+ALN[it.l];
-function smelt(t,n){const c=ingCost(t);if(S.money<c.m*n||S.ess[c.r]<c.e*n)return;S.money-=c.m*n;S.ess[c.r]-=c.e*n;S.ing[t]+=n;beep(SND.buy);render()}
 // ---- Craft em quantidade + venda de peças ----
 const ARM_SELL=.5,ARQMAX=999,ARQ={};
 const arQty=p=>Math.max(1,Math.min(ARQMAX,Math.floor(ARQ[p])||1));
@@ -1617,15 +1749,6 @@ function ARINV(){const all=arInvAll(),sel=arInvSel(),v=sel.reduce((a,x)=>a+arSel
 <div class="row"><b>${sel.length} selecionada(s)</b><button class="btn g" style="margin-left:auto" ${sel.length?"":"disabled"} onclick="arInvSell()">💰 Vender selecionadas · 🪙 ${f(v)}</button></div></section>`}
 function arEquip(k){const it=S.ar[k];if(!it)return;S.arEq[it.p]=S.arEq[it.p]==k?null:k;render()}
 function arBreak(k){const it=S.ar[k];if(!it)return;const r=Math.floor(APC[it.p].c/2);modal(`<h3>Desmontar?</h3>${aName(it)}<br>Devolve ${r} Ingot(s) ${ING[it.t][0]}.`,[["CANCEL","",()=>{}],["DESMONTAR","r",()=>{S.arEq=S.arEq.map(x=>x==k?null:x);delete S.ar[k];S.ing[it.t]+=r;render()}]])}
-const ARMOR_OLD=()=>{const t=arT,c=ingCost(t),own=Object.values(S.ar).sort((a,b)=>b.t-a.t||b.l-a.l||a.p-b.p),mis=S.ess[c.r]<c.e||S.money<c.m;
- return`<div class="panel"><h2>⚒ ARMADURAS</h2><small>Forje Ingots, depois crie peças. A peça sai com o tier do Ingot usado e um nível I–V sorteado. Os atributos de até 5 peças equipadas (1 por slot) multiplicam Luck, XP, Dano, BPS e Vida, junto de Títulos e Conquistas. Ingots também caem como recompensa de Guerra.</small>
-<div class="lab">Seus Ingots (toque para escolher o tier)</div><div class="chips">${ING.map((g,k)=>`<button class="chipb ${arT==k?"on":""}" style="border-color:${g[1]}" onclick="arT=${k};render()"><span style="color:${g[1]}">${g[0]}</span><small>🧱 ${f(S.ing[k])}</small></button>`).join("")}</div>
-<div class="row">🔥 Forjar Ingot ${aTag(t)}: ${f(c.m)} Busheiros + ${c.e} Essência ${RAR[c.r]} (você tem ${S.ess[c.r]})<button class="btn g" ${mis?"disabled":""} onclick="smelt(${t},1)">×1</button><button class="btn" ${S.money>=c.m*5&&S.ess[c.r]>=c.e*5?"":"disabled"} onclick="smelt(${t},5)">×5</button></div>
-<div class="lab">Chance do nível (igual para todas as peças)</div><div>${ALN.map((n,l)=>`<span class="chip">${n} · ${ALW[l]}% · ×${ALM[l]}</span>`).join(" ")}</div>
-<div class="lab">Craft — tier ${aTag(t)}</div><div style="overflow-x:auto"><table class="arm-tbl"><tr><th>Peça</th><th>Ingots</th>${ALN.map(n=>`<th>Nível ${n}</th>`).join("")}<th></th></tr>${APC.map((a,p)=>`<tr><td>${a.e} <b>${a.n}</b></td><td>${f(S.ing[t])}/${a.c}</td>${ALN.map((n,l)=>`<td>${benTxt(apv(p,t,l))}</td>`).join("")}<td><button class="btn g" ${S.ing[t]>=a.c?"":"disabled"} onclick="craftArmor(${p},${t})">CRAFT</button></td></tr>`).join("")}</table></div></div>
-<div class="panel"><h2>🛡 EQUIPADO</h2><div class="grid">${APC.map((a,p)=>{const it=S.ar[S.arEq[p]];return`<div class="card" style="text-align:center">${a.e}<br><b>${a.n}</b><br>${it?`${aTag(it.t)} Nível ${ALN[it.l]}<br><small>${benTxt(apv(it.p,it.t,it.l))}</small><br><button class="btn r" onclick="arEquip('${it.k}')">REMOVER</button>`:"<small>vazio</small>"}</div>`}).join("")}</div>
-<div class="stats4" style="grid-template-columns:repeat(auto-fit,minmax(70px,1fr))">${ST.map(x=>`<div class="stat"><small>${STN[x]}</small><b>+${pct(arB(x))}</b></div>`).join("")}</div></div>
-<div class="panel"><h2>🎒 PEÇAS (${own.length})</h2>${own.map(it=>`<div class="row">${aTag(it.t)} <b>${aName(it)}</b> <span class="chip">${benTxt(apv(it.p,it.t,it.l))}</span>${S.arEq[it.p]==it.k?" <span class='chip evo'>equipada</span>":""}<button class="btn ${S.arEq[it.p]==it.k?"r":"g"}" onclick="arEquip('${it.k}')">${S.arEq[it.p]==it.k?"REMOVER":"EQUIPAR"}</button><button class="btn" onclick="arBreak('${it.k}')">Desmontar</button></div>`).join("")||"Nenhuma peça ainda."}</div>`};
 function chkAll(){let ch=false;ACH.forEach((a,k)=>{if(!S.ach[k]&&a[1]()){S.ach[k]=1;ch=true;toast("🏆 Conquista: "+a[0]+" · "+benTxt(ACHB[k]),3500)}});TT.forEach(t=>{if(!S.tu[t.id]&&t.c()){S.tu[t.id]=1;toast("🏅 Novo título: "+t.n,3500)}});if(ch)achCalc();chkMq()}
 function equipTitle(id){if(!S.tu[id])return;S.title=S.title==id?null:id;save();render()}
 let pT="t";
@@ -1659,7 +1782,7 @@ function hud(){const e=S.ev,P=(l,v,x)=>`<div class="pill"><small>${l}</small><b>
  if(!$("#hav")){$("#hud").innerHTML=`<div class="hin"><div class="htop"><button class="avatar" id="hav" onclick="profile()" aria-label="Perfil"></button><div class="who" id="hw"></div><div class="hbps" id="hb"></div></div><div class="hcur" id="hc"></div><div class="hstats" id="hs"></div><div id="hev"></div></div>`;for(const k in HC)delete HC[k]}
  hset("hw",`<b>${esc(S.name)||"Jogador"}</b><small>${tt?"🏅 "+tt.n:"Sem título"}</small>`);
  hset("hb",`<small>⚡ BPS</small><b>${f(bps())}/s</b>`);
- hset("hc",`<div class="cur" title="Busheiros"><b><i>🪙</i>${f(S.money)}</b><small data-l="Busheiros" data-s="Busheiros"></small></div><div class="cur" title="Gemas Bushianas"><b><i>💠</i>${f(S.gems)}</b><small data-l="Gemas Bushianas" data-s="Gemas"></small></div><div class="cur" title="Pets"><b><i>🐾</i>${f(S.pc)}</b><small data-l="Pets" data-s="Pets"></small></div><div class="cur" title="War Tokens"><b><i>🎟</i>${f(S.wt)}</b><small data-l="War Tokens" data-s="Tokens"></small></div><div class="cur" title="PVP Tokens"><b><i>🔱</i>${f(S.ppT||0)}</b><small data-l="PVP Tokens" data-s="PVP"></small></div>`);
+ hset("hc",(()=>{const C=(c,ic,v,l,sh,ex)=>{const x=f(v);return`<div class="cur ${c}${x.length>(c=="mny"?9:6)?" lg":""}" title="${l}: ${Math.floor(Number.isFinite(v)?v:0).toLocaleString("pt-BR")}"${ex||""}><b><i>${ic}</i>${x}</b><small data-l="${l}" data-s="${sh}"></small></div>`};return C("mny","🪙",S.money,"Busheiros","Busheiros",` onclick="toast('🪙 '+Math.floor(S.money).toLocaleString('pt-BR')+' Busheiros',3500)"`)+C("","💠",S.gems,"Gemas Bushianas","Gemas")+C("","🐾",S.pc,"Pets","Pets")+C("","🎟",S.wt,"War Tokens","Tokens")+C("","🔱",S.ppT||0,"PVP Tokens","PVP")})());
  hset("hav",avHtml());
  hset("hs",P("🍀 Luck",luck().toFixed(2)+"x")+P("♻ Rebirth","x"+rebMult(S.reb).toFixed(2))+P("🔺 Cones",S.cone||0)+P("🌿 Equipados",S.eq.filter(x=>x).length+"/8")+(pt?P("Pet",pt.e+" ×"+pt.m):"")+(S.auto.on?P("Auto Roll","● ON"):"")+(AQ.on?P("Qualidade","● AUTO "+AQ.n):""));
  hset("hev",e?`<div class="evb">⚡ ${M[e.m].n.toUpperCase()} EVENT · mutações 10x mais comuns · ⏱ ${tm((e.end-Date.now())/1000)}</div>`:"")}
@@ -1789,7 +1912,7 @@ return`<div class="panel sc war-head"><div>${stp7("⚔","GUERRA DE BUSHES","Endg
 +ABPANEL()+PPPANEL()+`<section class="panel sc">${stp7("🧩","Suas Pieces","Para evoluir: a Bush original + "+PCN+" Pieces dela. BPS ×3.")}${pcs.map(id=>{const b=bush(id),n=S.pieces[id];return`<div class="row">${bi(b)} <b>${pieceName(b)}</b> <span class="chip">${n}/${PCN}</span><span class="chip ${hasB(id)?"evo":""}">${hasB(id)?"Bush original ✔":"Falta a Bush original ✘"}</span><div class="bar" style="flex:1 1 80px"><i style="width:${Math.min(100,n/PCN*100)}%"></i></div><button class="btn g" ${n<PCN||!hasB(id)?"disabled":""} onclick="evoOpen('${id}')">✦ EVOLUIR → ${evoName(b)}</button></div>`}).join("")||'<div class="panel empty">Nenhuma Piece ainda. Vença uma Guerra!</div>'}</section>`};
 
 /* ---------- FUSÃO ---------- */
-const FUSPANEL=()=>{const c=fusCost(fr),cand=Object.values(S.inv).filter(i=>bush(i.id).rarity==fr).sort(SORT[0]),mis=Math.max(0,c.e-S.ess[fr]),sl=fsel.map(k=>S.inv[k]).filter(Boolean),ok3=sl.length==3,fc=ok3?fusChances(sl):null,eM=S.money>=c.m,eE=!mis,avg=ok3?sl.reduce((a,i)=>a+bushBps(i)/tmul(i),0)/3:0,pf=v=>v*100<.01?(v*100<.0001?"<0,0001":(v*100).toFixed(4)):(v*100).toFixed(2);
+const FUSPANEL=()=>{const c=fusCost(fr),cand=Object.values(S.inv).filter(i=>bush(i.id).rarity==fr).sort(SORT[0]),mis=Math.max(0,c.e-S.ess[fr]),sl=fsel.map(k=>S.inv[k]).filter(Boolean),ok3=sl.length==3,fc=ok3?fusChances(sl):null,eM=S.money>=c.m,eE=!mis,avg=ok3?sl.reduce((a,i)=>a+bushBps(i)/tmul(i)/atMul(i,"bps"),0)/3:0,pf=v=>v*100<.01?(v*100<.0001?"<0,0001":(v*100).toFixed(4)):(v*100).toFixed(2);
 return sec7(1,"Raridade da fusão","Une 3 Bushes da mesma raridade em 1 de raridade superior.",`<div class="chips">${RAR.slice(0,8).map((r,k)=>`<button class="chipb ${r} ${fr==k?"on":""}" onclick="fr=${k};fsel=[];render()">${r}<small>→ ${RAR[k+1]}</small></button>`).join("")}</div>`,true)
 +sec7(2,"Escolher 3 Bushes ("+fsel.length+"/3)",cand.length+" "+RAR[fr]+" disponíveis · selecionadas ficam em verde",slots7(fsel,"togF","Escolha")+pick7(fsel,3,"togF","togF",i=>" · "+f(bushBps(i))+" BPS"+(i.t>=0?" · "+TIERS[i.t].n+" ×"+TIERS[i.t].m:"")+(S.eq.includes(i.k)?" · ⭐":"")+(S.lock[i.k]?" · 🔒":"")+(i.evo?" · ✦ será consumida":""),cand),ok3)
 +sec7(3,"Resultado previsto","",ok3?`<div class="kg">${kp7("Raridade",RAR[fr+1],"Fundida","big")}${kp7("BPS base","≈ "+f(2.5*avg),"2,5× a média sem tiers")}${kp7("Qualidade",Q[Math.round(sl.reduce((a,i)=>a+i.q,0)/3)].n,"média das 3")}</div>`:'<div class="panel empty">Escolha 3 Bushes para ver o resultado.</div>')
@@ -1797,8 +1920,8 @@ return sec7(1,"Raridade da fusão","Une 3 Bushes da mesma raridade em 1 de rarid
 +sec7(5,"Custo e Fusão","",`<div class="kg">${kp7("🪙 Busheiros",f(c.m),"você tem "+f(S.money),eM?"good":"bad")}${kp7("✨ Essência "+RAR[fr],S.ess[fr]+" / "+c.e,eE?"suficiente":"faltam "+mis,eE?"good":"bad")}${kp7("Selecionadas",fsel.length+" / 3","",ok3?"good":"")}</div><button class="btn g wide big" ${ok3&&eM&&eE?"":"disabled"} onclick="fuse()">${ok3?(eM&&eE?"🔀 FUNDIR":"FALTAM RECURSOS"):"ESCOLHA 3 BUSHES"}</button>`)};
 
 /* ---------- ARMADURAS ---------- */
-const ARMOR=()=>{const t=arT,c=ingCost(t),own=Object.values(S.ar),mis=S.ess[c.r]<c.e||S.money<c.m,eqN=(S.arEq||[]).filter(Boolean).length,ic={luck:"🍀",xp:"✨",dmg:"⚔",bps:"⚡",hp:"❤"};
-return sec7(1,"Ingots e forja","Forje Ingots e depois crie peças. Ingots também caem como recompensa de Guerra. O tier da peça é o do Ingot escolhido.",`<div class="lab">Tier (toque para escolher)</div><div class="chips">${ING.map((g,k)=>`<button class="chipb ${arT==k?"on":""}" style="border-color:${g[1]}" onclick="arT=${k};render()"><span style="color:${arT==k?"inherit":g[1]}">${g[0]}</span><small>🧱 ${f(S.ing[k])}</small></button>`).join("")}</div><div class="row">🔥 Forjar Ingot ${aTag(t)}: 🪙 ${f(c.m)} + ✨ ${c.e} Essência ${RAR[c.r]} (você tem ${S.ess[c.r]})<button class="btn g" ${mis?"disabled":""} onclick="smelt(${t},1)">×1</button><button class="btn" ${S.money>=c.m*5&&S.ess[c.r]>=c.e*5?"":"disabled"} onclick="smelt(${t},5)">×5</button></div><div class="lab">Chance do nível (igual para todas as peças)</div><div class="chips">${ALN.map((n,l)=>`<span class="chip">Nível ${n} · ${ALW[l]}% · ×${ALM[l]}</span>`).join("")}</div>`)
+const ARMOR=()=>{const t=arT,c=ingCost(t),own=Object.values(S.ar),eqN=(S.arEq||[]).filter(Boolean).length,ic={luck:"🍀",xp:"✨",dmg:"⚔",bps:"⚡",hp:"❤"};
+return sec7(1,"Ingots","Use seus Ingots para criar peças. Ingots só podem ser obtidos por drops (Torre, Baús, Guerra) ou convertidos na aba Ingots. O tier da peça é o do Ingot escolhido.",`<div class="lab">Tier (toque para escolher)</div><div class="chips">${ING.map((g,k)=>`<button class="chipb ${arT==k?"on":""}" style="border-color:${g[1]}" onclick="arT=${k};render()"><span style="color:${arT==k?"inherit":g[1]}">${g[0]}</span><small>🧱 ${f(S.ing[k])}</small></button>`).join("")}</div><div class="lab">Chance do nível (igual para todas as peças)</div><div class="chips">${ALN.map((n,l)=>`<span class="chip">Nível ${n} · ${ALW[l]}% · ×${ALM[l]}</span>`).join("")}</div>`)
 +sec7(2,"Bônus das peças equipadas",eqN+"/5 equipadas · multiplicam junto de Títulos e Conquistas",`<div class="kg">${ST.map(x=>kp7(ic[x]+" "+STN[x],"+"+pct(arB(x)))).join("")}</div>`)
 +ARINV()
 +APC.map((a,p)=>{const eq=S.ar[S.arEq[p]],mine=own.filter(x=>x.p==p).sort((x,y)=>y.t-x.t||y.l-x.l),has=S.ing[t],can=has>=a.c;
@@ -1929,7 +2052,7 @@ function trMeta(id){const[t,k]=id.split(":");if(t=="ess")return{n:"Essência "+R
 // sanitiza itens recebidos (nunca confia no que veio do outro navegador)
 function trIn(o){const R={b:[],a:[],r:{},c:{}};if(!o||typeof o!="object")return R;const n=(v,lo,hi)=>Math.min(hi,Math.max(lo,Math.floor(+v)||lo)),K=/^[\w-]{1,40}$/;
  for(const id in(o.c||{})){if(!/^f\w{1,30}$/.test(id))return null;const d=o.c[id]||{};R.c[id]={name:String(d.name||"?").replace(/[<>&"']/g,"").slice(0,40),rarity:n(d.rarity,0,9),sub:n(d.sub,0,4),baseBps:Math.min(1e30,Math.max(1,+d.baseBps||1)),weight:0,imageSrc:PH_SRC,fused:true}}
- for(const x of(o.b||[])){const id=String(x.id);if(!K.test(String(x.k))||!(B.some(b=>b.id==id)||R.c[id]||S.cust[id]))return null;const i={k:String(x.k),id,q:n(x.q,0,10),ms:(Array.isArray(x.ms)?x.ms:[]).map(m=>Math.floor(+m)).filter(m=>m>=0&&m<M.length).slice(0,20),lv:n(x.lv,1,200),xp:Math.max(0,+x.xp||0),qty:1,gem:n(x.gem,0,GEM_MAX)};if(x.t>=0&&x.t<TIERS.length)i.t=Math.floor(x.t);if(x.evo)i.evo=1;if(x.ab&&AB[x.ab])i.ab=x.ab;R.b.push(i)}
+ for(const x of(o.b||[])){const id=String(x.id);if(!K.test(String(x.k))||!(B.some(b=>b.id==id)||R.c[id]||S.cust[id]))return null;const i={k:String(x.k),id,q:n(x.q,0,10),ms:(Array.isArray(x.ms)?x.ms:[]).map(m=>Math.floor(+m)).filter(m=>m>=0&&m<M.length).slice(0,20),lv:n(x.lv,1,200),xp:Math.max(0,+x.xp||0),qty:1,gem:n(x.gem,0,GEM_MAX)};if(x.t>=0&&x.t<TIERS.length)i.t=Math.floor(x.t);if(Array.isArray(x.ta))i.ta=ATK.map((_,a)=>n(x.ta[a],0,AT.length-1));if(x.evo)i.evo=1;if(x.ab&&AB[x.ab])i.ab=x.ab;R.b.push(i)}
  for(const x of(o.a||[])){if(!K.test(String(x.k)))return null;R.a.push({k:String(x.k),p:n(x.p,0,50),t:n(x.t,0,50),l:n(x.l,0,9999)})}
  for(const id in(o.r||{})){const q=+o.r[id];if(!trOk(id)||!Number.isInteger(q)||q<1||q>1e9)return null;R.r[id]=q}return R}
 const trOff=()=>{const E=S.trE||{b:{},a:{},r:{}},c={};Object.values(E.b).forEach(i=>{if(S.cust[i.id])c[i.id]=S.cust[i.id]});return{b:Object.values(E.b),a:Object.values(E.a),r:E.r,c}};
@@ -2012,7 +2135,7 @@ async function pvReg(){if(!LB.url)throw new Error("sem servidor");if(!S.pid)S.pi
 const pvC=v=>Math.min(1e30,Math.max(0,+v||0));
 // (exibição local apenas; NUNCA enviado ao servidor)
 function pvSnap(i){PPOFF=1;try{return pvSnap0(i)}finally{PPOFF=0}}
-function pvSnap0(i){const b=bush(i.id),c=cs(i);return{k:i.k,id:i.id,n:esc(b.name).slice(0,40),r:b.rarity,q:i.q,lv:i.lv,ms:i.ms.slice(0,20),t:i.t>=0?i.t:-1,evo:i.evo?1:0,gem:i.gem||0,ab:i.ab||"",bps:pvC(bushBps(i)),hp:pvC(c.hp),dm:pvC(c.dm)}}
+function pvSnap0(i){const b=bush(i.id),c=cs(i);return{k:i.k,id:i.id,n:esc(b.name).slice(0,40),r:b.rarity,q:i.q,ta:ATK.map((_,a)=>atI(i,a)),lv:i.lv,ms:i.ms.slice(0,20),t:i.t>=0?i.t:-1,evo:i.evo?1:0,gem:i.gem||0,ab:i.ab||"",bps:pvC(bushBps(i)),hp:pvC(c.hp),dm:pvC(c.dm)}}
 const pvArm=()=>(S.arEq||[]).map(k=>S.ar[k]).filter(Boolean).slice(0,5).map(a=>({p:a.p,t:a.t,l:a.l}));
 const PVB0={on:0,b:[],a:[],r:{},c:{},ak:""};
 const pvH=x=>{let h=5381;for(let i=0;i<x.length;i++)h=(h*33^x.charCodeAt(i))>>>0;return h.toString(36)};
@@ -2028,7 +2151,7 @@ const pvBetSync=t=>!PV.bb;
 const pvTeamSend=()=>({b:PV.sel.filter(k=>S.inv[k]).slice(0,3).map(k=>({k:String(k)})),a:[],bt:pvBetOut()});
 // registro do servidor: só atributos BRUTOS (nunca hp/dm/bps). Envia só o que mudou desde a última sincronização.
 PV.sy=PV.sy||{};PV.syOk=0;
-const pvRaw=i=>{const o={k:String(i.k),id:i.id,q:i.q,lv:i.lv,ms:i.ms.slice(0,20),t:i.t>=0?i.t:-1,evo:i.evo?1:0,gem:i.gem||0,ab:i.ab||""},c=S.cust[i.id];if(c){o.fb=c.baseBps;o.fr=c.rarity;o.fn=c.name}return o};
+const pvRaw=i=>{const o={k:String(i.k),id:i.id,q:i.q,ta:ATK.map((_,a)=>atI(i,a)),lv:i.lv,ms:i.ms.slice(0,20),t:i.t>=0?i.t:-1,evo:i.evo?1:0,gem:i.gem||0,ab:i.ab||""},c=S.cust[i.id];if(c){o.fb=c.baseBps;o.fr=c.rarity;o.fn=c.name}return o};
 async function pvBushSync(){
  const all={};Object.keys(S.inv).forEach(k=>{const i=S.inv[k];if(i&&i.id&&i.ms)all[k]=pvRaw({...i,k})});
  const ch=[],full=!PV.syOk;for(const k in all){const sg=JSON.stringify(all[k]);if(full||PV.sy[k]!==sg)ch.push([k,sg])}
@@ -2042,7 +2165,7 @@ async function pvBushSync(){
 const pvTeam=()=>({b:PV.sel.map(k=>S.inv[k]).filter(Boolean).slice(0,3).map(pvSnap),a:pvArm(),bt:pvBetOut()});
 // sanitiza o que veio do outro navegador (nunca confia)
 function pvIn(o){const R={b:[],a:[]};if(!o||typeof o!="object")return R;const n=(v,lo,hi)=>{v=Math.floor(+v);return isFinite(v)?Math.min(hi,Math.max(lo,v)):lo};
- for(const x of(Array.isArray(o.b)?o.b:[]).slice(0,3)){if(!x||!/^[\w-]{1,40}$/.test(String(x.id)))continue;R.b.push({k:String(x.k||"").replace(/[^\w-]/g,"").slice(0,40),id:String(x.id),n:esc(x.n).slice(0,40)||"?",r:n(x.r,0,RAR.length-1),q:n(x.q,0,Q.length-1),lv:n(x.lv,1,200),ms:(Array.isArray(x.ms)?x.ms:[]).map(m=>Math.floor(+m)).filter(m=>m>=0&&m<M.length).slice(0,20),t:n(x.t,-1,TIERS.length-1),evo:x.evo?1:0,gem:n(x.gem,0,GEM_MAX),ab:Object.prototype.hasOwnProperty.call(AB,x.ab)?x.ab:"",bps:pvC(x.bps),hp:pvC(x.hp),dm:pvC(x.dm)})}
+ for(const x of(Array.isArray(o.b)?o.b:[]).slice(0,3)){if(!x||!/^[\w-]{1,40}$/.test(String(x.id)))continue;R.b.push({k:String(x.k||"").replace(/[^\w-]/g,"").slice(0,40),id:String(x.id),n:esc(x.n).slice(0,40)||"?",r:n(x.r,0,RAR.length-1),q:n(x.q,0,Q.length-1),ta:ATK.map((_,a)=>Array.isArray(x.ta)?n(x.ta[a],0,AT.length-1):AT_DEF),lv:n(x.lv,1,200),ms:(Array.isArray(x.ms)?x.ms:[]).map(m=>Math.floor(+m)).filter(m=>m>=0&&m<M.length).slice(0,20),t:n(x.t,-1,TIERS.length-1),evo:x.evo?1:0,gem:n(x.gem,0,GEM_MAX),ab:Object.prototype.hasOwnProperty.call(AB,x.ab)?x.ab:"",bps:pvC(x.bps),hp:pvC(x.hp),dm:pvC(x.dm)})}
  for(const x of(Array.isArray(o.a)?o.a:[]).slice(0,5)){if(!x)continue;R.a.push({p:n(x.p,0,APC.length-1),t:n(x.t,0,ING.length-1),l:n(x.l,0,ALN.length-1)})}R.bt=pvBetIn(o.bt);return R}
 // ---- ações ----
 async function pvSend(pid){if(!S.name)return toast("Defina seu nome e toque Enviar no Ranking",3000);if(!pid||pid==S.pid)return toast(PVERR.self,2500);
@@ -2464,7 +2587,7 @@ function ppAuAll(){if(PAU.on)return;PAU.all=PAU.all?0:1;PAU.res="";render()}
 function ppAuClr(){if(PAU.on)return;PAU.want={};PAU.res="";render()}
 function ppAuHtml(){const run=PAU.on,ac=ppAcc(),ch=ppAccCh(),nm=k=>PP[k].n;
  const sel=ac.length?`<div class="lab">Para quando sair:</div><div class="chips">${ac.map(k=>`<span class="chip pp" style="--pc:${PPR[PP[k].t][1]}">${PP[k].e} ${nm(k)}</span>`).join("")}</div>`:"";
- return`<div class="stats4"><div class="stat"><small>Chance por tentativa</small><b>${ch>0?(ch*100).toFixed(ch<.01?3:2)+"%":"-"}</b>${ch>0?`<small>média: ~${f(Math.ceil(1/ch))} tentativas (${f(Math.ceil(1/ch)*PPCOST)} 🔱)</small>`:""}</div><div class="stat"><small>Tentativas / 🔱 gastos</small><b>${f(PAU.n)} / ${f(PAU.spent)}</b></div><div class="stat"><small>Último resultado</small><b>${PAU.last&&PP[PAU.last]?PP[PAU.last].n:"-"}</b></div></div>
+ return`<div class="stats4"><div class="stat"><small>Chance por tentativa</small><b>${ch>0?(ch*100).toFixed(ch<.01?4:2)+"%":"-"}</b>${ch>0?`<small>média: ~${f(Math.ceil(1/ch))} tentativas (${f(Math.ceil(1/ch)*PPCOST)} 🔱)</small>`:""}</div><div class="stat"><small>Tentativas / 🔱 gastos</small><b>${f(PAU.n)} / ${f(PAU.spent)}</b></div><div class="stat"><small>Último resultado</small><b>${PAU.last&&PP[PAU.last]?PP[PAU.last].n:"-"}</b></div></div>
 ${PAU.res?`<div class="aq-res">${PAU.res}</div>`:run?`<div class="aq-res run">Rolando no servidor… toque em STOP para parar.</div>`:""}`}
 function ppAuUi(){const e=$("#ppab");if(e)e.innerHTML=ppAuHtml()}
 async function ppAuto(){if(PAU.on){PAU.stop=1;return}const i=S.inv[ppK],ac=ppAcc();
@@ -2488,7 +2611,7 @@ async function ppAuRun(k){const i0=S.inv[k];if(!i0)return;const ac=ppAcc(),first
  ppSync();render()}
 function PPPANEL(){const l=Object.values(S.inv).sort(SORT[0]);if(!S.inv[ppK])ppK=l[0]?l[0].k:null;const i=S.inv[ppK],b=i&&bush(i.id),pd=ppPend(),bs=PPS.busy;
  if(LB.url&&!PPS.ok&&!PPS.sy&&!PPS.fl&&Date.now()-PPS.lt>30000){PPS.lt=Date.now();setTimeout(()=>ppFlush().then(ppSync),0)}
- const chb=k=>`<button class="chipb ${PAU.want[k]?"on":""}" style="border-color:${PPR[PP[k].t][1]}" ${PAU.on?"disabled":""} onclick="ppAuTog('${k}')">${PP[k].l==4?"👑":ROM[PP[k].l-1]}<small>${fm(+(PPW(k)*100).toFixed(2))}%</small></button>`;
+ const chb=k=>`<button class="chipb ${PAU.want[k]?"on":""}" style="border-color:${PPR[PP[k].t][1]}" ${PAU.on?"disabled":""} onclick="ppAuTog('${k}')">${PP[k].l==4?"👑":ROM[PP[k].l-1]}<small>${fm(+(PPW(k)*100).toFixed(4))}%</small></button>`;
  return`<div class="panel"><h2>🔱 PASSIVAS DE BUSH</h2><small>Cada Bush tem 1 slot de passiva (família + nível, ex.: Berserker III). Gaste ${PPCOST} PVP Tokens para sortear uma nova (ela substitui a anterior). Valem na Torre e na Guerra automaticamente. PVP Tokens vêm dos Bosses da Guerra, na mesma quantidade dos War Tokens. Sorteio e saldo são validados pelo servidor.</small>
 <div class="stats4"><div class="stat"><small>PVP Tokens</small><b>🔱 ${f(S.ppT)}</b>${pd?`<small>+${f(pd)} a creditar</small>`:""}</div><div class="stat"><small>Custo por rolagem</small><b>🔱 ${PPCOST}</b></div><div class="stat"><small>Passivas roladas</small><b>${S.ppN}</b></div></div>
 <select style="width:100%" ${bs?"disabled":""} onchange="ppK=this.value;render()">${l.map(x=>`<option value="${x.k}" ${x.k==ppK?"selected":""}>${S.eq.includes(x.k)?"⭐ ":""}${bush(x.id).name} · ${Q[x.q].n} · Lv${x.lv}${x.pv&&PP[x.pv]?" · "+PP[x.pv].e+" "+PP[x.pv].n:""}</option>`).join("")}</select>
@@ -2501,7 +2624,7 @@ ${PPFAM.map(F=>`<div class="row"><b style="min-width:128px">${F[2]} ${F[1]}</b><
 <div class="chips"><button class="chipb ${PAU.all?"on":""}" ${PAU.on?"disabled":""} onclick="ppAuAll()">Aceitar qualquer passiva de raridade ≥ à menor escolhida</button><button class="chipb" ${PAU.on?"disabled":""} onclick="ppAuClr()">Limpar</button></div>
 <div id="ppab">${ppAuHtml()}</div>
 ${PAU.on?'<button class="btn r wide" onclick="ppAuto()">■ STOP</button>':`<button class="btn g wide" ${i&&!bs?"":"disabled"} onclick="ppAuto()">▶ START</button>`}</details>
-<details ${PAU.open2?"open":""} ontoggle="PAU.open2=this.open"><summary>Ver raridades e passivas (${PPL.length})</summary>${PPR.map((r,ti)=>`<div class="lab" style="color:${r[1]}">${["Nível I","Nível II","Nível III","Lenda"][ti]} · ${r[0]} · ${fm(+(r[2]/100).toFixed(2))}% (${fm(+(r[2]/100/PPTN[ti]).toFixed(3))}% cada)</div><table>${PPL.filter(k=>PP[k].t==ti).map(k=>`<tr><th>${PP[k].e} ${PP[k].n}</th><td>${ppTxt(k)}</td></tr>`).join("")}</table>`).join("")}<small>O nível é sorteado primeiro; dentro dele todas as passivas têm a mesma chance. Efeitos de combate agem na Torre e na Guerra.</small></details></div>`}
+<details ${PAU.open2?"open":""} ontoggle="PAU.open2=this.open"><summary>Ver raridades e passivas (${PPL.length})</summary>${PPR.map((r,ti)=>`<div class="lab" style="color:${r[1]}">${["Nível I","Nível II","Nível III","Lenda"][ti]} · ${r[0]} · ${fm(+(r[2]/1e4).toFixed(3))}% (${fm(+(r[2]/1e4/PPTN[ti]).toFixed(4))}% cada)</div><table>${PPL.filter(k=>PP[k].t==ti).map(k=>`<tr><th>${PP[k].e} ${PP[k].n}</th><td>${ppTxt(k)}</td></tr>`).join("")}</table>`).join("")}<small>O nível é sorteado primeiro; dentro dele todas as passivas têm a mesma chance. Efeitos de combate agem na Torre e na Guerra.</small></details></div>`}
 if(LB.url)setTimeout(()=>ppFlush().then(ppSync),0);
 setInterval(()=>{if(S.ppQ.length&&!document.hidden)ppFlush().then(ppSync)},15000);
 
