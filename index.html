@@ -1120,7 +1120,7 @@ function tAuto(){S.tauto=!S.tauto;render()}
 function tadd(k){if(S.team.length<3&&!S.team.includes(k))S.team.push(k);render()}
 function trem(k){S.team=S.team.filter(x=>x!=k);render()}
 const TOWER_OLD=()=>{const fl=S.tf,E=enemies(fl),T=S.team.map(k=>S.inv[k]).filter(Boolean);return`<div class="panel"><h2>🗼 TORRE</h2>Tower Floor: <b>${fl}</b> · Highest Floor: <b>${S.hiF}</b><h3>Seu time (${T.length}/3)</h3><div class="grid">${T.map(i=>{const b=bush(i.id),c=cs(i);return`<div class="card rr ${RAR[b.rarity]}" style="text-align:center">${bcard(i)}<br>❤ ${f(c.hp)} · ⚔ ${f(c.dm)}<br>Lv ${i.lv} · 💠${i.gem||0}/100<br><button class="btn" onclick="trem('${i.k}')">Remover</button></div>`}).join("")}</div><h3>Inimigos</h3><div class="grid">${E.map(e=>`<div class="card" style="text-align:center"><div class="bush">${e.em}</div><b>${e.n}</b><br>❤ ${f(e.hp)} · ⚔ ${f(e.dm)}</div>`).join("")}</div><button id="tbtn" class="btn g" ${T.length==3&&Date.now()>=(S.tcd||0)?"":"disabled"} onclick="tfight()">${Date.now()<(S.tcd||0)?"AGUARDE "+Math.ceil(((S.tcd||0)-Date.now())/1000)+"s":"ENTRAR NO ANDAR "+fl}</button> <button class="btn ${S.tauto?"g":""}" onclick="tAuto()">AUTO TORRE: ${S.tauto?"ON ●":"OFF"}</button> <button class="btn r" onclick="tReset()">Reiniciar Torre (andar 1)</button>${tlog}</div><div class="panel"><h3>Escolher time</h3>${Object.values(S.inv).sort(SORT[0]).map(i=>{const b=bush(i.id),c=cs(i);return`<div class="row">${bi(b)} ${b.name} · ${Q[i.q].n} · Lv${i.lv} · ❤${f(c.hp)} ⚔${f(c.dm)} <button class="btn" ${S.team.includes(i.k)||S.team.length>=3?"disabled":""} onclick="tadd('${i.k}')">+ Time</button></div>`}).join("")}</div>`};
-const chestAcc=()=>({m:0,cone:0,gems:0,pot:{},ess:{},b:{},ing:{}});
+const chestAcc=()=>({m:0,cone:0,gems:0,pot:{},ess:{},ing:{}});
 // Baús melhores recompensam MUITO mais (dinheiro cresce ×2,1 por raridade) e dão Ingots conforme CHING.
 // Essências por baú: quantidade-base (2+round(t²·0,5+t·2,5)) reduzida em 40% (×0,6), arredondada p/ inteiro (mín. 1). Único ponto de cálculo: abertura individual e ABRIR TODOS usam chestCore, então a redução é aplicada 1 vez por baú. Chance (sempre 100%) e raridade da Essência (t-1) não mudam.
 // Redução adicional de 50% nas Essências da Tower (fases + baús). Aplicada UMA vez, só na quantidade (chances e raridade intactas), com Math.round e mínimo 1.
@@ -1132,21 +1132,19 @@ function chestCore(t,a){const m=Math.floor((100+bps()*1.5)*Math.pow(2.1,t));S.mo
  {const e=Math.max(0,t-1),n=chestEssQty(t);S.ess[e]+=n;a.ess[e]=(a.ess[e]||0)+n}
  if(Math.random()<Math.min(.95,.1+.04*t)){const n=1+Math.floor(t*t/3);S.gems+=n;a.gems+=n}
  {const o=ingRoll(t);for(const k in o){S.ing[k]+=o[k];a.ing[k]=(a.ing[k]||0)+o[k]}}
- // Bush de bônus: nunca Celestial (o Big Bush só nasce da forja)
- if(Math.random()<Math.min(.95,.35+.05*t)){const rr=Math.min(8,Math.random()<.01+.015*t?t:Math.max(0,t-1-Math.floor(Math.random()*3))),b=givePool(rr),k=b.name+" ("+RAR[rr]+")";a.b[k]=(a.b[k]||0)+1}}
+}
 function chestLines(a){const r=["+"+f(a.m)+" Busheiros"];
  Object.keys(a.ing).sort((x,y)=>y-x).forEach(k=>r.push("+"+a.ing[k]+" 🧱 Ingot "+ING[k][0]));
  if(a.cone)r.push("+"+a.cone+" 🔺 Cone");
  Object.keys(a.pot).forEach(k=>r.push("+"+a.pot[k]+" "+POT[k][0]));
  Object.keys(a.ess).forEach(e=>r.push("+"+a.ess[e]+" Essência "+RAR[e]));
  if(a.gems)r.push("+"+a.gems+" 💠 Gema Bushiana");
- const bs=Object.keys(a.b);bs.slice(0,15).forEach(k=>r.push("🎁 Bush: "+k+(a.b[k]>1?" x"+a.b[k]:"")));
- if(bs.length>15)r.push("🎁 +"+(bs.length-15)+" outros tipos de Bush");return r}
+ return r}
 const chIngTxt=t=>CHING[t].map(e=>ING[e[0]][0]+" "+(e[1]==e[2]?e[1]:e[1]+"–"+e[2])+(e[3]<100?" ("+e[3]+"%)":"")).join(" · ");
-function openChest(t){if(!S.chests[t])return;if(invFull())return invMsg();S.chests[t]--;const a=chestAcc();chestCore(t,a);
+function openChest(t){if(!S.chests[t])return;S.chests[t]--;const a=chestAcc();chestCore(t,a);
  modal("<h3>Baú "+RAR[t]+"</h3>"+chestLines(a).join("<br>"),[["OK","g",()=>render()]])}
-function openAllChests(){let n=0;const a=chestAcc();for(let t=0;t<S.chests.length;t++){while(S.chests[t]>0&&!invFull()){S.chests[t]--;chestCore(t,a);n++}}
- if(!n)return invMsg();beep(SND.lvl);modal("<h3>"+n+" Baús abertos</h3>"+chestLines(a).join("<br>")+(invFull()&&S.chests.some(x=>x>0)?"<br><b>⚠ Inventário cheio: abertura interrompida.</b>":""),[["OK","g",()=>render()]])}
+function openAllChests(){let n=0;const a=chestAcc();for(let t=0;t<S.chests.length;t++){while(S.chests[t]>0){S.chests[t]--;chestCore(t,a);n++}}
+ if(!n)return;beep(SND.lvl);modal("<h3>"+n+" Baús abertos</h3>"+chestLines(a).join("<br>"),[["OK","g",()=>render()]])}
 // Gemas Bushianas: cada Bush tem o próprio nível (0..100). Custo do nível n = 1+floor(.0481*n^1.5); total 1→100 = 2002 gemas.
 const GEM_MAX=100,gemCost=n=>1+Math.floor(.0481*Math.pow(n,1.5)),gemOk=i=>(i.gem||0)<GEM_MAX&&S.gems>=gemCost((i.gem||0)+1);
 function gemPlan(i,want){let n=0,tot=0;const L=i.gem||0;while(n<want&&L+n<GEM_MAX){const c=gemCost(L+n+1);if(tot+c>S.gems)break;tot+=c;n++}return{n,tot,end:L+n}}
@@ -1714,23 +1712,25 @@ const arSellVal=it=>Math.floor(arUsed(it)*ingCost(it.t).m*ARM_SELL);
 // ---- Sorteio de nível das armaduras: AUTORITATIVO NO SERVIDOR (Supabase). Rode ARSQL uma vez no SQL Editor. ----
 // Pesos em 1/20000: I 15390 (76,95%) · II 3500 (17,5%) · III 1000 (5%) · IV 100 (0,5%) · V 10 (0,05% = 1 em 2.000). Sem pity: cada peça é um sorteio independente.
 const ARSQL=`create or replace function ar_roll(p text, s text, n int) returns int[] language plpgsql volatile as $$
-declare out int[]:=array[]::int[]; r int; i int;
+declare res int[]:=array[]::int[]; r int; i int;
 begin
  if p is null or length(p)>64 or n is null or n<1 or n>999 then raise exception 'invalid'; end if;
  for i in 1..n loop
   r:=floor(random()*20000)::int;
-  out:=out||(case when r<15390 then 0 when r<18890 then 1 when r<19890 then 2 when r<19990 then 3 else 4 end);
+  res:=res||(case when r<15390 then 0 when r<18890 then 1 when r<19890 then 2 when r<19990 then 3 else 4 end);
  end loop;
- return out;
+ return res;
 end $$;
 grant execute on function ar_roll(text,text,int) to anon;
 notify pgrst, 'reload schema';`;
 let arBusy=false;
 async function craftArmor(p,t,n){if(arBusy)return;n=Math.max(1,Math.min(ARQMAX,Math.floor(n)||1));const a=APC[p],need=a.c*n;if(!(S.ing[t]>=need))return;
- if(!LB.url)return toast("⚠ Servidor indisponível: o sorteio de armaduras é feito no servidor",3500);
- arBusy=true;let ls;
- try{if(!S.pid)S.pid=Date.now().toString(36)+Math.random().toString(36).slice(2,12);ls=await trRpc("ar_roll",{p:S.pid,s:S.trk||"",n});if(!Array.isArray(ls)||ls.length!==n||ls.some(l=>!(Number.isInteger(l)&&l>=0&&l<ALN.length)))throw new Error("resposta inválida")}
- catch(e){arBusy=false;return toast("⚠ Craft cancelado, nenhum Ingot foi gasto ("+(e.message||"erro")+"). Rode o ARSQL no Supabase.",4500)}
+ arBusy=true;let ls=null;
+ const okLs=a=>Array.isArray(a)&&a.length===n&&a.every(l=>Number.isInteger(l)&&l>=0&&l<ALN.length);
+ if(LB.url){try{if(!S.pid)S.pid=Date.now().toString(36)+Math.random().toString(36).slice(2,12);const r=await Promise.race([trRpc("ar_roll",{p:S.pid,s:S.trk||"",n}),new Promise((_,j)=>setTimeout(()=>j(new Error("tempo esgotado")),6000))]);if(okLs(r))ls=r}catch(e){ls=null}}
+ if(!ls){ // servidor indisponível/sem ARSQL: sorteio local com os mesmos pesos
+  ls=[];for(let i=0;i<n;i++){let r=Math.random()*100,l=0,a=0;for(;l<ALW.length-1;l++){a+=ALW[l];if(r<a)break}ls.push(l)}
+  toast("⚠ Servidor indisponível: sorteio feito localmente",3000)}
  arBusy=false;if(!(S.ing[t]>=need))return;S.ing[t]-=need;
  const cnt=ALN.map(()=>0);let best=0;
  for(let i=0;i<n;i++){const l=ls[i];let k=newKey();while(S.ar[k])k=newKey();S.ar[k]={k,p,t,l,c:a.c};cnt[l]++;if(l>best)best=l}
@@ -1789,8 +1789,8 @@ function ARINV(){const all=arInvAll(),sel=arInvSel(),v=sel.reduce((a,x)=>a+arSel
 <div id="arinvl" style="max-height:340px;overflow-y:auto">${all.map(it=>{const e=S.arEq[it.p]==it.k,on=!!ARSK[it.k];
   return`<div class="row" style="${on?"border:1px solid var(--ac);":""}${e?"":"cursor:pointer"}" ${e?"":`onclick="arInvTog('${it.k}')"`}>${e?'<span class="chip evo">equipada</span>':`<span class="chipb ${on?"on":""}">${on?"✔":"☐"}</span>`}${aTag(it.t)} <b>${APC[it.p].e} ${APC[it.p].n} ${ALN[it.l]}</b><span class="chip">${benTxt(apv(it.p,it.t,it.l))}</span><span style="margin-left:auto">🪙 ${f(arSellVal(it))}</span><button class="btn ${e?"r":"g"}" onclick="event.stopPropagation();arEquip('${it.k}')">${e?"REMOVER":"EQUIPAR"}</button></div>`}).join("")||'<small class="hint">Nenhuma peça neste filtro.</small>'}</div>
 <div class="row"><b>${sel.length} selecionada(s)</b><button class="btn g" style="margin-left:auto" ${sel.length?"":"disabled"} onclick="arInvSell()">💰 Vender selecionadas · 🪙 ${f(v)}</button></div></section>`}
-function arEquip(k){const it=S.ar[k];if(!it)return;S.arEq[it.p]=S.arEq[it.p]==k?null:k;render()}
-function arBreak(k){const it=S.ar[k];if(!it)return;const r=Math.floor(APC[it.p].c/2);modal(`<h3>Desmontar?</h3>${aName(it)}<br>Devolve ${r} Ingot(s) ${ING[it.t][0]}.`,[["CANCEL","",()=>{}],["DESMONTAR","r",()=>{S.arEq=S.arEq.map(x=>x==k?null:x);delete S.ar[k];S.ing[it.t]+=r;render()}]])}
+function arEquip(k){const it=S.ar[k];if(!it)return;S.arEq[it.p]=S.arEq[it.p]==k?null:k;save();render()}
+function arBreak(k){const it=S.ar[k];if(!it)return;const r=Math.floor(APC[it.p].c/2);modal(`<h3>Desmontar?</h3>${aName(it)}<br>Devolve ${r} Ingot(s) ${ING[it.t][0]}.`,[["CANCEL","",()=>{}],["DESMONTAR","r",()=>{S.arEq=S.arEq.map(x=>x==k?null:x);delete S.ar[k];S.ing[it.t]+=r;save();render()}]])}
 function chkAll(){let ch=false;ACH.forEach((a,k)=>{if(!S.ach[k]&&a[1]()){S.ach[k]=1;ch=true;toast("🏆 Conquista: "+a[0]+" · "+benTxt(ACHB[k]),3500)}});TT.forEach(t=>{if(!S.tu[t.id]&&t.c()){S.tu[t.id]=1;toast("🏅 Novo título: "+t.n,3500)}});if(ch)achCalc();chkMq()}
 function equipTitle(id){if(!S.tu[id])return;S.title=S.title==id?null:id;save();render()}
 let pT="t";
